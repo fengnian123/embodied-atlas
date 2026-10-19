@@ -180,22 +180,22 @@
   "gallery": [
     {
       "path": "assets/reproduction/unilavira/step12-rgb.png",
-      "caption": "step12 VA输入：RGB图，原PDF p11。",
+      "caption": "Step 12 · RGB 观测",
       "locator": "p11"
     },
     {
       "path": "assets/reproduction/unilavira/step12-depth.png",
-      "caption": "step12 VA输入：对应灰度深度图，原PDF p11。",
+      "caption": "Step 12 · 深度观测",
       "locator": "p11"
     },
     {
       "path": "assets/reproduction/unilavira/navigation-step12.png",
-      "caption": "原PDF中的LA/TODO与导航地图可视化；保留原图文字。",
+      "caption": "Step 12 · 任务进度与导航地图",
       "locator": "p31"
     },
     {
       "path": "assets/reproduction/unilavira/navigation-step83.png",
-      "caption": "step83可视化（Episode:10），TODO均已完成，但图中ACTION仍显示NAVIGATE；需结合动作日志解释。",
+      "caption": "Step 83 · 任务进度与导航地图",
       "locator": "p33"
     }
   ],

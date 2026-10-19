@@ -93,7 +93,7 @@
         "locator": "方法章节"
       }
     ],
-    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "assumptions": null,
     "difference": "3D-Mem 不把场景仅压成物体节点和文字关系，而是保存能共同看清一组物体的 Memory Snapshots。查询时先按物体类别缩小快照，再让 VLM 在历史快照与 Frontier Snapshots 中选择证据或探索方向。"
   },
   "training": {
@@ -139,9 +139,7 @@
   ],
   "limitations": {
     "author": [],
-    "analysis": [
-      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
-    ]
+    "analysis": []
   },
   "resources": {
     "paper": {

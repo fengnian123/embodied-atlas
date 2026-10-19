@@ -60,7 +60,7 @@
     "explanation": "AO-Planner 从SAM分割得到可通行地面，把候选路径和航点标在图像上，让基础模型在可见且几何可执行的空间做选择。高层PathAgent结合指令和场景在标注图中选路线，深度和相机内参负责把二维选择转换为三维控制目标，避免要求LLM直接臆测三维坐标。论文还可把零样本规划器作为教师生成伪标注训练waypoint predictor，因此零样本主系统和蒸馏后的监督配置必须分开。",
     "input": "导航指令、RGB-D与可通行区域",
     "output": "2D路径及三维航点",
-    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "assumptions": null,
     "difference": "用可通行地面提示生成二维候选路径，再以视觉高层Agent选路并反投影到三维。",
     "flow": [
       "Visual Affordances Prompting",

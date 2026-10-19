@@ -61,7 +61,7 @@
     "explanation": "SpaceVLN 将长指令拆为可验证的space-landmark阶段。SpatialWaypointGraph保存探索空间与连通关系，ExecutedSpatialWaypointChain保存走过的空间顺序，LocalLandmarkMemory只保留当前子任务有关的地标证据。Spatial-CoT在这些记忆上判断当前阶段进度、空间关系及下一阶段；executor执行后再验证并必要时重规划。阶段目标是空间/地标接口，不是生成一张理想stage image；同一接口也可适配ObjectNav。",
     "input": "任务、视觉观察、空间/阶段记忆",
     "output": "空间—地标阶段与低层动作",
-    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "assumptions": null,
     "difference": "用空间—地标阶段作为规划执行接口，并在线维护空间认知记忆验证导航进度。",
     "flow": [
       "空间认知记忆",

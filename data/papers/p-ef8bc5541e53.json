@@ -56,7 +56,7 @@
     "explanation": "NaviLLM 的正式论文题名是Towards Learning a Generalist Model for Embodied Navigation。它用统一schema描述任务、观察、历史和输出要求，把下一导航选择、对象框与文本答案都组织成语言模型可生成的序列。多任务数据因此能共享一个模型训练，并迁移到未直接训练的任务。MP3D-EQA的自主导航ACC44.5%和使用GT路径47.4%是两种不同条件；“zero-shot EQA”表示跨任务迁移，而不是LLM未训练。",
     "input": "任务schema、视觉观察与轨迹历史",
     "output": "导航选择、对象定位或文本答案",
-    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "assumptions": null,
     "difference": "用schema-based instruction把导航、定位和问答统一为生成任务，联合训练通用导航模型。",
     "flow": [
       "统一任务schema",

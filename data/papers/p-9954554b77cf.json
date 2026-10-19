@@ -62,7 +62,7 @@
     "explanation": "正式论文Memory-Centric Embodied Question Answering提出MemoryEQA方法与MT-HM3D数据。观察被转为结构化文本并存入向量库；viewpoint comparison决定是否需要更新记忆；规划、停止、回答等模块运行前分别按熵自适应检索最少但足够的信息。这样记忆参与探索而非只在最后回答。MT-HM3D包含1587对涉及多目标/跨区域的问答，平均3.44对象和1.49区域是问题层级统计，不能写成场景数。",
     "input": "问题、当前视觉、结构化历史记忆",
     "output": "探索、终止判断与答案",
-    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "assumptions": null,
     "difference": "MemoryEQA让存储、更新和自适应检索贯穿探索全流程，并提出多目标跨区域MT-HM3D。",
     "flow": [
       "结构化记忆写入更新",

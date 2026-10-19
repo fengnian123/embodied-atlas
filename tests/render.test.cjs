@@ -17,7 +17,7 @@ test('list renders real content, independent controls and no HTML injection',()=
  const a=boot();assert(a.html().includes(String(JSON.parse(read('dist/catalog.json')).papers.length)));assert(a.html().includes('探索论文'));assert(JSON.parse(read('dist/catalog.json')).papers.some(p=>a.html().includes('data-paper="'+p.id+'"')));assert(a.html().includes('data-setting="density"'));assert(a.html().includes('data-setting="view"'));
 });
 test('every paper renders an independent detail route without runtime errors',()=>{
- const catalog=JSON.parse(read('dist/catalog.json'));for(const p of catalog.papers){const b=boot('','#/paper/'+p.id);assert(b.html().includes('来源与核验'),p.id);assert(!b.html().includes('undefined'),p.id);assert(b.html().includes(p.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')),p.id);}
+ const catalog=JSON.parse(read('dist/catalog.json'));for(const p of catalog.papers){const b=boot('','#/paper/'+p.id);assert(b.html().includes('参考资料'),p.id);assert(!b.html().includes('undefined'),p.id);assert(b.html().includes(p.title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')),p.id);}
 });
 test('subpath detail links preserve filters when copied/refreshed',()=>{
  const b=boot('?f.direction='+encodeURIComponent('导航')+'&view=table','#/paper/agenticnav-vln','https://example.github.io/research/library/');assert(b.html().includes('data-back'));assert(b.html().includes('f.direction='));assert(b.html().includes('view=table'));assert.equal(b.ctx.location.pathname,'/research/library/');
@@ -29,12 +29,12 @@ test('all density/layout combinations render with identical filter selection',()
  for(const view of ['cards','table'])for(const density of ['minimal','standard','detailed']){const b=boot('?f.direction='+encodeURIComponent('导航')+'&view='+view+'&density='+density);assert(b.html().includes('研究方向：导航'));assert(b.html().includes(view==='table'?'paper-table':'paper-grid'));}
 });
 test('all grouping dimensions render correctly',()=>{
- for(const group of ['direction','task','year','venue','paradigm','system','contribution','problem','environment','training']){const b=boot('?group='+group);assert(b.html().includes('顶部总数按唯一 ID 去重'),group);}
+ for(const group of ['direction','task','year','venue','paradigm','system','contribution','problem','environment','training']){const b=boot('?group='+group);assert(b.html().includes('总数已去重'),group);}
 });
 test('missing and redirected IDs, reading routes and about have useful output',()=>{
  assert(boot('','#/paper/no-such-record').html().includes('没有找到'));
- const catalog=JSON.parse(read('dist/catalog.json'));for(const old of Object.keys(catalog.redirects))assert(boot('','#/paper/'+old).html().includes('来源与核验'));
- assert(boot('','#/routes').html().includes('两种 4DGS'));assert(boot('','#/about').html().includes('16份'));
+ const catalog=JSON.parse(read('dist/catalog.json'));for(const old of Object.keys(catalog.redirects))assert(boot('','#/paper/'+old).html().includes('参考资料'));
+ assert(boot('','#/routes').html().includes('两种 4DGS'));assert(boot('','#/about').html().includes('关于知识库'));
 });
 test('star and read handlers persist validated local state',()=>{
  const b=boot();b.click({star:'openvla'});let stored=JSON.parse(b.store['embodied-atlas.personal.v1']);assert.equal(stored.papers.openvla.starred,true);

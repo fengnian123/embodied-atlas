@@ -71,7 +71,7 @@
       }
     ],
     "assumptions": "临床/用户研究的结果受纳入标准、样本与评价场景限制。",
-    "difference": "对应真实证据类型：临床/用户研究"
+    "difference": null
   },
   "training": {
     "regime": "不适用",
@@ -85,9 +85,7 @@
   "evaluation": [],
   "limitations": {
     "author": [],
-    "analysis": [
-      "网站分析：接受度、教学体验或某项临床终点只说明指定研究条件下的结果，不能替代独立外部验证或直接推为其他场景的结论。"
-    ]
+    "analysis": []
   },
   "resources": {
     "paper": {

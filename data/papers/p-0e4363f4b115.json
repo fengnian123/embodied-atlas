@@ -53,8 +53,8 @@
         "output": "待核读的系统论文入口"
       }
     ],
-    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
-    "difference": "对应真实证据类型：方法/系统"
+    "assumptions": null,
+    "difference": null
   },
   "training": {
     "regime": "训练细节未公开/未完整核实",
@@ -68,9 +68,7 @@
   "evaluation": [],
   "limitations": {
     "author": [],
-    "analysis": [
-      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
-    ]
+    "analysis": []
   },
   "resources": {
     "paper": {

@@ -62,7 +62,7 @@
     "explanation": "同一篇论文同时提出EXPRESS-Bench数据、Fine-EQA方法和Exploration-Answer Consistency评测。数据含777条探索轨迹、2044问答—轨迹对；Fine-EQA结合全局frontier探索与任务相关目标导航，既扩展覆盖又靠近细节证据。EAC要求答案正确性与实际探索到的证据相符，减轻只凭语言先验猜中也高分的问题。本库将Fine-EQA与EXPRESS视为方法和数据集的别名，维护者应合并为一个论文身份。",
     "input": "问题与在线视觉/位姿",
     "output": "探索动作与证据支持的答案",
-    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "assumptions": null,
     "difference": "提出EXPRESS-Bench与Fine-EQA，用探索—答案一致性评测主动问答而不只看语言答案。",
     "flow": [
       "EXPRESS数据构建",
@@ -153,9 +153,7 @@
   ],
   "limitations": {
     "author": [],
-    "analysis": [
-      "依据本条列出的任务与协议，结果只支持相应数据和实验条件；跨机器人、环境与预算的结论需要匹配协议后重测。"
-    ]
+    "analysis": []
   },
   "resources": {
     "paper": {

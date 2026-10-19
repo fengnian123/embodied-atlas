@@ -65,7 +65,7 @@
     "explanation": "3DLLM-Mem 以当前观察的working-memory token为查询，从历史episodic-memory中选择并融合相关三维时空特征，避免仅保留最新帧或把所有历史塞满上下文。作者在LLaVA-3D基础上训练记忆模块与语言解码器，并用长程具身任务、问答和caption共同验证。随文3DMem-Bench的26,276是训练轨迹数，1,860是具身测试任务数，865是问答任务数、167是caption任务数；三者总任务2,892，统计口径必须区分。",
     "input": "当前3D观察、历史观察/交互及任务",
     "output": "高层行为、答案、场景描述",
-    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "assumptions": null,
     "difference": "用当前工作记忆查询长期情景记忆，并提出3DMem-Bench检验跨房间时空记忆。",
     "flow": [
       "工作记忆编码",
@@ -161,9 +161,7 @@
   ],
   "limitations": {
     "author": [],
-    "analysis": [
-      "依据本条列出的任务与协议，结果只支持相应数据和实验条件；跨机器人、环境与预算的结论需要匹配协议后重测。"
-    ]
+    "analysis": []
   },
   "resources": {
     "paper": {
