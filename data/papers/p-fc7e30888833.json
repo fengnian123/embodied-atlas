@@ -1,0 +1,223 @@
+{
+  "id": "p-fc7e30888833",
+  "title": "Street Gaussians: Modeling Dynamic Urban Scenes with Gaussian Splatting",
+  "short": "Street Gaussians",
+  "aliases": [],
+  "authors": [
+    "Yunzhi Yan",
+    "Haotong Lin",
+    "Chenxu Zhou",
+    "Weijie Wang",
+    "Haiyang Sun",
+    "Kun Zhan",
+    "Xianpeng Lang",
+    "Xiaowei Zhou",
+    "Sida Peng"
+  ],
+  "institutions": [
+    "Zhejiang University",
+    "Li Auto"
+  ],
+  "firstPublished": "2024-01-02",
+  "updated": "2024-08-18",
+  "publicationYear": 2024,
+  "venue": "ECCV",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "将街景背景与每辆移动车辆建为独立高斯点云，联合优化跟踪姿态与时变外观，兼顾驾驶场景渲染速度和动态区域细节。",
+  "method": {
+    "input": "车载RGB、标定相机、初始车辆跟踪框/姿态及SfM/LiDAR点",
+    "output": "可分解、组合与编辑的动态街景高斯",
+    "flow": [
+      "背景和车辆分层",
+      "轨迹与外观学习",
+      "联合合成与编辑"
+    ],
+    "assumptions": "主要动态对象为车辆；跟踪姿态和场景初始化是必要输入。",
+    "difference": "分对象局部坐标和可学习位姿修正代替把所有动态放入单一高斯/形变场。",
+    "explanation": "将街景背景与每辆移动车辆建为独立高斯点云，联合优化跟踪姿态与时变外观，兼顾驾驶场景渲染速度和动态区域细节。 分对象局部坐标和可学习位姿修正代替把所有动态放入单一高斯/形变场。 背景保存在世界坐标，车辆各有局部点云；初始化可合并SfM和LiDAR，遮蔽动态区避免错误SfM。 优化车辆位置/旋转残差，使用时间相关外观；车辆框约束剪除不合理延伸基元。 按当前对象变换组合全部高斯并光栅化，天空由cubemap表示；可移除/移动车辆图层。",
+    "modules": [
+      {
+        "name": "背景和车辆分层",
+        "purpose": "共享静态环境并分离动态对象",
+        "mechanism": "背景保存在世界坐标，车辆各有局部点云；初始化可合并SfM和LiDAR，遮蔽动态区避免错误SfM。",
+        "input": "图像、标定、车辆框与点",
+        "output": "对象化高斯图层"
+      },
+      {
+        "name": "轨迹与外观学习",
+        "purpose": "校正跟踪误差并支持时间变化",
+        "mechanism": "优化车辆位置/旋转残差，使用时间相关外观；车辆框约束剪除不合理延伸基元。",
+        "input": "初始轨迹、对象高斯",
+        "output": "细化轨迹和时变外观"
+      },
+      {
+        "name": "联合合成与编辑",
+        "purpose": "一次渲染完整场景",
+        "mechanism": "按当前对象变换组合全部高斯并光栅化，天空由cubemap表示；可移除/移动车辆图层。",
+        "input": "时间、视角和各对象模型",
+        "output": "RGB新视图及编辑结果"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "背景/车辆高斯、位姿修正、时变外观与天空",
+    "trainable": "背景/车辆高斯、位姿修正、时变外观与天空",
+    "frozen": "无VLM主干",
+    "data": "Waymo、KITTI和VKITTI2",
+    "objective": "RGB重建、对象/几何相关正则",
+    "stages": "30k步，单RTX4090；自适应增密/剪枝"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Waymo街景",
+      "setting": "ECCV2024/arXiv当前版；1066×1600；PSNR*仅移动对象区域；RTX4090。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Waymo街景 · Table 1",
+        "columns": [
+          "方法",
+          "PSNR↑",
+          "SSIM↑",
+          "LPIPS↓",
+          "移动对象PSNR*↑",
+          "FPS↑"
+        ],
+        "rows": [
+          [
+            "3DGS",
+            "29.64",
+            "0.918",
+            "0.117",
+            "21.25",
+            "205"
+          ],
+          [
+            "EmerNeRF",
+            "30.87",
+            "0.905",
+            "0.133",
+            "21.67",
+            "0.21"
+          ],
+          [
+            "Street Gaussians",
+            "34.61",
+            "0.938",
+            "0.079",
+            "30.23",
+            "135"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2401.01339v3",
+        "locator": "Table 1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "车辆中心的分解对复杂行人非刚体不充分；与OmniRe处理的全类动态参与者范围不同。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2401.01339",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "code": {
+      "url": "https://github.com/zju3dv/street_gaussians",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / Street Gaussians: Modeling Dynamic Urban Scenes with Gaussian Splatting",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2401.01339",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2401.01339v3",
+      "label": "论文全文 v3",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/zju3dv/street_gaussians",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{240101339,\n  title = {Street Gaussians: Modeling Dynamic Urban Scenes with Gaussian Splatting},\n  author = {Yan, Yunzhi and Lin, Haotong and Zhou, Chenxu and Wang, Weijie and Sun, Haiyang and Zhan, Kun and Lang, Xianpeng and Zhou, Xiaowei and Peng, Sida},\n  year = {2024},\n  eprint = {2401.01339},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2401.01339}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "将街景背景与每辆移动车辆建为独立高斯点云，联合优化跟踪姿态与时变外观，兼顾驾驶场景渲染速度和动态区域细节。 分对象局部坐标和可学习位姿修正代替把所有动态放入单一高斯/形变场。 主要动态对象为车辆；跟踪姿态和场景初始化是必要输入。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

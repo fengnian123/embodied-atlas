@@ -1,0 +1,269 @@
+{
+  "id": "openvla",
+  "title": "OpenVLA: An Open-Source Vision-Language-Action Model",
+  "short": "OpenVLA",
+  "aliases": [],
+  "authors": [
+    "Moo Jin Kim",
+    "Karl Pertsch",
+    "Siddharth Karamcheti",
+    "Ted Xiao",
+    "Ashwin Balakrishna",
+    "Suraj Nair",
+    "Rafael Rafailov",
+    "Ethan Foster",
+    "Grace Lam",
+    "Pannag Sanketi",
+    "Quan Vuong",
+    "Thomas Kollar",
+    "Benjamin Burchfiel",
+    "Russ Tedrake",
+    "Dorsa Sadigh",
+    "Sergey Levine",
+    "Percy Liang",
+    "Chelsea Finn"
+  ],
+  "institutions": [
+    "Stanford University",
+    "UC Berkeley",
+    "Toyota Research Institute",
+    "Google DeepMind",
+    "Physical Intelligence",
+    "MIT"
+  ],
+  "firstPublished": "2024-06-13",
+  "updated": "2024-09-05",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "抓取",
+      "机器人控制"
+    ],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法",
+      "模型"
+    ],
+    "problem": [
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "以 Prismatic VLM 为基础，用真实机器人示范学习离散动作 token，提供开放的 7B VLA 权重与下游微调流程。",
+  "method": {
+    "input": "RGB 观测与自然语言指令",
+    "output": "离散化的末端动作 token",
+    "flow": [
+      "双视觉编码器：兼顾空间视觉与语义特征",
+      "语言条件动作解码：把任务语义转为动作",
+      "动作分桶与机器人归一化：使语言词表可以表达连续控制",
+      "新任务适配：用少量示范迁移新场景"
+    ],
+    "assumptions": "目标机器人动作空间、控制频率和归一化统计必须正确匹配；单图像单动作原版对高频和复杂多步任务仍有限。",
+    "difference": "开放权重与微调方案支持下游适配。",
+    "explanation": "OpenVLA从预训练视觉语言模型出发，把RGB和指令直接映射为机器人动作token。视觉端融合DINOv2与SigLIP特征并投影到Llama2 token空间，语言模型自回归输出离散化动作，再反归一化成末端位姿变化与夹爪命令。它不是高层多Agent调度器。训练使用约97万真实机器人示范联合微调；部署到新任务时可全量或LoRA微调，量化推理另行评估。",
+    "modules": [
+      {
+        "name": "双视觉编码器",
+        "purpose": "兼顾空间视觉与语义特征",
+        "mechanism": "对同一图像提取DINOv2/SigLIP特征拼接，经投影器映射到语言模型维度。",
+        "input": "RGB",
+        "output": "图像token"
+      },
+      {
+        "name": "语言条件动作解码",
+        "purpose": "把任务语义转为动作",
+        "mechanism": "Llama2 7B在图像token和自然语言条件下自回归预测离散动作token。",
+        "input": "图像token、指令",
+        "output": "动作token序列"
+      },
+      {
+        "name": "动作分桶与机器人归一化",
+        "purpose": "使语言词表可以表达连续控制",
+        "mechanism": "将每个动作维度离散成256桶，按训练数据动作统计反归一化为末端平移/旋转和夹爪动作。",
+        "input": "离散token、embodiment统计",
+        "output": "7维末端动作"
+      },
+      {
+        "name": "新任务适配",
+        "purpose": "用少量示范迁移新场景",
+        "mechanism": "比较全量、冻结视觉、只训末层及LoRA；int4是推理压缩而不是新策略训练。",
+        "input": "新任务机器人示范",
+        "output": "适配权重/LoRA与部署策略"
+      }
+    ]
+  },
+  "training": {
+    "regime": "联合训练",
+    "models": "DINOv2+SigLIP视觉、Prismatic VLM / Llama2 7B",
+    "trainable": "预训练阶段视觉与语言联合微调；适配可全量或LoRA",
+    "frozen": "LoRA适配时冻结原权重，仅更新低秩模块；不能称OpenVLA本身无训练",
+    "data": "970k真实机器人示范，Open X-Embodiment混合；DROID后1/3训练移除",
+    "objective": "动作token交叉熵/模仿学习；连续动作分256桶",
+    "stages": "VLM预训练→机器人示范VLA微调→新任务适配→可选量化推理"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Franka-Tabletop参数高效微调",
+      "setting": "v3表1；两类代表任务ID/OOD，33 rollouts/方法；显存batch16；该节使用较小预训练混合/仅SigLIP变体。",
+      "result": "LoRA rank32 68.2±7.5%接近Full FT69.7±7.2%，训练参数97.6M对7188.1M；不是主模型全部29任务结果。",
+      "locator": "§5.3 表1",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.3 表1",
+        "columns": [
+          "策略",
+          "SR mean±SE",
+          "可训练参数(M)",
+          "VRAM batch16"
+        ],
+        "rows": [
+          [
+            "Full FT",
+            "69.7±7.2%",
+            "7188.1",
+            "163.3GB*"
+          ],
+          [
+            "Frozen vision",
+            "47.0±6.9%",
+            "6760.4",
+            "156.2GB*"
+          ],
+          [
+            "LoRA rank32",
+            "68.2±7.5%",
+            "97.6",
+            "59.7GB"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2406.09246v3",
+        "locator": "§5.3 表1"
+      }
+    },
+    {
+      "benchmark": "BridgeData V2量化推理",
+      "setting": "v3表2；8代表任务、80 rollouts/配置；非阻塞控制；显存为推理开销。",
+      "result": "int4达到71.9±4.7%，显存7.0GB；int8控制频率下降影响此协议结果，不能据此认定int8表示能力普遍较差。",
+      "locator": "§5.4 表2",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.4 表2",
+        "columns": [
+          "精度",
+          "SR mean±SE",
+          "推理VRAM"
+        ],
+        "rows": [
+          [
+            "bfloat16",
+            "71.3±4.8%",
+            "16.8GB"
+          ],
+          [
+            "int8",
+            "58.1±5.1%",
+            "10.2GB"
+          ],
+          [
+            "int4",
+            "71.9±4.7%",
+            "7.0GB"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2406.09246v3",
+        "locator": "§5.4 表2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "部署仍需机器人接口、动作归一化与安全控制；开放模型不消除数据分布和控制频率差异。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2406.09246",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://openvla.github.io/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/openvla/openvla",
+      "status": "已核实入口"
+    },
+    "weights": {
+      "url": "https://huggingface.co/openvla/openvla-7b",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2406.09246",
+      "label": "arXiv v3",
+      "locator": "摘要、历史",
+      "supports": [
+        "作者",
+        "日期",
+        "规模"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openvla.github.io/",
+      "label": "官方项目页",
+      "locator": "模型、训练、适配",
+      "supports": [
+        "方法",
+        "训练",
+        "资源"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2406.09246v3",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§3/5；表1/2；附录表8/11",
+      "supports": [
+        "方法",
+        "全量与LoRA训练区别",
+        "评测变体",
+        "量化控制协议"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{openvla2024,\n  title = {OpenVLA: An Open-Source Vision-Language-Action Model},\n  author = {Moo Jin Kim and Karl Pertsch and Siddharth Karamcheti and Ted Xiao and Ashwin Balakrishna and Suraj Nair and Rafael Rafailov and Ethan Foster and Grace Lam and Pannag Sanketi and Quan Vuong and Thomas Kollar and Benjamin Burchfiel and Russ Tedrake and Dorsa Sadigh and Sergey Levine and Percy Liang and Chelsea Finn},\n  year = {2024},\n  eprint = {2406.09246},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2406.09246}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "OpenVLA 把机器人动作转换为可预测 token，让图像、语言与动作学习共享一个模型。视觉侧融合 DINOv2 与 SigLIP，语言侧使用 Llama 2 7B，并在机器人示范上训练。它的价值既包括可下载策略，也包括把通用 VLA 适配到新机器人与任务的工程路径。使用时需分别理解通用预训练与自己任务上的微调，不能因为使用预训练权重就把完整系统称为“无训练”。",
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

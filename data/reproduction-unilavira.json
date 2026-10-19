@@ -1,0 +1,211 @@
+{
+  "status": "单例运行记录",
+  "date": "2026-10-19",
+  "attribution": "用户实测记录（非论文作者正式结果）",
+  "summary": "已记录 R2R val_unseen 的 episode 10，从首次 LA/VA 决策、目标框导航到 STOP double-check。该PDF不含完整测试集统计，也没有官方SR、SPL、NE或最终环境成功回执，因此只能登记为单例运行记录。",
+  "source": {
+    "label": "Uni-LaViRA 测试记录（VLN任务）.pdf",
+    "pages": 34,
+    "url": "assets/reproduction/unilavira/test-record.pdf",
+    "textUrl": "assets/reproduction/unilavira/test-record.txt",
+    "sha256": "45172ecfb1ae69d798c56e27766f6cb027d2bdcad728a32f179c47b190625bb6",
+    "locator": "p1–4 初始化/TODO；p5–10 LA；p11–14 VA；p15–26 后续决策及停止复核；p29–33可视化；p33–34配置与代码说明"
+  },
+  "setup": {
+    "task": "R2R / VLN（原文任务描述；具体VLN-CE版本未记录）",
+    "split": "val_unseen",
+    "episode": "10（p1换行显示1和0；p31–33可视化确认Episode:10）",
+    "languageModel": "gemini-3.1-pro-preview（LA）",
+    "visionModel": "qwen3.5-27b（VA）",
+    "rgbDepthResolution": "640 × 480",
+    "hfov": "79°",
+    "cameraPosition": "(0, 0.88, 0)；坐标系/单位未明示",
+    "depthRange": "0.1–5.0 m",
+    "controller": "文档列举FMM/NavDP/iPlanner等低层执行器；本次实际启用项未明确记录",
+    "environment": "场景、模拟器版本、commit、依赖和GPU未记录",
+    "instruction": "走进客厅，并继续直走穿过客厅。然后走进阳台下方的入口。在通往另一个房间的入口处等待。"
+  },
+  "pipeline": [
+    {
+      "name": "四方向初始观察与TODO",
+      "detail": "LA读取前/左/后/右四张图与指令，生成4项pending子目标及last_object=\"entrance under the balcony\"。首次高层决策记录为step12；此前包含仿真初始化、场景/navmesh加载与四方向观察，不应理解成前12步都调用了大模型。",
+      "locator": "p1–4、p33–34"
+    },
+    {
+      "name": "LA更新进度与导航方向",
+      "detail": "输入原指令、历史图像、当前四方向图和TODO；先检查全部TODO，再输出progress_analysis、todo_updates、action、stop、stair。完成状态需要具体观察依据，文档称无依据更新会回滚。",
+      "locator": "p5–10"
+    },
+    {
+      "name": "VA用RGB/Depth选择视觉目标",
+      "detail": "输入当前RGB、灰度深度图、任务与LA进度；输出目标解释、bbox_2d和target描述。原始bbox保留，不擅自把它改为像素或归一化值。",
+      "locator": "p11–14"
+    },
+    {
+      "name": "目标驱动的低层执行",
+      "detail": "目标地图坐标存在且action_list为空时，低层控制器继续朝目标移动、更新地图与位姿；中间步不重复询问LA/VA。距目标小于target_reached_threshold时清空目标坐标，再触发高层决策；阈值具体数值未记录。",
+      "locator": "p34"
+    },
+    {
+      "name": "停止双重核验",
+      "detail": "停止复核读取当前四方向图与最终目标，检查可见性、估计距离是否小于1m及与此前观察的接近关系；step95返回STOP。这个距离是模型判断，不能当作独立几何真值。",
+      "locator": "p24–26"
+    }
+  ],
+  "timeline": [
+    {
+      "step": 12,
+      "actor": "LA初始化",
+      "observation": "生成4个TODO与最终目标。随后将进入客厅标为completed，其余pending。",
+      "action": "navigate to forward；stop=false；stair=false",
+      "bbox": null,
+      "locator": "p1–10"
+    },
+    {
+      "step": 12,
+      "actor": "VA",
+      "observation": "目标为 the wooden floor path leading to the central archway。",
+      "action": "输出下一目标框",
+      "bbox": [
+        405,
+        613,
+        789,
+        999
+      ],
+      "locator": "p14"
+    },
+    {
+      "step": 25,
+      "actor": "LA + VA",
+      "observation": "继续直行；视觉目标仍为通向中央拱门的木地板路径。",
+      "action": "继续导航",
+      "bbox": [
+        408,
+        563,
+        617,
+        999
+      ],
+      "locator": "p14"
+    },
+    {
+      "step": 41,
+      "actor": "LA + VA",
+      "observation": "继续朝拱形入口前进；目标为 arched entrance。",
+      "action": "继续导航",
+      "bbox": [
+        418,
+        203,
+        576,
+        609
+      ],
+      "locator": "p14"
+    },
+    {
+      "step": 68,
+      "actor": "LA",
+      "observation": "把其余TODO标为completed，判断已位于通往另一房间的入口。",
+      "action": "action仍为navigate to forward；stop=true；stair=false",
+      "bbox": null,
+      "locator": "p14–20"
+    },
+    {
+      "step": 68,
+      "actor": "VA",
+      "observation": "即使TODO全完成，仍给出下一房间拱门目标，并解释下一步应继续进入房间。",
+      "action": "产生新目标，与LA停止意图不一致",
+      "bbox": [
+        451,
+        307,
+        568,
+        594
+      ],
+      "locator": "p21–23"
+    },
+    {
+      "step": 95,
+      "actor": "STOP double-check",
+      "observation": "模型依据后方视角判断当前位置就是阳台下入口，并估计到目标小于1m。",
+      "action": "decision=STOP；无官方环境成功回执",
+      "bbox": null,
+      "locator": "p24–26"
+    }
+  ],
+  "observations": [
+    {
+      "kind": "日志直接观察",
+      "title": "边界框坐标约定不一致",
+      "detail": "提示要求640×480像素坐标，但4个已记录bbox至少有一个坐标越界；step12的y1=613、x2=789、y2=999都超出相应边界。其形态可能接近0–1000输出约定，但PDF没有给出解析代码，不能据此确认或自动覆盖原始值。",
+      "next": "回查VA模型返回坐标约定、转换函数、clamp与bbox→深度/地图点流程；同时保留原始和转换后坐标。"
+    },
+    {
+      "kind": "日志直接观察",
+      "title": "LA停止与VA目标生成并行存在",
+      "detail": "step68 LA stop=true，而VA仍输出下一房间的目标；step95才记录STOP复核。仅凭这份PDF不能确定期间的动作是相机转向、普通导航还是其他控制步骤，也不能确认发生了目标越过。",
+      "next": "核对stop=true后的分支优先级、VA调用跳过条件、目标清空与STOP回执；按帧对齐动作日志。"
+    },
+    {
+      "kind": "证据边界",
+      "title": "模型认为到达，不等于官方任务成功",
+      "detail": "PDF展示了视觉路径和STOP判断，但没有SR、SPL、NE、DTG、完整耗时、调用成本或seed。不能把单例写成100%成功，也不能用模型估计的<1m取代环境距离。",
+      "next": "补episode配置/seed、轨迹、最终距离、官方success字段和完整评测结果文件。"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "已记录episode",
+      "value": "1条案例（episode10）",
+      "type": "用户记录范围"
+    },
+    {
+      "name": "最高显示的step",
+      "value": "95",
+      "type": "日志计数；不是95次大模型调用"
+    },
+    {
+      "name": "停止复核阈值",
+      "value": "< 1 m",
+      "type": "prompt规则；非实测最终距离"
+    },
+    {
+      "name": "SR / SPL / NE / DTG",
+      "value": "未提供",
+      "type": "不得从单例推断"
+    },
+    {
+      "name": "GPU / 总耗时 / API成本 / seed",
+      "value": "未提供",
+      "type": "复现配置缺口"
+    }
+  ],
+  "gallery": [
+    {
+      "path": "assets/reproduction/unilavira/step12-rgb.png",
+      "caption": "step12 VA输入：RGB图，原PDF p11。",
+      "locator": "p11"
+    },
+    {
+      "path": "assets/reproduction/unilavira/step12-depth.png",
+      "caption": "step12 VA输入：对应灰度深度图，原PDF p11。",
+      "locator": "p11"
+    },
+    {
+      "path": "assets/reproduction/unilavira/navigation-step12.png",
+      "caption": "原PDF中的LA/TODO与导航地图可视化；保留原图文字。",
+      "locator": "p31"
+    },
+    {
+      "path": "assets/reproduction/unilavira/navigation-step83.png",
+      "caption": "step83可视化（Episode:10），TODO均已完成，但图中ACTION仍显示NAVIGATE；需结合动作日志解释。",
+      "locator": "p33"
+    }
+  ],
+  "missing": [
+    "仓库URL与commit",
+    "模拟器/数据集版本、场景ID及episode配置",
+    "seed、GPU与依赖版本",
+    "本次实际低层控制器与阈值",
+    "bbox解析与地图目标转换代码",
+    "官方success/最终距离/SPL/NE/DTG",
+    "完整轨迹、耗时、API调用统计和费用"
+  ]
+}

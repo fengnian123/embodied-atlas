@@ -1,0 +1,448 @@
+{
+  "batch": "navigation",
+  "checked": "2026-10-19",
+  "records": [
+    {
+      "id": "p-da862dc60771",
+      "arxiv": "2606.00095",
+      "title": "Bridging the 2D-3D Gap: A Hierarchical Semantic-Geometric Map for Vision Language Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 2,
+      "source": "https://arxiv.org/html/2606.00095v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "主表与消融的 Full Model 数值不同，原文没有在表内解释全部差异，分别保留设置，不能替换。"
+      ]
+    },
+    {
+      "id": "p-653ff869670f",
+      "arxiv": "2603.07997",
+      "title": "CMMR-VLN: Vision-and-Language Navigation via Continual Multimodal Memory Retrieval",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2603.07997v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "式 (3) 的注意力投影参数训练方式未说明。",
+        "Table II 消融完整方法 SR=56，与 Table I 的 52 不同，不能视为同一实验数字。",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-d282554905ff",
+      "arxiv": "2412.10402",
+      "title": "TANGO: Training-free Embodied AI Agents for Open-world Tasks",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 1,
+      "source": "https://arxiv.org/html/2412.10402v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-131c5f8fafc1",
+      "arxiv": "2411.17735",
+      "title": "3D-Mem: 3D Scene Memory for Embodied Exploration and Reasoning",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 2,
+      "source": "https://arxiv.org/html/2411.17735v5",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-fba57d822a08",
+      "arxiv": "2506.06487",
+      "title": "BeliefMapNav: 3D Voxel-Based Belief Map for Zero-Shot Object Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 3,
+      "source": "https://arxiv.org/html/2506.06487v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "当前数值来自 arXiv v1，与 NeurIPS 定稿摘要的增益不一致；下一次维护应并列核验最终版本，不能用摘要增益倒推数字。"
+      ]
+    },
+    {
+      "id": "p-1bc406357bc2",
+      "arxiv": "2403.15941",
+      "title": "Explore until Confident: Efficient Exploration for Embodied Question Answering",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 5,
+      "source": "https://arxiv.org/html/2403.15941v3",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-ab1fd5bd54af",
+      "arxiv": "2606.18112",
+      "title": "Qwen-RobotNav Technical Report: A Scalable Navigation Model Designed for an Agentic Navigation System",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 6,
+      "source": "https://arxiv.org/html/2606.18112v3",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-cb5caf94cd61",
+      "arxiv": "2503.10630",
+      "title": "UniGoal: Towards Universal Zero-shot Goal-oriented Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 5,
+      "source": "https://arxiv.org/html/2503.10630v3",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-245034be53d7",
+      "arxiv": "1711.07280",
+      "title": "Vision-and-Language Navigation: Interpreting visually-grounded navigation instructions in real environments",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/1711.07280v3",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-38c47880c5df",
+      "arxiv": "2603.14807",
+      "title": "HiMemVLN: Enhancing Reliability of Open-Source Zero-Shot Vision-and-Language Navigation with Hierarchical Memory System",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 2,
+      "source": "https://arxiv.org/html/2603.14807v3",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-0c497b2d55bd",
+      "arxiv": "2206.06994",
+      "title": "ProcTHOR: Large-Scale Embodied AI Using Procedural Generation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2206.06994v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-7c7dafb2b344",
+      "arxiv": "2605.01700",
+      "title": "TrajRAG: Retrieving Geometric-Semantic Experience for Zero-Shot Object Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 5,
+      "source": "https://arxiv.org/html/2605.01700v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-b626bd59e0fb",
+      "arxiv": "2502.13451",
+      "title": "MapNav: A Novel Memory Representation via Annotated Semantic Maps for Vision-and-Language Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2502.13451v5",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-ab4137ccf421",
+      "arxiv": "2512.12622",
+      "title": "D3D-VLP: Dynamic 3D Vision-Language-Planning Model for Embodied Grounding and Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2512.12622v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-c9c5dc03e2a3",
+      "arxiv": "2605.28237",
+      "title": "POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2605.28237v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-cdc3a13da2fb",
+      "arxiv": "2010.07954",
+      "title": "Room-Across-Room: Multilingual Vision-and-Language Navigation with Dense Spatiotemporal Grounding",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 5,
+      "source": "https://arxiv.org/html/2010.07954v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-0b0fb16f86a3",
+      "arxiv": "2506.01551",
+      "title": "EvolveNav",
+      "verificationLevel": "unresolved",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2506.01551v3",
+      "gaps": [
+        "用户的EvoNav / History to Future与本候选EvolveNav机制不一致，需确认指代；不可视为已经唯一匹配",
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-d54de00b55ef",
+      "arxiv": "2601.08665",
+      "title": "VLingNav: Embodied Navigation with Adaptive Reasoning and Visual-Assisted Linguistic Memory",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2601.08665v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-9bac8e0e6461",
+      "arxiv": "2511.10376",
+      "title": "MSGNav: Unleashing the Power of Multi-modal 3D Scene Graph for Zero-Shot Embodied Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 2,
+      "source": "https://arxiv.org/html/2511.10376v5",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-57fca4f321a9",
+      "arxiv": "2607.14586",
+      "title": "SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 3,
+      "source": "https://arxiv.org/html/2607.14586v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-113f275da6df",
+      "arxiv": "2604.26839",
+      "title": "Walk With Me: Long-Horizon Social Navigation for Human-Centric Outdoor Assistance",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 5,
+      "source": "https://arxiv.org/html/2604.26839v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-47e661483270",
+      "arxiv": "2410.08189",
+      "title": "SG-Nav: Online 3D Scene Graph Prompting for LLM-based Zero-shot Object Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2410.08189v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-5087c1b337e5",
+      "arxiv": "2602.06427",
+      "title": "Bridging the Indoor-Outdoor Gap: Vision-Centric Instruction-Guided Embodied Navigation for the Last Meters",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2602.06427v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-195b161ffdb0",
+      "arxiv": "2507.04047",
+      "title": "Move to Understand a 3D Scene: Bridging Visual Grounding and Exploration for Efficient and Versatile Embodied Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2507.04047v2",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-399432cc84b3",
+      "arxiv": "2306.14846",
+      "title": "ViNT: A Foundation Model for Visual Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 5,
+      "source": "https://arxiv.org/html/2306.14846v2",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-bc635c0cef0e",
+      "arxiv": "1904.10151",
+      "title": "REVERIE: Remote Embodied Visual Referring Expression in Real Indoor Environments",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/1904.10151v2",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-91f1ecb94809",
+      "arxiv": "2601.13132",
+      "title": "SplatReasoner: Enhancing Embodied Reasoning and Grounding by Novel View Synthesis",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 2,
+      "source": "https://arxiv.org/html/2601.13132v2",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-9954554b77cf",
+      "arxiv": "2505.13948",
+      "title": "Memory-Centric Embodied Question Answering",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2505.13948v2",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+        "正式发表信息尚未在可靠会议/期刊来源确认"
+      ]
+    },
+    {
+      "id": "p-95aeaa24987a",
+      "arxiv": "2506.01174",
+      "title": "GraphPad: Inference-Time 3D Scene Graph Updates for Embodied Question Answering",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 2,
+      "source": "https://arxiv.org/html/2506.01174v1",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    },
+    {
+      "id": "p-af9ba9589496",
+      "arxiv": "2306.11290",
+      "title": "Habitat Synthetic Scenes Dataset (HSSD-200): An Analysis of 3D Scene Scale and Realism Tradeoffs for ObjectGoal Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "tables": 1,
+      "rows": 4,
+      "source": "https://arxiv.org/html/2306.11290v3",
+      "gaps": [
+        "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+        "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+      ]
+    }
+  ],
+  "summary": {
+    "fulltext": 29,
+    "unresolved": 1
+  },
+  "identityNotes": [
+    "BridgeNav matched to arXiv 2602.06427; do not conflate with BRiDGENav.",
+    "EvolveNav arXiv 2506.01551 is a candidate only; user History to Future/F-CoT/H-CoE notes conflict with this paper."
+  ]
+}

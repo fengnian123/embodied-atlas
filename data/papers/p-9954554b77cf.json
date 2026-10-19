@@ -1,0 +1,339 @@
+{
+  "id": "p-9954554b77cf",
+  "title": "Memory-Centric Embodied Question Answering",
+  "short": "MemoryEQA",
+  "aliases": [
+    "MT-HM3D",
+    "MemoryEQA",
+    "Memory-Centric Embodied Question Answering",
+    "MemoryEQA / MT-HM3D"
+  ],
+  "authors": [
+    "Zhai, Mingliang",
+    "Gao, Zhi",
+    "Wu, Yuwei",
+    "Jia, Yunde"
+  ],
+  "institutions": [
+    "Beijing Key Laboratory of Intelligent Information TechnologySchool of Computer Science and Technology, Beijing Institute of Technology",
+    "Guangdong Laboratory of Machine Perception and Intelligent Computing, Shenzhen MSU-BIT University"
+  ],
+  "firstPublished": "2025-05-20",
+  "updated": "2025-12-13",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "真实采集资产"
+    ],
+    "training": [
+      "训练细节未核实",
+      "仅推理使用"
+    ]
+  },
+  "summary": "MemoryEQA让存储、更新和自适应检索贯穿探索全流程，并提出多目标跨区域MT-HM3D。",
+  "method": {
+    "explanation": "正式论文Memory-Centric Embodied Question Answering提出MemoryEQA方法与MT-HM3D数据。观察被转为结构化文本并存入向量库；viewpoint comparison决定是否需要更新记忆；规划、停止、回答等模块运行前分别按熵自适应检索最少但足够的信息。这样记忆参与探索而非只在最后回答。MT-HM3D包含1587对涉及多目标/跨区域的问答，平均3.44对象和1.49区域是问题层级统计，不能写成场景数。",
+    "input": "问题、当前视觉、结构化历史记忆",
+    "output": "探索、终止判断与答案",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "MemoryEQA让存储、更新和自适应检索贯穿探索全流程，并提出多目标跨区域MT-HM3D。",
+    "flow": [
+      "结构化记忆写入更新",
+      "熵自适应模块检索",
+      "多目标跨区域评测"
+    ],
+    "modules": [
+      {
+        "name": "结构化记忆写入更新",
+        "purpose": "避免重复保存与遗失关键观察",
+        "mechanism": "将视觉观察转成固定结构文本存入向量库，通过当前与已有viewpoint比较判断更新需求。",
+        "sourceUrl": "https://arxiv.org/html/2505.13948",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "熵自适应模块检索",
+        "purpose": "为不同阶段提供足够且精简的记忆",
+        "mechanism": "在planner、stopping、answering等模块调用前，根据不确定性自适应取回相关记忆，避免每模块无差别使用全部历史。",
+        "sourceUrl": "https://arxiv.org/html/2505.13948",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "多目标跨区域评测",
+        "purpose": "让答案必须依赖长期证据组合",
+        "mechanism": "提出MT-HM3D，问题跨对象和区域，测试整段探索的存储、更新、检索协作。",
+        "sourceUrl": "https://arxiv.org/html/2505.13948",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "基准不适用；MemoryEQA为记忆增强基础模型推理",
+    "models": "多种视频/空间/视觉LLM后端与向量库",
+    "trainable": "非参数记忆与检索更新；本条未确认新增基础模型参数优化",
+    "frozen": "用于推理的现成模型",
+    "data": "MT-HM3D 1587 QA；HM-EQA/OpenEQA多基准",
+    "objective": "结构化存储和熵控制检索；不是新增动作损失",
+    "stages": "观察转文本 → 视点比较更新 → 按模块检索 → 探索/停止/回答"
+  },
+  "evaluation": [
+    {
+      "benchmark": "MT-HM3D / HM-EQA",
+      "setting": "arXiv v2 Table 2；Step 为论文归一化探索指标，不是原始动作次数",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 2",
+      "sourceUrl": "https://arxiv.org/html/2505.13948v2",
+      "table": {
+        "columns": [
+          "方法",
+          "基准",
+          "Succ.",
+          "归一化 Step"
+        ],
+        "rows": [
+          [
+            "MemoryEQA GPT-4o",
+            "MT-HM3D",
+            43.11,
+            0.41
+          ],
+          [
+            "MemoryEQA GPT-4o",
+            "HM-EQA",
+            61.4,
+            0.4
+          ],
+          [
+            "ExploreEQA GPT-4o",
+            "MT-HM3D",
+            33.21,
+            0.64
+          ],
+          [
+            "ExploreEQA GPT-4o",
+            "HM-EQA",
+            47.4,
+            0.77
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2505.13948v2",
+        "locator": "Table 2",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    },
+    {
+      "benchmark": "MemoryEQA / MT-HM3D 多目标问答",
+      "setting": "Table2，同文GPT4o配置；Step是原文归一化步数指标，不是原始动作数量。",
+      "result": "MemoryEQA MT-HM3D Succ43.11/Step0.41；ExploreEQA33.21/0.64。HM-EQA61.4/0.4对47.4/0.77。",
+      "sourceUrl": "https://arxiv.org/html/2505.13948",
+      "locator": "Table 1 / Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "GPT4o配置",
+          "MT-HM3D Succ",
+          "MT-HM3D Step",
+          "HM-EQA Succ",
+          "HM-EQA Step"
+        ],
+        "rows": [
+          [
+            "ExploreEQA",
+            "33.21",
+            "0.64",
+            "47.4",
+            "0.77"
+          ],
+          [
+            "MemoryEQA",
+            "43.11",
+            "0.41",
+            "61.4",
+            "0.40"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "结构化文本可能丢失视觉细节；数据是跨区域问答，不等同动态目标预测导航。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2505.13948",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / HM-EQA / MemoryEQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2505.13948v1",
+      "locator": "Table1\nTable1\nTable1\nTable1\nTable1\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MT-HM3D / MemoryEQA＋Qwen2-VL-7B",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2505.13948v1",
+      "locator": "Table1\nTable1\nTable1\nTable1\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MT-HM3D / MemoryEQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2505.13948",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2505.13948v2",
+      "locator": "方法章节；Table 2",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MT-HM3D",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2505.13948",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2505.13948",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pc07af24a56332025,\n title={Memory-Centric Embodied Question Answering},\n author={Zhai, Mingliang and Gao, Zhi and Wu, Yuwei and Jia, Yunde},\n year={2025},\n url={https://arxiv.org/abs/2505.13948}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "HM-EQA",
+      "variant": "MemoryEQA＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "MT-HM3D",
+      "variant": "MemoryEQA＋Qwen2-VL-7B"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "MT-HM3D",
+      "variant": "MemoryEQA＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；任务协议待核实",
+      "inputProtocol": "在线RGB-D＋位姿；跨区域保存观测",
+      "scale": "1587 QA；MemoryEQA v1协议"
+    }
+  ],
+  "overview": "正式论文Memory-Centric Embodied Question Answering提出MemoryEQA方法与MT-HM3D数据。观察被转为结构化文本并存入向量库；viewpoint comparison决定是否需要更新记忆；规划、停止、回答等模块运行前分别按熵自适应检索最少但足够的信息。这样记忆参与探索而非只在最后回答。MT-HM3D包含1587对涉及多目标/跨区域的问答，平均3.44对象和1.49区域是问题层级统计，不能写成场景数。",
+  "benchmark": {
+    "motivation": "迫使问答依赖跨区域多个目标的长期记忆。",
+    "environment": "Habitat/HM3D扫描资产。",
+    "metrics": "Succ、归一化Step；OpenEQA另用GPT/ROUGE-L评分。",
+    "scale": "1587 QA；平均每题3.44对象、1.49区域。",
+    "boundary": "视点比较和结构化文本压缩可能遗漏细节；许可与划分需复核。"
+  },
+  "verificationLevel": "fulltext"
+}

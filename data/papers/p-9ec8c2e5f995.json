@@ -1,0 +1,275 @@
+{
+  "id": "p-9ec8c2e5f995",
+  "title": "IndusAgent: Reinforcing Open-Vocabulary Industrial Anomaly Detection with Agentic Tools",
+  "short": "IndusAgent",
+  "aliases": [],
+  "authors": [
+    "Rongbin Tan",
+    "Fangfang Lin",
+    "Zhenlong Yuan",
+    "Min Qiu",
+    "Kejin Cui",
+    "Mengmeng Wang",
+    "Yi Wang",
+    "Zijian Song",
+    "Zhiyuan Wang",
+    "Jiyuan Wang",
+    "Yue Wang",
+    "Shuhan Song",
+    "Huawei Cao"
+  ],
+  "institutions": [
+    "Institute of Computing Technology, CAS",
+    "University of Chinese Academy of Sciences",
+    "New York University",
+    "Sun Yat-sen University",
+    "Nanyang Technological University",
+    "Stanford University",
+    "Santa Clara University",
+    "LongCat Team"
+  ],
+  "firstPublished": "2026-05-20",
+  "updated": "2026-05-20",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "巡检",
+      "场景理解"
+    ],
+    "paradigm": [
+      "VLM",
+      "强化学习"
+    ],
+    "system": [
+      "具身 Agent",
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "模型",
+      "数据集"
+    ],
+    "problem": [
+      "主动感知",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界"
+    ],
+    "training": [
+      "监督微调",
+      "强化学习"
+    ]
+  },
+  "summary": "Qwen3-VL-8B先学习工业诊断与工具轨迹，再用正确率门控GRPO学习裁剪、增强、先验查询和几何测量。",
+  "method": {
+    "input": "单张待检图像与任务说明，无配对正常参考图",
+    "output": "异常二元判断、位置、缺陷类型和推理/工具轨迹",
+    "assumptions": "工具反馈可靠；正常先验来自模型知识而非测试配对正常图。",
+    "difference": "通过SFT+正确率门控GRPO优化取证行为，不只让VLM写一段CoT。",
+    "explanation": "用Qwen3-VL-Max从Real-IAD生成约3000条正常/异常较均衡的工具诊断轨迹，过滤与五个测试集语义重名类别。8B模型先SFT对齐诊断和工具格式，再以GRPO采样一组轨迹。奖励为最终二元准确率乘以定位IoU、类型正确性和工具效用之和，外加格式项；工具成本惩罚冗余调用。四类工具分别提供局部图、正常结构文本、增强纹理和几何量，模型结合反馈输出诊断。",
+    "flow": [
+      "Indus-CoT",
+      "SFT冷启动",
+      "工具箱",
+      "门控GRPO"
+    ],
+    "modules": [
+      {
+        "name": "Indus-CoT",
+        "purpose": "建立域内取证监督",
+        "mechanism": "强教师合成轨迹、自纠错及judge过滤；去除测试重叠类别",
+        "input": "Real-IAD、查询说明",
+        "output": "约3000条轨迹"
+      },
+      {
+        "name": "SFT冷启动",
+        "purpose": "稳定诊断格式",
+        "mechanism": "在Qwen3-VL-8B上监督生成的诊断推理token",
+        "input": "工具轨迹",
+        "output": "可按格式调用工具的策略"
+      },
+      {
+        "name": "工具箱",
+        "purpose": "补充细粒度证据",
+        "mechanism": "crop/prior/enhance/measure返回局部视觉、语义或数值",
+        "input": "不确定区域/结构",
+        "output": "取证反馈"
+      },
+      {
+        "name": "门控GRPO",
+        "purpose": "让调用服从诊断收益",
+        "mechanism": "正确率门控辅助奖励；相对组内优势优化，惩罚多余调用",
+        "input": "采样轨迹及标注",
+        "output": "后训练诊断Agent"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调＋强化学习",
+    "models": "Qwen3-VL-Instruct-8B；数据教师Qwen3-VL-Max",
+    "trainable": "诊断VLM经SFT和GRPO更新；具体全参/LoRA冻结范围未逐项核实",
+    "frozen": "不得描述为“全模型冻结”",
+    "data": "Real-IAD约3000轨迹；语义归一化去除五测试集重叠类别",
+    "objective": "SFT生成token NLL；GRPO正确率门控定位/类型/工具效用＋格式",
+    "stages": "教师轨迹→SFT→工具增强GRPO→五数据集跨类别测试"
+  },
+  "evaluation": [
+    {
+      "benchmark": "MVTec-AD / MPDD / VisA / DTD / SDD",
+      "setting": "arXiv v1；Table1指标为Balanced Accuracy(%，见§B.1)，不是AUROC；无测试正常参考图，各基线统一提示与解析。",
+      "result": "IndusAgent各集83.6/72.7/76.8/95.6/88.9，平均83.4；图像级诊断不代表像素级定位精度。",
+      "locator": "Table 1 / Appendix B.1",
+      "sourceUrl": "https://arxiv.org/abs/2605.20682",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 1 / Appendix B.1",
+        "columns": [
+          "模型",
+          "MVTec",
+          "MPDD",
+          "VisA",
+          "DTD",
+          "SDD",
+          "平均"
+        ],
+        "rows": [
+          [
+            "Qwen3-VL-8B",
+            67.0,
+            50.0,
+            46.8,
+            70.2,
+            50.0,
+            56.8
+          ],
+          [
+            "GPT-4.1",
+            81.9,
+            66.7,
+            69.1,
+            90.1,
+            79.9,
+            77.5
+          ],
+          [
+            "IndusAgent",
+            83.6,
+            72.7,
+            76.8,
+            95.6,
+            88.9,
+            83.4
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2605.20682",
+        "locator": "Table 1 / Appendix B.1"
+      }
+    },
+    {
+      "benchmark": "后训练消融",
+      "setting": "Table3；同一8B策略，移除模块；指标同主表。",
+      "result": "去掉RL时MVTec/VisA/DTD变72.3/57.6/74.1，完整83.6/76.8/95.6。",
+      "locator": "Table 3",
+      "sourceUrl": "https://arxiv.org/abs/2605.20682",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 3",
+        "columns": [
+          "变体",
+          "MVTec",
+          "VisA",
+          "DTD"
+        ],
+        "rows": [
+          [
+            "完整",
+            83.6,
+            76.8,
+            95.6
+          ],
+          [
+            "无RL",
+            72.3,
+            57.6,
+            74.1
+          ],
+          [
+            "无SFT",
+            69.5,
+            55.5,
+            72.8
+          ],
+          [
+            "无工具",
+            78.1,
+            67.5,
+            87.9
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2605.20682",
+        "locator": "Table 3"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "多轮工具增加推理开销；错误裁剪、增强噪声和不完整先验可能误导。",
+      "主要实验集中图像级判断，细粒度定位和工具效率需要更多评测；教师和模板可能引入偏差。"
+    ],
+    "analysis": [
+      "文中“zero-shot”指对目标测试类别/数据集的泛化，不表示VLM未经工业数据后训练。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2605.20682",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "主动交互巡检与故障诊断_相关工作调研.md",
+      "locator": "IndusAgent: Reinforcing Open-Vocabulary Industrial Anomaly Detection with Agentic Tools(2026)",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2605.20682",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p9ec8c2e5f9952026,\n  title = {IndusAgent: Reinforcing Open-Vocabulary Industrial Anomaly Detection with Agentic Tools},\n  author = {Rongbin Tan and Fangfang Lin and Zhenlong Yuan and Min Qiu and Kejin Cui and Mengmeng Wang and Yi Wang and Zijian Song and Zhiyuan Wang and Jiyuan Wang and Yue Wang and Shuhan Song and Huawei Cao},\n  year = {2026},\n  url = {https://arxiv.org/abs/2605.20682}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "具体冻结范围/训练计算资源需逐项回查",
+    "官方代码/权重URL未可靠定位",
+    "正式发表信息未核实，保留预印本"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "工业缺陷常很小，整图编码看不清，通用VLM又可能靠想象补结构。IndusAgent 把单图诊断变成多轮工具取证：怀疑处裁剪，纹理增强，查询正常结构知识，并测量几何关系。SFT先教会格式和诊断流程，RL仅在最终判断正确时奖励定位、类别与有益工具使用，以减少乱调工具。这里的主动检查是图像工具调用，未验证机器人运动巡检。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

@@ -1,0 +1,270 @@
+{
+  "id": "gap",
+  "title": "GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks",
+  "short": "GaP",
+  "aliases": [],
+  "authors": [
+    "Kaiyuan Chen",
+    "Shuangyu Xie",
+    "Letian Fu",
+    "Justin Yu",
+    "William Pacini",
+    "Sandeep Bajamahal",
+    "Hudson Kim",
+    "Jaimyn Drake",
+    "Daehwa Kim",
+    "Haoru Xue",
+    "Jonathan Francis",
+    "Christian Juette",
+    "Peter Schaldenbrand",
+    "Muhammet Yunus Seker",
+    "Ruwan Wickramarachchi",
+    "Uksang Yoo",
+    "Guanzhi Wang",
+    "Adithyavairavan Murali",
+    "Balakumar Sundaralingam",
+    "S. Shankar Sastry",
+    "Spencer Huang",
+    "Yuke Zhu",
+    "Linxi \"Jim\" Fan",
+    "Ken Goldberg"
+  ],
+  "institutions": [
+    "University of California, Berkeley",
+    "Carnegie Mellon University",
+    "Bosch",
+    "NVIDIA"
+  ],
+  "firstPublished": "2026-07-06",
+  "updated": "2026-07-06",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "长程操作"
+    ],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法",
+      "Benchmark"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "让多个编码 Agent 合成由模块化技能构成的有向计算图，在仿真排练中修订图结构与参数，再将图部署到机器人持久执行。",
+  "method": {
+    "input": "自然语言任务、技能库与排练环境",
+    "output": "结构化机器人策略图",
+    "flow": [
+      "分层多Agent图生成：把语言任务转换为可执行结构",
+      "MORSL技能库：提供可组合且可检查的原子能力",
+      "内部并行排练与失败诊断：在部署前覆盖任务变化",
+      "外部图解释器：重复执行经过优化的策略图"
+    ],
+    "assumptions": "需要对象几何模型、可实例化内部仿真以及已实现的机器人技能；未知场景资产缺失会限制排练与部署。",
+    "difference": "排练环境覆盖与技能库完整性是迁移前提；不能把图优化当成任意新物理技能学习。",
+    "explanation": "GaP把机器人策略表示成有向执行图：节点调用可复用感知、抓取、几何或策略技能，边描述数据依赖和条件分支。Behavior Agent先编排全局语义阶段，Skill Agent生成对应局部子图。部署前在内部物理仿真中采样物体/布局变化，检查每个节点执行前后的状态，诊断失败并修改图拓扑或参数。部署后由外部解释器重复执行图，核心适应对象是程序图而非统一神经策略权重。",
+    "modules": [
+      {
+        "name": "分层多Agent图生成",
+        "purpose": "把语言任务转换为可执行结构",
+        "mechanism": "Behavior Agent分割任务；Skill Agent据技能接口生成子图并连接输入输出和分支。",
+        "input": "自然语言任务、对象几何、机器人接口",
+        "output": "初始Graph-as-Policy"
+      },
+      {
+        "name": "MORSL技能库",
+        "purpose": "提供可组合且可检查的原子能力",
+        "mechanism": "51个初始技能声明输入输出、语义参数与前提；包括SAM/Grounding DINO、抓取和cuRobo等。",
+        "input": "图节点输入、场景与机器人状态",
+        "output": "感知结果、抓取/运动计划或动作"
+      },
+      {
+        "name": "内部并行排练与失败诊断",
+        "purpose": "在部署前覆盖任务变化",
+        "mechanism": "Isaac内采样belief中的物体姿态/初始状态，比较节点前后物理状态以定位失败，再改节点、边或代码参数。",
+        "input": "初始图、几何资产、变体分布",
+        "output": "失败反馈、修订图"
+      },
+      {
+        "name": "外部图解释器",
+        "purpose": "重复执行经过优化的策略图",
+        "mechanism": "按条件边和数据依赖调用机器人技能，保留结构化执行和错误信息。",
+        "input": "优化图、真实观测/状态",
+        "output": "物理任务执行及阶段反馈"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "任务/技能图Agent；SAM2/3、GroundingDINO、Molmo、抓取网络、cuRobo；可封装π0.5或MolmoAct2",
+    "trainable": "自学习主要修改执行图及代码参数，不是新增统一VLA梯度训练",
+    "frozen": "现成模型和机器人技能被调用；基础模型各有其预训练",
+    "data": "内部仿真变体排练和物理执行反馈",
+    "objective": "以任务成功/失败反馈改图，非端到端动作token损失",
+    "stages": "初始图→变体仿真排练→失败诊断→图修订→真实执行"
+  },
+  "evaluation": [
+    {
+      "benchmark": "真实Variational Automation",
+      "setting": "v1表2；不同任务各自独立试验；Make Popcorn为20次完整任务，不与插线单次插入混算。",
+      "result": "GaP在真实Fulfill/Pack/Popcorn分别25/25、28/30、18/20。",
+      "locator": "§5.3.2 表2",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.3.2 表2",
+        "columns": [
+          "任务",
+          "TipTop成功",
+          "GaP成功"
+        ],
+        "rows": [
+          [
+            "Fulfill Grocery Orders",
+            "8/25",
+            "25/25"
+          ],
+          [
+            "Pack Grocery Items",
+            "10/30",
+            "28/30"
+          ],
+          [
+            "Make Popcorn",
+            "0/20",
+            "18/20"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.05369v1",
+        "locator": "§5.3.2 表2"
+      }
+    },
+    {
+      "benchmark": "仿真LIBERO/变体任务",
+      "setting": "v1表1；SR为0–1比例；选取原表相同列，不与真实任务分母混合。",
+      "result": "GaP在LIBERO object为0.95，LIBERO-Pro object_swap为0.95。",
+      "locator": "§5.3.1 表1",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.3.1 表1",
+        "columns": [
+          "方法",
+          "LIBERO object",
+          "object_swap",
+          "mixed_all"
+        ],
+        "rows": [
+          [
+            "π0.5",
+            "0.96",
+            "0.24",
+            "0.20"
+          ],
+          [
+            "MolmoAct2",
+            "0.97",
+            "0.43",
+            "0.20"
+          ],
+          [
+            "GaP",
+            "0.95",
+            "0.95",
+            "0.97"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.05369v1",
+        "locator": "§5.3.1 表1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "排练环境覆盖与技能库完整性是迁移前提；不能把图优化当成任意新物理技能学习。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.05369",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/graph-robots/graph-as-policy",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://graph-robots.github.io/gap/",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.05369",
+      "label": "arXiv 原论文元数据与摘要",
+      "locator": "版本历史、方法与评测概述",
+      "supports": [
+        "身份",
+        "日期",
+        "方法",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://graph-robots.github.io/graph-as-policy/getting-started/overview.html",
+      "label": "官方文档",
+      "locator": "Overview",
+      "supports": [
+        "方法",
+        "资源"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2607.05369v1",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§3–5，表1/2，Algorithm1",
+      "supports": [
+        "几何与仿真假设",
+        "图生成和排练",
+        "真实实验分母",
+        "仿真数据"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{gap2026,\n  title = {GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks},\n  author = {Kaiyuan Chen and Shuangyu Xie and Letian Fu and Justin Yu and William Pacini and Sandeep Bajamahal and Hudson Kim and Jaimyn Drake and Daehwa Kim and Haoru Xue and Jonathan Francis and Christian Juette and Peter Schaldenbrand and Muhammet Yunus Seker and Ruwan Wickramarachchi and Uksang Yoo and Guanzhi Wang and Adithyavairavan Murali and Balakumar Sundaralingam and S. Shankar Sastry and Spencer Huang and Yuke Zhu and Linxi \"Jim\" Fan and Ken Goldberg},\n  year = {2026},\n  eprint = {2607.05369},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2607.05369}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "让多个编码 Agent 合成由模块化技能构成的有向计算图，在仿真排练中修订图结构与参数，再将图部署到机器人持久执行。 该工作关注系统如何组织观测、推理与行动，阅读时要把运行时机制、底层策略的训练来源和最终任务证据分开。与单一模型的离线准确率相比，更应检查反馈接口、实验预算和失败时的行为。",
+  "citationNote": "由已核实完整作者、标题及arXiv元数据生成预印本格式。",
+  "verificationLevel": "fulltext"
+}

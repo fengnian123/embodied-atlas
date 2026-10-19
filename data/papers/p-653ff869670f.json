@@ -1,0 +1,221 @@
+{
+  "id": "p-653ff869670f",
+  "title": "CMMR-VLN: Vision-and-Language Navigation via Continual Multimodal Memory Retrieval",
+  "short": "CMMR-VLN",
+  "aliases": [],
+  "authors": [
+    "Haozhou Li",
+    "Xiangyu Dong",
+    "Huiyan Jiang",
+    "Yaoming Zhou",
+    "Xiaoguang Ma"
+  ],
+  "institutions": [
+    "Northeastern University",
+    "Beihang University"
+  ],
+  "firstPublished": "2026-03-09",
+  "updated": "2026-03-09",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本；未核实正式发表状态",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "CMMR-VLN 为离散 VLN 增加跨任务经验检索。",
+  "method": {
+    "input": "全景图、viewpoint ID、地标和执行结果",
+    "output": "下一节点动作与更新的经验库",
+    "explanation": "CMMR-VLN 为离散 VLN 增加跨任务经验检索。以全景图像和地标构建混合索引，将相似成功/失败经验转为当前导航规则；任务结束后反思轨迹，把结果写回记忆。",
+    "flow": [
+      "多模态经验索引",
+      "指令相关检索",
+      "反思与写回"
+    ],
+    "modules": [
+      {
+        "name": "多模态经验索引",
+        "purpose": "本模块解决：多模态经验索引",
+        "input": "全景图、viewpoint ID、地标和执行结果",
+        "mechanism": "存储图像/文本混合表示与成功或失败经验，用 FAISS 支持相似检索。",
+        "output": "可检索经验单元",
+        "sourceUrl": "https://arxiv.org/html/2603.07997v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "指令相关检索",
+        "purpose": "本模块解决：指令相关检索",
+        "input": "指令、候选方向 RGB、导航历史",
+        "mechanism": "CLIP 编码后以指令感知注意力融合候选观测；检索相似单元，将经验改写成高优先级导航规则。",
+        "output": "注入 prompt 的经验规则",
+        "sourceUrl": "https://arxiv.org/html/2603.07997v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "反思与写回",
+        "purpose": "本模块解决：反思与写回",
+        "input": "完成任务的轨迹与结果",
+        "mechanism": "成功时记录完整成功轨迹；失败时分析首个错误节点及原因；LLM 据规则、增量语义拓扑图和观测选择下一个 viewpoint。",
+        "output": "下一节点动作与更新的经验库",
+        "sourceUrl": "https://arxiv.org/html/2603.07997v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "CMMR-VLN 为离散 VLN 增加跨任务经验检索。以全景图像和地标构建混合索引，将相似成功/失败经验转为当前导航规则；任务结束后反思轨迹，把结果写回记忆。"
+  },
+  "training": {
+    "regime": "训练细节未核实",
+    "models": "CLIP 编码后以指令感知注意力融合候选观测；检索相似单元，将经验改写成高优先级导航规则。；成功时记录完整成功轨迹；失败时分析首个错误节点及原因；LLM 据规则、增量语义拓扑图和观测选择下一个 viewpoint。",
+    "trainable": "作者将整体设置称为 training-free，并用 GPT-4o 推理；但式 (3) 的 W 被称为 learned projection，本文没有给出清楚的独立训练协议，本库不将其写成全部模块均未训练。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "作者将整体设置称为 training-free，并用 GPT-4o 推理；但式 (3) 的 W 被称为 learned projection，本文没有给出清楚的独立训练协议，本库不将其写成全部模块均未训练。",
+    "objective": "作者将整体设置称为 training-free，并用 GPT-4o 推理；但式 (3) 的 W 被称为 learned projection，本文没有给出清楚的独立训练协议，本库不将其写成全部模块均未训练。",
+    "stages": "作者将整体设置称为 training-free，并用 GPT-4o 推理；但式 (3) 的 W 被称为 learned projection，本文没有给出清楚的独立训练协议，本库不将其写成全部模块均未训练。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R",
+      "setting": "Validation Unseen；离散 viewpoint 导航，GPT-4o",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/html/2603.07997v1",
+      "table": {
+        "columns": [
+          "方法",
+          "NE (m)",
+          "OSR (%)",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "NavGPT",
+            6.46,
+            42,
+            34,
+            29
+          ],
+          [
+            "MapGPT",
+            5.63,
+            57,
+            43,
+            34
+          ],
+          [
+            "DiscussNav",
+            5.32,
+            61,
+            43,
+            40
+          ],
+          [
+            "CMMR-VLN",
+            5.1,
+            63,
+            52,
+            51
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2603.07997v1",
+        "locator": "Table I",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+      "式 (3) 的注意力投影参数训练方式未说明。",
+      "Table II 消融完整方法 SR=56，与 Table I 的 52 不同，不能视为同一实验数字。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2603.07997",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / CMMR-VLN",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2603.07997",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2603.07997v1",
+      "locator": "方法章节；Table I",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p653ff869670f,\n  title={CMMR-VLN: Vision-and-Language Navigation via Continual Multimodal Memory Retrieval},\n  author={Haozhou Li and Xiangyu Dong and Huiyan Jiang and Yaoming Zhou and Xiaoguang Ma},\n  year={2026},\n  eprint={2603.07997},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2603.07997}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "式 (3) 的注意力投影参数训练方式未说明。",
+    "Table II 消融完整方法 SR=56，与 Table I 的 52 不同，不能视为同一实验数字。",
+    "正式发表信息尚未在可靠会议/期刊来源确认"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "CMMR-VLN 为离散 VLN 增加跨任务经验检索。以全景图像和地标构建混合索引，将相似成功/失败经验转为当前导航规则；任务结束后反思轨迹，把结果写回记忆。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

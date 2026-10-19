@@ -1,0 +1,232 @@
+{
+  "id": "p-ef8bc5541e53",
+  "title": "Towards Learning a Generalist Model for Embodied Navigation",
+  "short": "NaviLLM",
+  "aliases": [
+    "NaviLLM"
+  ],
+  "authors": [
+    "Zheng, Duo",
+    "Huang, Shijia",
+    "Zhao, Lin",
+    "Zhong, Yiwu",
+    "Wang, Liwei"
+  ],
+  "institutions": [],
+  "firstPublished": "2023-12-04",
+  "updated": "2024-04-01",
+  "publicationYear": 2024,
+  "venue": "CVPR",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "VLN",
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "用schema-based instruction把导航、定位和问答统一为生成任务，联合训练通用导航模型。",
+  "method": {
+    "explanation": "NaviLLM 的正式论文题名是Towards Learning a Generalist Model for Embodied Navigation。它用统一schema描述任务、观察、历史和输出要求，把下一导航选择、对象框与文本答案都组织成语言模型可生成的序列。多任务数据因此能共享一个模型训练，并迁移到未直接训练的任务。MP3D-EQA的自主导航ACC44.5%和使用GT路径47.4%是两种不同条件；“zero-shot EQA”表示跨任务迁移，而不是LLM未训练。",
+    "input": "任务schema、视觉观察与轨迹历史",
+    "output": "导航选择、对象定位或文本答案",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用schema-based instruction把导航、定位和问答统一为生成任务，联合训练通用导航模型。",
+    "flow": [
+      "统一任务schema",
+      "多模态历史建模",
+      "多任务学习与迁移"
+    ],
+    "modules": [
+      {
+        "name": "统一任务schema",
+        "purpose": "让异构任务共享输入输出接口",
+        "mechanism": "明确组织指令、观察、历史与输出格式，使导航动作、物体定位和问答成为结构化序列生成。",
+        "sourceUrl": "https://arxiv.org/html/2312.02010",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "多模态历史建模",
+        "purpose": "保持导航决策所需时序与空间上下文",
+        "mechanism": "将视觉候选与已走历史映射到模型上下文，在同一生成接口预测下一步或语言答案。",
+        "sourceUrl": "https://arxiv.org/html/2312.02010",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "多任务学习与迁移",
+        "purpose": "共享不同任务的导航知识",
+        "mechanism": "混合CVDN、SOON、R2R、REVERIE、ScanQA等数据训练，再评估未见任务如MP3D-EQA。",
+        "sourceUrl": "https://arxiv.org/html/2312.02010",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "多任务监督微调LLM导航模型",
+    "models": "预训练LLM及视觉编码/投影组件",
+    "trainable": "导航语言模型及任务对齐组件",
+    "frozen": "视觉骨干的精确冻结范围待实现配置复核",
+    "data": "多种VLN、目标定位和3D问答任务数据",
+    "objective": "统一自回归生成目标",
+    "stages": "多任务训练 → 特定任务生成推理 → 未见EQA迁移"
+  },
+  "evaluation": [
+    {
+      "benchmark": "MP3D-EQA 跨任务迁移",
+      "setting": "Table 4，MP3D-EQA；自主导航和GT Path分开，ACC为问答准确率(%)。",
+      "result": "NaviLLM自主导航TL14.15、SR47.78、SPL35.60、ACC44.5；GT Path问答ACC47.4；EQA训练基线GT Path46.0。",
+      "sourceUrl": "https://arxiv.org/html/2312.02010",
+      "locator": "Table 4",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "方法 / 输入",
+          "导航SR (%)",
+          "SPL (%)",
+          "QA ACC (%)"
+        ],
+        "rows": [
+          [
+            "NaviLLM / 自主导航",
+            "47.78",
+            "35.60",
+            "44.5"
+          ],
+          [
+            "NaviLLM / GT Path",
+            "不适用",
+            "不适用",
+            "47.4"
+          ],
+          [
+            "EQA habitat-lab / GT Path（EQA微调）",
+            "不适用",
+            "不适用",
+            "46.0"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "GT Path减少了探索和定位错误，不能把47.4%当作自主EQA成绩；跨任务zero-shot不等于整个模型training-free。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2312.02010",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MP3D-EQA / NaviLLM，自主导航",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2312.02010v3",
+      "locator": "Table4\nTable4\nTable4引用EQA baseline",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MP3D-EQA / NaviLLM，GT路径",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2312.02010v3",
+      "locator": "Table4\nTable4\nTable4引用EQA baseline",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2312.02010",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2312.02010",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pef8bc5541e532024,\n title={Towards Learning a Generalist Model for Embodied Navigation},\n author={Zheng, Duo and Huang, Shijia and Zhao, Lin and Zhong, Yiwu and Wang, Liwei},\n year={2024},\n url={https://arxiv.org/abs/2312.02010}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "MP3D-EQA",
+      "variant": "NaviLLM，自主导航"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "MP3D-EQA",
+      "variant": "NaviLLM，GT路径"
+    }
+  ],
+  "overview": "NaviLLM 的正式论文题名是Towards Learning a Generalist Model for Embodied Navigation。它用统一schema描述任务、观察、历史和输出要求，把下一导航选择、对象框与文本答案都组织成语言模型可生成的序列。多任务数据因此能共享一个模型训练，并迁移到未直接训练的任务。MP3D-EQA的自主导航ACC44.5%和使用GT路径47.4%是两种不同条件；“zero-shot EQA”表示跨任务迁移，而不是LLM未训练。",
+  "verificationLevel": "fulltext"
+}

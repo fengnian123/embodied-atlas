@@ -1,0 +1,371 @@
+{
+  "id": "p-1bc406357bc2",
+  "title": "Explore until Confident: Efficient Exploration for Embodied Question Answering",
+  "short": "Explore-EQA",
+  "aliases": [
+    "HM-EQA",
+    "Explore-EQA"
+  ],
+  "authors": [
+    "Allen Z. Ren",
+    "Jaden Clark",
+    "Anushri Dixit",
+    "Masha Itkina",
+    "Anirudha Majumdar",
+    "Dorsa Sadigh"
+  ],
+  "institutions": [
+    "Princeton University",
+    "Stanford University",
+    "Toyota Research Institute"
+  ],
+  "firstPublished": "2024-03-23",
+  "updated": "2024-07-07",
+  "publicationYear": 2024,
+  "venue": "RSS",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "主动感知"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "真实世界"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "Explore-EQA 将问题相关探索与可信停止联合考虑。",
+  "method": {
+    "input": "问题、RGB-D、位姿和占据地图",
+    "output": "答案或继续探索决定",
+    "explanation": "Explore-EQA 将问题相关探索与可信停止联合考虑。VLM 评估候选观测的信息价值，前沿规划负责取得新证据；共形预测校准回答集合，避免把模型自报置信度直接当作可靠停止标准。",
+    "flow": [
+      "语义引导探索",
+      "置信集合校准",
+      "探索停止"
+    ],
+    "modules": [
+      {
+        "name": "语义引导探索",
+        "purpose": "本模块解决：语义引导探索",
+        "input": "问题、RGB-D、位姿和占据地图",
+        "mechanism": "生成前沿候选，以 VLM 的场景与问题关联判断辅助选择有价值的探索方向。",
+        "output": "待检查的前沿位置",
+        "sourceUrl": "https://arxiv.org/html/2403.15941v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "置信集合校准",
+        "purpose": "本模块解决：置信集合校准",
+        "input": "校准问题与模型回答分数",
+        "mechanism": "通过 conformal prediction 建立满足指定覆盖水平的回答集合，而非使用任意置信阈值。",
+        "output": "经过校准的候选答案集合",
+        "sourceUrl": "https://arxiv.org/html/2403.15941v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "探索停止",
+        "purpose": "本模块解决：探索停止",
+        "input": "当前回答集合与探索预算",
+        "mechanism": "证据足够时停止并回答，集合仍含多个候选时继续探索；用采集的 HM3D EQA 测试集与真实机器人验证。",
+        "output": "答案或继续探索决定",
+        "sourceUrl": "https://arxiv.org/html/2403.15941v3",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "Explore-EQA 将问题相关探索与可信停止联合考虑。VLM 评估候选观测的信息价值，前沿规划负责取得新证据；共形预测校准回答集合，避免把模型自报置信度直接当作可靠停止标准。"
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "生成前沿候选，以 VLM 的场景与问题关联判断辅助选择有价值的探索方向。",
+    "trainable": "VLM 与导航组件主要在推理阶段调用；使用校准集进行共形分数校准不等于微调 VLM。",
+    "frozen": "现成模型仅推理使用，不新增任务训练。",
+    "data": "VLM 与导航组件主要在推理阶段调用；使用校准集进行共形分数校准不等于微调 VLM。",
+    "objective": "VLM 与导航组件主要在推理阶段调用；使用校准集进行共形分数校准不等于微调 VLM。",
+    "stages": "VLM 与导航组件主要在推理阶段调用；使用校准集进行共形分数校准不等于微调 VLM。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3D EQA",
+      "setting": "数值由作者正文直接报告，不是从曲线估读。VLM对照均未微调；真实实验仅6个情景，4/6不能当成大样本成功率。不同模型结果不代表CP停止条件下相同步数。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Appendix: EQA results using other VLMs / Improving semantic exploration / Fig. 10 accompanying text",
+      "sourceUrl": "https://arxiv.org/html/2403.15941v3",
+      "table": {
+        "columns": [
+          "配置",
+          "评估条件",
+          "SR (%)"
+        ],
+        "rows": [
+          [
+            "主实验VLM",
+            "模拟，最大归一化步数",
+            58.4
+          ],
+          [
+            "LLaVA 1.6",
+            "模拟，最大归一化步数",
+            65.3
+          ],
+          [
+            "GPT-4V",
+            "模拟，最大归一化步数",
+            73.9
+          ],
+          [
+            "加入视角朝向启发式",
+            "模拟，最大归一化步数",
+            59.3
+          ],
+          [
+            "Ours",
+            "真实机器人6个情景，4/6答对",
+            "66.67（4/6换算）"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2403.15941v3",
+        "locator": "Appendix: EQA results using other VLMs / Improving semantic exploration / Fig. 10 accompanying text",
+        "note": "正文直接报告值；4/6的百分比为本库算术换算，非图像估读。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "当前语义值未显式建模观察方向；开源VLM的空间推理不稳定；多视图记忆和用预测集合指导探索属于作者提出的后续方向（Limitation and Future Work）。"
+    ],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2403.15941",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/Stanford-ILIAD/explore-eqa",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://explore-eqa.github.io",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA A-EQA / Explore-EQA（开放式适配）",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2411.17735v2",
+      "locator": "3D-Mem Table1引用值\n3D-Mem Table1引用值\n3D-Mem Table1引用值\nTable1\nTable1\nTable1\nTable1\nTable1\nTable1\nTableI",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / HM-EQA / ExploreEQA＋Prismatic",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2412.14480v2",
+      "locator": "Table1\nTable1\nTable1\nTable1\nTable1\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / HM-EQA / ExploreEQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA 多选转换 / ExploreEQA＋Prismatic",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2412.14480v2",
+      "locator": "Table1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA 多选转换 / ExploreEQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MT-HM3D / ExploreEQA＋Prismatic",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2505.13948v1",
+      "locator": "Table1\nTable1\nTable1\nTable1\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2403.15941",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2403.15941v3",
+      "locator": "方法章节；Appendix: EQA results using other VLMs / Improving semantic exploration / Fig. 10 accompanying text",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / HM-EQA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "Explore-EQA作者官方数据说明：500题/267场景",
+      "url": "https://explore-eqa.github.io/",
+      "supports": [
+        "同篇身份",
+        "正式发布规模"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p1bc406357bc2,\n  title={Explore until Confident: Efficient Exploration for Embodied Question Answering},\n  author={Allen Z. Ren and Jaden Clark and Anushri Dixit and Masha Itkina and Anirudha Majumdar and Dorsa Sadigh},\n  year={2024},\n  eprint={2403.15941},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2403.15941}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA A-EQA",
+      "variant": "Explore-EQA（开放式适配）"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "HM-EQA",
+      "variant": "ExploreEQA＋Prismatic"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "HM-EQA",
+      "variant": "ExploreEQA＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA 多选转换",
+      "variant": "ExploreEQA＋Prismatic"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA 多选转换",
+      "variant": "ExploreEQA＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "MT-HM3D",
+      "variant": "ExploreEQA＋Prismatic"
+    },
+    {
+      "label": "用户调研摘记；任务协议待核实",
+      "inputProtocol": "在线RGB-D＋位姿/语义地图；边探索边回答",
+      "scale": "500问/267场景；具体筛选按论文配置"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "Explore-EQA 将问题相关探索与可信停止联合考虑。VLM 评估候选观测的信息价值，前沿规划负责取得新证据；共形预测校准回答集合，避免把模型自报置信度直接当作可靠停止标准。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "scale": "官方发布版HM-EQA为267个HM3D场景、500个问题；较早OpenReview稿件记312场景，属来源版本差异，不合并统计。",
+    "assets": "作者官方发布：https://explore-eqa.github.io/ 与 https://github.com/Stanford-ILIAD/explore-eqa；HM3D场景资产另需相应使用许可。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

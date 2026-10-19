@@ -1,0 +1,149 @@
+{
+  "id": "p-281977beb698",
+  "title": "A Comprehensive Survey on Embodied Intelligence: Advancements, Challenges, and Future Perspectives",
+  "short": "EmbodiedIntelligence-AIR",
+  "aliases": [
+    "EmbodiedIntelligence-AIR"
+  ],
+  "authors": [
+    "Fuchun Sun",
+    "Runfa Chen",
+    "Tianying Ji",
+    "Yu Luo",
+    "Huaidong Zhou",
+    "Huaping Liu"
+  ],
+  "institutions": [
+    "Tsinghua University"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "CAAI Artificial Intelligence Research",
+  "publicationStatus": "正式发表；出版社/会议原始记录已核验",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "从感知、认知与行为的相互作用梳理具身智能，并提出Bcent通用Agent框架视角。",
+  "method": {
+    "explanation": "出版社摘要确认：本文回顾具身智能从哲学起源到机器人应用的发展，强调感知、认知和行为的耦合，讨论PCB大模型、物理与形态智能，以及硬件、泛化、多模态和伦理挑战。Bcent是其中的通用Agent框架视角。本轮拿到的是出版社书目和摘要，未成功取得可逐页核验的全文；因此不把更细的模块、实验与训练细节伪装成已确认。",
+    "input": "具身智能文献",
+    "output": "概念与研究方向综述",
+    "assumptions": "本轮只核实出版社/作者机构书目和摘要；下列内容不表示已逐节读取全文。",
+    "difference": "从感知、认知与行为的相互作用梳理具身智能，并提出Bcent通用Agent框架视角。",
+    "flow": [
+      "感知—认知—行为框架",
+      "Bcent与研究方向"
+    ],
+    "modules": [
+      {
+        "name": "感知—认知—行为框架",
+        "purpose": "出版社摘要确认的组织视角",
+        "mechanism": "围绕三者相互作用讨论具身系统，而非孤立整理单一感知模型。",
+        "sourceUrl": "https://www.sciopen.com/article/10.26599/AIR.2024.9150042",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "Bcent与研究方向",
+        "purpose": "出版社摘要确认的概念框架",
+        "mechanism": "提出融合感知、认知、行为动态的通用Agent视角；详细算法和实证本轮未取得全文核验。",
+        "sourceUrl": "https://www.sciopen.com/article/10.26599/AIR.2024.9150042",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用：综述",
+    "models": "出版社摘要讨论PCB和Bcent概念",
+    "trainable": "无可确认新训练实验",
+    "frozen": "不适用",
+    "data": "文献综述；全文未取得",
+    "objective": "不适用",
+    "stages": "概念与文献综述"
+  },
+  "evaluation": [
+    {
+      "benchmark": "书目与摘要核验",
+      "setting": "已核实出版社题名/作者/日期/摘要；全文获取失败，暂无可填原创实验数字。",
+      "result": "综述不应补造新模型成功率；详细分类和原图表仍待全文。",
+      "sourceUrl": "https://www.sciopen.com/article/10.26599/AIR.2024.9150042",
+      "locator": "正文",
+      "attribution": "作者原文报告；非本站复现"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "目前只确认摘要层框架；不能从宏观概念推出某种训练实现或实验效果。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://www.sciopen.com/article/10.26599/AIR.2024.9150042",
+      "status": "已核实入口",
+      "note": "已核实原始论文/出版社记录"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / EmbodiedIntelligence-AIR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.26599/AIR.2024.9150042",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "本轮回查原始来源",
+      "url": "https://www.sciopen.com/article/10.26599/AIR.2024.9150042",
+      "supports": [
+        "方法",
+        "训练",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p281977beb6982024,\n title={A Comprehensive Survey on Embodied Intelligence: Advancements, Challenges, and Future Perspectives},\n author={Fuchun Sun and Runfa Chen and Tianying Ji and Yu Luo and Huaidong Zhou and Huaping Liu},\n year={2024},\n url={https://www.sciopen.com/article/10.26599/AIR.2024.9150042}\n}",
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "全文逐页/图表核验；出版社PDF获取失败",
+    "首次预印本公开时间",
+    "数据和代码不适用性待全文确认"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**CAAI AIR'24**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "出版社摘要确认：本文回顾具身智能从哲学起源到机器人应用的发展，强调感知、认知和行为的耦合，讨论PCB大模型、物理与形态智能，以及硬件、泛化、多模态和伦理挑战。Bcent是其中的通用Agent框架视角。本轮拿到的是出版社书目和摘要，未成功取得可逐页核验的全文；因此不把更细的模块、实验与训练细节伪装成已确认。",
+  "verificationLevel": "metadata",
+  "publicationNotes": "出版社在线出版日2024-12-10；首次预印本时间未确认。"
+}

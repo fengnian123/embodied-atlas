@@ -1,0 +1,268 @@
+{
+  "id": "p-619a6d33c8f9",
+  "title": "Leveraging Geometric Priors for Unaligned Scene Change Detection",
+  "short": "GeoSCD",
+  "aliases": [],
+  "authors": [
+    "Ziling Liu",
+    "Ziwei Chen",
+    "Mingqi Gao",
+    "Jinyu Yang",
+    "Feng Zheng"
+  ],
+  "institutions": [
+    "Southern University of Science and Technology",
+    "University of Sheffield",
+    "Tapall.ai",
+    "Spatialtemporal AI"
+  ],
+  "firstPublished": "2025-09-14",
+  "updated": "2025-09-16",
+  "publicationYear": 2026,
+  "venue": "ICRA",
+  "publicationStatus": "已发表",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "场景理解",
+      "巡检"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "空间理解",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "仿真",
+      "室内",
+      "室外"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用VGGT恢复两张未对齐图像的几何对应与遮挡，再比较SAM特征并融合掩码，无需变化检测训练。",
+  "method": {
+    "input": "同一场景不同时刻的两张未对齐RGB图",
+    "output": "查询视角的变化掩码",
+    "assumptions": "全局几何大体保持；两图有有效重叠且VGGT能恢复结构。",
+    "difference": "把显式重投影与遮挡检测引入训练免费的变化检测，而非仅用2D外观匹配。",
+    "explanation": "VGGT联合预测内参、外参和深度；将查询像素反投影再投影到参考图，得到几何对应与图像重叠区。比较重投影深度与参考深度，用场景中位深度和MAD自适应阈值筛除遮挡。随后比较对应位置的SAM第17层key特征，阈值生成粗变化候选；通过候选和类无关SAM物体掩码的重合及语义一致性细化，再把双向结果映射合并。强光照变化时只对VGGT输入做Retinex预处理，原图仍用于语义特征。",
+    "flow": [
+      "VGGT几何先验",
+      "遮挡过滤",
+      "几何引导特征差",
+      "掩码细化与融合"
+    ],
+    "modules": [
+      {
+        "name": "VGGT几何先验",
+        "purpose": "获得跨视角物理对应",
+        "mechanism": "联合恢复两图的深度与相机参数后进行重投影",
+        "input": "RGB图像对",
+        "output": "深度、相机、对应与重叠区"
+      },
+      {
+        "name": "遮挡过滤",
+        "purpose": "区分不可见与真实变化",
+        "mechanism": "重投影深度差与median/MAD阈值比较",
+        "input": "双向深度及对应",
+        "output": "遮挡掩码"
+      },
+      {
+        "name": "几何引导特征差",
+        "purpose": "定位有效变化",
+        "mechanism": "比较对应SAM中间层特征的余弦相似度并自适应阈值",
+        "input": "SAM特征、几何对应",
+        "output": "粗变化候选"
+      },
+      {
+        "name": "掩码细化与融合",
+        "purpose": "输出物体边界一致的结果",
+        "mechanism": "几何语义掩码匹配，双向结果重投影取并集",
+        "input": "候选、SAM掩码",
+        "output": "最终变化掩码"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "预训练VGGT、SAM",
+    "trainable": "不训练额外检测网络",
+    "frozen": "VGGT与SAM作为冻结基础模型",
+    "data": "本方法无任务专属训练数据；基线训练数据依原文区分",
+    "objective": "无下游学习目标；阈值、重投影、掩码匹配",
+    "stages": "几何推断→特征比较→掩码融合"
+  },
+  "evaluation": [
+    {
+      "benchmark": "ChangeSim† / PSCD† / PASLCD†",
+      "setting": "arXiv v2；处理后的未对齐协议；2079/4887/1500图像对分别属于PSCD/ChangeSim/PASLCD。平均包含各自不同stride，跨数据集不作统一排名。",
+      "result": "GeoSCD平均F1分别为0.531/0.446/0.318；PSCD上增强训练CSCDNet的平均0.452仍略高于0.446，不能宣称全数据集所有列最优。",
+      "locator": "Tables I–II",
+      "sourceUrl": "https://arxiv.org/abs/2509.11292",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Tables I–II",
+        "columns": [
+          "方法",
+          "ChangeSim† Avg F1",
+          "PSCD† Avg F1",
+          "PASLCD† Avg F1"
+        ],
+        "rows": [
+          [
+            "CSCDNet(PSCD训练+增强)",
+            0.204,
+            0.452,
+            0.099
+          ],
+          [
+            "GeSCF(零样本)",
+            0.426,
+            0.255,
+            0.09
+          ],
+          [
+            "GeoSCD",
+            0.531,
+            0.446,
+            0.318
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2509.11292",
+        "locator": "Tables I–II"
+      }
+    },
+    {
+      "benchmark": "几何与遮挡消融",
+      "setting": "同原文Table IV；F1/IoU为0–1，未与主表不同聚合口径混排。",
+      "result": "几何匹配加遮挡过滤改善PASLCD F1：0.237→0.321。",
+      "locator": "Table IV",
+      "sourceUrl": "https://arxiv.org/abs/2509.11292",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table IV",
+        "columns": [
+          "变体",
+          "PSCD F1",
+          "PSCD mIoU",
+          "PASLCD F1",
+          "PASLCD mIoU"
+        ],
+        "rows": [
+          [
+            "光流+特征相关",
+            0.244,
+            0.155,
+            0.094,
+            0.052
+          ],
+          [
+            "几何匹配+特征相关",
+            0.391,
+            0.274,
+            0.237,
+            0.148
+          ],
+          [
+            "再加遮挡过滤",
+            0.402,
+            0.282,
+            0.321,
+            0.218
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2509.11292",
+        "locator": "Table IV"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "显著光照/颜色变化可能导致几何基础模型重建失败，使用预处理缓解。"
+    ],
+    "analysis": [
+      "训练免费不意味着免基础模型偏差；无重叠或大尺度结构改变时几何对应前提变弱。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2509.11292",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/ZilingLiu/GeoSCD",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Leveraging Geometric Priors for Unaligned Scene Change Detection（GeoSCD）",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2509.11292",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/ZilingLiu/GeoSCD",
+      "label": "官方仓库",
+      "locator": "仓库标题标注ICRA-2026；Overview",
+      "supports": [
+        "发表信息",
+        "代码"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p619a6d33c8f92025,\n  title = {Leveraging Geometric Priors for Unaligned Scene Change Detection},\n  author = {Ziling Liu and Ziwei Chen and Mingqi Gao and Jinyu Yang and Feng Zheng},\n  year = {2025},\n  url = {https://arxiv.org/abs/2509.11292}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "ICRA发表信息由作者官方仓库确认，会议出版DOI尚未核实",
+    "所有资源许可证未逐项核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "冻结VGGT获得几何信息，结合SAM分割、重叠视野和对应关系检测变化。未规划复查。",
+      "evaluation": "PSCD、ChangeSim、PASLCD；重点测试未对齐图像中的变化检测。",
+      "training": "否。方法无需任务训练，调用冻结的视觉/几何基础模型；并非语言VLM。",
+      "analysis": "几何变化不一定是设备异常；未提供异常严重度与演化模型，也没有决定何时/何地复查的策略。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "未对齐图像中的“不同”不一定代表世界发生变化，也可能是相机换了位置或物体被遮住。GeoSCD 先用 VGGT 联合推断相机与深度，把同一3D位置投影到另一张图中，再根据深度不一致识别遮挡。只对有效重叠区域比较 SAM 特征，并用物体掩码细化，减少把视角差误判为物体变化的问题。它是两时刻变化检测，不输出物体未来位置。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

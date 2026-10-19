@@ -1,0 +1,277 @@
+{
+  "id": "p-85fa9b6d2cff",
+  "title": "MotionCrafter: Dense Geometry and Motion Reconstruction with a 4D VAE",
+  "short": "MotionCrafter",
+  "aliases": [],
+  "authors": [
+    "Ruijie Zhu",
+    "Jiahao Lu",
+    "Wenbo Hu",
+    "Xiaoguang Han",
+    "Jianfei Cai",
+    "Ying Shan",
+    "Chuanxia Zheng"
+  ],
+  "institutions": [
+    "ARC Lab, Tencent PCG",
+    "HKUST",
+    "CUHK(SZ)",
+    "Monash University"
+  ],
+  "firstPublished": "2026-02-09",
+  "updated": "2026-03-28",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "把共享世界坐标中的稠密点图和场景流组成联合 4D 潜变量，用视频生成先验直接预测几何与运动，无需测试时后优化。",
+  "method": {
+    "input": "单目 RGB 视频",
+    "output": "每帧世界点图及相邻帧前向三维场景流",
+    "flow": [
+      "联合点图与流表示",
+      "几何/运动 4D VAE",
+      "视频先验条件预测"
+    ],
+    "assumptions": "输出为点图/流，不是显式闭合 Mesh；最后一帧无对应前向流监督。",
+    "difference": "专门训练几何/运动 VAE，不强迫它们与 RGB VAE 潜变量严格分布对齐。",
+    "explanation": "把共享世界坐标中的稠密点图和场景流组成联合 4D 潜变量，用视频生成先验直接预测几何与运动，无需测试时后优化。 专门训练几何/运动 VAE，不强迫它们与 RGB VAE 潜变量严格分布对齐。 逐帧点图与前向 scene flow 共享世界坐标，归一化后组成训练目标。 从 SVD VAE 初始化，先训练 Geometry VAE，再学习 Motion VAE，合并为统一潜表示。 从 SVD U-Net 初始化并在 4D 潜空间学习条件映射；推理解码点图和流，不做逐场景后优化。",
+    "modules": [
+      {
+        "name": "联合点图与流表示",
+        "purpose": "把相机运动和对象运动放到共同坐标",
+        "mechanism": "逐帧点图与前向 scene flow 共享世界坐标，归一化后组成训练目标。",
+        "input": "有几何/运动标注的视频",
+        "output": "联合 4D 目标"
+      },
+      {
+        "name": "几何/运动 4D VAE",
+        "purpose": "压缩非 RGB 的几何与运动分布",
+        "mechanism": "从 SVD VAE 初始化，先训练 Geometry VAE，再学习 Motion VAE，合并为统一潜表示。",
+        "input": "点图、场景流",
+        "output": "统一几何运动潜变量"
+      },
+      {
+        "name": "视频先验条件预测",
+        "purpose": "直接从 RGB 恢复稠密时序结构",
+        "mechanism": "从 SVD U-Net 初始化并在 4D 潜空间学习条件映射；推理解码点图和流，不做逐场景后优化。",
+        "input": "RGB 视频与训练后的潜模型",
+        "output": "世界坐标几何与运动"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "Geometry/Motion VAE 与条件 U-Net",
+    "trainable": "Geometry/Motion VAE 与条件 U-Net",
+    "frozen": "本文没有 VLM；SVD 参数用于初始化后继续训练",
+    "data": "13 类数据源，总计约 1.67M 帧/16.8K 视频；部分数据无 motion 监督",
+    "objective": "VAE 重建/KL、几何与场景流预测",
+    "stages": "Geometry VAE 40k、Motion VAE20k、U-Net40k；8×40GB GPU，约3天"
+  },
+  "evaluation": [
+    {
+      "benchmark": "世界坐标几何/运动",
+      "setting": "arXiv原文PDF Table1；以下摘录Kubric与Spring，Rel-p/EPE采用原表×100显示口径，不能当米；motion带*不是zero-shot。Zero-MSF+VGGT需预测相机转世界坐标，Ours不做后优化。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "世界坐标几何/运动 · Table 1",
+        "columns": [
+          "配置",
+          "Kubric几何Rel-p↓",
+          "Spring几何Rel-p↓",
+          "Kubric流EPE↓",
+          "Spring流EPE↓"
+        ],
+        "rows": [
+          [
+            "Zero-MSF+VGGT",
+            "8.79",
+            "142.44",
+            "8.59*",
+            "7.78*"
+          ],
+          [
+            "MotionCrafter",
+            "3.40",
+            "29.20",
+            "4.60*",
+            "5.61*"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/pdf/2602.08961",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "世界坐标几何",
+      "setting": "arXivPDF Table2；Rel-p为原表百分数显示，无后优化Ours，Geo4D†使用后优化；保持原论文坐标和数据协议。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "世界坐标几何 · Table 2",
+        "columns": [
+          "方法",
+          "Monkaa Rel-p↓",
+          "Sintel Rel-p↓",
+          "DDAD Rel-p↓"
+        ],
+        "rows": [
+          [
+            "VGGT",
+            "34.54",
+            "26.83",
+            "15.98"
+          ],
+          [
+            "Geo4D†",
+            "28.04",
+            "34.61",
+            "14.58"
+          ],
+          [
+            "Ours",
+            "25.88",
+            "32.46",
+            "21.27"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/pdf/2602.08961",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "当前聚焦几何与运动，尚未整合相机、深度、点跟踪等多模态几何预测。"
+    ],
+    "analysis": [
+      "不要把摘要 38.64%/25% 改进当作单一数据集绝对精度；表中应同时注明 VGGT/GT 位姿及零样本条件。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2602.08961",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://ruijiezhu94.github.io/MotionCrafter_Page/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/TencentARC/MotionCrafter",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / MotionCrafter: Dense Geometry and Motion Reconstruction with a 4D VAE",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.08961",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2602.08961v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://ruijiezhu94.github.io/MotionCrafter_Page/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/TencentARC/MotionCrafter",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/pdf/2602.08961",
+      "label": "原文PDF",
+      "locator": "Table1/Table2（HTML未完整转换主表），手动核对关键数值",
+      "supports": [
+        "实验结果",
+        "设置"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{260208961,\n  title = {MotionCrafter: Dense Geometry and Motion Reconstruction with a 4D VAE},\n  author = {Zhu, Ruijie and Lu, Jiahao and Hu, Wenbo and Han, Xiaoguang and Cai, Jianfei and Shan, Ying and Zheng, Chuanxia},\n  year = {2026},\n  eprint = {2602.08961},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2602.08961}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "把共享世界坐标中的稠密点图和场景流组成联合 4D 潜变量，用视频生成先验直接预测几何与运动，无需测试时后优化。 专门训练几何/运动 VAE，不强迫它们与 RGB VAE 潜变量严格分布对齐。 输出为点图/流，不是显式闭合 Mesh；最后一帧无对应前向流监督。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

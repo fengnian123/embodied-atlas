@@ -1,0 +1,214 @@
+{
+  "id": "p-f5a588433cb2",
+  "title": "Matterport3D: Learning from RGB-D Data in Indoor Environments",
+  "short": "MP3D",
+  "aliases": [
+    "Matterport3D: Learning from RGB-D Data in Indoor Environments",
+    "MP3D"
+  ],
+  "authors": [
+    "Chang, Angel",
+    "Dai, Angela",
+    "Funkhouser, Thomas",
+    "Halber, Maciej",
+    "Nießner, Matthias",
+    "Savva, Manolis",
+    "Song, Shuran",
+    "Zeng, Andy",
+    "Zhang, Yinda"
+  ],
+  "institutions": [
+    "Princeton University",
+    "Stanford University",
+    "Technical University of Munich"
+  ],
+  "firstPublished": "2017-09-18",
+  "updated": "2017-09-18",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2017,
+  "tags": {
+    "direction": [
+      "场景表征",
+      "导航"
+    ],
+    "task": [
+      "场景理解"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "数据集"
+    ],
+    "problem": [
+      "空间理解"
+    ],
+    "environment": [
+      "真实采集资产",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "提供楼宇级真实室内RGB-D、相机位姿、网格和语义，是多种导航/EQA任务的场景资产基础。",
+  "method": {
+    "explanation": "Matterport3D 通过楼宇内多个全景扫描站点获得配准RGB-D与相机姿态，生成重建网格并标注语义与区域。论文验证关键点匹配、视图重叠、法向估计和房间识别等任务。90建筑、10800全景、194400 RGB-D图像是不同层级，不能把扫描点数叫场景数；R2R或ObjectNav的episode和动作标注来自后续数据集。资产适合静态真实扫描场景研究，但不自带可移动家具动力学。",
+    "input": "真实楼宇RGB-D扫描",
+    "output": "场景网格、位姿、图像与语义资产",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "提供楼宇级真实室内RGB-D、相机位姿、网格和语义，是多种导航/EQA任务的场景资产基础。",
+    "flow": [
+      "楼宇全景扫描",
+      "三维重建与语义标注",
+      "多任务资产验证"
+    ],
+    "modules": [
+      {
+        "name": "楼宇全景扫描",
+        "purpose": "覆盖真实多房间室内结构",
+        "mechanism": "在建筑多个站点采集全景RGB-D，得到跨房间重叠观察与注册相机位姿。",
+        "sourceUrl": "https://arxiv.org/html/1709.06158",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "三维重建与语义标注",
+        "purpose": "使观察可用于3D与区域任务",
+        "mechanism": "形成网格、RGB-D与对象/区域语义，将局部图像联系到完整空间。",
+        "sourceUrl": "https://arxiv.org/html/1709.06158",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "多任务资产验证",
+        "purpose": "验证数据对感知学习的价值",
+        "mechanism": "分别进行匹配、视图重叠、表面法向和区域类型任务；导航episode由后续工作构建。",
+        "sourceUrl": "https://arxiv.org/html/1709.06158",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "数据集不适用；论文训练不同感知任务模型",
+    "models": "ResNet等感知基线",
+    "trainable": "下游各任务的感知网络",
+    "frozen": "数据资产不是可训练VLM策略",
+    "data": "90建筑、10800全景站点、194400 RGB-D图像",
+    "objective": "任务特定感知监督目标",
+    "stages": "采集配准 → 重建/标注 → 多任务训练测试"
+  },
+  "evaluation": [
+    {
+      "benchmark": "MP3D 视图重叠预测",
+      "setting": "Table2，SUN3D/Matterport3D视图重叠nDCG；triplet与triplet+regression配置分开。",
+      "result": "SUN3D测试：MP3D预训triplet74.41、联合SUN3D84.10；triplet+regression81.97与85.45。",
+      "sourceUrl": "https://arxiv.org/html/1709.06158",
+      "locator": "原文 Table 2 ",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 2 : View overlap prediction results. Results on SUN3D and Matterport3D dataset measured by normalized discounted cumulative gain. From the comparison we can clearly see the performance improvement from training data with Matterport3D and from adding the extra overlap regression loss. We also note that overlap prediction is much harder in the Matterport3D dataset due to the wide baselines between camera poses.",
+        "columns": [
+          "Training",
+          "Testing",
+          "triplet",
+          "triplet + regression"
+        ],
+        "rows": [
+          [
+            "Matterport3D",
+            "SUN3D",
+            "74.41",
+            "81.97"
+          ],
+          [
+            "SUN3D",
+            "SUN3D",
+            "79.91",
+            "83.34"
+          ],
+          [
+            "Matterport3D + SUN3D",
+            "SUN3D",
+            "84.10",
+            "85.45"
+          ],
+          [
+            "Matterport3D",
+            "Matterport3D",
+            "48.8",
+            "53.6"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "静态网格缺少对象运动和可交互动力学；原论文感知验证不是ObjectNav或VLN成绩。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/1709.06158",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / MP3D",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/1709.06158",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/1709.06158",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pf5a588433cb22017,\n title={Matterport3D: Learning from RGB-D Data in Indoor Environments},\n author={Chang, Angel and Dai, Angela and Funkhouser, Thomas and Halber, Maciej and Nießner, Matthias and Savva, Manolis and Song, Shuran and Zeng, Andy and Zhang, Yinda},\n year={2017},\n url={https://arxiv.org/abs/1709.06158}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "Matterport3D 通过楼宇内多个全景扫描站点获得配准RGB-D与相机姿态，生成重建网格并标注语义与区域。论文验证关键点匹配、视图重叠、法向估计和房间识别等任务。90建筑、10800全景、194400 RGB-D图像是不同层级，不能把扫描点数叫场景数；R2R或ObjectNav的episode和动作标注来自后续数据集。资产适合静态真实扫描场景研究，但不自带可移动家具动力学。",
+  "benchmark": {
+    "motivation": "提供楼宇级真实室内RGB-D几何/语义数据。",
+    "collection": "多站点全景扫描、位姿配准、表面重建与语义标注。",
+    "task": "原文为感知任务资产；R2R/ObjectNav/EQA是后续派生任务。",
+    "environment": "静态真实采集室内资产。",
+    "scale": "90建筑、10800全景观察站点、194400 RGB-D图像。",
+    "boundary": "原始扫描不提供对象运动动力学；下载/使用受官方许可限制。"
+  },
+  "verificationLevel": "fulltext"
+}

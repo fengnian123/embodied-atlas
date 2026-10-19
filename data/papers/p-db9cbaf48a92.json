@@ -1,0 +1,232 @@
+{
+  "id": "p-db9cbaf48a92",
+  "title": "Persistent Monitoring of Large Environments with Robot Deployment Scheduling in between Remote Sensing Cycles",
+  "short": "Remote + ASV Deployment Scheduling",
+  "aliases": [],
+  "authors": [
+    "Kizito Masaba",
+    "Monika Roznere",
+    "Mingi Jeong",
+    "Alberto Quattrini Li"
+  ],
+  "institutions": [
+    "Dartmouth College"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "ICRA",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检",
+      "长程任务"
+    ],
+    "paradigm": [],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "动态环境"
+    ],
+    "environment": [
+      "仿真",
+      "室外",
+      "轮式机器人"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "用混合GP预测环境不确定性，只在误差风险超过阈值时派机器人补测，并选择需要补测的位置。",
+  "method": {
+    "input": "定期全场遥感、历次机器人局部测量、预测误差阈值",
+    "output": "下次部署日期、采样位置及每日场估计",
+    "assumptions": "遥感周期已知；GP后验方差作为预测风险代理；热点能近似重建全场。",
+    "difference": "把是否出勤与在哪里采样联动，而非默认每日部署或仅优化一次路线。",
+    "explanation": "时空输入为时间与2D位置。为降低全量GP复杂度，按数据聚类训练GP专家并合并预测；在下次遥感覆盖前的窗口预测各热点均值与方差。最早有地点方差超过阈值的日子作为下一部署时间，超阈位置作为ADAPT-D采样目标；ADAPT-S则在该日采全部热点。采样后更新滚动数据窗口，重新预测。Stage实验用4个机器人和mTSP分配当天热点路线，但核心贡献是部署时空调度。",
+    "flow": [
+      "混合GP专家",
+      "阈值部署时间",
+      "关键位置筛选",
+      "部署后更新"
+    ],
+    "modules": [
+      {
+        "name": "混合GP专家",
+        "purpose": "可扩展预测时空变化",
+        "mechanism": "聚类历史数据，训练局部GP并合并估计",
+        "input": "遥感与现场测量",
+        "output": "各未来热点均值/方差"
+      },
+      {
+        "name": "阈值部署时间",
+        "purpose": "避免无必要出勤",
+        "mechanism": "在遥感周期内找最早预测方差超过阈值的日期",
+        "input": "未来方差、精度阈值",
+        "output": "下一部署日"
+      },
+      {
+        "name": "关键位置筛选",
+        "purpose": "降低每次采样成本",
+        "mechanism": "ADAPT-D仅访问超阈点，ADAPT-S访问全热点",
+        "input": "部署日方差地图",
+        "output": "待采样位置"
+      },
+      {
+        "name": "部署后更新",
+        "purpose": "维护连续日估计",
+        "mechanism": "4机器人mTSP分配路线，采样更新10天数据窗口",
+        "input": "新测量",
+        "output": "场估计与下次计划"
+      }
+    ]
+  },
+  "training": {
+    "regime": "GP模型拟合；不涉及VLM训练",
+    "models": "混合Gaussian Process专家、mTSP路径分配",
+    "trainable": "GP核参数用最大似然估计",
+    "frozen": "不适用：没有VLM/VLA",
+    "data": "SF1/SF2两组100帧时空场，按帧对应一天",
+    "objective": "预测误差与部署/访问成本权衡",
+    "stages": "拟合GP→预测风险→调度→测量更新"
+  },
+  "evaluation": [
+    {
+      "benchmark": "SF1/SF2 + Stage",
+      "setting": "作者ICRA2024 PDF；每场100天、400×150m、200热点；遥感周期2/5/10天；4个Stage差速机器人，非实船采样。",
+      "result": "Fig5顶部中图（SF1、周期5天、阈值12.5）：DAILY约80%日期部署，ADAPT-D约30%。为图像估读取约数到5–10%，不伪称精确表格数据；更低阈值会增加采样。",
+      "locator": "Fig.5；§VI–VII",
+      "sourceUrl": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+      "attribution": "网站整理者图表估读（原图来自作者）",
+      "table": {
+        "caption": "Figure 5 图表估读（非原文精确表）",
+        "columns": [
+          "SF1：遥感周期5天、阈值12.5",
+          "部署日比例（图估，约）"
+        ],
+        "rows": [
+          [
+            "DAILY",
+            "80%"
+          ],
+          [
+            "ADAPT-D",
+            "30%"
+          ],
+          [
+            "REMOTE",
+            "0%"
+          ]
+        ],
+        "sourceUrl": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+        "locator": "Fig.5；§VI–VII"
+      }
+    },
+    {
+      "benchmark": "预测窗口示例",
+      "setting": "Fig2三热点玩具线性场，目标是演示方差阈值调度；不是全数据集平均。",
+      "result": "例图在一次更新后可预测7天，再更新后可预测10天；这不是通用可靠预测时长。",
+      "locator": "Figure 2",
+      "sourceUrl": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Figure 2",
+        "columns": [
+          "局部示例阶段",
+          "作者图示可预测时长"
+        ],
+        "rows": [
+          [
+            "第一次示例窗口",
+            "7天"
+          ],
+          [
+            "第二次示例窗口",
+            "10天"
+          ]
+        ],
+        "sourceUrl": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+        "locator": "Figure 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "未来扩展到异构机器人数量/类型的选择，并计划大规模实地采集活动。"
+    ],
+    "analysis": [
+      "后验方差取决于核模型拟合，不能当任意环境下误差必有保障；论文通过仿真验证而非真实船队长期实测。",
+      "主要性能通过图展示，本页近似读数不宜用于精确再分析。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Persistent Monitoring of Large Environments with Robot Deployment Scheduling in between Remote Sensing Cycles",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://ieeexplore.ieee.org/document/10611421/",
+      "label": "IEEE正式记录",
+      "locator": "ICRA2024；10.1109/ICRA57147.2024.10611421",
+      "supports": [
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pdb9cbaf48a922024,\n  title = {Persistent Monitoring of Large Environments with Robot Deployment Scheduling in between Remote Sensing Cycles},\n  author = {Kizito Masaba and Monika Roznere and Mingi Jeong and Alberto Quattrini Li},\n  year = {2024},\n  url = {https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "首次公开日期与作者代码仓库未核实",
+    "图5估读仅约数；精确原始统计未公开/未获取"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "历史：混合高斯过程融合遥感和机器人测量。\n何时：找预测方差首次超过阈值的未来日期。\n去哪：选择当天超阈值地点，用多旅行商方法规划采样路线。",
+      "evaluation": "SF1钡云扩散、SF2合成水温变化；各100天。Stage中4个差速机器人进行长期采样调度仿真。",
+      "training": "否。训练/拟合高斯过程，不使用VLM。",
+      "analysis": "直接解决何时/何地复查，但目标是数值场估计精度，未建模设备健康风险或视觉误检；无人形长期实测。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "卫星隔几天才能给湖泊拍一次完整快照，而每天派船去采样成本很高。该工作把遥感与机器人现场采样结合，用混合GP预测未来不确定性，决定“哪天值得部署”和“哪些位置必须采”。ADAPT-S每次部署检查所有热点，ADAPT-D只访问风险点。论文验证为时空场和Stage仿真，不是已经完成的真实ASV长期监测活动。",
+  "citationNote": "根据已核验作者、题名和出版年整理；完整正式卷页引用请以链接中的出版方BibTeX为准。"
+}

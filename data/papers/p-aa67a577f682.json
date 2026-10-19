@@ -1,0 +1,194 @@
+{
+  "id": "p-aa67a577f682",
+  "title": "Robotic Control via Embodied Chain-of-Thought Reasoning",
+  "short": "Robotic Control via Embodied Chain-of-Thought Reasoning",
+  "aliases": [
+    "Robotic Control via Embodied Chain-of-Thought Reasoning"
+  ],
+  "authors": [
+    "Zawalski, MichaÅ",
+    "Chen, William",
+    "Pertsch, Karl",
+    "Mees, Oier",
+    "Finn, Chelsea",
+    "Levine, Sergey"
+  ],
+  "institutions": [],
+  "firstPublished": "2024-07-11",
+  "updated": "2025-03-06",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "先生成任务、子目标、运动和视觉定位推理，再生成机器人动作，显式训练可干预的ECoT。",
+  "method": {
+    "explanation": "ECoT 在OpenVLA动作前加入多层有视觉落点的推理，包括任务计划、当前子任务、物体框、末端位置与运动意图。作者用自动流水线在已有机器人轨迹上合成这些标签，再联合训练推理与动作序列；不需要再采集新的机器人示范不代表没有训练。推理文本和几何量可以被人检查并用自然语言纠正；异步/降低推理频率变体用于缓解长推理导致的控制延迟。",
+    "input": "图像、任务与机器人观察",
+    "output": "具身推理链及动作token",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "先生成任务、子目标、运动和视觉定位推理，再生成机器人动作，显式训练可干预的ECoT。",
+    "flow": [
+      "合成具身推理标注",
+      "推理—动作联合模型",
+      "交互纠正与推理加速"
+    ],
+    "modules": [
+      {
+        "name": "合成具身推理标注",
+        "purpose": "让推理与真实动作及视觉位置一致",
+        "mechanism": "从已有示范构建任务计划、子任务、运动、对象框和末端位置等中间监督，而非仅增加泛化的语言CoT。",
+        "sourceUrl": "https://arxiv.org/html/2407.08693",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "推理—动作联合模型",
+        "purpose": "使思考确实参与动作预测",
+        "mechanism": "以OpenVLA为起点，在输出动作前自回归生成视觉落地的推理链，再由其条件预测动作token。",
+        "sourceUrl": "https://arxiv.org/html/2407.08693",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "交互纠正与推理加速",
+        "purpose": "提高可解释性并降低控制开销",
+        "mechanism": "人可修改语言推理引导动作；5-Step和Async策略减少每步完整CoT生成负担，分别评估速度与成功率。",
+        "sourceUrl": "https://arxiv.org/html/2407.08693",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "OpenVLA监督微调；不是纯提示推理",
+    "models": "OpenVLA、自动合成视觉/语言标注工具",
+    "trainable": "VLA推理与动作参数",
+    "frozen": "标注基础模型用作监督工具；动作模型本身训练",
+    "data": "已有Bridge等机器人示范附加合成ECoT，不新增机器人采集",
+    "objective": "推理文本/视觉定位与动作的自回归监督",
+    "stages": "合成标签 → ECoT+动作训练 → 闭环与人类纠正"
+  },
+  "evaluation": [
+    {
+      "benchmark": "ECoT 真实机器人ID/OOD视角",
+      "setting": "Table1两种相机视角；聚合均值±标准误。Table2加速在3任务25trial上平均。",
+      "result": "ID视角OpenVLA44±3.9%、ECoT66±3.8%；OOD30±3.6%与64±3.9%。Async成功65%、速度+40%。",
+      "sourceUrl": "https://arxiv.org/html/2407.08693",
+      "locator": "Table 1；速度另见Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "配置",
+          "ID视角成功 (%)",
+          "OOD视角成功 (%)"
+        ],
+        "rows": [
+          [
+            "OpenVLA Bridge",
+            "44 ± 3.9",
+            "30 ± 3.6"
+          ],
+          [
+            "RT-2-X",
+            "47 ± 4.0",
+            "48 ± 4.0"
+          ],
+          [
+            "Naive CoT",
+            "48 ± 4.0",
+            "48 ± 4.0"
+          ],
+          [
+            "ECoT",
+            "66 ± 3.8",
+            "64 ± 3.9"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "摘要28个百分点是聚合概括；细分相机条件提升不同。非新增机器人数据不等同训练免费，CoT也带来推理延迟。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2407.08693",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "url": "https://arxiv.org/abs/2407.08693",
+      "label": "用户给定论文链接（待全文核实）",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2407.08693",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2407.08693",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{paa67a577f6822024,\n title={Robotic Control via Embodied Chain-of-Thought Reasoning},\n author={Zawalski, MichaÅ and Chen, William and Pertsch, Karl and Mees, Oier and Finn, Chelsea and Levine, Sergey},\n year={2024},\n url={https://arxiv.org/abs/2407.08693}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "ECoT 在OpenVLA动作前加入多层有视觉落点的推理，包括任务计划、当前子任务、物体框、末端位置与运动意图。作者用自动流水线在已有机器人轨迹上合成这些标签，再联合训练推理与动作序列；不需要再采集新的机器人示范不代表没有训练。推理文本和几何量可以被人检查并用自然语言纠正；异步/降低推理频率变体用于缓解长推理导致的控制延迟。",
+  "verificationLevel": "fulltext"
+}

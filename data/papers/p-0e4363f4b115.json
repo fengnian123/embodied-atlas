@@ -1,0 +1,145 @@
+{
+  "id": "p-0e4363f4b115",
+  "title": "An advanced medical robotic system augmenting healthcare capabilities - robotic nursing assistant",
+  "short": "RoNA",
+  "aliases": [
+    "RoNA"
+  ],
+  "authors": [
+    "John Hu",
+    "Aaron Edsinger",
+    "Yi-Je Lim",
+    "Nick Donaldson",
+    "Mario Solano",
+    "Aaron Solochek",
+    "Ronald Marchessault"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2011,
+  "venue": "2011 IEEE International Conference on Robotics and Automation",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2011,
+  "tags": {
+    "direction": [
+      "导航",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "介绍用于扩展护理能力的Robotic Nursing Assistant系统；已核实ICRA 2011出版记录，功能、机械结构和实验数值仍需取得原文确认。",
+  "method": {
+    "input": "ICRA出版记录",
+    "output": "待核读的系统论文入口",
+    "flow": [
+      "历史系统文献索引"
+    ],
+    "explanation": "本轮重新检索IEEE原始入口及公开机构/书目来源，确认这是一篇ICRA 2011的Robotic Nursing Assistant（RoNA）系统论文，但未取得可核读的完整正文。现阶段仅将其作为护理辅助机器人系统的历史文献入口；具体搬扶能力、运动结构、感知管线、控制接口、受试者与实验数值保留未核实，避免把二手宣传描述写成论文已经验证的效果。与现代LLM护理研究比较时，需先补足这篇的真实任务和验证条件，不能把“护理机器人”统一视作相同问题。",
+    "modules": [
+      {
+        "name": "历史系统文献索引",
+        "purpose": "保留护理机器人技术发展脉络",
+        "mechanism": "已核实ICRA出版身份；机械结构、控制与实验证据未取得全文，不创建虚构策略模块。",
+        "input": "ICRA出版记录",
+        "output": "待核读的系统论文入口"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/icra.2011.5980213",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Hospital Service and Nursing Robots / RoNA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/ICRA.2011.5980213",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/icra.2011.5980213",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始摘要/出版入口（本轮回查）",
+      "url": "https://doi.org/10.1109/ICRA.2011.5980213",
+      "locator": "摘要与出版记录；全文细节仍待核",
+      "supports": [
+        "研究范围",
+        "摘要明确的模块及实验覆盖（如有）",
+        "核验边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+    "精确首次公开日期未核实（不将年月伪造为某一天）",
+    "IEEE原始入口需交互验证/正文未取得；机械功能、控制实现和实测数据待核，不从标题猜测。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICRA'11**",
+      "section": "Hospital Service and Nursing Robots"
+    }
+  ],
+  "verificationLevel": "metadata",
+  "verification": "本轮回查原始元数据与可取得摘要；全文未成功取得，实验表格和未见训练细节不声称已核实。",
+  "overview": "介绍用于扩展护理能力的Robotic Nursing Assistant系统；已核实ICRA 2011出版记录，功能、机械结构和实验数值仍需取得原文确认。 本条详情限已取得的原始摘要，全文图表仍待补齐。"
+}

@@ -1,0 +1,255 @@
+{
+  "id": "p-a2ae5d358c9c",
+  "title": "Uni-LaViRA: Language-Vision-Robot Actions Translation for Unified Embodied Navigation",
+  "short": "Uni-LaViRA",
+  "aliases": [
+    "Uni-LaViRA",
+    "Uni-LaViRA: Language-Vision-Robot Actions Translation for Unified Embodied Navigation"
+  ],
+  "authors": [
+    "Ding, Hongyu",
+    "Zhang, Sizhuo",
+    "Xu, Ziming",
+    "Guo, Jinwen",
+    "Liu, Hongxiu",
+    "Cheng, Xingzhi",
+    "Chen, Zixuan",
+    "Qi, Haifei",
+    "Wang, Duo",
+    "Xu, Hao",
+    "Shi, Jieqi",
+    "Zhang, Yifan",
+    "Huo, Jing",
+    "Cheng, Jian",
+    "Gao, Yang",
+    "Luo, Jiebo"
+  ],
+  "institutions": [
+    "Nanjing University",
+    "Institute of Automation, Chinese Academy of Sciences",
+    "Beihang University",
+    "BMW (Nanjing) Information Technology Co., Ltd.",
+    "University of Rochester"
+  ],
+  "firstPublished": "2026-05-26",
+  "updated": "2026-05-26",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN",
+      "ObjectNav",
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM",
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法",
+      "系统"
+    ],
+    "problem": [
+      "规划",
+      "记忆",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "四足机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用语言动作→视觉目标→机器人控制的三级翻译，结合TODO记忆与回退实现多任务零训练导航。",
+  "method": {
+    "explanation": "Uni-LaViRA 将导航动作分解为三个接口：Language Action生成方向与语义子目标，Vision Action将子目标落到图像像素目标，几何或现成导航控制器再转成机器人运动。TODO List Memory每步重写未完成子目标，避免长上下文中遗忘任务；Second Chance Backtrack将机器人回退到错误前状态，并携带失败子轨迹重新规划。这里“零训练”指两个高层Agent未微调；底层NavDP等既有控制器本身有预训练。论文主实验使用各基准100-episode分层子集，不能直接称全量集结果。",
+    "input": "自然语言任务、多视角RGB-D及任务进度",
+    "output": "语义方向、像素目标与机器人运动",
+    "assumptions": "需要RGB-D观测、相机参数及能接收像素/空间子目标的底层导航接口；高层Agent依赖现成多模态模型。论文中的“零训练”不等于底层控制器从未预训练；不同控制器与基准子集的结果需分开解读。",
+    "difference": "用语言动作→视觉目标→机器人控制的三级翻译，结合TODO记忆与回退实现多任务零训练导航。",
+    "flow": [
+      "Language–Vision–Robot翻译",
+      "TODO List Memory",
+      "Second Chance Backtrack"
+    ],
+    "modules": [
+      {
+        "name": "Language–Vision–Robot翻译",
+        "purpose": "把MLLM擅长的语义/视觉输出接到运动",
+        "mechanism": "语言Agent给出方向/子目标，视觉Agent预测像素级目标；结合深度与相机参数或已有控制器生成可执行路径，UAV输出3D航点。",
+        "sourceUrl": "https://arxiv.org/html/2605.27582",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "TODO List Memory",
+        "purpose": "维持长程任务进度",
+        "mechanism": "每次决策重新明确已完成、进行中、待办子目标，将未完成事项重新置于最新上下文，而非无限追加聊天历史。",
+        "sourceUrl": "https://arxiv.org/html/2605.27582",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "Second Chance Backtrack",
+        "purpose": "在有证据的错误后重新规划",
+        "mechanism": "检测偏离后回到错误前空间状态，保留失败子轨迹作为负例提示，再选新的行动；回退和状态恢复是实际执行前提。",
+        "sourceUrl": "https://arxiv.org/html/2605.27582",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "高层Agent无额外训练；复用既有低层控制",
+    "models": "仿真Language Agent Gemini-3.1-Pro、Vision Agent Qwen3.5-27B；真实平台配置不同",
+    "trainable": "未微调LA/VA；占据图与TDM为在线状态",
+    "frozen": "高层MLLM；NavDP/底层控制器为既有模型",
+    "data": "本文不使用新增机器人训练；仿真8×RTX4090并行rollout不是训练算力",
+    "objective": "提示式翻译、记忆重写及错误回退，无新VLM损失",
+    "stages": "预训练组件 → 任务接口翻译 → 控制执行 → 记忆/回退闭环"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Uni-LaViRA 分层100-episode子集",
+      "setting": "Table III/V/VI，按各val-unseen池分层抽100episode，3次运行mean±std；OpenUAV为UM子集。",
+      "result": "R2R SR60.7±2.1/SPL47.7±1.6；RxR51.3±2.3/34.0±1.9。HM3D-v2 SR77.7±2.1%；EQA ACC54.7±2.3%。",
+      "sourceUrl": "https://arxiv.org/html/2605.27582",
+      "locator": "Table III / V / VI",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "协议 / 指标",
+          "完整模型",
+          "w/o TDM",
+          "w/o SCB"
+        ],
+        "rows": [
+          [
+            "R2R SR (%)",
+            "60.7 ± 2.1",
+            "49.3 ± 1.5",
+            "50.0 ± 2.0"
+          ],
+          [
+            "RxR SR (%)",
+            "51.3 ± 2.3",
+            "44.7 ± 3.6",
+            "44.3 ± 3.8"
+          ],
+          [
+            "HM3D-v2 SR (%)",
+            "77.7 ± 2.1",
+            "73.7 ± 2.5",
+            "68.7 ± 0.6"
+          ],
+          [
+            "HM3D-OVON SR (%)",
+            "60.0 ± 6.1",
+            "57.3 ± 4.5",
+            "54.7 ± 3.8"
+          ],
+          [
+            "MP3D-EQA ACC (%)",
+            "54.7 ± 2.3",
+            "48.7 ± 0.6",
+            "51.7 ± 1.5"
+          ],
+          [
+            "OpenUAV SR (%)",
+            "40.00 ± 3.46",
+            "34.33 ± 2.31",
+            "38.00 ± 3.61"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "本文主结果基于100episode分层子集，Table II另比较少数基线子集/全量偏差；不能把文献全量基线与本文子集视为严格同题集比较。用户实测记录另列于复现详情，不充当本表成绩。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2605.27582",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://xetroubadour.github.io/Uni-LaViRA/",
+      "status": "已核实入口",
+      "note": "原文明确提供的官方链接；未逐文件检查下载与许可证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / Uni-LaViRA: Language-Vision-Robot Actions Translation for Unified Embodied Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / Uni-LaViRA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2605.27582",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2605.27582",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pa2ae5d358c9c2026,\n title={Uni-LaViRA: Language-Vision-Robot Actions Translation for Unified Embodied Navigation},\n author={Ding, Hongyu and Zhang, Sizhuo and Xu, Ziming and Guo, Jinwen and Liu, Hongxiu and Cheng, Xingzhi and Chen, Zixuan and Qi, Haifei and Wang, Duo and Xu, Hao and Shi, Jieqi and Zhang, Yifan and Huo, Jing and Cheng, Jian and Gao, Yang and Luo, Jiebo},\n year={2026},\n url={https://arxiv.org/abs/2605.27582}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "VLN-CE R2R、VLN-CE RxR、HM3D-v2、HM3D-OVON、MP3D-EQA、OpenUAV",
+      "comparisons": "VLN-CE R2R/VLN-CE RxR：Uni-NaVid、StreamVLN                            HM3D-v2：VLFM、ApexNav、DD-PPO、Habitat-Web、PIRLNav、OVRL-v2、Uni-NaVid、FiLM-Nav、L3MVN、OpenFMNav、InstructNav、SG-Nav、DSCD-Nav、ReMemNav                                                                      HM3D-OVON：DAgRL+OD 、Uni-NaVid 、NavFoM、FiLM-Nav、OmniNav、ABot-N0、VLFM                                                                                             MP3D-EQA：EQA(w/GT)、NaviLLM、Uni-NaVid                                                              OpenUAV：TravelUAV、AerialVLA",
+      "training": "Training-free Zero-shot。同一套Agent用于6个Benchmark，无任务特定训练、无参数更新；Language Action Model为Gemini-3.1-Pro，Vision Action Model为Qwen3.5-27B，均直接API推理",
+      "resourceClaim": "是"
+    }
+  ],
+  "overview": "Uni-LaViRA 将导航动作分解为三个接口：Language Action生成方向与语义子目标，Vision Action将子目标落到图像像素目标，几何或现成导航控制器再转成机器人运动。TODO List Memory每步重写未完成子目标，避免长上下文中遗忘任务；Second Chance Backtrack将机器人回退到错误前状态，并携带失败子轨迹重新规划。这里“零训练”指两个高层Agent未微调；底层NavDP等既有控制器本身有预训练。论文主实验使用各基准100-episode分层子集，不能直接称全量集结果。",
+  "verificationLevel": "fulltext"
+}

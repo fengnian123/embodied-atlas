@@ -1,0 +1,268 @@
+{
+  "id": "p-0c497b2d55bd",
+  "title": "ProcTHOR: Large-Scale Embodied AI Using Procedural Generation",
+  "short": "ProcTHOR",
+  "aliases": [],
+  "authors": [
+    "Matt Deitke",
+    "Eli VanderBilt",
+    "Alvaro Herrasti",
+    "Luca Weihs",
+    "Jordi Salvador",
+    "Kiana Ehsani",
+    "Winson Han",
+    "Eric Kolve",
+    "Ali Farhadi",
+    "Aniruddha Kembhavi",
+    "Roozbeh Mottaghi"
+  ],
+  "institutions": [
+    "Allen Institute for AI",
+    "University of Washington"
+  ],
+  "firstPublished": "2022-06-14",
+  "updated": "2022-06-14",
+  "publicationYear": 2022,
+  "venue": "NeurIPS",
+  "publicationStatus": "已发表",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav",
+      "长程操作"
+    ],
+    "paradigm": [],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "数据集",
+      "Benchmark"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "ProcTHOR 用程序生成可交互房屋，扩展具身训练场景的数量与布局变化。",
+  "method": {
+    "input": "房间类型、房屋尺寸与布局先验",
+    "output": "ObjectNav/重排/ArmPointNav结果",
+    "explanation": "ProcTHOR 用程序生成可交互房屋，扩展具身训练场景的数量与布局变化。生成器先构造房间和连接，再放置门窗、结构、大件家具与可交互小物体，并通过可达性/摆放检查；训练后的agent在其他模拟器基准上零样本或微调评估。",
+    "flow": [
+      "房屋结构采样",
+      "语义家具布置",
+      "跨场景策略评估"
+    ],
+    "modules": [
+      {
+        "name": "房屋结构采样",
+        "purpose": "本模块解决：房屋结构采样",
+        "input": "房间类型、房屋尺寸与布局先验",
+        "mechanism": "分配房间平面并生成墙、门和窗，构成多个连通房间，而非只随机替换单个场景的纹理。",
+        "output": "可连接的室内结构",
+        "sourceUrl": "https://arxiv.org/html/2206.06994v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "语义家具布置",
+        "purpose": "本模块解决：语义家具布置",
+        "input": "房间类型和3D物体资产",
+        "mechanism": "按房间语义、物体组和摆放规则生成大件家具，再加入表面上物体、照明及材质多样性，做有效性检查。",
+        "output": "完整可交互AI2-THOR房屋",
+        "sourceUrl": "https://arxiv.org/html/2206.06994v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "跨场景策略评估",
+        "purpose": "本模块解决：跨场景策略评估",
+        "input": "ProcTHOR训练房屋和下游任务",
+        "mechanism": "在ProcTHOR-10K训练导航/操作agent；分别测试不使用下游训练数据的迁移和使用下游数据微调后的性能。",
+        "output": "ObjectNav/重排/ArmPointNav结果",
+        "sourceUrl": "https://arxiv.org/html/2206.06994v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要AI2-THOR和程序生成的合成资产；跨模拟器迁移依赖动作、相机和目标定义适配。",
+    "difference": "ProcTHOR 用程序生成可交互房屋，扩展具身训练场景的数量与布局变化。生成器先构造房间和连接，再放置门窗、结构、大件家具与可交互小物体，并通过可达性/摆放检查；训练后的agent在其他模拟器基准上零样本或微调评估。"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "详见原文方法模块；未独立列全基础模型。",
+    "trainable": "生成场景无需训练VLM。论文的ObjectNav基线用强化学习训练预训练视觉编码器+循环策略，重排使用BC/DAgger；不同任务的训练方法不同，不能统一标为仅推理。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "生成场景无需训练VLM。论文的ObjectNav基线用强化学习训练预训练视觉编码器+循环策略，重排使用BC/DAgger；不同任务的训练方法不同，不能统一标为仅推理。",
+    "objective": "本条为数据/评测贡献；所附基线训练协议见训练范围。",
+    "stages": "生成场景无需训练VLM。论文的ObjectNav基线用强化学习训练预训练视觉编码器+循环策略，重排使用BC/DAgger；不同任务的训练方法不同，不能统一标为仅推理。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "跨基准ObjectNav",
+      "setting": "Table 2；标准与Large骨干是不同设置。此处只保留标准骨干；zero-shot表示未用下游任务训练集，不表示模型未经训练。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 2",
+      "sourceUrl": "https://arxiv.org/html/2206.06994v1",
+      "table": {
+        "columns": [
+          "训练设置",
+          "基准",
+          "SR (%)",
+          "SPL (0–1)"
+        ],
+        "rows": [
+          [
+            "ProcTHOR zero-shot",
+            "RoboTHOR Challenge",
+            55.0,
+            0.237
+          ],
+          [
+            "ProcTHOR + fine-tune",
+            "RoboTHOR Challenge",
+            65.2,
+            0.288
+          ],
+          [
+            "ProcTHOR zero-shot",
+            "Habitat Challenge 2022",
+            9.0,
+            0.055
+          ],
+          [
+            "ProcTHOR + fine-tune",
+            "Habitat Challenge 2022",
+            53.0,
+            0.27
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2206.06994v1",
+        "locator": "Table 2",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要AI2-THOR和程序生成的合成资产；跨模拟器迁移依赖动作、相机和目标定义适配。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2206.06994",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/allenai/procthor",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://procthor.allenai.org",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / ProcTHOR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2206.06994",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2206.06994v1",
+      "locator": "方法章节；Table 2",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式发表页面",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/27c546ab1e4f1d7d638e6a8dfbad9a07-Abstract-Conference.html",
+      "locator": "会议论文集",
+      "supports": [
+        "正式发表年份",
+        "会议",
+        "版本对应"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文Benchmark/数据集协议",
+      "url": "https://arxiv.org/html/2206.06994v1",
+      "locator": "数据/实验设置章节；Table 2",
+      "supports": [
+        "任务定义",
+        "动作空间",
+        "数据规模及口径",
+        "成功判据",
+        "协议边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p0c497b2d55bd,\n  title={ProcTHOR: Large-Scale Embodied AI Using Procedural Generation},\n  author={Matt Deitke and Eli VanderBilt and Alvaro Herrasti and Luca Weihs and Jordi Salvador and Kiana Ehsani and Winson Han and Eric Kolve and Ali Farhadi and Aniruddha Kembhavi and Roozbeh Mottaghi},\n  year={2022},\n  eprint={2206.06994},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2206.06994}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "ProcTHOR 用程序生成可交互房屋，扩展具身训练场景的数量与布局变化。生成器先构造房间和连接，再放置门窗、结构、大件家具与可交互小物体，并通过可达性/摆放检查；训练后的agent在其他模拟器基准上零样本或微调评估。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "motivation": "用程序生成大规模可交互多房间场景，研究训练规模对泛化的作用。",
+    "task": "生成训练房屋，并检验ObjectNav、重排及ArmPointNav等任务迁移。",
+    "input": "场景生成参数/随机种子；agent输入随下游任务变化。",
+    "output": "可交互房屋、语义资产、下游动作轨迹。",
+    "actions": "AI2-THOR移动、转向、停止及可交互物体动作；下游Habitat需独立适配。",
+    "success": "按每个下游benchmark协议；ObjectNav到达任一可达目标实例，不能统一所有任务成功判据。",
+    "collection": "程序采样房间结构、门户、资产布局和小物体，执行可达性与放置检查。",
+    "scale": "ProcTHOR-10K指10,000训练房屋；论文完整集合另含验证/测试房屋；episode规模按任务生成。",
+    "split": "生成房屋按train/val/test管理；跨RoboTHOR/HM3D结果分zero-shot与使用目标域数据微调。",
+    "metrics": "ObjectNav SR/SPL、重排Fixed/Strict与ArmPointNav拾取成功等独立指标。",
+    "baselines": "EmbCLIP及不同训练房屋数量、标准/Large骨干、下游微调对照。",
+    "assets": "官方代码/场景生成器与项目入口公开；需要AI2-THOR及相应资产。",
+    "license": "生成器代码和3D资产可能有独立许可；未据代码开源推断所有资产可商用。",
+    "reproduction": "需要引擎/资产版本、场景种子、并行仿真资源及任务特定训练配置。",
+    "coverage": "合成室内多房间、对象交互、大规模训练、跨场景迁移。",
+    "boundary": "不是动态真实居家采集基准；规模增益不独立证明视觉或物体共现真实感。",
+    "leakage": "生成房屋与下游基准分开；资产复用、程序布局偏置及微调阶段使用目标域数据要说明。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

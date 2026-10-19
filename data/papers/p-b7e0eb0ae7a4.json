@@ -1,0 +1,256 @@
+{
+  "id": "p-b7e0eb0ae7a4",
+  "title": "HIMM: Human-Inspired Long-Term Memory Modeling for Embodied Exploration and Question Answering",
+  "short": "Human-Inspired Memory",
+  "aliases": [
+    "Human-Inspired Memory"
+  ],
+  "authors": [
+    "Li, Ji",
+    "Wang, Bo",
+    "Xia, Jing",
+    "Li, Mingyi",
+    "Hu, Shiyan"
+  ],
+  "institutions": [
+    "The University of Hong Kong, Hong Kong SAR."
+  ],
+  "firstPublished": "2026-02-17",
+  "updated": "2026-03-02",
+  "publicationYear": 2026,
+  "venue": "IROS",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "多目标导航"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "将情景记忆与可复用语义规则分开建模，通过视觉校验复用历史探索经验。",
+  "method": {
+    "explanation": "HIMM 不把所有历史压成一段文本。情景记忆保留具体探索经历与视觉线索，先用语义相似度召回，再结合探索地图进行视觉核验，降低环境变化或几何不精确造成的误用。语义记忆则从经历中提取程序式规则，用来指导新环境中的推理；元记忆管理各认知状态的切换。实验区分问答质量和路径效率，说明记忆既可能改善推理，也可能减少重复探索，不能把所有收益归为同一种检索。",
+    "input": "任务、当前视觉及历史探索经验",
+    "output": "导航探索选择与问题答案",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "将情景记忆与可复用语义规则分开建模，通过视觉校验复用历史探索经验。",
+    "flow": [
+      "情景经验召回",
+      "程序式语义规则",
+      "元记忆与探索决策"
+    ],
+    "modules": [
+      {
+        "name": "情景经验召回",
+        "purpose": "保留可回看的具体经历",
+        "mechanism": "按任务/场景语义相似度检索历史经验，再通过探索图与视觉推理验证经验是否适合当前观察，而非要求跨时间严格几何配准。",
+        "sourceUrl": "https://arxiv.org/html/2602.15513",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "程序式语义规则",
+        "purpose": "跨场景复用抽象知识",
+        "mechanism": "将具体经历转成结构化、程序风格的规则，保存可迁移的操作/探索知识，避免只按原始轨迹匹配。",
+        "sourceUrl": "https://arxiv.org/html/2602.15513",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "元记忆与探索决策",
+        "purpose": "选择何时检索、探索与回答",
+        "mechanism": "以认知状态管理记忆使用；在当前证据不足时继续探索，并用回忆和规则共同辅助后续决策。",
+        "sourceUrl": "https://arxiv.org/html/2602.15513",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "记忆构建与推理；未在本轮确认新增参数训练",
+    "models": "Qwen2.5-VL、GPT-4o为实验推理后端",
+    "trainable": "记忆与规则非参数更新；新增模型参数训练未核实",
+    "frozen": "不应把非参数记忆更新写成VLM微调",
+    "data": "探索轨迹、语义相似度与视觉证据",
+    "objective": "非参数召回/视觉核验与规则提取；训练目标未说明于本条摘录",
+    "stages": "经历写入 → 情景召回/规则抽象 → 任务推理"
+  },
+  "evaluation": [
+    {
+      "benchmark": "GOAT-Bench Val Unseen",
+      "setting": "Table II，GOAT-Bench Val Unseen；†为作者统一设置评测，*为引自基准。",
+      "result": "GPT-4o设置HIMM SR72.8%/SPL56.1%，3D-Mem68.9%/48.9%；Qwen设置HIMM53.9%/31.7%。",
+      "sourceUrl": "https://arxiv.org/html/2602.15513",
+      "locator": "原文 TABLE II",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "TABLE II: Results on GOAT-Bench under the Val Unseen split. “CG” denotes ConceptGraphs [ 23 ] . Methods marked with * are reported from GOAT-Bench, while those marked with † \\dagger use MLLM-based exploration.",
+        "columns": [
+          "Method",
+          "Success Rate (%) ↑",
+          "SPL (%) ↑"
+        ],
+        "rows": [
+          [
+            "Modular GOAT [ 10 ] *",
+            "24.9",
+            "17.2"
+          ],
+          [
+            "Modular CLIP on Wheels [ 10 ] *",
+            "16.1",
+            "10.4"
+          ],
+          [
+            "SenseAct-NN Skill Chain [ 10 ] *",
+            "29.5",
+            "11.3"
+          ],
+          [
+            "SenseAct-NN Monolithic [ 10 ] *",
+            "12.3",
+            "6.8"
+          ],
+          [
+            "3D-Mem [ 3 ] † (Qwen2.5-VL-7B-Instruct)",
+            "49.4",
+            "20.7"
+          ],
+          [
+            "ReEXplore [ 5 ] † (Qwen2.5-VL-7B-Instruct)",
+            "53.2",
+            "32.6"
+          ],
+          [
+            "Ours † (Qwen2.5-VL-7B-Instruct)",
+            "53.9",
+            "31.7"
+          ],
+          [
+            "Explore-EQA [ 21 ] † (GPT-4o)",
+            "55.0",
+            "37.9"
+          ],
+          [
+            "CG w/ Frontier Snapshots [ 3 ] † (GPT-4o)",
+            "61.5",
+            "45.3"
+          ],
+          [
+            "3D-Mem w/o Memory [ 3 ] † (GPT-4o)",
+            "58.6",
+            "38.5"
+          ],
+          [
+            "3D-Mem [ 3 ] † (GPT-4o)",
+            "68.9",
+            "48.9"
+          ],
+          [
+            "ReEXplore [ 5 ] † (GPT-4o)",
+            "59.8",
+            "42.5"
+          ],
+          [
+            "Ours † (GPT-4o)",
+            "72.8",
+            "56.1"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "开放后端并非所有QA和导航效率指标都优于ReEXplore；规则抽象和视觉核验的收益需按后端与任务区分。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2602.15513",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA A-EQA / Human-Inspired Memory（作者方法）＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2602.15513v1",
+      "locator": "3D-Mem Table1引用值\n3D-Mem Table1引用值\n3D-Mem Table1引用值\nTable1\nTable1\nTable1\nTable1\nTable1\nTable1\nTableI",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2602.15513",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2602.15513",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pb7e0eb0ae7a42026,\n title={HIMM: Human-Inspired Long-Term Memory Modeling for Embodied Exploration and Question Answering},\n author={Li, Ji and Wang, Bo and Xia, Jing and Li, Mingyi and Hu, Shiyan},\n year={2026},\n url={https://arxiv.org/abs/2602.15513}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "额外参数训练范围",
+    "正式会议目录、资源与许可核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA A-EQA",
+      "variant": "Human-Inspired Memory（作者方法）＋GPT-4o"
+    }
+  ],
+  "overview": "HIMM 不把所有历史压成一段文本。情景记忆保留具体探索经历与视觉线索，先用语义相似度召回，再结合探索地图进行视觉核验，降低环境变化或几何不精确造成的误用。语义记忆则从经历中提取程序式规则，用来指导新环境中的推理；元记忆管理各认知状态的切换。实验区分问答质量和路径效率，说明记忆既可能改善推理，也可能减少重复探索，不能把所有收益归为同一种检索。",
+  "verificationLevel": "fulltext"
+}

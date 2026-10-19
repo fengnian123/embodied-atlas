@@ -1,0 +1,205 @@
+{
+  "id": "agenticnav-mas",
+  "title": "AgenticNav: A Hierarchical Multi-Agentic System for LLM-Driven Autonomous Problem-Solving in Robotics",
+  "short": "AgenticNav · MAS",
+  "aliases": [],
+  "authors": [],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "官方CITATION声明IEEE Access 2026，但作者字段TBD；正式发表状态未独立核实",
+  "year": null,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "故障恢复",
+      "长程任务"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "安全"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "通过分层多 Agent 协调解释、监督、执行与感知，在执行失败后逐级上报并重规划；与像素目标工具式 VLN 的同名工作不同。",
+  "method": {
+    "input": "任务、感知与层级执行反馈",
+    "output": "子任务与故障后的修订计划",
+    "flow": [
+      "解释与监督层：把指令转成可重规划任务",
+      "空间规划工具与控制桥：执行计划并收集状态",
+      "错误升级与恢复：将门关闭等变化反馈到战略层",
+      "日志与严格评估：识别语言宣称和物理结果的差别"
+    ],
+    "assumptions": "官方实现面向Webots R2023b+；每次实验需人工设门状态与机器人起点。不是R2R-CE结果，也不是已验证真实机器人成功率。",
+    "difference": "同名但不同作者、实现与评测。",
+    "explanation": "此AgenticNav是Webots中的层次多Agent系统，和像素工具式VLN同名论文不同。解释层理解指令形成战略计划，监督层拆任务并处理上报错误，执行/感知层通过TCP/JSON桥调用Pioneer 3-AT控制器。执行失败会连同完整GraphState向上汇报，重新生成受环境变化约束的路线，而不是直接把LLM说“完成”当作真实到达。以下细节依据官方实现README，原论文仍待核对。",
+    "modules": [
+      {
+        "name": "解释与监督层",
+        "purpose": "把指令转成可重规划任务",
+        "mechanism": "17个Agent组成21节点LangGraph状态机；战略计划→子任务，在错误上报时保留mission上下文重调规划。",
+        "input": "自然语言、共享GraphState、错误事件",
+        "output": "战略计划与子任务"
+      },
+      {
+        "name": "空间规划工具与控制桥",
+        "purpose": "执行计划并收集状态",
+        "mechanism": "共享拓扑/RRT工具产生路线；TCP/JSON连接主机编排与Webots Pioneer3-AT控制器。",
+        "input": "导航目标、门状态、机器人位姿",
+        "output": "动作、到达/阻塞反馈"
+      },
+      {
+        "name": "错误升级与恢复",
+        "purpose": "将门关闭等变化反馈到战略层",
+        "mechanism": "执行器把失败及任务状态交ErrorHandler，监督层再调用WaypointGenerator更新路径。",
+        "input": "局部故障、完整任务上下文",
+        "output": "新路线或明确失败"
+      },
+      {
+        "name": "日志与严格评估",
+        "purpose": "识别语言宣称和物理结果的差别",
+        "mechanism": "附属eval库按goal-conditions打分；公开说明6个MAS场景沿用旧表而非新重跑。",
+        "input": "场景结果、对象识别、回报行为",
+        "output": "SR/GCR与已知证据缺口"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "GPT-4o + LangGraph多Agent；拓扑/RRT；Pioneer3-AT控制器",
+    "trainable": "官方代码按推理编排，未给出任务特定权重训练",
+    "frozen": "现成LLM调用",
+    "data": "官方20个Webots场景与完整/沿用结果日志",
+    "objective": "不适用梯度训练；按goal conditions评估",
+    "stages": "人工重设场景→多Agent执行→故障上报→日志评分"
+  },
+  "evaluation": [
+    {
+      "benchmark": "官方20场景Webots比较",
+      "setting": "官方companion文档§2/5；只转录作者已披露结果，不视为完全同质评估。MAS仅14场景重新执行，6场景沿用旧表；GCR分母24而非基线30。",
+      "result": "作者报告MAS SR18/20=90%；GCR20/24=83.3%，因分母不一致，GCR不能直接作公平提升结论。",
+      "locator": "官方comparative_evaluation.md §2/5/6",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "官方comparative_evaluation.md §2/5/6",
+        "columns": [
+          "系统",
+          "成功场景",
+          "GCR计数",
+          "GCR"
+        ],
+        "rows": [
+          [
+            "Rule-Based",
+            "13/20",
+            "23/30",
+            "76.7%"
+          ],
+          [
+            "Non-Agentic LLM",
+            "14/20",
+            "24/30",
+            "80.0%"
+          ],
+          [
+            "AgenticNav MAS",
+            "18/20",
+            "20/24",
+            "83.3%"
+          ]
+        ],
+        "sourceUrl": "https://github.com/AgenticNav/mas-llm-robotics-eval/blob/master/docs/comparative_evaluation.md",
+        "locator": "官方comparative_evaluation.md §2/5/6"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "六个MAS场景未为比较实验重跑，沿用旧表的单条件判分导致GCR分母24而非30。",
+      "fresh runs在s19/s20出现幻觉到达，和旧表的干净拒绝不一致；s04可能触发LangGraph递归上限。",
+      "需人工设置门/起点，API网络时延影响wall-clock。"
+    ],
+    "analysis": [
+      "原论文及作者元数据未核实；不能把实现库自述的IEEE Access标签当正式出版记录。",
+      "GCR口径不一致与沿用记录限制公平性；公开原始日志的局限比headline零幻觉更值得注意。"
+    ]
+  },
+  "resources": {
+    "code": {
+      "url": "https://github.com/AgenticNav/mas-llm-robotics",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://github.com/AgenticNav/mas-llm-robotics",
+      "label": "官方实现",
+      "locator": "Architecture 与 Repository layout",
+      "supports": [
+        "身份",
+        "方法",
+        "实现"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/AgenticNav/mas-llm-robotics",
+      "label": "本轮回查原文/官方资料",
+      "locator": "README Architecture/known caveats；CITATION.cff",
+      "supports": [
+        "实现层次",
+        "原型条件",
+        "元数据缺口"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/AgenticNav/mas-llm-robotics-eval/blob/master/docs/comparative_evaluation.md",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§2/5/6",
+      "supports": [
+        "20场景作者报告结果",
+        "混合来源日志",
+        "GCR分母不一致"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "待核实",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。",
+    "原论文全文和正式DOI/论文集入口",
+    "真实作者与机构（官方CITATION仍TBD）",
+    "首次公开/最新论文版本日期",
+    "完全同分母且全部重新运行的对照实验",
+    "作者机构未在已读取原文中完整确认"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查官方实现与评测文档；原论文本体、真实作者和正式发表元数据仍未完成核验。",
+  "overview": "该 AgenticNav 的官方仓库提供分层 MAS、Webots Pioneer 3-AT 控制器、桥接接口与对照基线。其研究重点是把执行失败提升到战略层重新推理。用户笔记中的自定义 waypoint 与故障任务应回到本工作评测仓库核对，不能和另一篇 R2R-CE 工具式 VLN 方法共享一条实验记录。",
+  "verificationLevel": "metadata"
+}

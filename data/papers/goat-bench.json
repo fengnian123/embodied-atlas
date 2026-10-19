@@ -1,0 +1,256 @@
+{
+  "id": "goat-bench",
+  "title": "GOAT-Bench: A Benchmark for Multi-Modal Lifelong Navigation",
+  "short": "GOAT-Bench",
+  "aliases": [],
+  "authors": [
+    "Mukul Khanna",
+    "Ram Ramrakhya",
+    "Gunjan Chhablani",
+    "Sriram Yenamandra",
+    "Theophile Gervet",
+    "Matthew Chang",
+    "Zsolt Kira",
+    "Devendra Singh Chaplot",
+    "Dhruv Batra",
+    "Roozbeh Mottaghi"
+  ],
+  "institutions": [],
+  "firstPublished": "2024-04-09",
+  "updated": "2024-04-09",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav",
+      "ImageNav",
+      "多目标导航"
+    ],
+    "paradigm": [
+      "强化学习"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "记忆",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "真实采集资产"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "在一次 episode 内顺序寻找 5–10 个目标，目标可用类别、语言描述或图像指定，测试多模态目标理解与跨子任务记忆。",
+  "method": {
+    "input": "当前传感器与顺序多模态目标",
+    "output": "导航动作及子任务完成信号",
+    "flow": [
+      "多模态目标生成：把同一环境中的目标转成不同查询",
+      "连续子任务episode：检验跨子任务记忆复用",
+      "Seen/同义词/Unseen划分：区分类别泛化与表述泛化",
+      "模块化与RL基线：揭示记忆和技能选择差异"
+    ],
+    "assumptions": "静态HM3D资产；长期是顺序目标记忆，不等于动态物体搬移预测；需另取有许可的场景资产。",
+    "difference": "同时检验目标模态统一和多目标记忆。",
+    "explanation": "GOAT-Bench把类别名、语言描述和目标图像三种目标模态放入同一连续多子目标episode。机器人依次执行5–10个子任务，允许保留环境经验，测试能否复用先前看见的对象位置。数据从HM3D语义实例构建：类别目标、实例图像与物体描述有不同生成流程。基线同时覆盖显式模块化记忆和端到端RL的独立技能串联/单策略路线；核心是任务与协议，不是单一新网络。",
+    "modules": [
+      {
+        "name": "多模态目标生成",
+        "purpose": "把同一环境中的目标转成不同查询",
+        "mechanism": "类别目标来自开放词汇实例；目标图像从可见实例视角渲染；BLIP-2描述加边框元数据，经GPT-3.5生成语言目标。",
+        "input": "HM3D语义实例、视图和描述",
+        "output": "类别/语言/图像目标"
+      },
+      {
+        "name": "连续子任务episode",
+        "purpose": "检验跨子任务记忆复用",
+        "mechanism": "在同场景顺序给5–10个目标，记录完成/停止和路径；同一episode的记忆允许沿用。",
+        "input": "起点、多模态目标序列",
+        "output": "逐子任务导航轨迹"
+      },
+      {
+        "name": "Seen/同义词/Unseen划分",
+        "purpose": "区分类别泛化与表述泛化",
+        "mechanism": "验证集中分别评已见类别、已见类别的新名字和训练未见类别；三列不能直接合成未声明的统一分数。",
+        "input": "类别与目标实例划分",
+        "output": "分split SR/SPL"
+      },
+      {
+        "name": "模块化与RL基线",
+        "purpose": "揭示记忆和技能选择差异",
+        "mechanism": "显式地图/目标匹配与SenseAct-NN技能链或单体RL分别评测；GTSem额外使用真值语义，不是等输入公平对照。",
+        "input": "同一episode及各自传感/模型条件",
+        "output": "SR/SPL与记忆分析"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "Benchmark本体不训练模型；基线有SenseAct-NN RL与模块化感知",
+    "trainable": "端到端RL基线训练策略；数据生成使用现成caption/LLM",
+    "frozen": "现成目标描述/图像编码器使用方式按基线区分",
+    "data": "GOAT训练目标：193类/13025目标；验证52/31/36类分别对应Seen/同义词/Unseen",
+    "objective": "基线RL导航奖励；Benchmark本身不适用训练损失",
+    "stages": "数据生成→训练基线→三split多目标评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "GOAT-Bench HM3D",
+      "setting": "v1表2；三种validation split，SR/SPL百分数；GTSem另用真值语义。",
+      "result": "RL Skill Chain SR高于模块化GOAT，但SPL更低；不能只看SR推断路径效率更好。",
+      "locator": "§6 表2",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§6 表2",
+        "columns": [
+          "方法",
+          "Seen SR/SPL",
+          "同义词 SR/SPL",
+          "Unseen SR/SPL"
+        ],
+        "rows": [
+          [
+            "GOAT-GTSem (真值语义)",
+            "56.7/40.3",
+            "58.4/43.5",
+            "54.3/41.0"
+          ],
+          [
+            "Modular GOAT",
+            "26.3/17.5",
+            "33.8/24.4",
+            "24.9/17.2"
+          ],
+          [
+            "SenseAct-NN Skill Chain",
+            "29.2/12.8",
+            "38.2/15.2",
+            "29.5/11.3"
+          ],
+          [
+            "SenseAct-NN Monolithic",
+            "16.8/9.4",
+            "18.5/10.1",
+            "12.3/6.8"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2404.06609v1",
+        "locator": "§6 表2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "真实扫描外观与实机控制是不同维度；顺序目标任务不能替代真实动态目标搬移评测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2404.06609",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://mukulkhanna.github.io/goat-bench/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/Ram81/goat-bench",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://github.com/Ram81/goat-bench",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2404.06609",
+      "label": "arXiv",
+      "locator": "日期与作者",
+      "supports": [
+        "日期",
+        "作者"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://mukulkhanna.github.io/goat-bench/",
+      "label": "官方项目页",
+      "locator": "任务与基线",
+      "supports": [
+        "任务",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/Ram81/goat-bench/blob/main/README.md",
+      "label": "官方仓库",
+      "locator": "下载与任务说明",
+      "supports": [
+        "资源",
+        "协议"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2404.06609v1",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§3–7；表1/2；附录A/C",
+      "supports": [
+        "数据生成",
+        "目标统计口径",
+        "分split实验",
+        "真值语义区别"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{goatbench2024,\n  title = {GOAT-Bench: A Benchmark for Multi-Modal Lifelong Navigation},\n  author = {Mukul Khanna and Ram Ramrakhya and Gunjan Chhablani and Sriram Yenamandra and Theophile Gervet and Matthew Chang and Zsolt Kira and Devendra Singh Chaplot and Dhruv Batra and Roozbeh Mottaghi},\n  year = {2024},\n  eprint = {2404.06609},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2404.06609}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。",
+    "作者机构未在已读取原文中完整确认"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "单目标导航通常在找到目标后重置环境，难以检验观察历史能否帮助后续任务。GOAT-Bench 将类别、语言与图像目标放入同一个多目标序列，保留场景经历，比较模块化地图系统与端到端 RL。这里的 lifelong 指跨子任务持续使用经验，并不自动表示环境中的物体随时间移动，也不代表测试期间更新模型权重。",
+  "benchmark": {
+    "motivation": "统一三种目标模态，评估同一环境中连续执行目标的记忆价值。",
+    "task": "Go to Any Thing：连续导航到物体类别、描述实例或图像指定实例。",
+    "input": "传感器＋类别名/描述/目标图像",
+    "output": "导航动作＋子任务完成",
+    "actions": "由 Habitat 的机器人/配置定义；复现应固定动作步长与传感器。",
+    "success": "官方任务成功与 SPL；目标模态应分别统计。",
+    "collection": "HM3D语义实例生成类别目标、可见目标图像及BLIP-2+GPT-3.5-Turbo实例描述；每episode串联5–10子任务。",
+    "scale": "表1：Train 193类/13025目标；Val Seen 52类/1760目标、Seen Synonyms31类/877目标、Unseen36类/1282目标。这些是目标统计，不是episode数量。",
+    "split": "官方训练与评估划分；需记录 seen/unseen 目标与环境设置。",
+    "metrics": "SR、SPL；按模态与子任务进度分析。",
+    "baselines": "模块化导航、SenseAct-NN 强化学习基线。",
+    "assets": "episode、训练评测代码；HM3D 场景另行获取。",
+    "license": "代码与 episode 许可需分别核实；HM3D 为学术非商业用途。",
+    "reproduction": "Habitat 与 HM3D 资产；场景版本、语义标注和依赖需匹配。",
+    "coverage": "多模态目标、顺序目标和记忆复用",
+    "boundary": "静态场景中的顺序多目标与多模态检索；不直接评持续搬移、预测未观测状态或接触操作。",
+    "leakage": "区分场景与类别泛化；跨 episode 的经验也需声明来源。"
+  },
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

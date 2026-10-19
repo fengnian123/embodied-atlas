@@ -1,0 +1,262 @@
+{
+  "id": "p-063be20e7ce8",
+  "title": "Do As I Can, Not As I Say: Grounding Language in Robotic Affordances",
+  "short": "SayCan",
+  "aliases": [
+    "SayCan",
+    "Do As I Can, Not As I Say: Grounding Language in Robotic Affordances"
+  ],
+  "authors": [
+    "Ahn, Michael",
+    "Brohan, Anthony",
+    "Brown, Noah",
+    "Chebotar, Yevgen",
+    "Cortes, Omar",
+    "David, Byron",
+    "Finn, Chelsea",
+    "Fu, Chuyuan",
+    "Gopalakrishnan, Keerthana",
+    "Hausman, Karol",
+    "Herzog, Alex",
+    "Ho, Daniel",
+    "Hsu, Jasmine",
+    "Ibarz, Julian",
+    "Ichter, Brian",
+    "Irpan, Alex",
+    "Jang, Eric",
+    "Ruano, Rosario Jauregui",
+    "Jeffrey, Kyle",
+    "Jesmonth, Sally",
+    "Joshi, Nikhil J",
+    "Julian, Ryan",
+    "Kalashnikov, Dmitry",
+    "Kuang, Yuheng",
+    "Lee, Kuang-Huei",
+    "Levine, Sergey",
+    "Lu, Yao",
+    "Luu, Linda",
+    "Parada, Carolina",
+    "Pastor, Peter",
+    "Quiambao, Jornell",
+    "Rao, Kanishka",
+    "Rettinghouse, Jarek",
+    "Reyes, Diego",
+    "Sermanet, Pierre",
+    "Sievers, Nicolas",
+    "Tan, Clayton",
+    "Toshev, Alexander",
+    "Vanhoucke, Vincent",
+    "Xia, Fei",
+    "Xiao, Ted",
+    "Xu, Peng",
+    "Xu, Sichun",
+    "Yan, Mengyuan",
+    "Zeng, Andy"
+  ],
+  "institutions": [],
+  "firstPublished": "2022-04-04",
+  "updated": "2022-08-16",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "移动操作"
+    ],
+    "task": [
+      "长程操作",
+      "机器人控制"
+    ],
+    "paradigm": [
+      "LLM",
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用语言模型判断技能是否符合指令，再用技能价值函数判断在当前状态下是否做得到。",
+  "method": {
+    "explanation": "SayCan 把长程任务分解为预先学习的技能序列。对每个候选技能，语言模型根据指令和已执行步骤给出语义相关度，技能价值函数根据机器人当前观察估计成功可行性；两类分数相乘后选择下一技能。执行结束重新观察并重复，直到选择终止。LLM 提供的是高层程序知识，真实落地能力来自机器人技能及价值函数，所以不能把“LLM不训练”误写成“全系统无训练”。",
+    "input": "语言任务、当前观察与技能历史",
+    "output": "下一个技能及其执行",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用语言模型判断技能是否符合指令，再用技能价值函数判断在当前状态下是否做得到。",
+    "flow": [
+      "语言技能评分",
+      "可供性/价值评分",
+      "逐技能闭环执行"
+    ],
+    "modules": [
+      {
+        "name": "语言技能评分",
+        "purpose": "判断下一步应做什么",
+        "mechanism": "将候选技能的自然语言描述接在指令与历史之后，读取语言模型对候选下一步的相对概率。",
+        "sourceUrl": "https://arxiv.org/html/2204.01691",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "可供性/价值评分",
+        "purpose": "排除当前做不到的动作",
+        "mechanism": "语言条件技能价值函数根据视觉和机器人状态估计技能完成概率，提供受物理状态约束的评分。",
+        "sourceUrl": "https://arxiv.org/html/2204.01691",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "逐技能闭环执行",
+        "purpose": "将长程计划落地并更新状态",
+        "mechanism": "乘合语义与可行性分数，执行最高分技能；追加技能历史并重新评分，可在任务已部分完成时改变技能选择。",
+        "sourceUrl": "https://arxiv.org/html/2204.01691",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "LLM仅推理；机器人技能与价值函数需训练",
+    "models": "PaLM/FLAN作为规划器；语言条件机器人技能和价值函数",
+    "trainable": "行为克隆/RL技能及其价值估计",
+    "frozen": "语言模型不因SayCan部署额外微调",
+    "data": "机器人示范及技能强化学习数据；101条评测指令不等于训练集",
+    "objective": "低层模仿学习/强化学习；高层推理时乘合语言概率和价值",
+    "stages": "先训练低层技能与价值函数 → 冻结语言规划器逐技能推理"
+  },
+  "evaluation": [
+    {
+      "benchmark": "SayCan 101条真实移动操作指令",
+      "setting": "Table 2，101条指令；Mock Kitchen与迁移Kitchen，规划成功与整条执行成功分开统计。",
+      "result": "PaLM-SayCan在Mock Kitchen为84%规划/74%执行，在Kitchen为81%/60%；去除affordance后规划为67%。",
+      "sourceUrl": "https://arxiv.org/html/2204.01691",
+      "locator": "Table 2 / Table 3",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "设置",
+          "规划成功率 (%)",
+          "执行成功率 (%)"
+        ],
+        "rows": [
+          [
+            "PaLM-SayCan / Mock Kitchen",
+            "84",
+            "74"
+          ],
+          [
+            "PaLM-SayCan / Kitchen",
+            "81",
+            "60"
+          ],
+          [
+            "PaLM / 无价值约束",
+            "67",
+            "不适用"
+          ],
+          [
+            "FLAN-SayCan / Mock Kitchen（Table 3）",
+            "70",
+            "61"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "候选技能与价值函数决定行动边界；语言规划无法生成技能库不存在的新控制能力。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2204.01691",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://say-can.github.io/",
+      "status": "已核实入口",
+      "note": "原文明确提供的官方链接；未逐文件检查下载与许可证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / SayCan",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2204.01691",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://say-can.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2204.01691",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2204.01691",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p063be20e7ce82022,\n title={Do As I Can, Not As I Say: Grounding Language in Robotic Affordances},\n author={Ahn, Michael and Brohan, Anthony and Brown, Noah and Chebotar, Yevgen and Cortes, Omar and David, Byron and Finn, Chelsea and Fu, Chuyuan and Gopalakrishnan, Keerthana and Hausman, Karol and Herzog, Alex and Ho, Daniel and Hsu, Jasmine and Ibarz, Julian and Ichter, Brian and Irpan, Alex and Jang, Eric and Ruano, Rosario Jauregui and Jeffrey, Kyle and Jesmonth, Sally and Joshi, Nikhil J and Julian, Ryan and Kalashnikov, Dmitry and Kuang, Yuheng and Lee, Kuang-Huei and Levine, Sergey and Lu, Yao and Luu, Linda and Parada, Carolina and Pastor, Peter and Quiambao, Jornell and Rao, Kanishka and Rettinghouse, Jarek and Reyes, Diego and Sermanet, Pierre and Sievers, Nicolas and Tan, Clayton and Toshev, Alexander and Vanhoucke, Vincent and Xia, Fei and Xiao, Ted and Xu, Peng and Xu, Sichun and Yan, Mengyuan and Zeng, Andy},\n year={2022},\n url={https://arxiv.org/abs/2204.01691}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**CoRL'22**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "SayCan 把长程任务分解为预先学习的技能序列。对每个候选技能，语言模型根据指令和已执行步骤给出语义相关度，技能价值函数根据机器人当前观察估计成功可行性；两类分数相乘后选择下一技能。执行结束重新观察并重复，直到选择终止。LLM 提供的是高层程序知识，真实落地能力来自机器人技能及价值函数，所以不能把“LLM不训练”误写成“全系统无训练”。",
+  "verificationLevel": "fulltext"
+}

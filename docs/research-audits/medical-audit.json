@@ -1,0 +1,430 @@
+{
+  "checked": "2026-10-19",
+  "scope": "本轮21条原metadata记录；既有18条fulltext记录未修改",
+  "attempted": 21,
+  "upgradedToFulltext": 16,
+  "retainedMetadata": 5,
+  "importantNotes": [
+    "Open X-Embodiment改为通用操作/综合具身资源，不归为医疗专用。",
+    "SurRoL IROS 2021与Surgical embodied intelligence Science Robotics 2025为同一项目不同工作，分别保留。",
+    "HRI 2024虚拟患者初步研究与JMIR 2025混合方法研究同一研究线，分别保留，未跨论文搬运数值。",
+    "Meta综述、框架和观点文章以证据组织/研究设计展示，不虚构策略训练和实验成功率。",
+    "目视检查EndoNet Table IV、OXE Table II、PARO Fig.2及Elderly Care GPT作者版Table IV。",
+    "发现原文内不一致时保留表/图值并注明差异，未替作者修正。"
+  ],
+  "papers": [
+    {
+      "id": "p-558433df414d",
+      "title": "A Confidence-Based Shared Control Strategy for the Smart Tissue Autonomous Robot (STAR)",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 4,
+      "evidenceTables": 2,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+        "精确首次公开日期未核实，不将年月补写成某一天。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1109/IROS.2018.8594290",
+        "https://api.crossref.org/works/10.1109/iros.2018.8594290",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC6716799/"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-2a555cc9b806",
+      "title": "Open X-Embodiment: Robotic Learning Datasets and RT-X Models",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 4,
+      "evidenceTables": 2,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://arxiv.org/pdf/2310.08864",
+        "https://robotics-transformer-x.github.io/",
+        "https://arxiv.org/abs/2310.08864"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-41eb2970e1f3",
+      "title": "SurRoL: An Open-source Reinforcement Learning Centered and dVRK Compatible Platform for Surgical Robot Learning",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 4,
+      "evidenceTables": 3,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1109/IROS51168.2021.9635867",
+        "https://github.com/med-air/SurRoL",
+        "https://api.crossref.org/works/10.1109/iros51168.2021.9635867",
+        "https://arxiv.org/pdf/2108.13035"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-3e47ed201a0f",
+      "title": "EndoNet: A Deep Architecture for Recognition Tasks on Laparoscopic Videos",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 4,
+      "evidenceTables": 3,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+        "精确首次公开日期未核实，不将年月补写成某一天。"
+      ],
+      "sourceUrls": [
+        "https://hal.science/hal-03511473v1/document",
+        "https://doi.org/10.1109/TMI.2016.2593957",
+        "https://api.crossref.org/works/10.1109/tmi.2016.2593957",
+        "https://arxiv.org/pdf/1602.03012"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-adc371218d43",
+      "title": "Application management and effectiveness analysis of intelligent logistics robots in hospital drug and specimen delivery scenarios",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 4,
+      "evidenceTables": 2,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1038/s41598-026-49800-9",
+        "https://api.crossref.org/works/10.1038/s41598-026-49800-9",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC13276296/"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-37498cced893",
+      "title": "Virtual Patient Simulations Using Social Robotics Combined With Large Language Models for Clinical Reasoning Training in Medical Education: Mixed Methods Study",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 2,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.2196/63312",
+        "https://api.crossref.org/works/10.2196/63312",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC11914843/"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-7a01480c0f29",
+      "title": "Socially assistive robots for people with dementia: Systematic review and meta-analysis of feasibility, acceptability and the effect on cognition, neuropsychiatric symptoms and quality of life",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 2,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+        "精确首次公开日期未核实，不将年月补写成某一天。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1016/j.arr.2022.101633",
+        "https://api.crossref.org/works/10.1016/j.arr.2022.101633",
+        "https://discovery.ucl.ac.uk/id/eprint/10147766/1/Livingston_1-s2.0-S1568163722000757-main.pdf"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-2ba17ae070b3",
+      "title": "Enablers and barriers to the implementation of socially assistive humanoid robots in health and social care: a systematic review",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 2,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://bmjopen.bmj.com/content/bmjopen/10/1/e033096.full.pdf",
+        "https://doi.org/10.1136/bmjopen-2019-033096",
+        "https://api.crossref.org/works/10.1136/bmjopen-2019-033096",
+        "https://bmjopen.bmj.com/content/10/1/e033096"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-4cd69b2528d8",
+      "title": "Socially Assistive Robots in Elderly Care: A Systematic Review into Effects and Effectiveness",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+        "本次使用作者学位论文中的正式文章重印章节；没有把学位论文其他章节结果并入该文章。",
+        "精确首次公开日期未核实，不将年月补写成某一天。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1016/j.jamda.2010.10.002",
+        "https://api.crossref.org/works/10.1016/j.jamda.2010.10.002",
+        "https://cris.maastrichtuniversity.nl/ws/portalfiles/portal/1436743/guid-5b44c835-d2ac-4f18-96e5-8b8c3aeea6ae-ASSET1.0.pdf"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-0b78576d9183",
+      "title": "A Review of Intent Detection, Arbitration, and Communication Aspects of Shared Control for Physical Human–Robot Interaction",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://asmedigitalcollection.asme.org/appliedmechanicsreviews/article-pdf/70/1/010804/5964415/amr_070_01_010804.pdf",
+        "https://doi.org/10.1115/1.4039145",
+        "https://api.crossref.org/works/10.1115/1.4039145",
+        "https://repository.rice.edu/server/api/core/bitstreams/65907f6c-0eee-4b88-b9c8-9b44eb069e67/content"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-ef0a96baa464",
+      "title": "Assistive Robots for the Social Management of Health: A Framework for Robot Design and Human–Robot Interaction Research",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://link.springer.com/content/pdf/10.1007/s12369-020-00634-z.pdf",
+        "https://doi.org/10.1007/s12369-020-00634-z",
+        "https://api.crossref.org/works/10.1007/s12369-020-00634-z",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7223628/"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-bfcf1fb0dc66",
+      "title": "Feeding, grooming, dressing, and body repositioning: categorizing four pillars of learning-based manipulation for robotic caregiving",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1007/s10462-026-11524-7",
+        "https://api.crossref.org/works/10.1007/s10462-026-11524-7",
+        "https://link.springer.com/article/10.1007/s10462-026-11524-7"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-67e172cf580b",
+      "title": "The Future of Intelligent Healthcare: A Systematic Analysis and Discussion on the Integration and Impact of Robots Using Large Language Models for Healthcare",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 4,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+      ],
+      "sourceUrls": [
+        "https://www.mdpi.com/2218-6581/13/8/112/pdf",
+        "https://doi.org/10.3390/robotics13080112",
+        "https://api.crossref.org/works/10.3390/robotics13080112",
+        "https://www.mdpi.com/2218-6581/13/8/112"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-5b574ed984f6",
+      "title": "Conversational Affective Social Robots for Ageing and Dementia Support",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+        "精确首次公开日期未核实，不将年月补写成某一天。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1109/TCDS.2021.3115228",
+        "https://api.crossref.org/works/10.1109/tcds.2021.3115228",
+        "https://spiral.imperial.ac.uk/bitstreams/f505e777-8f7d-4c72-a887-3429a49a26e3/download"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-b5c70c19c319",
+      "title": "Task Decomposition and Self-Evaluation Mechanisms for Home Healthcare Robots Using Large Language Models",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 4,
+      "evidenceTables": 2,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+        "精确统计口径与正文97.3%/作者版表计数差异需以正式最终版和作者勘误进一步确认。",
+        "精确首次公开日期未核实，不将年月补写成某一天。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1109/access.2025.3559076",
+        "https://api.crossref.org/works/10.1109/access.2025.3559076",
+        "https://www.researchgate.net/publication/390646093_Task_Decomposition_and_Self-Evaluation_Mechanisms_for_Home_Healthcare_Robots_Using_Large_Language_Models/fulltext/67f7804ce8041142a1705c4f/Task-Decomposition-and-Self-Evaluation-Mechanisms-for-Home-Healthcare-Robots-Using-Large-Language-Models.pdf"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-c13d7b91e6b4",
+      "title": "Artificial Intelligence and the Future of Surgical Robotics",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+        "精确首次公开日期未核实，不将年月补写成某一天。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1097/SLA.0000000000003262",
+        "https://api.crossref.org/works/10.1097/sla.0000000000003262",
+        "https://www.researchgate.net/publication/331959548_Artificial_Intelligence_and_the_Future_of_Surgical_Robotics"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-abb80176560e",
+      "title": "Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery",
+      "verificationLevel": "metadata",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+        "Science Robotics正文/补充材料未取得可完整核读版本，成功率、消融、冻结与训练细节仍待核实。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1126/scirobotics.adt3093",
+        "https://github.com/med-air/SurRoL",
+        "https://api.crossref.org/works/10.1126/scirobotics.adt3093",
+        "https://pubmed.ncbi.nlm.nih.gov/40668896/"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-450f588def14",
+      "title": "Creating Virtual Patients using Robots and Large Language Models: A Preliminary Study with Medical Students",
+      "verificationLevel": "metadata",
+      "checked": "2026-10-19",
+      "methodModules": 2,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+        "ACM全文未成功取得；KTH存档触发反机器人页面；逐题数字和实验流程仍待全文核实。"
+      ],
+      "sourceUrls": [
+        "https://dl.acm.org/doi/pdf/10.1145/3610978.3640592",
+        "https://doi.org/10.1145/3610978.3640592",
+        "https://api.crossref.org/works/10.1145/3610978.3640592"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-dea76964f2d9",
+      "title": "Case studies on the usability, acceptability and functionality of autonomous mobile delivery robots in real-world healthcare settings",
+      "verificationLevel": "metadata",
+      "checked": "2026-10-19",
+      "methodModules": 2,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+        "出版商只开放摘要与图预览；完整研究方法/统计表尚未取得。",
+        "原文Data availability称因伦理要求不能共享数据。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1007/s11370-021-00368-5",
+        "https://api.crossref.org/works/10.1007/s11370-021-00368-5",
+        "https://link.springer.com/article/10.1007/s11370-021-00368-5"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-1a788dff39d0",
+      "title": "Supervised autonomous robotic soft tissue surgery",
+      "verificationLevel": "metadata",
+      "checked": "2026-10-19",
+      "methodModules": 3,
+      "evidenceTables": 1,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+        "Science Translational Medicine全文未成功取得；原表数值与完整实验次数未核实。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1126/scitranslmed.aad9398",
+        "https://api.crossref.org/works/10.1126/scitranslmed.aad9398",
+        "https://pubmed.ncbi.nlm.nih.gov/27147588/"
+      ],
+      "attemptedFullText": true
+    },
+    {
+      "id": "p-0e4363f4b115",
+      "title": "An advanced medical robotic system augmenting healthcare capabilities - robotic nursing assistant",
+      "verificationLevel": "metadata",
+      "checked": "2026-10-19",
+      "methodModules": 1,
+      "evidenceTables": 0,
+      "gaps": [
+        "尚未逐项核验代码/数据/权重许可证与下载内容",
+        "作者机构未完整核实",
+        "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+        "精确首次公开日期未核实（不将年月伪造为某一天）",
+        "IEEE原始入口需交互验证/正文未取得；机械功能、控制实现和实测数据待核，不从标题猜测。"
+      ],
+      "sourceUrls": [
+        "https://doi.org/10.1109/ICRA.2011.5980213",
+        "https://api.crossref.org/works/10.1109/icra.2011.5980213"
+      ],
+      "attemptedFullText": true
+    }
+  ]
+}

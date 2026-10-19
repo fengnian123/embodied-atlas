@@ -1,0 +1,278 @@
+{
+  "id": "p-2ffe439eb1ba",
+  "title": "2D Gaussian Splatting for Geometrically Accurate Radiance Fields",
+  "short": "2D Gaussian Splatting",
+  "aliases": [],
+  "authors": [
+    "Binbin Huang",
+    "Zehao Yu",
+    "Anpei Chen",
+    "Andreas Geiger",
+    "Shenghua Gao"
+  ],
+  "institutions": [
+    "ShanghaiTech University",
+    "University of Tübingen",
+    "Tübingen AI Center"
+  ],
+  "firstPublished": "2024-03-26",
+  "updated": "2025-02-22",
+  "publicationYear": 2024,
+  "venue": "SIGGRAPH",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "静态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "将体高斯压成有朝向的椭圆圆盘，使用精确射线与圆盘相交，并通过深度畸变和法线一致性约束提升可提取表面质量。",
+  "method": {
+    "input": "已标定静态多视角 RGB、SfM 初始化",
+    "output": "可渲染二维高斯表面元、深度/法线和 TSDF 融合 Mesh",
+    "flow": [
+      "有向二维圆盘",
+      "透视准确 splatting",
+      "几何约束和 Mesh 提取"
+    ],
+    "assumptions": "这里的 2D 是嵌入三维空间的表面元，不是仅处理二维照片；实验静态。",
+    "difference": "相比 3DGS 的体积基元与近似投影，显式表面圆盘更有利于跨视角一致的几何。",
+    "explanation": "将体高斯压成有朝向的椭圆圆盘，使用精确射线与圆盘相交，并通过深度畸变和法线一致性约束提升可提取表面质量。 相比 3DGS 的体积基元与近似投影，显式表面圆盘更有利于跨视角一致的几何。 基元有三维中心、切向基和两个尺度；省去厚度方向，颜色和透明度仍可优化。 计算相机射线与局部平面交点，在圆盘坐标评估高斯并 alpha 混合，退化投影用低通滤波稳定。 深度畸变压缩同射线贡献，法线一致性约束深度梯度；将多视角中值深度做 TSDF 融合。",
+    "modules": [
+      {
+        "name": "有向二维圆盘",
+        "purpose": "直接表达局部表面",
+        "mechanism": "基元有三维中心、切向基和两个尺度；省去厚度方向，颜色和透明度仍可优化。",
+        "input": "初始点与相机",
+        "output": "面向表面的二维高斯"
+      },
+      {
+        "name": "透视准确 splatting",
+        "purpose": "改善倾斜与薄表面的投影",
+        "mechanism": "计算相机射线与局部平面交点，在圆盘坐标评估高斯并 alpha 混合，退化投影用低通滤波稳定。",
+        "input": "圆盘、相机射线",
+        "output": "图像、深度、法线"
+      },
+      {
+        "name": "几何约束和 Mesh 提取",
+        "purpose": "让画质监督收敛到一致表面",
+        "mechanism": "深度畸变压缩同射线贡献，法线一致性约束深度梯度；将多视角中值深度做 TSDF 融合。",
+        "input": "重建图像、深度/法线",
+        "output": "优化圆盘场与 Mesh"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "圆盘中心、朝向、尺度、透明度与颜色",
+    "trainable": "圆盘中心、朝向、尺度、透明度与颜色",
+    "frozen": "不适用：无 VLM 主干",
+    "data": "每个静态场景的多视角图像",
+    "objective": "RGB 重建 + 深度畸变 + 法线一致性",
+    "stages": "15k/30k 步；RTX 3090；Mesh 用 TSDF 提取"
+  },
+  "evaluation": [
+    {
+      "benchmark": "DTU 表面与外观",
+      "setting": "arXiv v3；15个DTU场景；CD按DTU尺度（mm）；PSNR为训练视图，不能当新视角PSNR。RTX3090。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 3",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "DTU 表面与外观 · Table 3",
+        "columns": [
+          "配置",
+          "CD ↓",
+          "PSNR ↑",
+          "Time ↓",
+          "MB (Storage) ↓"
+        ],
+        "rows": [
+          [
+            "3DGS (Kerbl et al., 2023)",
+            "1.96",
+            "35.76",
+            "11.2 m",
+            "113"
+          ],
+          [
+            "SuGaR (Guédon and Lepetit, 2023)",
+            "1.33",
+            "34.57",
+            "∼约1 h",
+            "1247"
+          ],
+          [
+            "2DGS-15k (Ours)",
+            "0.83",
+            "33.42",
+            "5.5 m",
+            "52"
+          ],
+          [
+            "2DGS-30k (Ours)",
+            "0.80",
+            "34.52",
+            "10.9 m",
+            "52"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2403.17888v3",
+        "locator": "Table 3"
+      }
+    },
+    {
+      "benchmark": "DTU 几何消融",
+      "setting": "法线/深度畸变、TSDF/SPSR表面提取比较；数值为DTU距离，越小越好。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 5",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "DTU 几何消融 · Table 5",
+        "columns": [
+          "配置",
+          "Accuracy ↓",
+          "Completion ↓",
+          "Average ↓"
+        ],
+        "rows": [
+          [
+            "A. w/o normal consistency",
+            "1.35",
+            "1.13",
+            "1.24"
+          ],
+          [
+            "B. w/o depth distortion",
+            "0.89",
+            "0.87",
+            "0.88"
+          ],
+          [
+            "E. Full Model",
+            "0.79",
+            "0.86",
+            "0.83"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2403.17888v3",
+        "locator": "Table 5"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "半透明表面难以准确恢复；高光区域可能出现孔洞。"
+    ],
+    "analysis": [
+      "静态几何增强不能自动替代动态表面对应或完整室内可交互重建。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2403.17888",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://surfsplatting.github.io/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/hbb1/2d-gaussian-splatting",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / 2D Gaussian Splatting for Geometrically Accurate Radiance Fields",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2403.17888",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2403.17888v3",
+      "label": "论文全文 v3",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://surfsplatting.github.io/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/hbb1/2d-gaussian-splatting",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{240317888,\n  title = {2D Gaussian Splatting for Geometrically Accurate Radiance Fields},\n  author = {Huang, Binbin and Yu, Zehao and Chen, Anpei and Geiger, Andreas and Gao, Shenghua},\n  year = {2024},\n  eprint = {2403.17888},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2403.17888}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "将体高斯压成有朝向的椭圆圆盘，使用精确射线与圆盘相交，并通过深度畸变和法线一致性约束提升可提取表面质量。 相比 3DGS 的体积基元与近似投影，显式表面圆盘更有利于跨视角一致的几何。 这里的 2D 是嵌入三维空间的表面元，不是仅处理二维照片；实验静态。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

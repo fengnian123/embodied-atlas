@@ -1,0 +1,182 @@
+{
+  "id": "p-2f85fc2530a3",
+  "title": "ABot-Claw: A Foundation for Persistent, Cooperative, and Self-Evolving Robotic Agents",
+  "short": "ABot-Claw",
+  "aliases": [
+    "ABot-Claw"
+  ],
+  "authors": [
+    "Huo, Dongjie",
+    "Liu, Haoyun",
+    "Liu, Guoqing",
+    "Qi, Dekang",
+    "Sun, Zhiming",
+    "Gao, Maoguo",
+    "He, Jianxin",
+    "Yang, Yandan",
+    "Chang, Xinyuan",
+    "Xiong, Feng",
+    "Wei, Xing",
+    "Ma, Zhiheng",
+    "Xu, Mu"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-04-11",
+  "updated": "2026-04-17",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能",
+      "移动操作"
+    ],
+    "task": [
+      "长程任务",
+      "机器人控制",
+      "故障恢复"
+    ],
+    "paradigm": [
+      "VLM",
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划",
+      "动态环境"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "四足机器人",
+      "机械臂"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "在OpenClaw运行时增加异构机器人调度、共享视觉记忆和critic反馈闭环。",
+  "method": {
+    "explanation": "ABot-Claw 通过统一embodiment接口暴露不同机器人的技能，再按能力、位置、负载与优先级分配任务。多个机器人共享视觉为中心的记忆，查询返回语义、图像证据与三维位姿；critic用通用reward模型评估任务进度，在继续、局部修正、重规划之间切换。实机展示包括G1、Go2和Piper机械臂上的搜索、交接与导航，原文主要为示例而非标准成功率统计。",
+    "input": "自然语言任务与多机器人状态/观察",
+    "output": "机器人分工、技能调用及闭环纠错",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "在OpenClaw运行时增加异构机器人调度、共享视觉记忆和critic反馈闭环。",
+    "flow": [
+      "统一机器人接口与路由",
+      "跨本体视觉记忆",
+      "critic闭环"
+    ],
+    "modules": [
+      {
+        "name": "统一机器人接口与路由",
+        "purpose": "让高层任务跨本体分配",
+        "mechanism": "通过共享skill接口封装硬件控制，按能力/位置/负载/优先级选择机器人，底层控制与异常处理仍由机器人侧负责。",
+        "sourceUrl": "https://arxiv.org/html/2604.10096",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "跨本体视觉记忆",
+        "purpose": "支持环境证据复用和任务交接",
+        "mechanism": "保存地点锚点、对象观察和语义图像，查询返回类别、置信、视觉证据及全局3D位姿，供导航或操作。",
+        "sourceUrl": "https://arxiv.org/html/2604.10096",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "critic闭环",
+        "purpose": "决定完成、局部修正或重规划",
+        "mechanism": "通用reward模型评价当前任务进度；高分通过、改善中局部修正、停滞或退步则重规划，并记录经验。",
+        "sourceUrl": "https://arxiv.org/html/2604.10096",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "系统集成与推理；本文未给出统一新训练配方",
+    "models": "OpenClaw运行时、视觉记忆、通用reward critic与各机器人技能",
+    "trainable": "记忆/经验非参数更新；新增模型训练范围未完整公开",
+    "frozen": "复用高层基础模型和各机器人既有控制能力",
+    "data": "实机案例，不是统一机器人训练数据集",
+    "objective": "在线进度评分与经验记录；不能视为已证实持续参数自进化",
+    "stages": "任务路由 → 记忆检索 → 技能执行 → critic反馈"
+  },
+  "evaluation": [
+    {
+      "benchmark": "ABot-Claw 三平台实机演示",
+      "setting": "§4 Results Demonstration与Figures5–9；三个异构平台案例，不是固定N试验的成功率表。",
+      "result": "明确列出Unitree G1、Unitree Go2、Agilex Piper三平台；未提供可计算置信区间的统一trial/SR，故不补造。",
+      "sourceUrl": "https://arxiv.org/html/2604.10096",
+      "locator": "正文",
+      "attribution": "作者原文报告；非本站复现"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "实机演示证明端到端流程可运行，但缺乏统一任务集、失败次数与基线统计，不能据此推出稳定提升幅度。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2604.10096",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://github.com/amap-cvlab/ABot-Claw",
+      "status": "已核实入口",
+      "note": "原文提供的官方链接；开放内容与许可未逐项验证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / ABot-Claw",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2604.10096",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2604.10096",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p2f85fc2530a32026,\n title={ABot-Claw: A Foundation for Persistent, Cooperative, and Self-Evolving Robotic Agents},\n author={Huo, Dongjie and Liu, Haoyun and Liu, Guoqing and Qi, Dekang and Sun, Zhiming and Gao, Maoguo and He, Jianxin and Yang, Yandan and Chang, Xinyuan and Xiong, Feng and Wei, Xing and Ma, Zhiheng and Xu, Mu},\n year={2026},\n url={https://arxiv.org/abs/2604.10096}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [],
+  "overview": "ABot-Claw 通过统一embodiment接口暴露不同机器人的技能，再按能力、位置、负载与优先级分配任务。多个机器人共享视觉为中心的记忆，查询返回语义、图像证据与三维位姿；critic用通用reward模型评估任务进度，在继续、局部修正、重规划之间切换。实机展示包括G1、Go2和Piper机械臂上的搜索、交接与导航，原文主要为示例而非标准成功率统计。",
+  "verificationLevel": "fulltext"
+}

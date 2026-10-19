@@ -1,0 +1,167 @@
+{
+  "id": "p-e5e3d322b847",
+  "title": "Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks",
+  "short": "SRT",
+  "aliases": [
+    "SRT"
+  ],
+  "authors": [
+    "Kim, Ji Woong",
+    "Zhao, Tony Z.",
+    "Schmidgall, Samuel",
+    "Deguet, Anton",
+    "Kobilarov, Marin",
+    "Finn, Chelsea",
+    "Krieger, Axel"
+  ],
+  "institutions": [],
+  "firstPublished": "2024-07-17",
+  "updated": "2024-07-17",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "在da Vinci运动学不精确时，用相对动作而非绝对末端位姿训练模仿策略。混合相对表示把平移放在内窥镜坐标中、旋转放在工具坐标中，降低配置变化带来的误差。",
+  "method": {
+    "input": "双目内窥镜与双腕相机图像",
+    "output": "双臂相对位移、旋转及夹爪动作块",
+    "flow": [
+      "示范动作重编码",
+      "图像条件模仿学习",
+      "闭环动作执行"
+    ],
+    "explanation": "在da Vinci运动学不精确时，用相对动作而非绝对末端位姿训练模仿策略。混合相对表示把平移放在内窥镜坐标中、旋转放在工具坐标中，降低配置变化带来的误差。",
+    "modules": [
+      {
+        "name": "示范动作重编码",
+        "purpose": "降低不精确正运动学的影响",
+        "mechanism": "比较相机绝对位姿、工具相对位姿和混合相对动作；混合方案分开处理平移与旋转参考系。",
+        "input": "双目内窥镜与双腕相机图像",
+        "output": "示范动作重编码的中间结果"
+      },
+      {
+        "name": "图像条件模仿学习",
+        "purpose": "从视觉直接预测可执行动作块",
+        "mechanism": "以ACT或Diffusion Policy学习示范，不把不一致的运动学作为策略输入。",
+        "input": "示范动作重编码的结果",
+        "output": "图像条件模仿学习的中间结果"
+      },
+      {
+        "name": "闭环动作执行",
+        "purpose": "适应重新摆放工具和组织变化",
+        "mechanism": "根据当前观测持续预测动作，实验比较不同表示、腕相机消融和外观变化。",
+        "input": "图像条件模仿学习的结果",
+        "output": "双臂相对位移、旋转及夹爪动作块"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2407.12998",
+      "status": "已核实入口",
+      "note": "已核实arXiv元数据"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / SRT",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2407.12998",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://surgical-robot-transformer.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv原始元数据",
+      "url": "https://arxiv.org/abs/2407.12998",
+      "locator": "citation_title / citation_author / citation_date / version history",
+      "supports": [
+        "标题",
+        "作者",
+        "首次公开日期",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://arxiv.org/pdf/2407.12998",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**CoRL'24**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "在da Vinci运动学不精确时，用相对动作而非绝对末端位姿训练模仿策略。混合相对表示把平移放在内窥镜坐标中、旋转放在工具坐标中，降低配置变化带来的误差。 "
+}

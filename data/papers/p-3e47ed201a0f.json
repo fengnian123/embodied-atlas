@@ -1,0 +1,296 @@
+{
+  "id": "p-3e47ed201a0f",
+  "title": "EndoNet: A Deep Architecture for Recognition Tasks on Laparoscopic Videos",
+  "short": "EndoNet",
+  "aliases": [
+    "EndoNet"
+  ],
+  "authors": [
+    "Andru P. Twinanda",
+    "Sherif Shehata",
+    "Didier Mutter",
+    "Jacques Marescaux",
+    "Michel de Mathelin",
+    "Nicolas Padoy"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2017,
+  "venue": "IEEE Transactions on Medical Imaging",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2017,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法",
+      "数据集",
+      "Benchmark"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "在腹腔镜视频上联合学习器械存在检测与手术阶段识别，再结合时序约束识别完整流程。识别的是手术进程，不输出机器人动作。",
+  "method": {
+    "input": "腹腔镜RGB帧",
+    "output": "按任务和数据集报告的识别指标",
+    "flow": [
+      "共享CNN与双任务头",
+      "监督多任务微调",
+      "SVM与层次HMM",
+      "独立识别任务评测"
+    ],
+    "explanation": "EndoNet针对腹腔镜视频识别手术阶段和器械是否出现，输出标签而非机器人动作。作者以ImageNet预训练AlexNet初始化共享视觉网络，将器械多标签检测与阶段分类联合微调，使表示同时包含器械线索和场景上下文。七种器械检测使用二元交叉熵，七阶段识别使用softmax交叉熵，两项等权相加。网络提取的图像特征再经one-vs-all SVM产生阶段分数；层次HMM根据手术阶段可达关系与阶段内状态约束时序，分别进行离线和在线识别。Cholec80的40段视频用于CNN微调，另外40段用于检测与阶段评测；阶段分类器在评测子集中交叉验证，不能把全部训练阶段简化成单一40/40划分。",
+    "modules": [
+      {
+        "name": "共享CNN与双任务头",
+        "purpose": "使阶段识别利用自动器械线索",
+        "mechanism": "AlexNet共享层后分为器械存在与阶段分支，器械输出再与特征结合；输入仅视频图像。",
+        "input": "腹腔镜RGB帧",
+        "output": "器械置信度、阶段相关视觉表示"
+      },
+      {
+        "name": "监督多任务微调",
+        "purpose": "用标签学习适合手术视频的表示",
+        "mechanism": "7个器械二分类交叉熵+阶段softmax交叉熵；50K迭代，每batch50图像；卷积/全连接层从ImageNet迁移。",
+        "input": "40段Cholec80标注视频",
+        "output": "EndoNet视觉特征"
+      },
+      {
+        "name": "SVM与层次HMM",
+        "purpose": "约束逐帧分类的时间一致性",
+        "mechanism": "one-vs-all SVM输出阶段分数，HHMM表示阶段转移与阶段内变化；在线与完整视频离线协议分别评估。",
+        "input": "逐帧视觉表示",
+        "output": "时序平滑阶段标签"
+      },
+      {
+        "name": "独立识别任务评测",
+        "purpose": "区分检测、在线识别与离线识别",
+        "mechanism": "器械以AP评测，阶段以平均precision/recall/accuracy；在Cholec80和EndoVis按各自协议评估。",
+        "input": "预测与人工标注",
+        "output": "按任务和数据集报告的识别指标"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "ImageNet预训练AlexNet→EndoNet；SVM和HHMM。",
+    "trainable": "共享CNN及器械/阶段任务头进行多任务微调；另拟合SVM/HHMM。",
+    "frozen": "不是冻结CNN仅推理；未使用VLM/VLA。",
+    "data": "Cholec80共80段、13位医生；40段微调CNN，40段evaluation；阶段评测另交叉验证。",
+    "objective": "7器械二元交叉熵与7阶段交叉熵等权求和；时序模型单独拟合。",
+    "stages": "ImageNet初始化→多任务微调→特征/SVM→HHMM→在线/离线识别。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Cholec80器械存在检测",
+      "setting": "40段evaluation视频；7种器械，表中mean AP是各器械均值",
+      "result": "EndoNet器械mean AP 81.0%，单任务ToolNet80.9%，DPM58.4%。",
+      "locator": "Table II；V-A.1",
+      "sourceUrl": "https://arxiv.org/pdf/1602.03012",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "模型",
+          "Mean AP (%)"
+        ],
+        "rows": [
+          [
+            "DPM",
+            "58.4"
+          ],
+          [
+            "ToolNet",
+            "80.9"
+          ],
+          [
+            "EndoNet",
+            "81.0"
+          ]
+        ],
+        "locator": "Table II；V-A.1"
+      }
+    },
+    {
+      "benchmark": "Cholec80阶段识别",
+      "setting": "HHMM之后；mean±std；offline可用整段视频，online只用当前/历史信息",
+      "result": "EndoNet离线92.0±1.4%，在线81.7±4.2%；不能混为同一指标。",
+      "locator": "Table IV(a)；Table III",
+      "sourceUrl": "https://arxiv.org/pdf/1602.03012",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "方法",
+          "离线准确率 (%)",
+          "在线准确率 (%)"
+        ],
+        "rows": [
+          [
+            "AlexNet+HHMM",
+            "76.2±6.3",
+            "67.2±5.3"
+          ],
+          [
+            "PhaseNet+HHMM",
+            "89.1±5.4",
+            "78.8±4.7"
+          ],
+          [
+            "EndoNet+HHMM",
+            "92.0±1.4",
+            "81.7±4.2"
+          ],
+          [
+            "EndoNet+GTbin+HHMM",
+            "92.2±3.5",
+            "81.9±4.4"
+          ]
+        ],
+        "locator": "Table IV(a)；Table III"
+      }
+    },
+    {
+      "benchmark": "EndoVis阶段识别",
+      "setting": "HHMM之后；不同数据集、不同阶段定义，独立保留",
+      "result": "EndoNet离线86.0±6.3%，在线76.3±5.1%。",
+      "locator": "Table IV(b)",
+      "sourceUrl": "https://arxiv.org/pdf/1602.03012",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "方法",
+          "离线准确率 (%)",
+          "在线准确率 (%)"
+        ],
+        "rows": [
+          [
+            "AlexNet+HHMM",
+            "79.5±11.0",
+            "70.6±12.3"
+          ],
+          [
+            "PhaseNet+HHMM",
+            "79.7±12.2",
+            "71.0±9.2"
+          ],
+          [
+            "EndoNet+HHMM",
+            "86.0±6.3",
+            "76.3±5.1"
+          ]
+        ],
+        "locator": "Table IV(b)"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "作者指出增加微调视频规模可能改善识别，现有结果仍受数据量和特定手术流程约束。",
+      "阶段边界在人工定义中很严格，但实际转变可能不明确；视觉不可见阶段需要其他信息。"
+    ],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/tmi.2016.2593957",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / EndoNet",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://hal.science/hal-03511473v1/document",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/TMI.2016.2593957",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Datasets, Simulators, and Benchmarks / EndoNet",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/tmi.2016.2593957",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://arxiv.org/pdf/1602.03012",
+      "locator": "Table II；V-A.1; Table IV(a)；Table III; Table IV(b)",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+    "精确首次公开日期未核实，不将年月补写成某一天。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**TMI'16**",
+      "section": "Surgical Embodied Intelligence"
+    },
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**TMI'16**",
+      "section": "Datasets, Simulators, and Benchmarks"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "在腹腔镜视频上联合学习器械存在检测与手术阶段识别，再结合时序约束识别完整流程。识别的是手术进程，不输出机器人动作。 "
+}

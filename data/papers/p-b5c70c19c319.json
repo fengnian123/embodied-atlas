@@ -1,0 +1,275 @@
+{
+  "id": "p-b5c70c19c319",
+  "title": "Task Decomposition and Self-Evaluation Mechanisms for Home Healthcare Robots Using Large Language Models",
+  "short": "Home-HCR-LLM",
+  "aliases": [
+    "Home-HCR-LLM"
+  ],
+  "authors": [
+    "Liteng Liu",
+    "Sen Zhang",
+    "Yangmin Jiang",
+    "Jingzhen Guo",
+    "Wenlong Zhao"
+  ],
+  "institutions": [
+    "Health Science and Engineering, University of Shanghai for Science and Technology, Shanghai, China",
+    "Centre for Collaborative Research, Shanghai University of Medicine and Health Sciences, Shanghai, China"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2025,
+  "venue": "IEEE Access",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "通过LoRA适配LLaMA3-8B、基本任务组组合与执行前自评价来控制照护机械臂；实验为受控桌面任务，原文整体成绩与表内计数存在差异。",
+  "method": {
+    "input": "语音请求、基本任务代码和训练记录",
+    "output": "成功/失败计数",
+    "flow": [
+      "基本任务组与LoRA适配",
+      "六层提示与CoT",
+      "多模型自评价及人工复核",
+      "桌面真实机器人验证"
+    ],
+    "explanation": "Elderly Care GPT以LLaMA3-8B为基础，使用2000条家居照护语义到基本任务组的数据进行LoRA微调；LLM负责选择和组合可用控制函数，具体机械臂/灵巧手技能预先实现。提示词有任务描述、可控单元、可用代码、任务流程、限制和格式要求六部分，并用适度长度CoT演示组合逻辑。执行前两个决策模型分别产出代码，监督模型比较一致性及正确性，不通过则最多重试三次；原文还明确最终代码经专业人员审查后执行。实机在8种桌面任务各30次场景下测试。论文正文整体成功率与已取得作者版表格计数有差异，因此保留逐任务原值和差异说明，而不将97.3%作为无条件准确结论。",
+    "modules": [
+      {
+        "name": "基本任务组与LoRA适配",
+        "purpose": "把复杂请求变成可组合的技能调用",
+        "mechanism": "2000条家居照护记录教LLaMA3-8B组合基本任务；ChatGPT辅助生成同义句。",
+        "input": "语音请求、基本任务代码和训练记录",
+        "output": "任务级代码生成器"
+      },
+      {
+        "name": "六层提示与CoT",
+        "purpose": "约束可执行接口并提供分解示例",
+        "mechanism": "任务描述/可控单元/代码/流程/限制/格式构成提示；适度CoT为2–5推理步。",
+        "input": "请求、场景和可用控制函数",
+        "output": "受接口约束的代码"
+      },
+      {
+        "name": "多模型自评价及人工复核",
+        "purpose": "在执行前筛除不一致代码",
+        "mechanism": "两个决策输出交监督模型比较和检查，失败重生成，最多三轮；最终由专业人员审查执行。",
+        "input": "两份代码及任务",
+        "output": "经审核的可执行程序"
+      },
+      {
+        "name": "桌面真实机器人验证",
+        "purpose": "区分代码生成效果与物理任务完成",
+        "mechanism": "7自由度机械臂、灵巧手、L515相机和ROS2；8种任务各30随机场景，对比原始与只加提示的LLaMA3。",
+        "input": "真实物体和语言变化",
+        "output": "成功/失败计数"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "冻结主干并训练模块",
+    "models": "LLaMA3-8B；两个决策模型和监督模型的自评价架构。",
+    "trainable": "LoRA适配参数；原文称34次训练迭代，未将其擅改为34 epochs。",
+    "frozen": "LoRA保持基础权重冻结，通过低秩适配微调；具体各监督模型配置未完整公开。",
+    "data": "2000条家居照护数据；基本任务组输出与同义输入扩充。",
+    "objective": "监督学习任务语义到可执行基本任务组代码；自评价/重试属于推理时过程。",
+    "stages": "数据与技能组构造→LoRA微调→CoT生成→最多三轮自评价→专业人员复核→机器人执行。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "8项实机任务",
+      "setting": "作者接收版Table IV；每项30次，比较LLaMA3、LLaMA3+Prompt、完整系统",
+      "result": "下列保留表中成功次数；总计完整系统230/240，和正文报告平均0.973不一致。",
+      "locator": "作者接收版Table IV（PDF第8页）；正式版对应Table 4；IV-D",
+      "sourceUrl": "https://www.researchgate.net/publication/390646093_Task_Decomposition_and_Self-Evaluation_Mechanisms_for_Home_Healthcare_Robots_Using_Large_Language_Models/fulltext/67f7804ce8041142a1705c4f/Task-Decomposition-and-Self-Evaluation-Mechanisms-for-Home-Healthcare-Robots-Using-Large-Language-Models.pdf",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "任务",
+          "LLaMA3成功/30",
+          "+Prompt成功/30",
+          "完整系统成功/30"
+        ],
+        "rows": [
+          [
+            "grab_cup",
+            "0",
+            "14",
+            "30"
+          ],
+          [
+            "grab_jar",
+            "0",
+            "17",
+            "29"
+          ],
+          [
+            "grab_medicine",
+            "0",
+            "15",
+            "28"
+          ],
+          [
+            "grab_paper",
+            "0",
+            "24",
+            "30"
+          ],
+          [
+            "pick_up_courier",
+            "0",
+            "0",
+            "30"
+          ],
+          [
+            "drain_medicine",
+            "0",
+            "0",
+            "30"
+          ],
+          [
+            "deliver_medicine",
+            "0",
+            "28",
+            "26"
+          ],
+          [
+            "clean_table",
+            "0",
+            "0",
+            "27"
+          ]
+        ],
+        "locator": "作者接收版Table IV（PDF第8页）；正式版对应Table 4；IV-D"
+      },
+      "caveat": "本次表值来自带DOI的作者接收版：grab_paper的Prompt成功24/30但AP列写0.5，表计数总和230/240≈95.83%，正文称97.3%；不替作者修正，不据不一致数字排名。Fig.9中的其他论文成绩来自不同设置，不视为同条件复测。"
+    },
+    {
+      "benchmark": "提示与自评价消融",
+      "setting": "8任务，每条件每任务3次；正文/图内标签原值",
+      "result": "适度CoT代码生成准确率1.0，响应0.14s；三轮自评价0.93，一轮0.73。",
+      "locator": "Fig.6/7；IV-C",
+      "sourceUrl": "https://www.researchgate.net/publication/390646093_Task_Decomposition_and_Self-Evaluation_Mechanisms_for_Home_Healthcare_Robots_Using_Large_Language_Models/fulltext/67f7804ce8041142a1705c4f/Task-Decomposition-and-Self-Evaluation-Mechanisms-for-Home-Healthcare-Robots-Using-Large-Language-Models.pdf",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "CoT条件",
+          "准确率",
+          "响应时间 (s)"
+        ],
+        "rows": [
+          [
+            "无CoT",
+            "0",
+            "1.67"
+          ],
+          [
+            "适度CoT",
+            "1.0",
+            "0.14"
+          ],
+          [
+            "过长CoT",
+            "0.2",
+            "0.47"
+          ]
+        ],
+        "locator": "Fig.6/7；IV-C"
+      },
+      "caveat": "准确率是该代码生成消融指标，不等于8任务实机总成功率；未把另一轮自评价数据与本表混合。"
+    }
+  ],
+  "limitations": {
+    "author": [
+      "作者指出测试在受控环境中，未覆盖不可预期场景、不同居家布局和完整实时感知。",
+      "与人类照护者无缝协作及无结构环境适应仍需研究。"
+    ],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/access.2025.3559076",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Healthcare LLM/VLA Robot Prototypes / Home-HCR-LLM",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/access.2025.3559076",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/access.2025.3559076",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://www.researchgate.net/publication/390646093_Task_Decomposition_and_Self-Evaluation_Mechanisms_for_Home_Healthcare_Robots_Using_Large_Language_Models/fulltext/67f7804ce8041142a1705c4f/Task-Decomposition-and-Self-Evaluation-Mechanisms-for-Home-Healthcare-Robots-Using-Large-Language-Models.pdf",
+      "locator": "作者接收版Table IV（PDF第8页）；正式版对应Table 4；IV-D; Fig.6/7；IV-C",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+    "精确统计口径与正文97.3%/作者版表计数差异需以正式最终版和作者勘误进一步确认。",
+    "精确首次公开日期未核实，不将年月补写成某一天。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**IEEE Access'25**",
+      "section": "Healthcare LLM/VLA Robot Prototypes"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读带正式DOI的作者接收版全文，并对Table IV作图像核对；正式版表格仍建议回查，数值差异明列。",
+  "overview": "通过LoRA适配LLaMA3-8B、基本任务组组合与执行前自评价来控制照护机械臂；实验为受控桌面任务，原文整体成绩与表内计数存在差异。 "
+}

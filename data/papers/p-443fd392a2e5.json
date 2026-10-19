@@ -1,0 +1,270 @@
+{
+  "id": "p-443fd392a2e5",
+  "title": "Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity",
+  "short": "Holmes-VAU",
+  "aliases": [],
+  "authors": [
+    "Huaxin Zhang",
+    "Xiaohao Xu",
+    "Xiang Wang",
+    "Jialong Zuo",
+    "Xiaonan Huang",
+    "Changxin Gao",
+    "Shanjun Zhang",
+    "Li Yu",
+    "Nong Sang"
+  ],
+  "institutions": [
+    "Huazhong University of Science and Technology",
+    "University of Michigan",
+    "Kanagawa University"
+  ],
+  "firstPublished": "2024-12-09",
+  "updated": "2025-03-14",
+  "publicationYear": 2025,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "场景理解",
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "模型",
+      "数据集",
+      "Benchmark"
+    ],
+    "problem": [
+      "记忆",
+      "实时性",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "室外"
+    ],
+    "training": [
+      "监督微调",
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "HIVAU-70k多粒度异常标注与异常聚焦时间采样，支持片段、事件、整段视频的异常检测及语言解释。",
+  "method": {
+    "input": "整段视频与自然语言问题",
+    "output": "异常分数或指定粒度的异常描述",
+    "assumptions": "长视频可预先抽帧；检测评分器有帧级异常监督。",
+    "difference": "相对纯均匀抽帧，按异常密度分配有限视觉token；同时用层级指令监督解释。",
+    "explanation": "数据引擎先人工切分片段，再递归整合异常事件和视频描述。模型用冻结视觉编码器对每16帧的采样帧提特征，训练异常评分器估计各帧异常分数。ATS把分数加上平滑常数形成累积分布，在累积轴均匀采样并映回时间轴：异常密集处获得更多帧，正常区域仍保留上下文。选中帧经投影与问题一起送入InternVL2，用LoRA学习多粒度语言回答。检测评测用异常评分器输出，解释评测用生成文本，二者不能混为同一个指标。",
+    "flow": [
+      "层级标注引擎",
+      "异常评分器",
+      "ATS密度采样",
+      "语言解释"
+    ],
+    "modules": [
+      {
+        "name": "层级标注引擎",
+        "purpose": "建立局部到整体的异常解释",
+        "mechanism": "人工切分配合LLM递归描述/摘要，组织clip/event/video指令",
+        "input": "原始视频、异常片段",
+        "output": "HIVAU-70k"
+      },
+      {
+        "name": "异常评分器",
+        "purpose": "分配视觉预算",
+        "mechanism": "冻结视觉特征上训练帧级分数网络",
+        "input": "密集抽帧特征",
+        "output": "时间异常分数"
+      },
+      {
+        "name": "ATS密度采样",
+        "purpose": "保留关键事件并减少冗余",
+        "mechanism": "对分数加0.1后累积，在累计轴取N点映回帧索引",
+        "input": "异常分数序列",
+        "output": "稀疏关键帧"
+      },
+      {
+        "name": "语言解释",
+        "purpose": "回答不同粒度问题",
+        "mechanism": "选中帧与文本融合，以LoRA微调InternVL2-2B",
+        "input": "关键帧和问题",
+        "output": "异常解释"
+      }
+    ]
+  },
+  "training": {
+    "regime": "冻结主干并训练模块；监督微调",
+    "models": "InternVL2-2B，轻量异常评分器",
+    "trainable": "阶段一异常评分器；阶段二语言模型LoRA(r=64, α=128)",
+    "frozen": "视觉编码器冻结；阶段二评分器冻结",
+    "data": "HIVAU-70k，源自UCF-Crime与XD-Violence；遵循源数据训练划分",
+    "objective": "异常评分监督；回答token交叉熵",
+    "stages": "评分器训练→LoRA指令微调1epoch；2×A100，batch512，LoRA lr4e-5"
+  },
+  "evaluation": [
+    {
+      "benchmark": "UCF-Crime / XD-Violence",
+      "setting": "arXiv v2（2025-03-14），检测输出来自Anomaly Scorer；按各自原始训练集训练。AP与AUC为不同数据集指标。",
+      "result": "Holmes-VAU达XD-Violence AP87.68%、UCF-Crime AUC88.96%。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/abs/2412.06171",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 1",
+        "columns": [
+          "方法",
+          "XD-Violence AP(%)",
+          "UCF-Crime AUC(%)"
+        ],
+        "rows": [
+          [
+            "LLaVA-1.5",
+            50.26,
+            72.84
+          ],
+          [
+            "LAVAD",
+            62.01,
+            80.28
+          ],
+          [
+            "VadCLIP",
+            84.51,
+            88.02
+          ],
+          [
+            "Holmes-VAU",
+            87.68,
+            88.96
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2412.06171",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "HIVAU-70k测试解释",
+      "setting": "3330条：clip2200、event732、video398。§5.1称3300为约数；数量相加实际3330。BLEU原文为BLEU1–4累计值，不是BLEU-4。",
+      "result": "Holmes-VAU 2B的CIDEr为0.467/1.519/1.437；比较模型与文本参照仍依同一协议。",
+      "locator": "Table 2 / §5.1",
+      "sourceUrl": "https://arxiv.org/abs/2412.06171",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 2 / §5.1",
+        "columns": [
+          "模型",
+          "Clip CIDEr",
+          "Event CIDEr",
+          "Video CIDEr"
+        ],
+        "rows": [
+          [
+            "InternVL2-8B",
+            0.052,
+            0.022,
+            0.035
+          ],
+          [
+            "QwenVL2-7B",
+            0.044,
+            0.02,
+            0.044
+          ],
+          [
+            "Holmes-VAU-2B",
+            0.467,
+            1.519,
+            1.437
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2412.06171",
+        "locator": "Table 2 / §5.1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "实时流式部署仍需优化；当前集中在监控数据，工业/医疗跨领域和音频扩展待验证。"
+    ],
+    "analysis": [
+      "监督异常评分器使用帧级标注，与弱监督或零样本基线的监督条件不同。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2412.06171",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/pipixin321/HolmesVAU",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2412.06171",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Holmes-VAU_Towards_Long-term_Video_Anomaly_Understanding_at_Any_Granularity_CVPR_2025_paper.html",
+      "label": "CVPR正式记录",
+      "locator": "CVPR2025 pp.13843–13853",
+      "supports": [
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p443fd392a2e52024,\n  title = {Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity},\n  author = {Huaxin Zhang and Xiaohao Xu and Xiang Wang and Jialong Zuo and Xiaonan Huang and Changxin Gao and Shanjun Zhang and Li Yu and Nong Sang},\n  year = {2024},\n  url = {https://arxiv.org/abs/2412.06171}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "原文测试总数约数与分项合计存在差异，已显式注明",
+    "数据再分发与源监控数据许可证须分别核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "异常评分引导时间采样，选择关键帧；用HIVAU-70k对InternVL2做LoRA微调进行异常问答。未控制机器人复查。",
+      "evaluation": "HIVAU-70k：片段、事件、整视频三级异常理解；UCF-Crime、XD-Violence异常检测；Video-MME通用能力。",
+      "training": "是。对InternVL2做LoRA微调，并训练异常评分模块。",
+      "analysis": "监控视频时间理解不等于跨天重复巡检；未绑定同一设备的多轮状态、预测缓慢恶化或控制机器人主动回访。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "长视频中大部分画面可能正常，均匀抽帧容易错过短暂异常，密集输入又浪费上下文。Holmes-VAU 先训练轻量异常评分器，再按异常密度抽取较有信息的帧，用 InternVL2-2B 解释视频。配套 HIVAU-70k 由片段、事件、整段三个层次组织指令与描述。论文研究监控视频理解；没有评测自主机器人为核实异常而主动移动。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

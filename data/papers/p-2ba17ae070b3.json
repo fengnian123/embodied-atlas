@@ -1,0 +1,244 @@
+{
+  "id": "p-2ba17ae070b3",
+  "title": "Enablers and barriers to the implementation of socially assistive humanoid robots in health and social care: a systematic review",
+  "short": "SAR-Implementation",
+  "aliases": [
+    "SAR-Implementation"
+  ],
+  "authors": [
+    "Irena Papadopoulos",
+    "Christina Koulouglioti",
+    "Runa Lazzarino",
+    "Sheila Ali"
+  ],
+  "institutions": [],
+  "firstPublished": "2020-01-09",
+  "updated": null,
+  "publicationYear": 2020,
+  "venue": "BMJ Open",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2020,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "汇总社会辅助人形机器人在健康和社会照护落地时的促进因素与障碍，关注接受度、易用性、技术能力以及组织情境。",
+  "method": {
+    "input": "候选文章",
+    "output": "实施因素分类与设计建议",
+    "flow": [
+      "真实接触研究筛选",
+      "研究特征与偏倚评价",
+      "叙事与频次综合"
+    ],
+    "explanation": "该综述研究人形社会辅助机器人在健康与社会照护中落地的促进/阻碍因素，而不是比较导航或操作策略。作者检索近十年文献，用Rayyan去重和筛选，纳入实际与机器人接触的成年使用者、员工、照护者研究，排除只谈观点或不涉及真实接触的文章。双评审抽取研究设计、平台、样本、场地和使用体验，用偏倚工具评价证据。由于研究设计和测量异质，作者不进行Meta分析，而将促进、障碍与混合因素按出现频次组织，讨论技术可用性、情绪/行为、机器人可用资源和文化伦理背景。",
+    "modules": [
+      {
+        "name": "真实接触研究筛选",
+        "purpose": "使结论基于实际使用而非公众想象",
+        "mechanism": "检索多库，纳入成年照护相关人群与人形社会辅助机器人的直接接触研究；Rayyan管理去重和资格筛选。",
+        "input": "候选文章",
+        "output": "12项纳入研究"
+      },
+      {
+        "name": "研究特征与偏倚评价",
+        "purpose": "保留证据强度和样本限制",
+        "mechanism": "双人提取研究设计/平台/场景/样本；用Cochrane偏倚工具和公共卫生批判评价识别无对照、小样本等问题。",
+        "input": "纳入全文",
+        "output": "特征表与偏倚概况"
+      },
+      {
+        "name": "叙事与频次综合",
+        "purpose": "解释机器人实施条件",
+        "mechanism": "研究异质使Meta分析不适用；归纳促进、阻碍及方向混合因素并由研究团队达成一致。",
+        "input": "访谈、问卷、观察结论",
+        "output": "实施因素分类与设计建议"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "实施证据构成",
+      "setting": "Table 2及Results；综述统计，不是新机器人任务成功率",
+      "result": "纳入12项研究；原文计420参与者记录，其中两项研究同一队列被重复计数。",
+      "locator": "Table 2；Results：Population；Fig.1/2",
+      "sourceUrl": "https://bmjopen.bmj.com/content/10/1/e033096",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "研究设计",
+          "研究数"
+        ],
+        "rows": [
+          [
+            "混合方法非随机用户体验",
+            "6"
+          ],
+          [
+            "前后测调查",
+            "2"
+          ],
+          [
+            "混合方法纵向体验",
+            "1"
+          ],
+          [
+            "干预后调查",
+            "2"
+          ],
+          [
+            "民族志",
+            "1"
+          ]
+        ],
+        "locator": "Table 2；Results：Population；Fig.1/2"
+      },
+      "caveat": "420按论文研究记录累计，不是去重受试者人数；原文分组计数/百分比亦不能重新当成互斥人群比例。"
+    },
+    {
+      "benchmark": "参与者与证据限制",
+      "setting": "作者报告的人群记录计数",
+      "result": "307老年人、106正式照护/员工、7非正式照护者；无随机实验设计。",
+      "locator": "Results：Population；Table 1/2",
+      "sourceUrl": "https://bmjopen.bmj.com/content/10/1/e033096",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "项目",
+          "原文值"
+        ],
+        "rows": [
+          [
+            "老年人",
+            "307"
+          ],
+          [
+            "正式照护/员工",
+            "106"
+          ],
+          [
+            "非正式照护者",
+            "7"
+          ],
+          [
+            "纳入研究",
+            "12"
+          ],
+          [
+            "超过100人的研究",
+            "1"
+          ]
+        ],
+        "locator": "Results：Population；Table 1/2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "纳入研究总体质量低、偏倚高，多数无对照和基线，样本小且依赖自我报告。",
+      "只覆盖有人形机器人直接使用经验的研究；证据异质，无法定量合并评价疗效。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1136/bmjopen-2019-033096",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / SAR-Implementation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://bmjopen.bmj.com/content/bmjopen/10/1/e033096.full.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1136/bmjopen-2019-033096",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1136/bmjopen-2019-033096",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://bmjopen.bmj.com/content/10/1/e033096",
+      "locator": "Table 2；Results：Population；Fig.1/2; Results：Population；Table 1/2",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**BMJ Open'20**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "汇总社会辅助人形机器人在健康和社会照护落地时的促进因素与障碍，关注接受度、易用性、技术能力以及组织情境。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

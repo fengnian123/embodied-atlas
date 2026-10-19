@@ -1,0 +1,276 @@
+{
+  "id": "openeqa",
+  "title": "OpenEQA: Embodied Question Answering in the Era of Foundation Models",
+  "short": "OpenEQA",
+  "aliases": [],
+  "authors": [
+    "Arjun Majumdar",
+    "Anurag Ajay",
+    "Xiaohan Zhang",
+    "Pranav Putta",
+    "Sriram Yenamandra",
+    "Mikael Henaff",
+    "Sneha Silwal",
+    "Paul Mcvay",
+    "Oleksandr Maksymets",
+    "Sergio Arnaud",
+    "Karmesh Yadav",
+    "Qiyang Li",
+    "Ben Newman",
+    "Mohit Sharma",
+    "Vincent Berges",
+    "Shiqi Zhang",
+    "Pulkit Agrawal",
+    "Yonatan Bisk",
+    "Dhruv Batra",
+    "Mrinal Kalakrishnan",
+    "Franziska Meier",
+    "Chris Paxton",
+    "Alexander Sax",
+    "Aravind Rajeswaran"
+  ],
+  "institutions": [
+    "Fundamental AI Research (FAIR), Meta"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": null,
+  "tags": {
+    "direction": [
+      "导航",
+      "综合具身智能"
+    ],
+    "task": [
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "真实采集资产"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "用开放式自然语言问题评估环境理解，区分读取历史的 EM-EQA 与允许行动的 A-EQA；二者共享问题来源但输入权限和评测协议不同。",
+  "method": {
+    "input": "问题＋历史观测，或问题＋可行动环境",
+    "output": "开放式自然语言答案",
+    "flow": [
+      "人类问题与双人验证：保证开放问题有视觉证据且答案明确",
+      "EM-EQA与A-EQA协议：分开评记忆理解和信息获取",
+      "LLM-Match评估：允许正确的非逐字答案",
+      "分层基线比较：区分语言先验、视觉描述与直接多帧输入"
+    ],
+    "assumptions": "EM不能把后续观测放进历史；自动judge依赖指定模型/提示。数值必须按正式会议版、项目PDF及后续模型版本分开。",
+    "difference": "开放式问答，区别于封闭选项准确率。",
+    "explanation": "OpenEQA区分两种问题：EM-EQA只能利用已有观测历史回答，A-EQA可导航收集新证据后回答。人类根据ScanNet真实RGB-D和HM3D模拟探索历史编写七类开放问题，再由两名独立审核者检查歧义、可答性和答案。LLM-Match将模型答案与参考答案的1–5分语义评分归一化，另评主动探索效率。真实场景来源不代表每个基线都在真实机器人上运行。",
+    "modules": [
+      {
+        "name": "人类问题与双人验证",
+        "purpose": "保证开放问题有视觉证据且答案明确",
+        "mechanism": "七类涵盖物体/属性/状态/位置/空间/功能/世界知识；两名独立审核者剔除错误、歧义和不可答条目。",
+        "input": "扫描/视频历史、人工候选QA",
+        "output": "1636个验证QA"
+      },
+      {
+        "name": "EM-EQA与A-EQA协议",
+        "purpose": "分开评记忆理解和信息获取",
+        "mechanism": "EM输入Q与H，不能再探索；Active输入Q与初始模拟器状态，可执行导航采证，最后给自由文本答案。",
+        "input": "问题+历史，或问题+在线环境",
+        "output": "回答与Active探索轨迹"
+      },
+      {
+        "name": "LLM-Match评估",
+        "purpose": "允许正确的非逐字答案",
+        "mechanism": "GPT-4根据问题、参考与预测给1–5分，用(score−1)/4归一化；人类相关性和prompt稳健性另做验证。",
+        "input": "问题、参考答案、预测答案",
+        "output": "语义匹配分与不确定性"
+      },
+      {
+        "name": "分层基线比较",
+        "purpose": "区分语言先验、视觉描述与直接多帧输入",
+        "mechanism": "盲LLM、帧caption、scene graph、multi-frame VLM在各自输入下回答；Active另计效率。",
+        "input": "相同问题与声明的不同输入",
+        "output": "分来源与任务指标"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "Benchmark；官方基线GPT-4、LLaMA-2、LLaVA-1.5、ConceptGraphs、GPT-4V",
+    "trainable": "Benchmark不训练模型；官方基线主要调用现成模型",
+    "frozen": "各基线按原配置使用；不把后续论文微调策略算作原工作训练",
+    "data": "1636QA来自100 ScanNet场景与87 HM3D场景；其中557 HM3D题可用于Active",
+    "objective": "Benchmark评分是LLM-Match，不是训练损失",
+    "stages": "人工生成→双重验证→EM/Active推理→固定judge评估"
+  },
+  "evaluation": [
+    {
+      "benchmark": "OpenEQA EM-EQA",
+      "setting": "正式CVPR2024 PDF表2；GPT-4V仅500题子集(API限制)，其他行原论文各自范围；不能当完全相同题目集的严格排行榜。",
+      "result": "会议版GPT-4V Overall49.6±2.0；Human86.8±0.6。项目页后续PDF出现55.3±1.1，应视作不同版本/范围。",
+      "locator": "CVPR2024 p.16493 表2",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "CVPR2024 p.16493 表2",
+        "columns": [
+          "方法",
+          "ScanNet",
+          "HM3D",
+          "Overall"
+        ],
+        "rows": [
+          [
+            "GPT-4 blind",
+            "32.5±1.2",
+            "35.5±1.7",
+            "33.5±1.0"
+          ],
+          [
+            "GPT-4+LLaVA-1.5",
+            "45.4±1.3",
+            "40.0±1.8",
+            "43.6±1.1"
+          ],
+          [
+            "GPT-4V (500题子集)",
+            "51.3±2.5",
+            "46.6±3.1",
+            "49.6±2.0"
+          ],
+          [
+            "Human",
+            "87.7±0.7",
+            "85.1±1.1",
+            "86.8±0.6"
+          ]
+        ],
+        "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2024/papers/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.pdf",
+        "locator": "CVPR2024 p.16493 表2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "LLM judge 的版本和提示会影响可比性；图像历史问答不能独立证明实时行动能力。"
+    ]
+  },
+  "resources": {
+    "project": {
+      "url": "https://open-eqa.github.io/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/facebookresearch/open-eqa",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://github.com/facebookresearch/open-eqa",
+      "status": "已核实入口"
+    },
+    "paper": {
+      "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.html",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://open-eqa.github.io/",
+      "label": "官方项目页",
+      "locator": "任务、作者、BibTeX",
+      "supports": [
+        "任务",
+        "发表",
+        "规模"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/facebookresearch/open-eqa",
+      "label": "官方仓库",
+      "locator": "Dataset、Baselines、Evaluation、License",
+      "supports": [
+        "协议",
+        "资源",
+        "许可证"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.html",
+      "label": "CVPR 2024 官方论文集",
+      "locator": "作者列表、发表信息、BibTeX",
+      "supports": [
+        "作者",
+        "发表",
+        "引用"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.pdf",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§2–5；表2，Fig2；正式CVPR2024版本",
+      "supports": [
+        "方法",
+        "统计",
+        "真实扫描与模拟执行区别",
+        "GPT-4V子集和会议版结果"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@inproceedings{Majumdar_2024_CVPR,\n  title = {OpenEQA: Embodied Question Answering in the Era of Foundation Models},\n  author = {Arjun Majumdar and Anurag Ajay and Xiaohan Zhang and Pranav Putta and Sriram Yenamandra and Mikael Henaff and Sneha Silwal and Paul Mcvay and Oleksandr Maksymets and Sergio Arnaud and Karmesh Yadav and Qiyang Li and Ben Newman and Mohit Sharma and Vincent Berges and Shiqi Zhang and Pulkit Agrawal and Yonatan Bisk and Dhruv Batra and Mrinal Kalakrishnan and Franziska Meier and Chris Paxton and Alexander Sax and Aravind Rajeswaran},\n  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},\n  year = {2024},\n  pages = {16488--16498}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。",
+    "首次公开日期、最新版本日期未在可靠arXiv记录确认；不以会议年份推造精确日期。"
+  ],
+  "sourceNotes": [
+    "版本差异已保留：正式CVPR2024表2 GPT-4V Overall49.6±2.0(500题)；项目页paper.pdf表2为55.3±1.1。这里采用正式会议版。"
+  ],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "OpenEQA 问的是机器人是否真正理解所见环境，而不只是能否定位一个物体。它提供人类编写的开放式问答和自动评测，将基于既有观察历史的问答，与需要主动探索获取证据的问答分开。读实验时必须检查是 EM-EQA 还是 A-EQA、题目子集与探索预算，不能把各论文使用不同设置的 LLM-Match 分数直接拼成排行榜。",
+  "benchmark": {
+    "motivation": "评估开放词汇的环境理解，覆盖记忆与主动探索。",
+    "task": "EM-EQA 读取已有历史；A-EQA 需要行动获取信息。",
+    "input": "自然语言问题；历史 RGB-D/位姿或在线环境观测（依协议）。",
+    "output": "自由形式自然语言答案",
+    "actions": "EM 不允许继续探索；A-EQA 按实验模拟器配置行动。",
+    "success": "LLM-Match 等答案评分；不能等同于 ObjectNav SR。",
+    "collection": "人类看历史按7类生成问题；每项两名独立验证者看同历史核对可答性、歧义与答案，存在问题则弃用。",
+    "scale": "1636 QA；100 ScanNet环境+87 HM3D环境；557 HM3D问题共享于EM与Active。正式会议版GPT-4V因API限制只评500题子集，不能替换成全量规模。",
+    "split": "主要为评测集；ScanNet选90 validation+10 test场景，HM3D选87 validation场景。EM和Active共享HM3D问题，不能作为彼此独立训练/测试集。",
+    "metrics": "答案匹配评分；路径效率是部分 Active 方法另报指标。",
+    "baselines": "语言模型、描述记忆、图像输入等官方基线。",
+    "assets": "问答 JSON、观察历史下载说明、基线与评测代码。",
+    "license": "官方仓库 MIT；底层场景资产需另查许可。",
+    "reproduction": "浏览数据免费；官方自动 judge 与部分基线运行需模型服务，网站浏览不需要。",
+    "coverage": "开放式环境理解、空间与物体相关问答",
+    "boundary": "不是动态世界预测、接触操作或真实机器人长期自主评测。",
+    "leakage": "训练数据、视觉历史与问答测试集应隔离；API 模型训练数据通常无法完全审计。"
+  },
+  "citationNote": "会议版元数据与CVF官方BibTeX对齐。",
+  "verificationLevel": "fulltext"
+}

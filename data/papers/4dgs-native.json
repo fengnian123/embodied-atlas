@@ -1,0 +1,298 @@
+{
+  "id": "4dgs-native",
+  "title": "Real-time Photorealistic Dynamic Scene Representation and Rendering with 4D Gaussian Splatting",
+  "short": "4DGS · 原生四维",
+  "aliases": [
+    "4DGS",
+    "原生四维高斯",
+    "时空高斯"
+  ],
+  "authors": [
+    "Zeyu Yang",
+    "Hongye Yang",
+    "Zijie Pan",
+    "Li Zhang"
+  ],
+  "institutions": [
+    "Fudan University"
+  ],
+  "firstPublished": "2023-10-16",
+  "updated": "2024-02-22",
+  "publicationYear": 2024,
+  "venue": "ICLR",
+  "publicationStatus": "已发表",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "实时性"
+    ],
+    "environment": [
+      "离线重建",
+      "真实世界"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "直接优化可在时空中旋转的四维高斯；按查询时间条件化出三维高斯并进行 splatting，以显式时空相关性表达动态外观与运动。",
+  "method": {
+    "input": "带相机参数和时间戳的单目或多视角视频",
+    "output": "指定时间与视角的动态新视图",
+    "flow": [
+      "四维时空基元",
+      "按时间条件化",
+      "时变外观和时空增密"
+    ],
+    "assumptions": "实验新时间位于训练视频覆盖范围内；模型为逐场景拟合。",
+    "difference": "四维旋转允许空间与时间协方差耦合；无需规范空间形变 MLP。",
+    "explanation": "直接优化可在时空中旋转的四维高斯；按查询时间条件化出三维高斯并进行 splatting，以显式时空相关性表达动态外观与运动。 四维旋转允许空间与时间协方差耦合；无需规范空间形变 MLP。 每个基元存四维均值、四个尺度和一对四元数形成 4D 旋转，使协方差保持半正定。 条件均值 μxyz|t=μxyz+ΣxtΣtt⁻¹(t−μt)，条件协方差为 Schur 补；时间边缘高斯作为透明度权重。 4D spherindrical harmonics 将球谐与时间 Fourier 基组合；渲染损失优化并结合时间均值梯度进行空间/时间分裂。",
+    "modules": [
+      {
+        "name": "四维时空基元",
+        "purpose": "用局部时空分布关联不同帧",
+        "mechanism": "每个基元存四维均值、四个尺度和一对四元数形成 4D 旋转，使协方差保持半正定。",
+        "input": "初始点云及视频",
+        "output": "联合 (x,y,z,t) 高斯"
+      },
+      {
+        "name": "按时间条件化",
+        "purpose": "获得当前时刻可投影的空间切片",
+        "mechanism": "条件均值 μxyz|t=μxyz+ΣxtΣtt⁻¹(t−μt)，条件协方差为 Schur 补；时间边缘高斯作为透明度权重。",
+        "input": "四维高斯、t",
+        "output": "三维均值/协方差与时间权重"
+      },
+      {
+        "name": "时变外观和时空增密",
+        "purpose": "表达光照变化并自适应分配基元",
+        "mechanism": "4D spherindrical harmonics 将球谐与时间 Fourier 基组合；渲染损失优化并结合时间均值梯度进行空间/时间分裂。",
+        "input": "条件高斯、视角与时间",
+        "output": "RGB 图像与优化后的时空表示"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "四维均值、尺度、旋转、透明度及 4DSH 系数",
+    "trainable": "四维均值、尺度、旋转、透明度及 4DSH 系数",
+    "frozen": "不适用：无 VLM 主干",
+    "data": "Plenoptic Video/D-NeRF 等逐场景图像",
+    "objective": "仅渲染重建损失；时间批采样缓和抖动",
+    "stages": "默认 30,000 步，batch=4，训练中点停止增密"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Plenoptic Video",
+      "setting": "arXiv v3；6段真实多视角10秒序列，留一相机测试。Wu等4DGS行仅报告三场景，故不在此并排摘录；本表FPS不跨硬件推广。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Plenoptic Video · Table 1",
+        "columns": [
+          "Method",
+          "PSNR ↑",
+          "DSSIM ↓",
+          "LPIPS ↓",
+          "FPS ↑"
+        ],
+        "rows": [
+          [
+            "HexPlane (Cao & Johnson, 2023)",
+            "31.70",
+            "0.014",
+            "0.075",
+            "0.563"
+          ],
+          [
+            "4DGS (Ours)",
+            "32.01",
+            "0.014",
+            "0.055",
+            "114"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2310.10642v3",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "D-NeRF",
+      "setting": "arXiv v3；8个合成场景均值，默认2倍降采样（约400×400）；Wu等800×800脚注行不用于同分辨率比较。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "D-NeRF · Table 2",
+        "columns": [
+          "Method",
+          "PSNR ↑",
+          "SSIM ↑",
+          "LPIPS ↓"
+        ],
+        "rows": [
+          [
+            "D-NeRF (Pumarola et al., 2021)",
+            "29.67",
+            "0.95",
+            "0.07"
+          ],
+          [
+            "TiNeuVox (Fang et al., 2022)",
+            "32.67",
+            "0.97",
+            "0.04"
+          ],
+          [
+            "4DGS (Ours)",
+            "34.09",
+            "0.98",
+            "0.02"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2310.10642v3",
+        "locator": "Table 2"
+      }
+    },
+    {
+      "benchmark": "4D建模消融",
+      "setting": "Flame Salmon 与 Cut Roasted Beef 两场景的平均；直接摘录Average列。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 3",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "4D建模消融 · Table 3",
+        "columns": [
+          "变体",
+          "平均PSNR↑",
+          "平均SSIM↑"
+        ],
+        "rows": [
+          [
+            "No-4DRot",
+            "30.79",
+            "0.96"
+          ],
+          [
+            "No-4DSH",
+            "31.38",
+            "0.97"
+          ],
+          [
+            "Full",
+            "31.62",
+            "0.97"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2310.10642v3",
+        "locator": "Table 3"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "没有初始点的远距离背景难以恢复；球面初始化缓解外观缺失，但不意味着获得正确背景几何。（附录A）"
+    ],
+    "analysis": [
+      "时空基元可生灭不等于显式物体身份跟踪；本论文不提供机器人可碰撞 Mesh 或动作交互协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2310.10642",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://fudan-zvg.github.io/4d-gaussian-splatting/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/fudan-zvg/4d-gaussian-splatting",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2310.10642",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2310.10642v3",
+      "label": "论文全文 v3",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://fudan-zvg.github.io/4d-gaussian-splatting/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/fudan-zvg/4d-gaussian-splatting",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "4dgs-deformation",
+      "reason": "两种不同的时间建模路线"
+    }
+  ],
+  "bibtex": "@misc{231010642,\n  title = {Real-time Photorealistic Dynamic Scene Representation and Rendering with 4D Gaussian Splatting},\n  author = {Yang, Zeyu and Yang, Hongye and Pan, Zijie and Zhang, Li},\n  year = {2023},\n  eprint = {2310.10642},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2310.10642}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "overview": "直接优化可在时空中旋转的四维高斯；按查询时间条件化出三维高斯并进行 splatting，以显式时空相关性表达动态外观与运动。 四维旋转允许空间与时间协方差耦合；无需规范空间形变 MLP。 实验新时间位于训练视频覆盖范围内；模型为逐场景拟合。",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。",
+  "verificationLevel": "fulltext"
+}

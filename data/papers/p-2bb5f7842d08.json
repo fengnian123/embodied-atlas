@@ -1,0 +1,266 @@
+{
+  "id": "p-2bb5f7842d08",
+  "title": "WorldLines: Benchmarking and Modeling Long-Horizon Stateful Embodied Agents",
+  "short": "WorldLines",
+  "aliases": [
+    "WorldLines Memory QA",
+    "WorldLines",
+    "Memory QA",
+    "ObsMem"
+  ],
+  "authors": [
+    "Zhang, Yehang",
+    "Su, Jianchong",
+    "Huang, Haojian",
+    "Chang, Yifan",
+    "Zhou, Tianhao",
+    "Xu, Xinli",
+    "Xu, Yingjie",
+    "Li, Yinchuan",
+    "Li, Zexi",
+    "Chen, Ying-Cong"
+  ],
+  "institutions": [
+    "HKUST(GZ)",
+    "HKUST",
+    "Knowin"
+  ],
+  "firstPublished": "2026-06-17",
+  "updated": "2026-08-21",
+  "publicationYear": 2026,
+  "venue": "EMNLP",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "EQA",
+      "长程任务",
+      "历史检索"
+    ],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent",
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "方法",
+      "数据集"
+    ],
+    "problem": [
+      "记忆",
+      "动态环境",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "以项目驱动的跨日家庭状态轨迹评测长期记忆，并用可观测性门控与分类型状态记忆作基线。",
+  "method": {
+    "explanation": "WorldLines 在家庭世界里生成跨日项目活动，包含对话、动作、反馈、物体与设备状态变化，再把证据链接成Memory QA和具身规划题。ObsMem先判定事件对机器人是否可见，区分亲见与听说，再维护只追加的事件轨迹、可更新状态历史、可信度/信念和未来承诺。检索时根据问题选择对应记忆视图并筛证据。它的Memory QA只是一项任务，正式论文身份应统一为WorldLines，不能与方法独立重复索引。",
+    "input": "机器人可见事件、对话、动作反馈及查询",
+    "output": "长期记忆答案与状态感知计划",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "以项目驱动的跨日家庭状态轨迹评测长期记忆，并用可观测性门控与分类型状态记忆作基线。",
+    "flow": [
+      "项目驱动轨迹生成",
+      "可观测性门控与类型化记忆",
+      "证据选择与问答/规划"
+    ],
+    "modules": [
+      {
+        "name": "项目驱动轨迹生成",
+        "purpose": "产生有持续状态与跨日因果的家庭历史",
+        "mechanism": "从语义世界与多日项目生成对话和操作，确定性执行器检查实体、可供性和前置条件，只将合法结果写成状态变化。",
+        "sourceUrl": "https://arxiv.org/html/2606.18847",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "可观测性门控与类型化记忆",
+        "purpose": "避免用机器人未见的全知状态",
+        "mechanism": "观察者门判断事件是否可见并区分observed/reported；Event只追加，State保留当前快照和历史，Belief维护可靠性，Commitment保留未来约束。",
+        "sourceUrl": "https://arxiv.org/html/2606.18847",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "证据选择与问答/规划",
+        "purpose": "把历史检索转成当前可执行判断",
+        "mechanism": "按问题检索多视图，做事件/状态整合与证据筛选，再生成带证据回答或满足前置条件的具身计划。",
+        "sourceUrl": "https://arxiv.org/html/2606.18847",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "基准/非参数记忆推理；未声明新增权重微调",
+    "models": "ObsMem与A-mem/Mem0/GraphMem/MemoryOS等记忆基线",
+    "trainable": "记忆内容与状态更新；本条未记录新增模型参数训练",
+    "frozen": "用于抽取/回答的基础模型作为推理组件",
+    "data": "WorldLines跨日事件；310 Memory QA，62诊断题，隐藏问题仅6题",
+    "objective": "检索/状态更新与LLM推理；无新增动作策略损失",
+    "stages": "世界与项目 → 合法轨迹 → 证据题 → observer memory → QA/计划"
+  },
+  "evaluation": [
+    {
+      "benchmark": "WorldLines 310 Memory QA",
+      "setting": "Table2，310 Memory QA；Judge与Perfect及事件召回是不同指标。消融另用62题，不能与全310题混用。",
+      "result": "ObsMem Judge.713、Perfect69%、Event R@5 .537；A-mem .575/53%/.355。规划Table4 Plan.684。",
+      "sourceUrl": "https://arxiv.org/html/2606.18847",
+      "locator": "Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 2 : Memory QA performance on WorldLines. All methods are evaluated on 310 Memory QA samples. We report overall QA quality, session/event retrieval, and state- or temporal-reasoning diagnostics. StateMH-E highlights event-level recall in the most evidence-demanding multi-hop state setting. Full family-level breakdowns are in Appendix 8.8 .",
+        "columns": [
+          "Method",
+          "Judge ↑",
+          "Perfect ↑",
+          "Sess. Any@5 ↑",
+          "Event R@5 ↑",
+          "StateMH-J ↑",
+          "StateMH-E ↑",
+          "StateSH-J ↑",
+          "Temp-J ↑"
+        ],
+        "rows": [
+          [
+            "A-mem",
+            "0.575",
+            "53%",
+            "0.839",
+            "0.355",
+            "0.540",
+            "0.216",
+            "0.550",
+            "0.692"
+          ],
+          [
+            "Mem0",
+            "0.554",
+            "53%",
+            "0.823",
+            "0.378",
+            "0.598",
+            "0.264",
+            "0.550",
+            "0.462"
+          ],
+          [
+            "GraphMem",
+            "0.457",
+            "39%",
+            "0.806",
+            "0.243",
+            "0.529",
+            "0.184",
+            "0.417",
+            "0.359"
+          ],
+          [
+            "MemoryOS",
+            "0.312",
+            "29%",
+            "0.452",
+            "0.085",
+            "0.287",
+            "0.086",
+            "0.350",
+            "0.308"
+          ],
+          [
+            "ObsMem",
+            "0.713",
+            "69%",
+            "0.879",
+            "0.537",
+            "0.762",
+            "0.452",
+            "0.667",
+            "0.667"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "benchmark含模拟状态轨迹和计划判据，不应宣传为真实家庭机器人长时控制成功率；6题hidden诊断的统计稳定性有限。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.18847",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / WorldLines Memory QA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2606.18847",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2606.18847",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p2bb5f7842d082026,\n title={WorldLines: Benchmarking and Modeling Long-Horizon Stateful Embodied Agents},\n author={Zhang, Yehang and Su, Jianchong and Huang, Haojian and Chang, Yifan and Zhou, Tianhao and Xu, Xinli and Xu, Yingjie and Li, Yinchuan and Li, Zexi and Chen, Ying-Cong},\n year={2026},\n url={https://arxiv.org/abs/2606.18847}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；任务协议待核实",
+      "inputProtocol": "结构化事件/文本历史；仅可见过去，非原始视频EQA",
+      "scale": "310项Memory QA；Top-5检索协议"
+    }
+  ],
+  "overview": "WorldLines 在家庭世界里生成跨日项目活动，包含对话、动作、反馈、物体与设备状态变化，再把证据链接成Memory QA和具身规划题。ObsMem先判定事件对机器人是否可见，区分亲见与听说，再维护只追加的事件轨迹、可更新状态历史、可信度/信念和未来承诺。检索时根据问题选择对应记忆视图并筛证据。它的Memory QA只是一项任务，正式论文身份应统一为WorldLines，不能与方法独立重复索引。",
+  "verificationLevel": "fulltext",
+  "benchmark": {
+    "motivation": "将长期语言记忆与持续家庭世界状态和物理/设备操作连接。",
+    "task": "Memory QA与Embodied Task Planning；题目链接历史证据。",
+    "collection": "项目驱动跨日生成，确定性执行器检验前置条件与合法状态转移。",
+    "scale": "主Memory QA310题；消融62题，其中hidden-until-observed6题。",
+    "environment": "家庭世界模拟状态轨迹。",
+    "metrics": "Judge、Perfect、Session/Event检索、状态/时间诊断与计划维度评分。",
+    "boundary": "非照片真实机器人导航；生成世界与评判模型影响结论。"
+  }
+}

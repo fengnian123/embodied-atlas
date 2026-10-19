@@ -1,0 +1,207 @@
+{
+  "id": "hros",
+  "title": "Harness Robotic OS: A Unified Embodied-Agent Runtime for Closed-Loop Quadruped Inspection",
+  "short": "Harness Robotic OS",
+  "aliases": [],
+  "authors": [
+    "Yaoyuan Yan",
+    "Zhiyou Heng",
+    "Haoxiang Jie",
+    "Gang Liu",
+    "Hongjie Yan",
+    "Wei Zhou"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-09-10",
+  "updated": null,
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统"
+    ],
+    "problem": [
+      "记忆",
+      "安全"
+    ],
+    "environment": [
+      "真实世界",
+      "四足机器人"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "把四足巡检的导航、感知、交互与企业告警串成可追踪闭环，用运行时管理上下文、能力与受控更新。",
+  "method": {
+    "input": "语音/文字任务、机器人传感器、执行状态",
+    "output": "巡检动作、异常报告及告警",
+    "flow": [
+      "接收任务并建立上下文",
+      "调用导航和巡检能力",
+      "记录多模态反馈",
+      "生成报告并处理更新"
+    ],
+    "assumptions": "依赖导航定位栈、接口和部署网络",
+    "difference": "关注完整运行时与企业工作流。",
+    "explanation": "HROS是运行时集成方案：共享上下文把物理状态、任务和推理连接起来，技能层负责定位、深度感知及全局/局部规划，认知层通过Qwen3-VL解释巡检观测，运营层完成语音交互与告警交付。工作、情节与语义记忆分别支持当前执行、历史检索及可复用知识；自进化先生成版本化候选更新，经安全门控验证后才可能部署，不能等同于已证明持续在线自我提升。",
+    "modules": [
+      {
+        "name": "机器人与自治技能层",
+        "purpose": "执行可追踪的物理动作",
+        "mechanism": "Vbot结合Fast-LIO2、Hobot-Stereo、PCT-Planner和EGO-Planner",
+        "input": "传感器、巡检航点",
+        "output": "定位、路线和运动反馈"
+      },
+      {
+        "name": "认知运行时与共享上下文",
+        "purpose": "让高层推理读取执行事实",
+        "mechanism": "OpenClaw编排Qwen3-VL，任务与物理状态通过共享上下文交接",
+        "input": "图像、任务、技能反馈",
+        "output": "隐患解释及下一任务"
+      },
+      {
+        "name": "分层记忆及安全进化",
+        "purpose": "积累知识并控制变更",
+        "mechanism": "工作/情节/语义记忆保存不同尺度内容，执行轨迹生成版本化候选并接受验证",
+        "input": "巡检轨迹与反馈",
+        "output": "可审查更新候选"
+      },
+      {
+        "name": "交互与运营闭环",
+        "purpose": "把发现送达实际业务",
+        "mechanism": "流式ASR/TTS结合钉钉/飞书适配和结构化报告",
+        "input": "已确认事件",
+        "output": "语音响应、告警、报告"
+      }
+    ]
+  },
+  "training": {
+    "regime": "训练细节未核实",
+    "models": "Qwen3-VL 与机器人导航组件",
+    "trainable": "各组件是否专门训练需按模块核实",
+    "frozen": "不能仅凭调用 VLM 推断全系统无训练",
+    "data": "部署数据与受控实验",
+    "objective": "未核实",
+    "stages": "组件集成 → 现场与受控评估"
+  },
+  "evaluation": [
+    {
+      "benchmark": "住宅社区Argos部署",
+      "setting": "作者系统级现场测量；未公开逐指标完整分母/重复次数；不是标准导航排行榜。",
+      "result": "航点到达率100%；各风险检测率85–95%；告警与报告99%。这些是作者场景内结果，不能推出跨社区泛化。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/abs/2609.11225",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "住宅社区Argos部署：Table 1",
+        "columns": [
+          "子系统",
+          "指标",
+          "作者报告值"
+        ],
+        "rows": [
+          [
+            "导航",
+            "航点到达率",
+            "100%"
+          ],
+          [
+            "定位",
+            "室外定位误差",
+            "<10 cm"
+          ],
+          [
+            "避障",
+            "响应时延",
+            "<200 ms"
+          ],
+          [
+            "识别",
+            "垃圾溢出/车道占用/消防通道阻塞/积水/设施损坏",
+            "95% / 90% / 95% / 88% / 85%"
+          ],
+          [
+            "业务",
+            "告警送达/报告正确率",
+            "99% / 99%"
+          ],
+          [
+            "运行",
+            "续航/全覆盖巡检时长",
+            ">3 h / ≤60 min"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2609.11225",
+        "locator": "Table 1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "需要长期地图维护、更广泛开放世界隐患数据。"
+    ],
+    "analysis": [
+      "现场功能演示不能替代标准 Agent Benchmark 或跨天重复任务对照。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2609.11225",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：Harness-Robotic-OS.pdf",
+      "url": "https://arxiv.org/abs/2609.11225",
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2609.11225",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{hros2026,\n  title = {Harness Robotic OS: A Unified Embodied-Agent Runtime for Closed-Loop Quadruped Inspection},\n  author = {Yaoyuan Yan and Zhiyou Heng and Haoxiang Jie and Gang Liu and Hongjie Yan and Wei Zhou},\n  year = {2026},\n  eprint = {2609.11225},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2609.11225}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容",
+    "作者机构",
+    "最新版本日期"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "论文强调巡检部署的系统集成问题：单独具备导航和异常识别能力，不代表能在长时任务中维护状态、复用经验并产生可追踪报告。HROS 将底层自治栈与上层多模态推理、交互和任务运行时相接，展示物业环境部署。系统功能声明、已执行现场实验和未来能力需要分开阅读，尤其不能把提出更新机制写成已验证长期自进化。",
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

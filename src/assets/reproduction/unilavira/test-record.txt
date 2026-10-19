@@ -1,0 +1,635 @@
+Uni-LaViRA 测试记录（VLN任务）
+测试任务：
+R2R **val_unseen** episode 1
+0
+输⼊输出记录
+step 12：
+从 step12 开始进⾏决策
+
+
+LA ⽣成 TODO 和⽬标
+image
+         current image（四视⻆）
+
+         ⻆⾊
+         你是⼀名导航智能体。
+         导航指令
+         “⾛进客厅，并继续直⾛穿过客厅。然后⾛进阳台下⽅的⼊⼝。在
+         通往另⼀个房间的⼊⼝处等待。”
+         输⼊图像说明
+         上⾯提供的图像是机器⼈起始位置的四个⽅向视⻆：
+         * 初始前⽅视⻆
+
+
+         * 初始左侧视⻆
+
+
+         * 初始后⽅视⻆
+
+
+         * 初始右侧视⻆
+
+
+         你的任务
+         请在⼀次回复中完成两件事：
+         1. 创建⼀个⽤于完成该导航指令的 TODO 列表，按执⾏顺序列出
+prompt
+（真实数       ⼦⽬标。
+据翻译成
+了中⽂）       2. 识别最终⽬标物体或区域。整个导航过程会在机器⼈接近这个最
+           终⽬标后停⽌。
+
+
+           回复要求
+           只返回结果本身，不要添加额外解释。
+           结果应包含：
+           * todos ：按顺序排列的待完成⼦⽬标列表，每个⼦⽬标的状态都
+           是 pending
+
+
+           * last_object ：最终⽬标物体或区域，⽤⼀个简短短语描述
+
+
+           四张图像对应关系
+           * image_0.png ：初始前⽅视⻆
+
+
+           * image_1.png ：初始左侧视⻆
+
+
+           * image_2.png ：初始后⽅视⻆
+
+
+           * image_3.png ：初始右侧视⻆
+
+           json<br>{<br> "todos": [<br> {"content": "Walk
+           forward into the living room", "status": "pending"},
+           <br> {"content": "Keep walking straight through the
+           living room", "status": "pending"},<br> {"content":
+response   "Walk into the arched entrance under the balcony",
+           "status": "pending"},<br> {"content": "Wait in the
+           entrance to the other room", "status": "pending"}<br>
+           ],<br> "last_object": "entrance under the balcony"
+           <br>}<br>
+
+
+
+LA 导航决策
+history image
+image
+current image
+
+导航任务
+导航指令是：
+“⾛进客厅，并继续直⾛穿过客厅。然后⾛进阳台下⽅的⼊⼝。在
+通往另⼀个房间的⼊⼝处等待。”
+导航历史
+系统会提供⼀张导航历史图像：
+* image_0.png ：导航历史图像
+
+
+这张图通常⽤于展示智能体之前⾛过的位置、轨迹或历史观察。
+当前四⽅向视⻆
+当前机器⼈所在位置有四个⽅向的视⻆：
+* image_1.png ：当前前⽅视⻆
+
+
+* image_2.png ：当前左侧视⻆
+
+
+* image_3.png ：当前后⽅视⻆
+
+
+* image_4.png ：当前右侧视⻆
+         模型需要结合这些视⻆判断下⼀步该往哪⾥⾛。
+         当前 TODO 列表
+         当前任务被拆成了四个⼦⽬标：
+         1. ⾛进客厅。
+
+
+         2. 继续直⾛穿过客厅。
+
+
+         3. ⾛进阳台下⽅的拱形⼊⼝。
+
+
+         4. 在通往另⼀个房间的⼊⼝处等待。
+
+
+         当前这些⼦⽬标的状态都是 pending ，也就是还没有被确认完
+         成。
+         模型需要完成的任务
+         模型需要根据：
+         * 原始导航指令
+
+
+         * 导航历史
+
+
+         * 当前四⽅向视⻆
+
+
+         * 当前 TODO 列表
+
+
+         判断下⼀步导航动作。
+         它需要先判断 TODO 列表是否需要更新，然后再决定下⼀步动
+prompt   作。
+         第⼀步：检查 TODO 列表
+         模型需要检查所有 TODO 项，⽽不是只看第⼀个。
+         每个 TODO 只有两种状态：
+         * pending ：尚未完成
+
+
+         * completed ：已经完成
+如果模型认为某个⼦⽬标已经完成，需要把它标记
+为 completed ，并给出具体的观察依据。
+例如：
+“已经进⼊客厅，周围可以看到客厅家具和⽊质墙⾯。”
+如果模型想修改 TODO，也可以：
+* 重写某个 TODO
+
+
+* 添加新的 TODO
+
+
+* 删除不再需要的 TODO
+
+
+如果把某个 TODO 标记为完成，但没有给出具体依据，这个更新
+会被回滚。
+第⼆步：决定下⼀步动作
+模型需要基于更新后的 TODO 列表、当前观察和原始指令，选择
+⼀个动作：
+* navigate to forward ：继续向前⾛
+
+
+* navigate to left ：左转并前进
+
+
+* navigate to right ：右转并前进
+
+
+* navigate to behind ：转身并前进
+
+
+同时还要判断：
+* 是否应该停⽌： stop
+
+
+* 是否正在上下楼梯： stair
+
+
+默认情况下：
+* stop 应该是 False
+           * stair 应该是 False
+
+
+           只有当机器⼈真的在跨楼层楼梯上时， stair 才能
+           是 "up" 或 "down" 。
+
+           json<br>{<br> "progress_analysis": "We are currently
+           in the living room, facing the arched entrance under
+           the balcony. We need to continue moving forward to
+           pass through the living room and reach the
+           entrance.",<br> "reasoning_todo": "Step 0 is
+           completed because we are already inside the living
+           room. Step 1 is in progress as we are walking
+           straight through it. Steps 2 and 3 remain pending.",
+           <br> "todo_updates": [<br> {<br> "index": 0,<br>
+response
+           "status": "completed",<br> "result": "I have walked
+           into the living room, surrounded by wooden paneling
+           and furniture."<br> }<br> ],<br> "reasoning_action":
+           "The instruction requires us to keep walking straight
+           past the living room towards the arched entrance
+           under the balcony. The forward view shows the clear
+           path straight ahead to this entrance.",<br> "action":
+           "navigate to forward",<br> "stop": false,<br>
+           "stair": false<br>}<br>
+
+
+
+VA ⽬标框选择
+image
+
+
+
+
+        任务背景
+        你是⼀个正在执⾏导航任务的机器⼈。
+        请观察当前图像以及对应的灰度深度图，帮助机器⼈判断下⼀步应
+        该朝哪⾥导航。
+        输⼊图像
+系统提供了两张图：
+* image_0.png ：当前 RGB 视觉图像
+
+
+* image_1.png ：对应的灰度深度图
+
+
+RGB 图像⽤于识别场景内容，例如家具、⼊⼝、墙⾯、通道等。
+灰度深度图⽤于判断空间距离和可通⾏区域，例如哪⾥近、哪⾥
+远、哪⾥是可前进的通道。
+导航任务
+机器⼈需要完成的指令是：
+“⾛进客厅，并继续直⾛穿过客厅。然后⾛进阳台下⽅的⼊⼝。在
+通往另⼀个房间的⼊⼝处等待。”
+当前状态
+当前处于第 12 步。
+图像尺⼨是：
+* 宽度：640 像素
+
+
+* ⾼度：480 像素
+
+
+当前 TODO 列表
+当前任务进度如下：
+1. ⾛进客厅
+状态：已完成
+完成依据：机器⼈已经进⼊客厅，周围可以看到⽊质墙⾯和家具。
+
+
+2. 继续直⾛穿过客厅
+状态：未完成
+
+
+3. ⾛进阳台下⽅的拱形⼊⼝
+状态：未完成
+
+
+4. 在通往另⼀个房间的⼊⼝处等待
+状态：未完成
+promp   当前进度分析
+        根据前⼀步导航决策：
+        机器⼈现在位于客厅中，正⾯对着阳台下⽅的拱形⼊⼝。
+        接下来需要继续向前移动，穿过客厅，并到达那个⼊⼝。
+        当前需要你完成的任务
+        请根据当前 RGB 图像和深度图，完成两件事：
+        1. 找出下⼀步最相关的⽬标物体或⽬标区域。
+        只能指定⼀个⽬标，⽽且这个⽬标不能离机器⼈太近。
+
+
+        2. 给出这个⽬标区域的⼆维边界框。
+
+
+        边界框格式说明
+        边界框需要⽤四个数字表示：
+        plaintext<br>[x1, y1, x2, y2]<br>
+        含义是：
+        * x1 ：⽬标框左上⻆的横坐标
+
+
+        * y1 ：⽬标框左上⻆的纵坐标
+
+
+        * x2 ：⽬标框右下⻆的横坐标
+
+
+        * y2 ：⽬标框右下⻆的纵坐标
+
+
+        坐标基于当前图像尺⼨：
+        plaintext<br>640 × 480 像素<br>
+        回复内容应包含
+        需要说明：
+        * 为什么选择这个⽬标区域
+
+
+        * ⽬标区域的⼆维边界框
+
+
+        * ⽬标区域的简短描述
+            额外规则
+            * ⽬标描述要具体、清楚。
+
+
+            * 如果决定上楼或下楼，边界框必须框住楼梯⼊⼝。
+
+
+            * 当前任务不是上下楼梯时，不要框楼梯。
+
+
+            * 必须给出下⼀步导航⽬标的边界框。
+
+            json<br>{<br> "reasoning": "The current task is to
+            keep walking straight through the living room towards
+            the entrance under the balcony. The most relevant
+            target area to navigate towards is the floor space
+ response
+            directly in front of the camera, leading into the
+            central arched doorway.",<br> "bbox_2d": [405, 613,
+            789, 999],<br> "target": "the wooden floor path
+            leading to the central archway"<br>}<br>
+
+
+
+step 25：LA 与 VA
+输出摘要：继续直⾏，VA ⽬标
+为 the wooden floor path leading to the central archway ，
+bbox 为 [408, 563, 617, 999] 。（其余内容）
+
+
+step 41：LA 与 VA
+输出摘要：继续朝拱形⼊⼝前进，VA ⽬标为 arched entrance ，
+bbox 为 [418, 203, 576, 609] 。
+
+
+step 68：LA 判断已到达，VA 仍给出⽬标框
+
+LA决策
+        history image（部分）
+
+
+
+image
+current image
+
+导航任务
+按照指令完成导航：
+“⾛进客厅，并继续直⾛穿过客厅。然后⾛进阳台下⽅的⼊⼝。最
+后在通往另⼀个房间的⼊⼝处等待。”
+         导航历史
+         系统提供了之前的导航过程图像：
+         * 起始观察图像： image_0.png
+
+
+         * 从路点 0 移动到路点 1 的过程图像：
+
+
+         * image_1.png
+
+
+         * image_2.png
+
+
+         * image_3.png
+
+
+         * image_4.png
+
+
+         * image_5.png
+
+
+         * image_6.png
+
+
+         * image_7.png
+
+
+         * image_8.png
+
+
+         * image_9.png
+prompt
+
+         * image_10.png
+
+
+         * image_11.png
+
+
+         当前位置的四个⽅向视⻆
+         当前位置提供了四个⽅向的观察图像：
+         * 当前前⽅视⻆： image_12.png
+
+
+         * 当前左侧视⻆： image_13.png
+           * 当前后⽅视⻆： image_14.png
+
+
+           * 当前右侧视⻆： image_15.png
+
+
+           当前 TODO 列表
+           ⽬前任务进度如下：
+           1. 已完成：向前⾛进客厅
+           完成依据：我已经⾛进了客厅，周围可以看到⽊质墙板和家具。
+
+
+           2. 待完成：继续直⾛穿过客厅
+
+
+           3. 待完成：⾛进阳台下⽅的拱形⼊⼝
+
+
+           4. 待完成：在通往另⼀个房间的⼊⼝处等待
+
+
+           ……（其余要求与之前相同）
+
+           这⾥修改了todo list：
+           删去了⼀个已完成的任务
+           修改了其他⼦任务的状态为complete
+           修改stop为true
+           json<br>{<br> "progress_analysis": "I have walked
+           straight through the living room and entered the
+           arched doorway under the balcony. I am now standing
+           in the entrance leading to the next room.",<br>
+           "reasoning_todo": "I have completed walking through
+           the living room and entering the arched entrance
+           under the balcony. I am now in the entrance to the
+           other room, satisfying all remaining sub-goals.",<br>
+           "todo_updates": [<br> {<br> "index": 1,<br> "status":
+response
+           "completed",<br> "result": "Passed through the living
+           room and reached the archway."<br> },<br> {<br>
+        "index": 2,<br> "status": "completed",<br> "result":
+        "Currently standing inside the arched entrance under
+        the balcony."<br> },<br> {<br> "index": 3,<br>
+        "status": "completed",<br> "result": "Waiting in the
+        entrance to the next room."<br> }<br> ],<br>
+        "reasoning_action": "I have reached the arched
+        entrance to the other room as instructed. Since the
+        instruction is to wait in this entrance, I should
+        stop here.",<br> "action": "navigate to forward",<br>
+        "stop": true,<br> "stair": false<br>}<br>
+
+
+
+VA ⽬标框
+
+
+
+
+image
+        ⻆⾊与任务
+        你是⼀个正在执⾏导航任务的机器⼈。
+        请观察当前图像以及对应的深度灰度图，并帮助机器⼈继续导航。
+        系统提供了两张图像：
+        * 当前 RGB 图像： image_0.png
+
+
+        * 对应的深度灰度图： image_1.png
+
+
+        导航任务
+        原始任务是：
+        “⾛进客厅，并继续直⾛穿过客厅。然后⾛进阳台下⽅的⼊⼝。最
+        后在通往另⼀个房间的⼊⼝处等待。”
+        当前状态
+        * 当前步数：第 68 步
+
+
+        * 图像尺⼨：640 × 480 像素
+
+
+promp   当前 TODO 列表
+        1. 已完成：向前⾛进客厅
+           完成依据：我已经⾛进了客厅，周围可以看到⽊质墙板和家具。
+
+
+           2. 已完成：继续直⾛穿过客厅
+           完成依据：已经穿过客厅，并到达拱形⼊⼝处。
+
+
+           3. 已完成：⾛进阳台下⽅的拱形⼊⼝
+           完成依据：当前正站在阳台下⽅的拱形⼊⼝内。
+
+
+           4. 已完成：在通往另⼀个房间的⼊⼝处等待
+           完成依据：正在通往下⼀个房间的⼊⼝处等待。
+
+
+           进度分析
+           来⾃导航决策模块的进度判断是：
+           我已经直⾛穿过客厅，并进⼊了阳台下⽅的拱形⻔洞。现在正站在
+           通往下⼀个房间的⼊⼝处。
+           ……
+
+           json<br>{<br> "reasoning": "The robot has completed
+           the task of waiting in the entrance. The next logical
+           step is to proceed into the room ahead, which is
+response   accessed through the arched doorway visible in the
+           distance.",<br> "bbox_2d": [451, 307, 568, 594],<br>
+           "target": "the arched doorway leading to the next
+           room"<br>}<br>
+
+
+
+step 95：STOP double-check
+image
+current image
+
+⻆⾊与任务
+你是⼀个智能导航智能体。
+当前任务是：
+“⾛进客厅，并继续直⾛穿过客厅。然后⾛进阳台下⽅的⼊⼝。最
+         后在通往另⼀个房间的⼊⼝处等待。”
+         当前状态
+         你已经决定停⽌，因为你认为⾃⼰已经到达了⽬标位置。
+         现在需要根据当前位置的四个⽅向视⻆，以及最终⽬标，重新检查
+         这个停⽌决策是否正确。
+         最终⽬标
+         阳台下⽅的⼊⼝。
+         当前四个⽅向视⻆
+         系统提供了当前位置的四个观察⽅向：
+         * 当前前⽅视⻆： image_0.png
+
+
+         * 左转后的视⻆： image_1.png
+
+
+         * 转向后⽅后的视⻆： image_2.png
+
+
+         * 右转后的视⻆： image_3.png
+prompt
+
+         检查要求
+         需要完成三件事：
+         1. 判断⽬标物体或⽬标区域是否在任意⼀个视⻆中清晰可⻅。
+
+
+         2. 估计当前位置到⽬标的距离是否⼩于 1 ⽶。
+
+
+         3. 对⽐之前的视⻆和当前视⻆，确认机器⼈是否确实已经接近⽬
+         标。
+
+
+         决策规则
+         * 如果⽬标清晰可⻅，并且距离⼩于 1 ⽶：确认停⽌。
+
+
+         * 如果⽬标不可⻅，或者距离⼤于等于 1 ⽶：继续导航。
+
+
+         需要输出的内容
+         最终回答应包含两部分：
+            * 对可⻅性、距离，以及与之前视⻆对⽐结果的分析。
+
+
+            * 最终决策：停⽌，或继续导航。
+
+            json<br>{<br> "analysis": "The instruction asks to
+            walk past the living room and into the entrance under
+            the balcony, waiting in the entrance to the other
+            room. Looking at the BEHIND view, the doorway I am
+ response   currently standing in has a balcony structure
+            directly above it, and it leads out of the large
+            living room. I am currently situated exactly in this
+            entranceway, meaning the distance to the target is
+            less than 1 meter.",<br> "decision": "STOP"<br>}<br>
+
+
+
+其他记录
+完整可视化帧：
+
+VA bbox：
+LA 决策：
+配置
+  LA： gemini-3.1-pro-preview
+
+  VA： qwen3.5-27b
+
+  RGB/Depth 相机分辨率：640 × 480
+
+  ⽔平视场⻆ HFOV：79°
+
+  相机位置：
+
+  深度范围：0.1m 到 5.0m
+
+
+问题
+1. 为什么 step 12 后才看到 TODO list？前⾯在⼲什么？
+
+在第⼀次⾼层决策时，LA 根据导航指令和初始四⽅向视⻆⽣成 TODO list。
+前⾯的 step 主要在做：
+
+   初始化仿真环境
+
+   加载场景和导航⽹格
+
+   获取初始四⽅向视⻆（论⽂中说要先转⼀圈来拍四个⽅向的图⽚）
+
+因此，TODO list 是在第⼀次 LA 决策时⽣成的，后续保存
+在 step_12 的 prompt 中继续使⽤。
+
+ 2. 根据测试结果，并不是每个step都决策，什么时候来做决策？
+
+当前代码⾥的设置是：
+
+   有了当前⽬标后，中间 step 不再问⼤模型
+   条件是：
+    target_map_x is not None and target_map_y is not None and not a
+   ction_list
+
+   这时由 FMM/NavDP/iPlanner 这类低层控制器继续朝⽬标⾛。每⼀步只是执
+   ⾏动作、更新地图和位姿，不重新问 LA/VA。
+
+   到达当前 bbox 转换出的⽬标点后，清空⽬标，下⼀轮才重新决策
+   当距离当前⽬标⼩于 target_reached_threshold 时，代码会把：
+    target_map_x, target_map_y = None, None
+
+ 4. objnav任务的todo list怎么处理？
+
+代码没有强制 ObjectNav 的 TODO 只能有⼀项。 prompts_objnav.py ⾥
+的 TODO ⽣成 prompt 只是
+说 “Create a TODO list to complete this instruction”，所以模型会根据观测拆出
+多个步骤。
+

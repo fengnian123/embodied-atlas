@@ -1,0 +1,188 @@
+{
+  "id": "p-dea76964f2d9",
+  "title": "Case studies on the usability, acceptability and functionality of autonomous mobile delivery robots in real-world healthcare settings",
+  "short": "Delivery-Robots",
+  "aliases": [
+    "Delivery-Robots"
+  ],
+  "authors": [
+    "Mikaela Law",
+    "Ho Seok Ahn",
+    "Elizabeth Broadbent",
+    "Kathy Peri",
+    "Ngaire Kerse",
+    "Eve Topou",
+    "Norina Gasteiger",
+    "Bruce MacDonald"
+  ],
+  "institutions": [],
+  "firstPublished": "2021-06-10",
+  "updated": null,
+  "publicationYear": 2021,
+  "venue": "Intelligent Service Robotics",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2021,
+  "tags": {
+    "direction": [
+      "导航",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "在病理实验室与养老机构两周部署GoCart，访谈50位使用者和管理者，分析递送机器人的接受度、易用性和工作流适配。",
+  "method": {
+    "input": "样本/餐食配送请求",
+    "output": "情境化可用性与接受度发现",
+    "flow": [
+      "两类场地部署",
+      "多角色访谈"
+    ],
+    "explanation": "出版商公开摘要说明这是两项医疗机构部署案例：两台GoCart机器人分别在病理实验室运输血液/尿液样本、在养老机构运送餐食，持续两周。研究访谈直接/间接使用者和管理者共50人，围绕功能设计、安全、易用性与总体态度归纳经验；因此主要证据是接受度和工作流适配，而不是学到的导航策略成功率。养老机构的评价较积极，但两场地都需调整尺寸和屏幕等设计。正文受订阅限制，不能据摘要推断访谈编码程序或给出未见表格的百分比。",
+    "modules": [
+      {
+        "name": "两类场地部署",
+        "purpose": "比较不同工作流需求",
+        "mechanism": "GoCart在病理样本运输和养老机构餐食配送各部署两周；机器人为既有系统。",
+        "input": "样本/餐食配送请求",
+        "output": "真实工作流使用体验"
+      },
+      {
+        "name": "多角色访谈",
+        "purpose": "覆盖机器人直接与间接影响",
+        "mechanism": "50位直接/间接用户和管理者就功能、安全、易用性、态度受访。",
+        "input": "访谈记录",
+        "output": "情境化可用性与接受度发现"
+      }
+    ],
+    "assumptions": "临床/用户研究的结果受纳入标准、样本与评价场景限制。",
+    "difference": "对应真实证据类型：临床/用户研究"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "真实医疗递送案例",
+      "setting": "原文公开摘要；两场地两周；用户研究",
+      "result": "50位受访者；没有本次已核的导航量化表值。",
+      "locator": "Publisher Abstract；正文订阅限制",
+      "sourceUrl": "https://link.springer.com/article/10.1007/s11370-021-00368-5",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "场景",
+          "部署任务",
+          "时长"
+        ],
+        "rows": [
+          [
+            "病理实验室",
+            "血液与尿液样本配送",
+            "两周"
+          ],
+          [
+            "养老机构",
+            "餐食配送",
+            "两周"
+          ],
+          [
+            "受访者总数",
+            "直接/间接用户与管理者50人",
+            "两场地合计"
+          ]
+        ],
+        "locator": "Publisher Abstract；正文订阅限制"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：接受度、教学体验或某项临床终点只说明指定研究条件下的结果，不能替代独立外部验证或直接推为其他场景的结论。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1007/s11370-021-00368-5",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Hospital Service and Nursing Robots / Delivery-Robots",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1007/s11370-021-00368-5",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1007/s11370-021-00368-5",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始摘要/出版入口（本轮回查）",
+      "url": "https://link.springer.com/article/10.1007/s11370-021-00368-5",
+      "locator": "摘要与出版记录；全文细节仍待核",
+      "supports": [
+        "研究范围",
+        "摘要明确的模块及实验覆盖（如有）",
+        "核验边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+    "出版商只开放摘要与图预览；完整研究方法/统计表尚未取得。",
+    "原文Data availability称因伦理要求不能共享数据。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Intelligent Service Robotics'21**",
+      "section": "Hospital Service and Nursing Robots"
+    }
+  ],
+  "verificationLevel": "metadata",
+  "verification": "本轮回查原始元数据与可取得摘要；全文未成功取得，实验表格和未见训练细节不声称已核实。",
+  "overview": "在病理实验室与养老机构两周部署GoCart，访谈50位使用者和管理者，分析递送机器人的接受度、易用性和工作流适配。 本条详情限已取得的原始摘要，全文图表仍待补齐。"
+}

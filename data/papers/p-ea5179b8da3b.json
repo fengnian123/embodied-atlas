@@ -1,0 +1,252 @@
+{
+  "id": "p-ea5179b8da3b",
+  "title": "AHA: A Vision-Language-Model for Detecting and Reasoning Over Failures in Robotic Manipulation",
+  "short": "AHA",
+  "aliases": [],
+  "authors": [
+    "Jiafei Duan",
+    "Wilbert Pumacay",
+    "Nishanth Kumar",
+    "Yi Ru Wang",
+    "Shulin Tian",
+    "Wentao Yuan",
+    "Ranjay Krishna",
+    "Dieter Fox",
+    "Ajay Mandlekar",
+    "Yijie Guo"
+  ],
+  "institutions": [
+    "University of Washington",
+    "NVIDIA",
+    "MIT",
+    "Universidad Católica San Pablo",
+    "Nanyang Technological University",
+    "Allen Institute for Artificial Intelligence"
+  ],
+  "firstPublished": "2024-10-01",
+  "updated": "2024-10-01",
+  "publicationYear": 2025,
+  "venue": "ICLR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "故障恢复",
+      "长程操作"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "模型",
+      "数据集"
+    ],
+    "problem": [
+      "泛化",
+      "安全"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "通过 FailGen 扰动成功示范生成失败数据，微调 VLM 判断子任务成功并解释失败原因，可接入奖励反思、规划和执行验证。",
+  "method": {
+    "input": "子任务语言描述＋截至当前步骤的多视角关键帧拼图",
+    "output": "Yes/No 成功判断与自由文本失败解释",
+    "assumptions": "需要子任务切分和可用关键帧；不是直接从连续传感器流端到端控制。",
+    "difference": "训练专门的失败解释模型，并非只把通用 VLM 当二分类成功检测器。",
+    "explanation": "FailGen 从成功 RLBench 示范出发，在关键帧注入未抓住、滑落、平移偏差、旋转错误、缺失旋转、错误顺序或错误目标。仿真成功检查器筛选有效失败，模板生成对应问答。推理时用行表示视角、列表示时间，未来关键帧留白，以防泄漏执行结果。VLM 先判子任务是否完成，失败时再解释；这些文本可作为 Eureka 的奖励反思、PRoC3S 的重规划反馈或 Manipulate-Anything 的子任务验收依据。",
+    "flow": [
+      "FailGen",
+      "时空拼图",
+      "失败推理 VLM",
+      "下游反馈接口"
+    ],
+    "modules": [
+      {
+        "name": "FailGen",
+        "purpose": "可扩展生成诊断监督",
+        "mechanism": "遍历任务关键帧和七类故障参数，用仿真成功检查器确认是否失败",
+        "input": "成功示范与故障配置",
+        "output": "失败图像及问答"
+      },
+      {
+        "name": "时空拼图",
+        "purpose": "同时保留执行顺序和遮挡互补证据",
+        "mechanism": "不同视角逐行、已发生关键帧逐列拼接；未来帧留白",
+        "input": "历史多视角关键帧",
+        "output": "统一图像提示"
+      },
+      {
+        "name": "失败推理 VLM",
+        "purpose": "输出可操作诊断线索",
+        "mechanism": "LLaVA 投影层与语言模型自回归生成成功标签和失败解释",
+        "input": "拼图与子任务描述",
+        "output": "二元判断、原因"
+      },
+      {
+        "name": "下游反馈接口",
+        "purpose": "改善执行系统",
+        "mechanism": "将原因交给奖励反思、任务规划或子任务验证模块",
+        "input": "诊断文本",
+        "output": "下游奖励/计划/验收更新"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "LLaVA-v1.5；AHA-7B/13B，13B 基于 LLaMA-2",
+    "trainable": "投影层、语言 Transformer",
+    "frozen": "图像编码器与 tokenizer",
+    "data": "49K 失败问答、79 个 RLBench 训练任务；混合665K VQA、100K LVIS",
+    "objective": "回答 token 的自回归指令微调",
+    "stages": "FailGen生成→混合数据微调→跨任务/跨仿真/实机失败评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "AHA / ManiSkill-Fail / RoboFail",
+      "setting": "arXiv v1 Table 2；AHA测试11K问答/10留出任务；ManiSkill-Fail130问答/4任务；RoboFail为7个UR5实机任务；Binary success 原表数值为0–1比例，表头虽有%但未乘100。",
+      "result": "AHA-13B 在三组二元判断均优于 GPT-4o；RoboFail 的 LLM-Fuzzy Match 为0.465，GPT-4o为0.438。此处固定v1，未混用会议修订表。",
+      "locator": "Table 2 / §5.1",
+      "sourceUrl": "https://arxiv.org/abs/2410.00371",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 2 / §5.1",
+        "columns": [
+          "模型/数据集",
+          "Binary success (0–1)",
+          "ROUGE-L",
+          "Cosine",
+          "LLM Fuzzy Match"
+        ],
+        "rows": [
+          [
+            "GPT-4o / AHA",
+            0.5,
+            0.251,
+            0.308,
+            0.784
+          ],
+          [
+            "AHA-13B / AHA",
+            0.702,
+            0.446,
+            0.583,
+            0.768
+          ],
+          [
+            "GPT-4o / ManiSkill-Fail",
+            0.688,
+            0.142,
+            0.335,
+            0.453
+          ],
+          [
+            "AHA-13B / ManiSkill-Fail",
+            1.0,
+            0.6,
+            0.681,
+            0.633
+          ],
+          [
+            "GPT-4o / RoboFail",
+            0.554,
+            0.114,
+            0.318,
+            0.438
+          ],
+          [
+            "AHA-13B / RoboFail",
+            0.643,
+            0.28,
+            0.471,
+            0.465
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2410.00371",
+        "locator": "Table 2 / §5.1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "失败解释偏向训练故障分类，未覆盖开放世界所有故障模式。"
+    ],
+    "analysis": [
+      "RoboFail 实机任务范围有限，诊断文本正确不等于机器人一定能恢复。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2410.00371",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/NVlabs/AHA",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://aha-vlm.github.io/",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "主动交互巡检与故障诊断_相关工作调研.md",
+      "locator": "AHA: A Vision-Language-Model for Detecting and Reasoning Over Failures in Robotic Manipulation(2024)",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2410.00371",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/70a06501001e1820fd1eb9ee821302d2-Abstract-Conference.html",
+      "label": "ICLR 2025 正式出版记录",
+      "locator": "题名/作者/会议",
+      "supports": [
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pea5179b8da3b2024,\n  title = {AHA: A Vision-Language-Model for Detecting and Reasoning Over Failures in Robotic Manipulation},\n  author = {Jiafei Duan and Wilbert Pumacay and Nishanth Kumar and Yi Ru Wang and Shulin Tian and Wentao Yuan and Ranjay Krishna and Dieter Fox and Ajay Mandlekar and Yijie Guo},\n  year = {2024},\n  url = {https://arxiv.org/abs/2410.00371}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "会议版与arXiv v1实验数值未逐项对齐；本页明确采用v1",
+    "模型权重与数据许可证未逐项核实"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "机器人执行后不仅要知道“失败了”，还需要知道抓错物体、姿态偏差还是动作次序错误。AHA 将失败监测转成带自然语言解释的视觉问答，使用仿真关键帧扰动构造七类失败，再把历史多视角关键帧拼接给 VLM。它提供可供其他系统使用的诊断反馈；反馈如何改成新计划或奖励，由下游系统负责。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

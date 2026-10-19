@@ -1,0 +1,265 @@
+{
+  "id": "p-3ce25b8b47c9",
+  "title": "DRIVE-Nav: Directional Reasoning, Inspection, and Verification for Efficient Open-Vocabulary Navigation",
+  "short": "DRIVE-Nav",
+  "aliases": [],
+  "authors": [
+    "Maoguo Gao",
+    "Zejun Zhu",
+    "Zhiming Sun",
+    "Zhengwei Ma",
+    "Longze Yuan",
+    "Zhongjing Ma",
+    "Zhigang Gao",
+    "Jinhui Zhang",
+    "Suli Zou"
+  ],
+  "institutions": [
+    "Beijing Institute of Technology",
+    "DeepBlue College"
+  ],
+  "firstPublished": "2026-03-30",
+  "updated": "2026-06-27",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统",
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法",
+      "系统"
+    ],
+    "problem": [
+      "规划",
+      "记忆",
+      "实时性",
+      "空间理解"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "人形机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "将frontier压缩为持久方向，在240°前向范围按事件触发视觉推理，并用提示增强和跨帧验证改善目标定位。",
+  "method": {
+    "input": "目标语言、RGB-D和里程计",
+    "output": "方向选择、目标掩码及导航动作",
+    "assumptions": "需要深度、位姿和局部地图；目标为开放词表ObjectNav。",
+    "difference": "决策单位从变化频繁的原始frontier转为跨时刻关联的方向，推理按事件触发。",
+    "explanation": "加权FMM兼顾远离障碍和骨架通道偏好，用路径与0.8m邻域圆的交点得到方位；按45°聚类并关联方向身份。首次360°扫描，后续只在前向240°范围补采缺失方向视图，由Qwen3-VL-8B决策；平时沿选中方向最远frontier走。VLM看到目标而SAM3未检出时，最多5轮生成新的名词短语查询并缓存成功提示。候选在接近途中最多3帧验证，明确否定则移除并写入失败位置记忆；接受的掩码反投影更新目标地图。",
+    "flow": [
+      "持久方向抽象",
+      "事件式视觉检查",
+      "提示增强",
+      "跨帧验证"
+    ],
+    "modules": [
+      {
+        "name": "持久方向抽象",
+        "purpose": "减少候选重复",
+        "mechanism": "加权FMM路径方位聚类，跨步按位置合并和角度关联",
+        "input": "frontier与局部地图",
+        "output": "持久方向ID"
+      },
+      {
+        "name": "事件式视觉检查",
+        "purpose": "降低全景扫描与推理频率",
+        "mechanism": "只在新方向可见时补采前向240°代表图",
+        "input": "方向集合、RGB",
+        "output": "当前探索方向"
+      },
+      {
+        "name": "提示增强",
+        "purpose": "弥合语义与检测器词表",
+        "mechanism": "VLM最多5次改写SAM3提示，缓存有效短语",
+        "input": "目标方向证据、失败提示",
+        "output": "可定位目标的查询"
+      },
+      {
+        "name": "跨帧验证",
+        "purpose": "减少错误目标写图",
+        "mechanism": "接近途中最多3帧判断确定/不确定/否定",
+        "input": "候选掩码与观测历史",
+        "output": "接受目标或失败位置记忆"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "Qwen3-VL-8B、SAM3",
+    "trainable": "无导航任务专属参数训练",
+    "frozen": "VLM与分割器使用预训练模型",
+    "data": "无新增导航训练数据；采用零样本评测",
+    "objective": "无下游训练目标；几何规划与提示推理",
+    "stages": "建图→方向推理→提示定位→跨帧验证"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3D-OVON / HM3Dv1/v2 / MP3D",
+      "setting": "arXiv v2，2026-06-27；Table I作者汇总多基线，部分不同检测器/模型；SR/SPL为%。",
+      "result": "四项SR/SPL分别50.2/32.6、55.5/35.9、72.4/41.3、41.8/22.6；HM3Dv2的SR低于ApexNav76.2，SPL更高。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/abs/2603.28691",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table I",
+        "columns": [
+          "方法",
+          "HM3D-OVON SR/SPL",
+          "HM3Dv1 SR/SPL",
+          "HM3Dv2 SR/SPL",
+          "MP3D SR/SPL"
+        ],
+        "rows": [
+          [
+            "VLFM",
+            "35.2 / 19.6",
+            "52.5 / 30.4",
+            "63.6 / 32.5",
+            "36.4 / 17.5"
+          ],
+          [
+            "ApexNav",
+            "未报告",
+            "59.6 / 33.0",
+            "76.2 / 38.0",
+            "39.2 / 17.8"
+          ],
+          [
+            "DRIVE-Nav",
+            "50.2 / 32.6",
+            "55.5 / 35.9",
+            "72.4 / 41.3",
+            "41.8 / 22.6"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2603.28691",
+        "locator": "Table I"
+      }
+    },
+    {
+      "benchmark": "HM3D-OVON组件消融",
+      "setting": "Table V固定SAM3与Qwen3-VL-8B；SR/SPL%。",
+      "result": "在同骨干下，方向+提示增强+跨帧核验提高SR/SPL：42.1/22.4→50.2/32.6。",
+      "locator": "Table V",
+      "sourceUrl": "https://arxiv.org/abs/2603.28691",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table V",
+        "columns": [
+          "组件",
+          "SR(%)",
+          "SPL(%)"
+        ],
+        "rows": [
+          [
+            "frontier基础",
+            42.1,
+            22.4
+          ],
+          [
+            "+方向",
+            46.3,
+            27.5
+          ],
+          [
+            "+方向+提示增强",
+            48.0,
+            28.9
+          ],
+          [
+            "全部模块",
+            50.2,
+            32.6
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2603.28691",
+        "locator": "Table V"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "实机方向推理约8s、SAM3约270ms/步（Table VI），事件式调用仍有推理延迟；未验证持续移动目标。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2603.28691",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://coolmaoguo.github.io/drive-nav-page/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/coolmaoguo/DRIVE-Nav",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / DRIVE-Nav: Directional Reasoning, Inspection, and Verification for Efficient Open-Vocabulary Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2603.28691",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p3ce25b8b47c92026,\n  title = {DRIVE-Nav: Directional Reasoning, Inspection, and Verification for Efficient Open-Vocabulary Navigation},\n  author = {Maoguo Gao and Zejun Zhu and Zhiming Sun and Zhengwei Ma and Longze Yuan and Zhongjing Ma and Zhigang Gao and Jinhui Zhang and Suli Zou},\n  year = {2026},\n  url = {https://arxiv.org/abs/2603.28691}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式录用/发表状态未获可靠出版记录，保留预印本",
+    "全部episode样本量、资源许可未逐项核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "HM3D-v1、HM3D-v2、HM3D-OVON、MP3D",
+      "comparisons": "SemExp、PONI、ZSON、ActPept、CoW、ESC、L3MVN、OpenFMNav、InstructNav、SG-Nav、UniGoal 、ApexNav、VoroNav、VLFM、MSGNav",
+      "training": "Training-free Zero-shot。VLM/LLM用于语义推理和验证，没有ObjectNav轨迹训练",
+      "resourceClaim": "否"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "每步重新对所有frontier推理既昂贵，也容易反复进入相同岔路。DRIVE-Nav 根据加权FMM路径构造稳定方向标识，用代表视图选择探索方向，并让底层持续执行直到新分支可检查。当VLM看到了目标但分割器尚未定位时，它改写检测提示；获得候选后再利用接近过程的多帧观测核实，降低误检导致的错误导航。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

@@ -1,0 +1,284 @@
+{
+  "id": "p-e1464426d0ea",
+  "title": "A3VLM: Actionable Articulation-Aware Vision Language Model",
+  "short": "A3VLM",
+  "aliases": [],
+  "authors": [
+    "Siyuan Huang",
+    "Haonan Chang",
+    "Yuhan Liu",
+    "Yimeng Zhu",
+    "Hao Dong",
+    "Abdeslam Boularias",
+    "Peng Gao",
+    "Hongsheng Li"
+  ],
+  "institutions": [
+    "Shanghai Jiao Tong University",
+    "Shanghai AI Laboratory",
+    "Rutgers University",
+    "Yuandao AI",
+    "Peking University",
+    "CUHK",
+    "CPII under InnoHK"
+  ],
+  "firstPublished": "2024-06-11",
+  "updated": "2024-06-13",
+  "publicationYear": 2025,
+  "venue": "CoRL",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "抓取",
+      "长程操作"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "模型"
+    ],
+    "problem": [
+      "空间理解",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "预测可操作部件、3D包围盒和关节轴，再用slide/rotate/scroll动作原语转成机械臂轨迹。",
+  "method": {
+    "input": "单物体RGB图与语言任务；执行时另需抓取候选/深度等",
+    "output": "部件3D box、关节轴、关节类型与语义，再生成原语轨迹",
+    "assumptions": "需要独立抓取位姿建议器；实机作背景分割及相机对齐；并非直接全场景端到端控制。",
+    "difference": "从robot-centric action token改为robot-agnostic的物体结构表示。",
+    "explanation": "从PartNet-Mobility资产和关节元数据构造物体、部件、运动轴等问答，并以背景/图像增强缩小域差。SPHINX视觉分支从子图中提取CLIP/DINOv2局部特征与Q-Former全局摘要，投影到LLaMA2。多轮问答先定位可操作部件，再推断关节结构。执行器根据关节类型选择slide/rotate，瓶盖/旋钮等选scroll，结合包围盒内接触点和轴生成两种方向候选轨迹。",
+    "flow": [
+      "结构问答数据",
+      "高分辨率多编码器",
+      "关节推理",
+      "动作原语"
+    ],
+    "modules": [
+      {
+        "name": "结构问答数据",
+        "purpose": "避免收集全套机器人示范",
+        "mechanism": "从关节化资产自动生成部件/轴/动作语义问答并增强图像",
+        "input": "PartNet-Mobility与关节元数据",
+        "output": "指令跟随训练集"
+      },
+      {
+        "name": "高分辨率多编码器",
+        "purpose": "识别局部细结构",
+        "mechanism": "图像分块后CLIP/DINOv2及全局Q-Former特征拼接",
+        "input": "对象图像",
+        "output": "局部/全局视觉token"
+      },
+      {
+        "name": "关节推理",
+        "purpose": "生成可执行物体表示",
+        "mechanism": "多轮文本生成部件box、轴、类型和语义",
+        "input": "视觉token、问题",
+        "output": "(B,A,S)结构"
+      },
+      {
+        "name": "动作原语",
+        "purpose": "把结构转换成不同机器人可执行动作",
+        "mechanism": "独立抓取候选＋slide/rotate/scroll，尝试两个方向",
+        "input": "结构表示、接触点",
+        "output": "机械臂轨迹"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "SPHINX-1K / SPHINX-X，LLaMA2，CLIP、DINOv2与Q-Former",
+    "trainable": "先视觉投影，再投影层与LLM联合微调",
+    "frozen": "视觉编码器全程冻结",
+    "data": "合成关节物体指令问答与图像增强；无实机交互轨迹训练",
+    "objective": "自然语言生成交叉熵",
+    "stages": "两阶段；3epochs、8×A100(80GB)、约24h；batch4＋梯度累积4，lr2e-5"
+  },
+  "evaluation": [
+    {
+      "benchmark": "PartNet-Mobility / Sapien",
+      "setting": "PMLR正式PDF Table2；20已见类别、10留出类别，阈值σ=0.01；随机选部件、两个方向最多两次尝试，任一成功即该任务成功。AVG按原表抄录；原文未在该表说明其聚合权重。",
+      "result": "原表作者报告A3VLM已见AVG0.91、留出AVG0.76；ManipLLM为0.59/0.54。注意0.91与20个类别显示值的简单平均约0.731不一致，聚合权重未说明，不能直接当宏平均精确结论。两次尝试协议也不等于单次控制成功率。",
+      "locator": "Table 2 / §4.2",
+      "sourceUrl": "https://proceedings.mlr.press/v270/huang25b.html",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 2 / §4.2",
+        "columns": [
+          "方法",
+          "原表已见AVG（聚合待核实）",
+          "原表留出AVG"
+        ],
+        "rows": [
+          [
+            "Where2Act",
+            0.26,
+            0.21
+          ],
+          [
+            "FlowBot3D",
+            0.37,
+            0.32
+          ],
+          [
+            "Implicit3D",
+            0.46,
+            0.41
+          ],
+          [
+            "ManipLLM",
+            0.59,
+            0.54
+          ],
+          [
+            "A3VLM",
+            0.91,
+            0.76
+          ]
+        ],
+        "sourceUrl": "https://proceedings.mlr.press/v270/huang25b.html",
+        "locator": "Table 2 / §4.2"
+      }
+    },
+    {
+      "benchmark": "Kuka实机",
+      "setting": "Table3；5物体各5次、不同初始位置；成功为移动超过关节行程40%。原表物体名称是图片，避免凭缺失文本猜标签，按列编号。",
+      "result": "前四物体均5/5，第五4/5；整理者合计24/25=96%，样本很小，不外推总体部署成功率。",
+      "locator": "Table 3 / §4.3",
+      "sourceUrl": "https://proceedings.mlr.press/v270/huang25b.html",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 3 / §4.3",
+        "columns": [
+          "原表物体列",
+          "成功次数/尝试"
+        ],
+        "rows": [
+          [
+            "第1列",
+            "5/5"
+          ],
+          [
+            "第2列",
+            "5/5"
+          ],
+          [
+            "第3列",
+            "5/5"
+          ],
+          [
+            "第4列",
+            "5/5"
+          ],
+          [
+            "第5列",
+            "4/5"
+          ]
+        ],
+        "sourceUrl": "https://proceedings.mlr.press/v270/huang25b.html",
+        "locator": "Table 3 / §4.3"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "当前是开环执行，尚未集成动作反馈。",
+      "z输出采用归一化深度，需用户提供场景深度范围转回实际深度。",
+      "当前集中在关节物体单步操作，更多操作类别待扩展。"
+    ],
+    "analysis": [
+      "依赖独立抓取/运动原语，实机还通过背景分割与内参处理对齐仿真；不能直接等同无预处理自然场景部署。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://proceedings.mlr.press/v270/huang25b.html",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/changhaonan/A3VLM",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "主动交互巡检与故障诊断_相关工作调研.md",
+      "locator": "A3VLM: Actionable Articulation-Aware Vision Language Model(2025)",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://proceedings.mlr.press/v270/huang25b.html",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2406.07549",
+      "label": "arXiv日期元数据",
+      "locator": "v1 2024-06-11；v2 2024-06-13",
+      "supports": [
+        "首次公开日期",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://raw.githubusercontent.com/mlresearch/v270/main/assets/huang25b/huang25b.pdf",
+      "label": "PMLR正式全文",
+      "locator": "§3–4、Tables2–4",
+      "supports": [
+        "方法",
+        "训练",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pe1464426d0ea2024,\n  title = {A3VLM: Actionable Articulation-Aware Vision Language Model},\n  author = {Siyuan Huang and Haonan Chang and Yuhan Liu and Yimeng Zhu and Hao Dong and Abdeslam Boularias and Peng Gao and Hongsheng Li},\n  year = {2024},\n  url = {https://proceedings.mlr.press/v270/huang25b.html}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "全部训练数据量与下载许可未逐项核实",
+    "CoRL会议年2024与论文集出版年2025已分开注明",
+    "Table2 A3VLM已见AVG0.91与显示20类别简单均值约0.731不一致；未找到权重说明，保留原值并标明疑点"
+  ],
+  "sourceNotes": [
+    "CoRL 2024会议，PMLR270论文集出版年2025；publicationYear按PMLR正式元数据。原arXiv作者次序与会议版末段有变化，此页作者按PMLR会议版。",
+    "2026-10-19渲染PMLR PDF第7页确认Table2原值0.91与类别列；未擅自把可能的作者聚合差异改成新结果。"
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "直接从图像学习机器人动作需要大量交互轨迹，跨机器人迁移也困难。A3VLM 改为学习以物体为中心的关节结构：哪里可操作、是什么关节、绕哪条轴运动，然后交给简单动作原语和独立抓取候选执行器。模型训练以仿真部件标注生成问答，不是大规模机器人动作克隆。实机还使用相机与背景处理来减小仿真差异。",
+  "citationNote": "根据已核验作者、题名和出版年整理；完整正式卷页引用请以链接中的出版方BibTeX为准。"
+}

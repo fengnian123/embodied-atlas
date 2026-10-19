@@ -1,0 +1,162 @@
+{
+  "id": "p-50affbc9aa8f",
+  "title": "Your Robot Therapist Will See You Now: Ethical Implications of Embodied Artificial Intelligence in Psychiatry, Psychology, and Psychotherapy",
+  "short": "Robot-Therapist",
+  "aliases": [
+    "Robot-Therapist"
+  ],
+  "authors": [
+    "Amelia Fiske",
+    "Peter Henningsen",
+    "Alena Buyx"
+  ],
+  "institutions": [],
+  "firstPublished": "2019-05-09",
+  "updated": null,
+  "publicationYear": 2019,
+  "venue": "Journal of Medical Internet Research",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "讨论具身AI在精神科、心理学与心理治疗中的伦理影响。是伦理论述，不能作为机器人治疗有效性的临床验证。",
+  "method": {
+    "input": "具身AI治疗应用与伦理情境",
+    "output": "伦理问题分析与研究议程",
+    "flow": [
+      "角色与关系分析",
+      "伦理边界分析",
+      "证据边界"
+    ],
+    "explanation": "讨论具身AI在精神科、心理学与心理治疗中的伦理影响。是伦理论述，不能作为机器人治疗有效性的临床验证。",
+    "modules": [
+      {
+        "name": "角色与关系分析",
+        "purpose": "讨论机器人进入治疗关系的含义",
+        "mechanism": "区分辅助、人际替代和自主治疗等机器人角色。",
+        "input": "具身AI治疗应用与伦理情境",
+        "output": "角色与关系分析的中间结果"
+      },
+      {
+        "name": "伦理边界分析",
+        "purpose": "使技术能力与责任要求对应",
+        "mechanism": "讨论信任、隐私、自主性、责任与弱势人群使用的影响。",
+        "input": "角色与关系分析的结果",
+        "output": "伦理边界分析的中间结果"
+      },
+      {
+        "name": "证据边界",
+        "purpose": "避免从观点推导临床效果",
+        "mechanism": "文章不提供统一机器人控制成功率或随机治疗试验。",
+        "input": "伦理边界分析的结果",
+        "output": "伦理问题分析与研究议程"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.2196/13216",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / Robot-Therapist",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.jmir.org/2019/5/e13216/PDF",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.2196/13216",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.2196/13216",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://www.jmir.org/2019/5/e13216/PDF",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**JMIR'19**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "讨论具身AI在精神科、心理学与心理治疗中的伦理影响。是伦理论述，不能作为机器人治疗有效性的临床验证。 本文为证据/概念综述，以下“模块”表示文献组织框架；不代表作者训练了同名机器人模型。"
+}

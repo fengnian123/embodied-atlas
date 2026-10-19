@@ -1,0 +1,288 @@
+{
+  "id": "p-3669b99e0ece",
+  "title": "FAST-EQA: Efficient Embodied Question Answering with Global and Local Region Relevancy",
+  "short": "FAST-EQA",
+  "aliases": [
+    "FAST-EQA"
+  ],
+  "authors": [
+    "Zhang, Haochen",
+    "Savaliya, Nirav",
+    "Siddiqui, Faizan",
+    "Sachdeva, Enna"
+  ],
+  "institutions": [
+    "Carnegie Mellon University, USA",
+    "Honda Research Institute USA  , {nsavaliya, faizan_siddiqui, enna_sachdeva}@honda-ri.com"
+  ],
+  "firstPublished": "2026-02-17",
+  "updated": "2026-02-17",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "将全局区域相关性、局部目标搜索与有界视觉记忆结合，减少EQA每步推理成本。",
+  "method": {
+    "explanation": "FAST-EQA 先从问题解析可能的视觉目标，维护固定容量的区域—目标假设。全局探索关注问题相关区域和门口等高价值frontier，局部探索则靠近可提供答案的目标；新证据更新有界记忆，再由视觉记忆上的CoT判断是否能够回答。它的效率不是简单减少图像数量，而是把全局覆盖和局部证据获取拆分，避免每步重新推理整个场景。不同EQA基准的SR、LLM分数和路径效率不可混为一种准确率。",
+    "input": "自然语言问题及在线视觉/深度观察",
+    "output": "探索动作与最终答案",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "将全局区域相关性、局部目标搜索与有界视觉记忆结合，减少EQA每步推理成本。",
+    "flow": [
+      "问题到目标假设",
+      "全局/局部探索",
+      "有界记忆与CoT回答"
+    ],
+    "modules": [
+      {
+        "name": "问题到目标假设",
+        "purpose": "缩小需要搜索的语义范围",
+        "mechanism": "从问题提取单/多目标，保存固定容量的region-target候选以及相关性，随新观察更新假设。",
+        "sourceUrl": "https://arxiv.org/html/2602.15813",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "全局/局部探索",
+        "purpose": "兼顾房间覆盖与细节证据",
+        "mechanism": "用TSDF占据/已探索信息指导全局移动，重视狭窄入口和门；局部阶段追踪问题相关视觉目标。",
+        "sourceUrl": "https://arxiv.org/html/2602.15813",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "有界记忆与CoT回答",
+        "purpose": "保持速度并保留多目标证据",
+        "mechanism": "将区域与目标证据压缩到固定容量记忆，基于视觉证据进行CoT与置信回答，而非无限累积全部图像。",
+        "sourceUrl": "https://arxiv.org/html/2602.15813",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "提示式推理与在线记忆；未新增训练EQA主干",
+    "models": "VLM问题解析/视觉推理与轻量TSDF探索",
+    "trainable": "在线记忆/地图状态；未确认新增参数优化",
+    "frozen": "预训练视觉语言组件作为推理后端",
+    "data": "HM-EQA、MT-HM3D、EXPRESS、A-EQA用于评测",
+    "objective": "问题相关区域评分与提示推理，不等于训练VLM",
+    "stages": "问题解析 → 全局/局部探索 → 记忆更新 → 回答"
+  },
+  "evaluation": [
+    {
+      "benchmark": "FAST-EQA 多基准与步时",
+      "setting": "Table 1，A-EQA为184题子集；Table 2每步耗时来自HM-EQA问题子集，非全套任务耗时。",
+      "result": "HM-EQA SR69.2±0.7%；EXPRESS LLM Score68.7±0.5 / Epath29.25±0.55；平均步时2.54±0.05秒。",
+      "sourceUrl": "https://arxiv.org/html/2602.15813",
+      "locator": "Table 1 / Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "协议 / 指标",
+          "FAST-EQA",
+          "比较项（原表）"
+        ],
+        "rows": [
+          [
+            "HM-EQA SR (%)",
+            "69.2 ± 0.7",
+            "GraphEQA 63.5"
+          ],
+          [
+            "MT-HM3D SR (%)",
+            "50.5 ± 0.3",
+            "MemoryEQA 55.1"
+          ],
+          [
+            "EXPRESS LLM Score",
+            "68.7 ± 0.5",
+            "Fine-EQA 63.95"
+          ],
+          [
+            "A-EQA(184) LLM-Match",
+            "49.0 ± 1.7",
+            "3D-Mem 52.6"
+          ],
+          [
+            "HM-EQA子集 平均步时(s)",
+            "2.54 ± 0.05",
+            "3D-Mem 14.53 ± 0.25"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "部分benchmark低于MemoryEQA或3D-Mem；步时只取HM-EQA子集，不能当跨平台实时性保证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2602.15813",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://astronirav.github.io/fasteqa",
+      "status": "已核实入口",
+      "note": "原文明确提供的官方链接；未逐文件检查下载与许可证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA A-EQA / FAST-EQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2602.15813v1",
+      "locator": "3D-Mem Table1引用值\n3D-Mem Table1引用值\n3D-Mem Table1引用值\nTable1\nTable1\nTable1\nTable1\nTable1\nTable1\nTableI",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / HM-EQA / FAST-EQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2602.15813v1",
+      "locator": "Table1\nTable1\nTable1\nTable1\nTable1\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MT-HM3D / FAST-EQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2602.15813v1",
+      "locator": "Table1\nTable1\nTable1\nTable1\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / EXPRESS-Bench / FAST-EQA＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2602.15813v1",
+      "locator": "Table2\nTable2\nTable2\nTable2\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2602.15813",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2602.15813",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p3669b99e0ece2026,\n title={FAST-EQA: Efficient Embodied Question Answering with Global and Local Region Relevancy},\n author={Zhang, Haochen and Savaliya, Nirav and Siddiqui, Faizan and Sachdeva, Enna},\n year={2026},\n url={https://arxiv.org/abs/2602.15813}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA A-EQA",
+      "variant": "FAST-EQA＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "HM-EQA",
+      "variant": "FAST-EQA＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "MT-HM3D",
+      "variant": "FAST-EQA＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "EXPRESS-Bench",
+      "variant": "FAST-EQA＋GPT-4o"
+    }
+  ],
+  "overview": "FAST-EQA 先从问题解析可能的视觉目标，维护固定容量的区域—目标假设。全局探索关注问题相关区域和门口等高价值frontier，局部探索则靠近可提供答案的目标；新证据更新有界记忆，再由视觉记忆上的CoT判断是否能够回答。它的效率不是简单减少图像数量，而是把全局覆盖和局部证据获取拆分，避免每步重新推理整个场景。不同EQA基准的SR、LLM分数和路径效率不可混为一种准确率。",
+  "verificationLevel": "fulltext"
+}

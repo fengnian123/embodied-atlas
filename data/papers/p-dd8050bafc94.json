@@ -1,0 +1,265 @@
+{
+  "id": "p-dd8050bafc94",
+  "title": "3DLLM-Mem: Long-Term Spatial-Temporal Memory for Embodied 3D Large Language Model",
+  "short": "3DLLM-Mem",
+  "aliases": [
+    "3DMem-Bench EQA",
+    "3DLLM-Mem"
+  ],
+  "authors": [
+    "Hu, Wenbo",
+    "Hong, Yining",
+    "Wang, Yanjun",
+    "Gao, Leison",
+    "Wei, Zibu",
+    "Yao, Xingcheng",
+    "Peng, Nanyun",
+    "Bitton, Yonatan",
+    "Szpektor, Idan",
+    "Chang, Kai-Wei"
+  ],
+  "institutions": [
+    "University of California, Los Angeles"
+  ],
+  "firstPublished": "2025-05-28",
+  "updated": "2025-12-17",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "长程任务"
+    ],
+    "paradigm": [
+      "VLM",
+      "3D/4D 表征"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "用当前工作记忆查询长期情景记忆，并提出3DMem-Bench检验跨房间时空记忆。",
+  "method": {
+    "explanation": "3DLLM-Mem 以当前观察的working-memory token为查询，从历史episodic-memory中选择并融合相关三维时空特征，避免仅保留最新帧或把所有历史塞满上下文。作者在LLaVA-3D基础上训练记忆模块与语言解码器，并用长程具身任务、问答和caption共同验证。随文3DMem-Bench的26,276是训练轨迹数，1,860是具身测试任务数，865是问答任务数、167是caption任务数；三者总任务2,892，统计口径必须区分。",
+    "input": "当前3D观察、历史观察/交互及任务",
+    "output": "高层行为、答案、场景描述",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用当前工作记忆查询长期情景记忆，并提出3DMem-Bench检验跨房间时空记忆。",
+    "flow": [
+      "工作记忆编码",
+      "情景记忆选择融合",
+      "联合解码与基准评测"
+    ],
+    "modules": [
+      {
+        "name": "工作记忆编码",
+        "purpose": "表示当下需要解决的任务与观察",
+        "mechanism": "将当前3D/视觉信息编码为working-memory token，作为长期检索的查询，不简单复用一个文本摘要。",
+        "sourceUrl": "https://arxiv.org/html/2505.22657",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "情景记忆选择融合",
+        "purpose": "保留跨房间长期证据而控制上下文",
+        "mechanism": "历史观察与交互作为episodic memory，当前token选择性注意并融合最有用的空间、时间特征。",
+        "sourceUrl": "https://arxiv.org/html/2505.22657",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "联合解码与基准评测",
+        "purpose": "连接记忆推理、具身行为和语言输出",
+        "mechanism": "以融合表示输入语言解码器，生成高层交互、回答或描述，在3DMem-Bench的多类任务上评测。",
+        "sourceUrl": "https://arxiv.org/html/2505.22657",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调记忆模块和LLM decoder",
+    "models": "LLaVA-3D初始化，扩展上下文到8192 token",
+    "trainable": "新增记忆模块与LLM decoder",
+    "frozen": "其他视觉编码器冻结范围本条未独立逐项摘录",
+    "data": "3DMem-Bench训练划分，26,276轨迹；8 TPU v5p cores、batch256为作者训练配置",
+    "objective": "标准自回归语言建模损失",
+    "stages": "预训练LLaVA-3D初始化 → 记忆/解码联合SFT → 多类时空记忆评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "3DMem-Bench 具身任务 / EQA",
+      "setting": "Table 2(b)，3DMem-Bench；具身Task为SR (%)，EQA五类为原文得分，分别列出不可混排。",
+      "result": "3DLLM-Mem域内SR37.6/野外32.1；检索增强记忆22.3/15.6。EQA Spatial62.8、Nav40.6、Comparative41.4、Layout39.9、Count26.3。",
+      "sourceUrl": "https://arxiv.org/html/2505.22657",
+      "locator": "Table 1 / Table 2(b)",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "方法",
+          "具身域内SR",
+          "具身域外SR",
+          "Spatial",
+          "Nav",
+          "Comparative",
+          "Layout",
+          "Count"
+        ],
+        "rows": [
+          [
+            "Most Recent Memory",
+            "21.1",
+            "13.7",
+            "27.5",
+            "30.2",
+            "24.3",
+            "20.1",
+            "10.5"
+          ],
+          [
+            "Retrieval-Augmented Memory",
+            "22.3",
+            "15.6",
+            "38.0",
+            "33.4",
+            "31.8",
+            "29.7",
+            "15.6"
+          ],
+          [
+            "3DLLM-Mem",
+            "37.6",
+            "32.1",
+            "62.8",
+            "40.6",
+            "41.4",
+            "39.9",
+            "26.3"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依据本条列出的任务与协议，结果只支持相应数据和实验条件；跨机器人、环境与预算的结论需要匹配协议后重测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2505.22657",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / 3DMem-Bench EQA / 3DLLM-Mem",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2505.22657v1",
+      "locator": "Table2b",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2505.22657",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2505.22657",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / 3DMem-Bench EQA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "3DLLM-Mem原文提出3DMem-Bench",
+      "url": "https://arxiv.org/abs/2505.22657",
+      "supports": [
+        "同篇身份",
+        "规模",
+        "EQA协议"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pdd8050bafc942025,\n title={3DLLM-Mem: Long-Term Spatial-Temporal Memory for Embodied 3D Large Language Model},\n author={Hu, Wenbo and Hong, Yining and Wang, Yanjun and Gao, Leison and Wei, Zibu and Yao, Xingcheng and Peng, Nanyun and Bitton, Yonatan and Szpektor, Idan and Chang, Kai-Wei},\n year={2025},\n url={https://arxiv.org/abs/2505.22657}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "3DMem-Bench EQA",
+      "variant": "3DLLM-Mem"
+    },
+    {
+      "label": "用户调研摘记；任务协议待核实",
+      "inputProtocol": "RGB-D＋位姿＋交互历史；3D时空记忆",
+      "scale": "865项EQA；182场景，26276训练轨迹"
+    }
+  ],
+  "overview": "3DLLM-Mem 以当前观察的working-memory token为查询，从历史episodic-memory中选择并融合相关三维时空特征，避免仅保留最新帧或把所有历史塞满上下文。作者在LLaVA-3D基础上训练记忆模块与语言解码器，并用长程具身任务、问答和caption共同验证。随文3DMem-Bench的26,276是训练轨迹数，1,860是具身测试任务数，865是问答任务数、167是caption任务数；三者总任务2,892，统计口径必须区分。",
+  "benchmark": {
+    "motivation": "评测跨房间、长期时空记忆，而非仅当前观察任务。",
+    "task": "具身交互、空间/导航/比较/布局/计数EQA与captioning。",
+    "metrics": "具身SR/Sub-SR、EQA分类型得分、caption BLEU/METEOR。",
+    "scale": "26,276训练轨迹；1,860具身测试任务、865 EQA、167 caption；2,892为三者合计。",
+    "boundary": "不是所有任务都等同于低层机器人连续控制；数据划分和许可仍需复现前复核。"
+  },
+  "verificationLevel": "fulltext"
+}

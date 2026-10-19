@@ -1,0 +1,194 @@
+{
+  "id": "p-7ca2f30fdde2",
+  "title": "A Survey of Embodied AI: From Simulators to Research Tasks",
+  "short": "EmbodiedAI-Survey",
+  "aliases": [
+    "EmbodiedAI-Survey",
+    "A Survey of Embodied AI: From Simulators to Research Tasks"
+  ],
+  "authors": [
+    "Duan, Jiafei",
+    "Yu, Samson",
+    "Tan, Hui Li",
+    "Zhu, Hongyuan",
+    "Tan, Cheston"
+  ],
+  "institutions": [],
+  "firstPublished": "2021-03-08",
+  "updated": "2022-01-05",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2021,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "从模拟器功能到探索、视觉导航和EQA任务，提供具身AI入门的系统性地图。",
+  "method": {
+    "explanation": "这篇早期综述用七类能力比较九个模拟器，按真实感、规模与交互等需求帮助选择平台，再梳理视觉探索、视觉导航和具身问答三类任务的算法、数据和指标。它适合了解传统任务定义和平台差异，硬件帧率、资产数量及功能表代表论文当时版本，不应用来声称2026年平台当前能力。综述没有提出需要训练的新导航模型，其表格也不是在同一硬件上重测的平台性能榜。",
+    "input": "模拟器及任务文献",
+    "output": "分类对照与平台适配建议",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "从模拟器功能到探索、视觉导航和EQA任务，提供具身AI入门的系统性地图。",
+    "flow": [
+      "模拟器功能比较",
+      "任务和评测梳理",
+      "平台—任务匹配"
+    ],
+    "modules": [
+      {
+        "name": "模拟器功能比较",
+        "purpose": "把工具选择与研究需求联系起来",
+        "mechanism": "比较环境、物理、物体、控制、动作与多智能体等能力，突出不同平台支持的交互范围。",
+        "sourceUrl": "https://arxiv.org/html/2103.04918",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "任务和评测梳理",
+        "purpose": "区分探索、导航与问答",
+        "mechanism": "整理三类主要任务的输入输出、常用指标与数据集，避免将不同目标混成统一排名。",
+        "sourceUrl": "https://arxiv.org/html/2103.04918",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "平台—任务匹配",
+        "purpose": "帮助选择研究起点",
+        "mechanism": "按任务需要的感知、物理与交互条件讨论模拟器适配，并总结领域空白。",
+        "sourceUrl": "https://arxiv.org/html/2103.04918",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用：综述",
+    "models": "被综述的平台与任务方法",
+    "trainable": "无本文训练模型",
+    "frozen": "不适用",
+    "data": "9个模拟器与探索/导航/EQA文献",
+    "objective": "不适用",
+    "stages": "平台比较 → 任务比较 → 选择建议"
+  },
+  "evaluation": [
+    {
+      "benchmark": "综述中的平台配置（历史版本）",
+      "setting": "TableII，原文引用的各平台环境配置；不是同硬件渲染对比。",
+      "result": "AI2-THOR列120rooms/4categories，CHALET58rooms/10houses，VirtualHome6apartments；均为论文当时版本。",
+      "sourceUrl": "https://arxiv.org/html/2103.04918",
+      "locator": "Table II",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "模拟器",
+          "原文环境配置",
+          "表值性质"
+        ],
+        "rows": [
+          [
+            "AI2-THOR",
+            "120房间 / 4类别",
+            "历史版本"
+          ],
+          [
+            "CHALET",
+            "58房间 / 10房屋",
+            "历史版本"
+          ],
+          [
+            "VirtualHome",
+            "6套公寓",
+            "历史版本"
+          ],
+          [
+            "VRKitchen",
+            "16厨房",
+            "历史版本"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "平台配置与帧率随版本和硬件改变，原文汇总不能作为当前平台选型的最新性能测试。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2103.04918",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / EmbodiedAI-Survey",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/TETCI.2022.3141105",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2103.04918",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2103.04918",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p7ca2f30fdde22021,\n title={A Survey of Embodied AI: From Simulators to Research Tasks},\n author={Duan, Jiafei and Yu, Samson and Tan, Hui Li and Zhu, Hongyuan and Tan, Cheston},\n year={2021},\n url={https://arxiv.org/abs/2103.04918}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**IEEE TETCI'22**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "这篇早期综述用七类能力比较九个模拟器，按真实感、规模与交互等需求帮助选择平台，再梳理视觉探索、视觉导航和具身问答三类任务的算法、数据和指标。它适合了解传统任务定义和平台差异，硬件帧率、资产数量及功能表代表论文当时版本，不应用来声称2026年平台当前能力。综述没有提出需要训练的新导航模型，其表格也不是在同一硬件上重测的平台性能榜。",
+  "verificationLevel": "fulltext"
+}

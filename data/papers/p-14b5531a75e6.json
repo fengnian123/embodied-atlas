@@ -1,0 +1,240 @@
+{
+  "id": "p-14b5531a75e6",
+  "title": "3D Gaussian Splatting for Real-Time Radiance Field Rendering",
+  "short": "3D Gaussian Splatting",
+  "aliases": [],
+  "authors": [
+    "Bernhard Kerbl",
+    "Georgios Kopanas",
+    "Thomas Leimkühler",
+    "George Drettakis"
+  ],
+  "institutions": [
+    "Inria",
+    "Université Côte d’Azur",
+    "Max-Planck-Institut für Informatik"
+  ],
+  "firstPublished": "2023-08-08",
+  "updated": "2023-08-08",
+  "publicationYear": 2023,
+  "venue": "ACM TOG / SIGGRAPH",
+  "publicationStatus": "已发表",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "静态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "以可优化各向异性三维高斯替代沿射线密集采样，交替优化和增密，配合 tile rasterizer 实现静态场景高质量实时渲染。",
+  "method": {
+    "input": "经过相机标定的静态多视角 RGB 图像与稀疏 SfM 点",
+    "output": "静态高斯辐射场和新视角图像",
+    "flow": [
+      "各向异性高斯",
+      "优化与自适应密度",
+      "可见性感知 tile 光栅化"
+    ],
+    "assumptions": "场景静态；相机估计正确，观测需有足够覆盖。",
+    "difference": "直接优化显式高斯几何和外观，避免 NeRF 对空空间的密集神经查询。",
+    "explanation": "以可优化各向异性三维高斯替代沿射线密集采样，交替优化和增密，配合 tile rasterizer 实现静态场景高质量实时渲染。 直接优化显式高斯几何和外观，避免 NeRF 对空空间的密集神经查询。 SfM 点初始化均值；尺度和四元数分解协方差；另存透明度及视角相关球谐颜色。 可微 RGB L1 与 D-SSIM 反传；根据位置梯度克隆小高斯、分裂大高斯并剔除低透明度基元。 视锥剔除后把屏幕划分 tile，对覆盖基元按深度排序，逐像素前向 alpha 混合并支持反传。",
+    "modules": [
+      {
+        "name": "各向异性高斯",
+        "purpose": "以连续基元紧凑覆盖复杂表面",
+        "mechanism": "SfM 点初始化均值；尺度和四元数分解协方差；另存透明度及视角相关球谐颜色。",
+        "input": "稀疏点云和图像",
+        "output": "带几何、透明度与外观的高斯集合"
+      },
+      {
+        "name": "优化与自适应密度",
+        "purpose": "在欠覆盖与过大基元处补充表达能力",
+        "mechanism": "可微 RGB L1 与 D-SSIM 反传；根据位置梯度克隆小高斯、分裂大高斯并剔除低透明度基元。",
+        "input": "图像重建误差、基元梯度",
+        "output": "数量与尺度自适应的高斯场"
+      },
+      {
+        "name": "可见性感知 tile 光栅化",
+        "purpose": "减少投影排序和渲染开销",
+        "mechanism": "视锥剔除后把屏幕划分 tile，对覆盖基元按深度排序，逐像素前向 alpha 混合并支持反传。",
+        "input": "高斯场和目标相机",
+        "output": "RGB 新视图"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "位置、旋转、尺度、透明度和球谐系数",
+    "trainable": "位置、旋转、尺度、透明度和球谐系数",
+    "frozen": "不适用：不使用视觉语言主干",
+    "data": "单个静态场景多视角图像",
+    "objective": "L1 与 D-SSIM 图像重建",
+    "stages": "表 1 分 7k/30k 迭代；论文实验使用 A6000；场景大小决定耗时与显存"
+  },
+  "evaluation": [
+    {
+      "benchmark": "静态辐射场主结果",
+      "setting": "arXiv2308.04079v1/TOG2023；30k迭代；A6000。MipNeRF360取5室外+4室内，Tanks&Temples取Train/Truck，Deep Blending取两场景；按原论文分辨率而非统一跨数据集像素数。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "静态辐射场主结果 · Table 1",
+        "columns": [
+          "数据集",
+          "SSIM↑",
+          "PSNR↑",
+          "LPIPS↓",
+          "训练时间",
+          "FPS↑",
+          "存储"
+        ],
+        "rows": [
+          [
+            "Mip-NeRF360",
+            "0.815",
+            "27.21",
+            "0.214",
+            "41m33s",
+            "134",
+            "734MB"
+          ],
+          [
+            "Tanks&Temples",
+            "0.841",
+            "23.14",
+            "0.183",
+            "26m54s",
+            "154",
+            "411MB"
+          ],
+          [
+            "Deep Blending",
+            "0.903",
+            "29.41",
+            "0.243",
+            "36m2s",
+            "137",
+            "676MB"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2308.04079v1",
+        "locator": "Table 1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "训练视角重叠不足的区域会出现伪影；粗大各向异性高斯会造成细节缺失。"
+    ],
+    "analysis": [
+      "高 PSNR 不等于表面几何准确；原始方法不表达时间、碰撞或物体可交互性。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2308.04079",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/graphdeco-inria/gaussian-splatting",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / 3D Gaussian Splatting for Real-Time Radiance Field Rendering",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2308.04079",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2308.04079v1",
+      "label": "论文全文 v1",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/graphdeco-inria/gaussian-splatting",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{230804079,\n  title = {3D Gaussian Splatting for Real-Time Radiance Field Rendering},\n  author = {Kerbl, Bernhard and Kopanas, Georgios and Leimkühler, Thomas and Drettakis, George},\n  year = {2023},\n  eprint = {2308.04079},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2308.04079}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "以可优化各向异性三维高斯替代沿射线密集采样，交替优化和增密，配合 tile rasterizer 实现静态场景高质量实时渲染。 直接优化显式高斯几何和外观，避免 NeRF 对空空间的密集神经查询。 场景静态；相机估计正确，观测需有足够覆盖。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

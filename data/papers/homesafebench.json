@@ -1,0 +1,254 @@
+{
+  "id": "homesafebench",
+  "title": "HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection",
+  "short": "HomeSafeBench",
+  "aliases": [],
+  "authors": [
+    "Jiashu Yao",
+    "Haoyu Wen",
+    "Siyuan Gao",
+    "Yuhang Guo",
+    "Zeming Liu",
+    "Heyan Huang"
+  ],
+  "institutions": [
+    "北京理工大学",
+    "北京航空航天大学"
+  ],
+  "firstPublished": "2025-09-28",
+  "updated": "2026-08-04",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "主动感知",
+      "安全"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "在 VirtualHome 中自由探索并报告家庭隐患，测试集含 1,000 个任务、3,000 个隐患实例；CueBack 生成可见线索约束下的训练数据。",
+  "method": {
+    "input": "第一视角图像、交互历史和巡检目标",
+    "output": "探索动作与隐患报告",
+    "flow": [
+      "生成与筛查风险场景",
+      "人工检查可达性与隐患有效性",
+      "Agent 移动/观察并报告",
+      "按隐患级匹配评分"
+    ],
+    "assumptions": "隐患判断依赖视觉线索及仿真工具",
+    "difference": "从单张图分类转向自主自由探索。",
+    "explanation": "把巡检定义成有限步数的第一视角探索，而不是提前提供全部隐患照片。先组合物体与潜在危险位置，再经多视角视觉筛查和人工确认构造场景。CueBack 在房间观测图中找到确认隐患的视点，沿轨迹回溯最早可见线索；在线索出现之前只监督探索，出现之后才监督有证据的推理与报告，降低未来信息泄漏。",
+    "modules": [
+      {
+        "name": "风险场景生成",
+        "purpose": "构造可达且可见的风险",
+        "mechanism": "组合风险位置与物体，VLM筛选后人工复核风险与可达性",
+        "input": "VirtualHome场景、风险类别",
+        "output": "有效巡检任务"
+      },
+      {
+        "name": "房间观测图",
+        "purpose": "复用视点和有效轨迹",
+        "mechanism": "节点标注已验证视点及可见隐患，边表示可执行的观测转换",
+        "input": "房间布局、工具动作",
+        "output": "带可见性标记的有向图"
+      },
+      {
+        "name": "CueBack监督",
+        "purpose": "让推理只使用已见证据",
+        "mechanism": "从风险确认轨迹回溯线索首次可见位置，分开构造探索与取证监督",
+        "input": "轨迹图像、风险标注",
+        "output": "SFT与偏好训练数据"
+      },
+      {
+        "name": "自由探索评测",
+        "purpose": "检验主动发现风险能力",
+        "mechanism": "每步提供第一视角与历史，最多20步；按隐患实例匹配报告",
+        "input": "模型工具调用",
+        "output": "风险级P/R/F1"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "Qwen3-VL-4B；基线另含多种商用与开源 VLM",
+    "trainable": "CueBack 数据上的下游微调；原文另比较偏好优化",
+    "frozen": "基线模型仅推理不代表 CueBack 方法也无训练",
+    "data": "与测试环境、布局及物体实例隔离的训练场景",
+    "objective": "动作、推理及偏好监督（按变体区分）",
+    "stages": "数据构造 → SFT/偏好优化 → OOD 评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HomeSafeBench v2",
+      "setting": "1000测试任务；3000隐患实例；最多20步；GPT-5.5做隐患级匹配，数值为%。",
+      "result": "CueBack以Qwen3-VL-4B训练，在本协议平均F1为45.3%，较未训练同骨干18.7%提高26.6个百分点。人类对照98.0%；不能与单图风险识别混排。",
+      "locator": "Table 2",
+      "sourceUrl": "https://arxiv.org/abs/2509.23690",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "HomeSafeBench v2：Table 2",
+        "columns": [
+          "模型",
+          "平均P (%)",
+          "平均R (%)",
+          "平均F1 (%)"
+        ],
+        "rows": [
+          [
+            "Human",
+            98,
+            98,
+            98
+          ],
+          [
+            "Seed-2.0-Pro",
+            41.4,
+            29.9,
+            34.7
+          ],
+          [
+            "GPT-5.5",
+            30.4,
+            31.2,
+            30.8
+          ],
+          [
+            "Qwen3-VL-4B",
+            47.2,
+            11.6,
+            18.7
+          ],
+          [
+            "SFT-Action",
+            49.4,
+            30.6,
+            37.8
+          ],
+          [
+            "SFT-Both",
+            55.7,
+            30.4,
+            39.3
+          ],
+          [
+            "DPO",
+            40.6,
+            22.7,
+            29.1
+          ],
+          [
+            "CueBack",
+            58.3,
+            37.1,
+            45.3
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2509.23690",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "测试来自一个留出 VirtualHome 环境的四个 room scenes；不能外推为大规模实机居家泛化。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2509.23690",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/BITHLP/HomeSafeBench",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://github.com/BITHLP/HomeSafeBench",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：HomeSafeBench.pdf",
+      "url": "https://arxiv.org/abs/2509.23690",
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2509.23690",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{homesafebench2025,\n  title = {HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection},\n  author = {Jiashu Yao and Haoyu Wen and Siyuan Gao and Yuhang Guo and Zeming Liu and Heyan Huang},\n  year = {2025},\n  eprint = {2509.23690},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2509.23690}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "居家安全不只需要识别图中异常，还需要探索未见区域并核实风险。HomeSafeBench 让 Agent 从第一视角导航、调整视角并报告隐患，覆盖火灾、触电、坠物、绊倒与儿童安全。CueBack 从确认隐患的轨迹回溯到最早可见线索，生成不泄露未见目标的监督。其测试是仿真自由探索，不是对真实住户长期安全的实地验证。",
+  "benchmark": {
+    "motivation": "从被动风险识别走向自由探索的家庭安全巡检。",
+    "task": "寻找并报告家庭隐患",
+    "input": "第一视角图像与操作历史",
+    "output": "隐患描述、类别及关联位置/对象",
+    "actions": "VirtualHome 原生移动、转向、接近等工具；最多20步。",
+    "success": "隐患级 precision/recall/F1；LLM judge 匹配。",
+    "collection": "场景组合生成、VLM 视觉筛选、人工验证可达性和风险。",
+    "scale": "测试1000任务、3000隐患实例；每任务1–5个隐患；5类风险。",
+    "split": "训练：2环境、8 room scenes；测试：1留出环境、4 room scenes。",
+    "metrics": "隐患级 P/R/F1；另有不依赖 LLM judge 的类别级结果。",
+    "baselines": "商用/开源 VLM、SFT 与偏好优化变体。",
+    "assets": "论文提供 Benchmark、训练数据和代码入口；下载内容未逐项复现。",
+    "license": "未核实；不能从论文开放入口推断商业许可。",
+    "reproduction": "VirtualHome 环境与模型服务；需固定 judge 版本及提示。",
+    "coverage": "家庭风险探索与报告",
+    "boundary": "非长期异常恶化预测；未提供真实机器人控制评测。",
+    "leakage": "CueBack 需避免把未来隐患身份/位置写入早期不可见帧。"
+  },
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

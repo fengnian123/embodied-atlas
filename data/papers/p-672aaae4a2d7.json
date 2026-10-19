@@ -1,0 +1,226 @@
+{
+  "id": "p-672aaae4a2d7",
+  "title": "MoVieS: Motion-Aware 4D Dynamic View Synthesis in One Second",
+  "short": "MoVieS",
+  "aliases": [],
+  "authors": [
+    "Chenguo Lin",
+    "Yuchen Lin",
+    "Panwang Pan",
+    "Yifan Yu",
+    "Tao Hu",
+    "Honglei Yan",
+    "Katerina Fragkiadaki",
+    "Yadong Mu"
+  ],
+  "institutions": [
+    "Peking University",
+    "ByteDance",
+    "Carnegie Mellon University"
+  ],
+  "firstPublished": "2025-07-14",
+  "updated": "2026-02-22",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "以前馈Transformer直接预测像素对齐高斯与时变形变，在大规模动静数据课程训练后约一秒重建短视频。",
+  "method": {
+    "input": "有相机位姿、内参和时间戳的视频",
+    "output": "动态splatter pixels及指定时刻/视角渲染",
+    "flow": [
+      "像素对齐动态基元",
+      "VGGT初始化Transformer",
+      "多任务课程训练"
+    ],
+    "assumptions": "原文明确将未标定位姿视频留作后续；外部相机估计时间不能隐含算作0。",
+    "difference": "同时监督几何和三维点运动，避免仅靠光度渲染训练前馈动态表达。",
+    "explanation": "以前馈Transformer直接预测像素对齐高斯与时变形变，在大规模动静数据课程训练后约一秒重建短视频。 同时监督几何和三维点运动，避免仅靠光度渲染训练前馈动态表达。 每像素关联规范高斯，另有随时间变化的位置/属性偏移，使形状与运动在共享空间表达。 图像编码/骨干/深度头从VGGT初始化，motion head从pointmap head初始化，新建splatter head与时空嵌入。 先静态，再5帧/13帧动态训练，最后高分辨率微调；联合渲染、深度、跟踪和motion等目标。",
+    "modules": [
+      {
+        "name": "像素对齐动态基元",
+        "purpose": "把静态几何和时间变化解耦",
+        "mechanism": "每像素关联规范高斯，另有随时间变化的位置/属性偏移，使形状与运动在共享空间表达。",
+        "input": "多帧图像、相机和时间",
+        "output": "高斯与连续形变"
+      },
+      {
+        "name": "VGGT初始化Transformer",
+        "purpose": "借用几何能力联合预测运动",
+        "mechanism": "图像编码/骨干/深度头从VGGT初始化，motion head从pointmap head初始化，新建splatter head与时空嵌入。",
+        "input": "视频tokens",
+        "output": "几何、运动及渲染参数"
+      },
+      {
+        "name": "多任务课程训练",
+        "purpose": "从静态泛化到动态短序列",
+        "mechanism": "先静态，再5帧/13帧动态训练，最后高分辨率微调；联合渲染、深度、跟踪和motion等目标。",
+        "input": "多源动静训练数据",
+        "output": "无需逐场景优化的通用模型"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "VGGT初始化参数与新增splatter/motion模块",
+    "trainable": "VGGT初始化参数与新增splatter/motion模块",
+    "frozen": "本文不是冻结主干仅推理使用；预训练参数以较小学习率更新",
+    "data": "8个数据源，含RealEstate10K、Stereo4D与合成动态数据",
+    "objective": "渲染/深度/点跟踪/运动等多任务目标",
+    "stages": "32×H20，静态及5帧约2天、13帧约2天，高分辨率约1天；518×518、13帧微调"
+  },
+  "evaluation": [
+    {
+      "benchmark": "DyCheck/NVIDIA/RE10K 新视角",
+      "setting": "CVPR2026/arXiv当前版表2；SSIM/mSSIM原表×100；按本文输入帧/图像设置比较，Time per scene不含外部相机估计的完整采集流程。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "DyCheck/NVIDIA/RE10K 新视角 · Table 2",
+        "columns": [
+          "配置",
+          "每场景时间",
+          "DyCheck mPSNR↑",
+          "mSSIM↑ (%)",
+          "mLPIPS↓",
+          "NVIDIA PSNR↑"
+        ],
+        "rows": [
+          [
+            "Shape of Motion",
+            "10min",
+            "17.96",
+            "56.62",
+            "0.3463",
+            "15.30"
+          ],
+          [
+            "MoSca",
+            "45min",
+            "18.24",
+            "55.14",
+            "0.3698",
+            "21.45"
+          ],
+          [
+            "MoVieS",
+            "0.93s",
+            "18.46",
+            "58.87",
+            "0.3094",
+            "19.16"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2507.10065v2",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "仍有相对优化方法的画质差距；依赖外部相机估计。",
+      "高分辨率、长视频与复杂场景的算力/内存仍是限制。"
+    ],
+    "analysis": [
+      "表2中DyCheck的mSSIM以百分数显示，不能直接同0–1尺度混排。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2507.10065",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "code": {
+      "url": "https://github.com/chenguolin/MoVieS",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / MoVieS: Motion-Aware 4D Dynamic View Synthesis in One Second",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2507.10065",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2507.10065v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/chenguolin/MoVieS",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{250710065,\n  title = {MoVieS: Motion-Aware 4D Dynamic View Synthesis in One Second},\n  author = {Lin, Chenguo and Lin, Yuchen and Pan, Panwang and Yu, Yifan and Hu, Tao and Yan, Honglei and Fragkiadaki, Katerina and Mu, Yadong},\n  year = {2025},\n  eprint = {2507.10065},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2507.10065}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "以前馈Transformer直接预测像素对齐高斯与时变形变，在大规模动静数据课程训练后约一秒重建短视频。 同时监督几何和三维点运动，避免仅靠光度渲染训练前馈动态表达。 原文明确将未标定位姿视频留作后续；外部相机估计时间不能隐含算作0。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

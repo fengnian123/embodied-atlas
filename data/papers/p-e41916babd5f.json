@@ -1,0 +1,181 @@
+{
+  "id": "p-e41916babd5f",
+  "title": "Active Perception: Interactive Manipulation for Improving Object Detection",
+  "short": "Active Perception",
+  "aliases": [],
+  "authors": [
+    "Quoc V. Le",
+    "Ashutosh Saxena",
+    "Andrew Y. Ng"
+  ],
+  "institutions": [
+    "Stanford University",
+    "Cornell University"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2010,
+  "venue": null,
+  "publicationStatus": "作者公开论文；正式发表载体尚未核实",
+  "year": 2010,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "主动感知",
+      "抓取"
+    ],
+    "paradigm": [],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "主动感知"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "以动作的信息收益和代价选择移动视角或操纵物体，改善单图像难以确定的对象识别。",
+  "method": {
+    "explanation": "方法把识别与交互联系起来：同一对象的不同视角会露出不同判别特征，例如杯柄；机器人可以移动、旋转或推移物体，再观测来减少类别不确定性。算法以信息互增益与动作成本的组合为目标，贪心选下一动作并累计新证据。它早于VLM/VLA时代，实验是STAIR机器人在办公室找杯子和订书机等对象，不能把35物体实验解释为现代ObjectNav基准。",
+    "input": "对象图像与可用操纵/移动动作",
+    "output": "下一观察动作与类别判断",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "以动作的信息收益和代价选择移动视角或操纵物体，改善单图像难以确定的对象识别。",
+    "flow": [
+      "对象/视角不确定性",
+      "贪心动作选择",
+      "交互后重新识别"
+    ],
+    "modules": [
+      {
+        "name": "对象/视角不确定性",
+        "purpose": "识别为什么当前画面不够",
+        "mechanism": "从对象检测结果维护类别不确定性，考虑同一类别不同视角的识别质量变化。",
+        "sourceUrl": "https://ai.stanford.edu/~quocle/activevision.pdf",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "贪心动作选择",
+        "purpose": "用少量动作获得判别证据",
+        "mechanism": "比较移动视点和操纵物体等动作的信息收益，结合动作代价选取下一步。",
+        "sourceUrl": "https://ai.stanford.edu/~quocle/activevision.pdf",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "交互后重新识别",
+        "purpose": "检验动作是否带来信息",
+        "mechanism": "STAIR执行旋转/移动等动作后再拍摄并更新识别；不能只把多张固定相机图当主动交互。",
+        "sourceUrl": "https://ai.stanford.edu/~quocle/activevision.pdf",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "学习检测模型与主动动作选择；不涉及VLM/VLA",
+    "models": "传统对象检测、信息论动作选择和STAIR控制",
+    "trainable": "检测相关模型；精确训练样本规模未在本条摘录",
+    "frozen": "不适用基础LLM冻结",
+    "data": "真实机器人35对象实验；不同视角训练观察",
+    "objective": "对象识别与信息收益/成本准则",
+    "stages": "检测不确定 → 选动作 → 交互 → 再观察识别"
+  },
+  "evaluation": [
+    {
+      "benchmark": "STAIR 真实对象识别",
+      "setting": "原文Introduction/实验报告：35对象，正确识别数；不是统一现代导航协议SR。",
+      "result": "被动识别23/35，主动方法34/35；本库不把小样本案例外推为任意对象识别精度。",
+      "sourceUrl": "https://ai.stanford.edu/~quocle/activevision.pdf",
+      "locator": "Introduction / 实验节",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "原文正确识别数整理",
+        "columns": [
+          "配置",
+          "正确识别对象",
+          "总对象"
+        ],
+        "rows": [
+          [
+            "被动感知",
+            "23",
+            "35"
+          ],
+          [
+            "主动感知",
+            "34",
+            "35"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "实验对象与动作集有限；主动策略可用的交互动作和物体可操作性直接限制可推广范围。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://ai.stanford.edu/~quocle/activevision.pdf",
+      "status": "已核实入口",
+      "note": "已核实原始论文/出版社记录"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "主动交互巡检与故障诊断_相关工作调研.md",
+      "locator": "Active Perception: Interactive Manipulation for Improving Object Detection(这个比较老了，2010)",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "调研所引论文或项目（未回查）",
+      "url": "https://ai.stanford.edu/~quocle/activevision.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "本轮回查原始来源",
+      "url": "https://ai.stanford.edu/~quocle/activevision.pdf",
+      "supports": [
+        "方法",
+        "训练",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pe41916babd5f2010,\n title={Active Perception: Interactive Manipulation for Improving Object Detection},\n author={Quoc V. Le and Ashutosh Saxena and Andrew Y. Ng},\n year={2010},\n url={https://ai.stanford.edu/~quocle/activevision.pdf}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版载体与首次公开日期",
+    "检测训练集、资源许可和完整复现环境"
+  ],
+  "sourceNotes": [
+    {
+      "label": "作者Stanford发表列表提供2010年线索；正式载体与首次公开日未独立确认",
+      "url": "https://robotics.stanford.edu/~quocle/publications.html"
+    }
+  ],
+  "overview": "方法把识别与交互联系起来：同一对象的不同视角会露出不同判别特征，例如杯柄；机器人可以移动、旋转或推移物体，再观测来减少类别不确定性。算法以信息互增益与动作成本的组合为目标，贪心选下一动作并累计新证据。它早于VLM/VLA时代，实验是STAIR机器人在办公室找杯子和订书机等对象，不能把35物体实验解释为现代ObjectNav基准。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,288 @@
+{
+  "id": "p-c0e3911c11b4",
+  "title": "MegaSaM: Accurate, Fast, and Robust Structure and Motion from Casual Dynamic Videos",
+  "short": "MegaSaM",
+  "aliases": [
+    "MegaSaM: Accurate, Fast and Robust Structure and Motion from Casual Dynamic Videos"
+  ],
+  "authors": [
+    "Zhengqi Li",
+    "Richard Tucker",
+    "Forrester Cole",
+    "Qianqian Wang",
+    "Linyi Jin",
+    "Vickie Ye",
+    "Angjoo Kanazawa",
+    "Aleksander Holynski",
+    "Noah Snavely"
+  ],
+  "institutions": [
+    "Google DeepMind",
+    "UC Berkeley",
+    "University of Michigan"
+  ],
+  "firstPublished": "2024-12-05",
+  "updated": "2024-12-06",
+  "publicationYear": 2025,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "在可微Bundle Adjustment中引入运动概率、单目深度初始化和不确定性感知约束，从动态随手视频恢复稳健相机与一致深度。",
+  "method": {
+    "input": "未标定单目视频；DepthAnything/UniDepth等预训练深度先验",
+    "output": "相机轨迹、焦距、深度和结构",
+    "flow": [
+      "动态感知匹配",
+      "深度初始化与全局BA",
+      "一致视频深度细化"
+    ],
+    "assumptions": "相机/物体运动分解需保留可靠静态线索；不是直接预测动态高斯或Mesh的系统。",
+    "difference": "改进动态环境下深度视觉SLAM的训练与全局BA，而不是用相机静态假设拟合所有像素。",
+    "explanation": "在可微Bundle Adjustment中引入运动概率、单目深度初始化和不确定性感知约束，从动态随手视频恢复稳健相机与一致深度。 改进动态环境下深度视觉SLAM的训练与全局BA，而不是用相机静态假设拟合所有像素。 DROID式匹配网络预测光流、置信度和对象运动概率，调整BA中各像素贡献。 结合相对深度和度量深度估计尺度/偏移/焦距，滑窗注册关键帧，再用不确定性控制的全局BA细化。 固定已估相机，对视频深度与不确定图做额外一阶优化，约束跨帧光流及深度关系。",
+    "modules": [
+      {
+        "name": "动态感知匹配",
+        "purpose": "降低移动对象对相机优化的干扰",
+        "mechanism": "DROID式匹配网络预测光流、置信度和对象运动概率，调整BA中各像素贡献。",
+        "input": "相邻/重叠图像对",
+        "output": "对应、置信与运动权重"
+      },
+      {
+        "name": "深度初始化与全局BA",
+        "purpose": "缓和低视差与动静歧义",
+        "mechanism": "结合相对深度和度量深度估计尺度/偏移/焦距，滑窗注册关键帧，再用不确定性控制的全局BA细化。",
+        "input": "深度先验和运动加权对应",
+        "output": "相机、焦距及低分辨率深度"
+      },
+      {
+        "name": "一致视频深度细化",
+        "purpose": "输出细节更一致的结构",
+        "mechanism": "固定已估相机，对视频深度与不确定图做额外一阶优化，约束跨帧光流及深度关系。",
+        "input": "相机与初始深度",
+        "output": "高分辨率一致深度"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "运动概率与对应/置信网络",
+    "trainable": "运动概率与对应/置信网络",
+    "frozen": "预训练深度提供初始化；推理时BA/深度优化属于测试优化",
+    "data": "只用合成训练数据，评测真实/合成视频",
+    "objective": "可微BA相关位姿/几何/运动监督",
+    "stages": "两阶段训练后进行前端跟踪、全局BA，可选一致深度后优化"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Sintel 相机估计",
+      "setting": "CVPR2025/arXiv当前版；Calibrated已知内参，Uncalibrated未知；RRE为旋转误差；时间按原表，非全视频总建图时间的统一解释。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Sintel 相机估计 · Table 1",
+        "columns": [
+          "方法",
+          "已标定ATE↓",
+          "已标定RTE↓",
+          "已标定RRE↓",
+          "未标定ATE↓",
+          "未标定RTE↓",
+          "未标定RRE↓"
+        ],
+        "rows": [
+          [
+            "CasualSAM",
+            "0.036",
+            "0.013",
+            "0.20",
+            "0.067",
+            "0.019",
+            "0.47"
+          ],
+          [
+            "MegaSaM",
+            "0.018",
+            "0.008",
+            "0.04",
+            "0.023",
+            "0.008",
+            "0.06"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2412.04463v2",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "Sintel/DyCheck 视频深度",
+      "setting": "同原文独立深度评测；δ1.25以百分数给出，AbsRel/log-RMSE越小越好。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 4",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Sintel/DyCheck 视频深度 · Table 4",
+        "columns": [
+          "方法",
+          "Sintel AbsRel↓",
+          "Sintel logRMSE↓",
+          "Sintel δ1.25↑ (%)",
+          "DyCheck AbsRel↓",
+          "DyCheck logRMSE↓",
+          "DyCheck δ1.25↑ (%)"
+        ],
+        "rows": [
+          [
+            "DA-v2 [72]",
+            "0.37",
+            "0.55",
+            "58.6",
+            "0.20",
+            "0.27",
+            "84.7"
+          ],
+          [
+            "MonST3R [76]",
+            "0.31",
+            "0.43",
+            "62.5",
+            "0.26",
+            "0.35",
+            "66.5"
+          ],
+          [
+            "Ours",
+            "0.21",
+            "0.39",
+            "73.1",
+            "0.11",
+            "0.20",
+            "94.1"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2412.04463v2",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "运动对象占满画面或没有可靠跟踪纹理时失败；相机和对象运动共线时难分离。"
+    ],
+    "analysis": [
+      "作为4D重建预处理可改善相机，但本身并不提供每个物体的完整动态表面。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2412.04463",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://mega-sam.github.io/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/mega-sam/mega-sam",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / MegaSaM: Accurate, Fast and Robust Structure and Motion from Casual Dynamic Videos",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2412.04463",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2412.04463v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://mega-sam.github.io/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/mega-sam/mega-sam",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{241204463,\n  title = {MegaSaM: Accurate, Fast, and Robust Structure and Motion from Casual Dynamic Videos},\n  author = {Li, Zhengqi and Tucker, Richard and Cole, Forrester and Wang, Qianqian and Jin, Linyi and Ye, Vickie and Kanazawa, Angjoo and Holynski, Aleksander and Snavely, Noah},\n  year = {2024},\n  eprint = {2412.04463},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2412.04463}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "在可微Bundle Adjustment中引入运动概率、单目深度初始化和不确定性感知约束，从动态随手视频恢复稳健相机与一致深度。 改进动态环境下深度视觉SLAM的训练与全局BA，而不是用相机静态假设拟合所有像素。 相机/物体运动分解需保留可靠静态线索；不是直接预测动态高斯或Mesh的系统。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

@@ -1,0 +1,231 @@
+{
+  "id": "p-113f275da6df",
+  "title": "Walk With Me: Long-Horizon Social Navigation for Human-Centric Outdoor Assistance",
+  "short": "Walk With Me",
+  "aliases": [],
+  "authors": [
+    "Lingfeng Zhang",
+    "Xiaoshuai Hao",
+    "Xizhou Bu",
+    "Yingbo Tang",
+    "Hongsheng Li",
+    "Jinghui Lu",
+    "Xiu-shen Wei",
+    "Jiayi Ma",
+    "Yu Liu",
+    "Jing Zhang",
+    "Hangjun Ye",
+    "Xiaojun Liang",
+    "Long Chen",
+    "Wenbo Ding"
+  ],
+  "institutions": [
+    "Tsinghua University",
+    "Pengcheng Laboratory",
+    "Xiaomi EV",
+    "Fudan University",
+    "Institute of Automation, Chinese Academy of Sciences",
+    "Southeast University",
+    "Wuhan University",
+    "Hefei University of Technology"
+  ],
+  "firstPublished": "2026-04-29",
+  "updated": "2026-04-29",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本；未核实正式发表状态",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "真实世界"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "Walk With Me 面向陪行、导盲和配送，把模糊人类意图落到公共地图 POI 和步行路线。",
+  "method": {
+    "input": "抽象指令、GPS 和公共地图服务",
+    "output": "陪行或配送行为",
+    "explanation": "Walk With Me 面向陪行、导盲和配送，把模糊人类意图落到公共地图 POI 和步行路线。高层 VLM 进行场景/安全判断，低层 VLA 生成局部轨迹；高风险时显式停等，依靠实时反馈执行长程户外任务。",
+    "flow": [
+      "意图与路线接地",
+      "安全评估与策略路由",
+      "闭环执行"
+    ],
+    "modules": [
+      {
+        "name": "意图与路线接地",
+        "purpose": "本模块解决：意图与路线接地",
+        "input": "抽象指令、GPS 和公共地图服务",
+        "mechanism": "高层模型选择符合意图的 POI，取粗粒度步行路线和语义线索；不依赖预建 HD 地图。",
+        "output": "目的地与粗航点序列",
+        "sourceUrl": "https://arxiv.org/html/2604.26839v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "安全评估与策略路由",
+        "purpose": "本模块解决：安全评估与策略路由",
+        "input": "当前视觉、路线及人群/路口情境",
+        "mechanism": "判断 routine/complex 并输出 proceed/stop-and-wait；可通行时调用低层 VLA。",
+        "output": "安全决定和局部轨迹",
+        "sourceUrl": "https://arxiv.org/html/2604.26839v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "闭环执行",
+        "purpose": "本模块解决：闭环执行",
+        "input": "轨迹、安全决定与机体状态",
+        "mechanism": "将轨迹转成机器人动作，更新状态和路线进度，再次调用高层评估。",
+        "output": "陪行或配送行为",
+        "sourceUrl": "https://arxiv.org/html/2604.26839v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "依赖GPS、公共地图API和可用POI/步行路线；map-free指不需要预建HD地图，不代表不用地图先验。",
+    "difference": "Walk With Me 面向陪行、导盲和配送，把模糊人类意图落到公共地图 POI 和步行路线。高层 VLM 进行场景/安全判断，低层 VLA 生成局部轨迹；高风险时显式停等，依靠实时反馈执行长程户外任务。"
+  },
+  "training": {
+    "regime": "训练细节未核实",
+    "models": "详见原文方法模块；未独立列全基础模型。",
+    "trainable": "系统整合不同 VLM 与低层导航策略。低层组件有各自预训练；本文是否为完整系统新增训练以及冻结范围不能仅从系统描述推断，标为训练细节未核实。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "系统整合不同 VLM 与低层导航策略。低层组件有各自预训练；本文是否为完整系统新增训练以及冻结范围不能仅从系统描述推断，标为训练细节未核实。",
+    "objective": "系统整合不同 VLM 与低层导航策略。低层组件有各自预训练；本文是否为完整系统新增训练以及冻结范围不能仅从系统描述推断，标为训练细节未核实。",
+    "stages": "系统整合不同 VLM 与低层导航策略。低层组件有各自预训练；本文是否为完整系统新增训练以及冻结范围不能仅从系统描述推断，标为训练细节未核实。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "真实户外任务",
+      "setting": "每场景 5 次，4 个场景，共 20 次；样本量较小",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2604.26839v1",
+      "table": {
+        "columns": [
+          "场景",
+          "成功 / 试验数",
+          "SR (%)"
+        ],
+        "rows": [
+          [
+            "奶茶送 Building B",
+            "4 / 5",
+            80
+          ],
+          [
+            "包裹送 Building A",
+            "3 / 5",
+            60
+          ],
+          [
+            "散步导引",
+            "3 / 5",
+            60
+          ],
+          [
+            "购物导引",
+            "2 / 5",
+            40
+          ],
+          [
+            "合计",
+            "12 / 20",
+            60
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2604.26839v1",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依赖GPS、公共地图API和可用POI/步行路线；map-free指不需要预建HD地图，不代表不用地图先验。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2604.26839",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://linglingxiansen.github.io/Walk-with-Me/",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / Walk With Me",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2604.26839",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2604.26839v1",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p113f275da6df,\n  title={Walk With Me: Long-Horizon Social Navigation for Human-Centric Outdoor Assistance},\n  author={Lingfeng Zhang and Xiaoshuai Hao and Xizhou Bu and Yingbo Tang and Hongsheng Li and Jinghui Lu and Xiu-shen Wei and Jiayi Ma and Yu Liu and Jing Zhang and Hangjun Ye and Xiaojun Liang and Long Chen and Wenbo Ding},\n  year={2026},\n  eprint={2604.26839},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2604.26839}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "正式发表信息尚未在可靠会议/期刊来源确认"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "Walk With Me 面向陪行、导盲和配送，把模糊人类意图落到公共地图 POI 和步行路线。高层 VLM 进行场景/安全判断，低层 VLA 生成局部轨迹；高风险时显式停等，依靠实时反馈执行长程户外任务。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

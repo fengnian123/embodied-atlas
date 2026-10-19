@@ -1,0 +1,127 @@
+{
+  "inputFiles": 15,
+  "initialRecords": 125,
+  "mergedAppearances": 30,
+  "merges": [
+    [
+      "ABot-AgentOS static memory",
+      "ABot-AgentOS static memory"
+    ],
+    [
+      "3D-Mem",
+      "3D-Mem"
+    ],
+    [
+      "ReEXplore",
+      "ReEXplore"
+    ],
+    [
+      "Explore-EQA",
+      "Explore-EQA"
+    ],
+    [
+      "Explore-EQA",
+      "Explore-EQA"
+    ],
+    [
+      "GraphEQA",
+      "GraphEQA"
+    ],
+    [
+      "FAST-EQA",
+      "FAST-EQA"
+    ],
+    [
+      "Explore-EQA",
+      "Explore-EQA"
+    ],
+    [
+      "Explore-EQA",
+      "Explore-EQA"
+    ],
+    [
+      "GraphEQA",
+      "GraphEQA"
+    ],
+    [
+      "GraphEQA",
+      "GraphEQA"
+    ],
+    [
+      "Explore-EQA",
+      "Explore-EQA"
+    ],
+    [
+      "GraphEQA",
+      "GraphEQA"
+    ],
+    [
+      "MemoryEQA",
+      "MemoryEQA"
+    ],
+    [
+      "MemoryEQA",
+      "MemoryEQA"
+    ],
+    [
+      "FAST-EQA",
+      "FAST-EQA"
+    ],
+    [
+      "FAST-EQA",
+      "FAST-EQA"
+    ],
+    [
+      "3D-Mem",
+      "3D-Mem"
+    ],
+    [
+      "3D-Mem",
+      "3D-Mem"
+    ],
+    [
+      "NaviLLM",
+      "NaviLLM"
+    ],
+    [
+      "Feeding, grooming, dressing, and body repositioning: categorizing four pillars of learning-based manipulation for robotic caregiving",
+      "Feeding, grooming, dressing, and body repositioning: categorizing four pillars of learning-based manipulation for robotic caregiving"
+    ],
+    [
+      "RoboNurse-VLA: Robotic Scrub Nurse System based on Vision-Language-Action Model",
+      "RoboNurse-VLA: Robotic Scrub Nurse System based on Vision-Language-Action Model"
+    ],
+    [
+      "Virtual Patient Simulations Using Social Robotics Combined With Large Language Models for Clinical Reasoning Training in Medical Education",
+      "Virtual Patient Simulations Using Social Robotics Combined With Large Language Models for Clinical Reasoning Training in Medical Education"
+    ],
+    [
+      "EndoNet: A Deep Architecture for Recognition Tasks on Laparoscopic Videos",
+      "EndoNet: A Deep Architecture for Recognition Tasks on Laparoscopic Videos"
+    ],
+    [
+      "A Dataset and Benchmarks for Segmentation and Recognition of Gestures in Robotic Surgery",
+      "A Dataset and Benchmarks for Segmentation and Recognition of Gestures in Robotic Surgery"
+    ],
+    [
+      "Assistive Gym: A Physics Simulation Framework for Assistive Robotics",
+      "Assistive Gym: A Physics Simulation Framework for Assistive Robotics"
+    ],
+    [
+      "SurRoL: An Open-source Reinforcement Learning Centered and dVRK Compatible Platform for Surgical Robot Learning",
+      "SurRoL: An Open-source Reinforcement Learning Centered and dVRK Compatible Platform for Surgical Robot Learning"
+    ],
+    [
+      "Open X-Embodiment: Robotic Learning Datasets and RT-X Models",
+      "Open X-Embodiment: Robotic Learning Datasets and RT-X Models"
+    ],
+    [
+      "主动动作的“信息增益”缺少真实评测",
+      "从“异常描述”到“故障原因”仍有明显距离"
+    ],
+    [
+      "仿真到真实的差距仍然很大",
+      "从“异常描述”到“故障原因”仍有明显距离"
+    ]
+  ]
+}

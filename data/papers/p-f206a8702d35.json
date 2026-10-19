@@ -1,0 +1,196 @@
+{
+  "id": "p-f206a8702d35",
+  "title": "Assistive Gym: A Physics Simulation Framework for Assistive Robotics",
+  "short": "AssistiveGym",
+  "aliases": [
+    "AssistiveGym"
+  ],
+  "authors": [
+    "Erickson, Zackory",
+    "Gangaram, Vamsee",
+    "Kapusta, Ariel",
+    "Liu, C. Karen",
+    "Kemp, Charles C."
+  ],
+  "institutions": [],
+  "firstPublished": "2019-10-10",
+  "updated": "2019-10-10",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "Benchmark",
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "用物理仿真把人与机器人的接触式照护任务统一为可训练环境，建模人体能力与偏好，并提供四类机器人、六类日常辅助任务的强化学习基线。",
+  "method": {
+    "input": "仿真人体状态、机器人观测与照护任务",
+    "output": "机器人控制及接触/偏好奖励",
+    "flow": [
+      "人体与接触仿真",
+      "任务与机器人统一接口",
+      "PPO与人机共同优化"
+    ],
+    "explanation": "用物理仿真把人与机器人的接触式照护任务统一为可训练环境，建模人体能力与偏好，并提供四类机器人、六类日常辅助任务的强化学习基线。",
+    "modules": [
+      {
+        "name": "人体与接触仿真",
+        "purpose": "使辅助过程可重复训练",
+        "mechanism": "建模人体关节限制、体型变化、接触及人对受力和动作的偏好。",
+        "input": "仿真人体状态、机器人观测与照护任务",
+        "output": "人体与接触仿真的中间结果"
+      },
+      {
+        "name": "任务与机器人统一接口",
+        "purpose": "比较不同平台能力",
+        "mechanism": "覆盖抓痒、擦浴、喂食、喝水、穿衣和手臂重定位及PR2/Jaco/Baxter/Sawyer。",
+        "input": "人体与接触仿真的结果",
+        "output": "任务与机器人统一接口的中间结果"
+      },
+      {
+        "name": "PPO与人机共同优化",
+        "purpose": "研究主动协作人体的作用",
+        "mechanism": "比较静态人体和人/机器人各自学习策略的共同优化；这是仿真结果。",
+        "input": "任务与机器人统一接口的结果",
+        "output": "机器人控制及接触/偏好奖励"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：数据或仿真平台"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/1910.04700",
+      "status": "已核实入口",
+      "note": "已核实arXiv元数据"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Rehabilitation and Physical Assistance / AssistiveGym",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/1910.04700",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://github.com/Healthcare-Robotics/assistive-gym",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Datasets, Simulators, and Benchmarks / AssistiveGym",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/1910.04700",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://github.com/Healthcare-Robotics/assistive-gym",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv原始元数据",
+      "url": "https://arxiv.org/abs/1910.04700",
+      "locator": "citation_title / citation_author / citation_date / version history",
+      "supports": [
+        "标题",
+        "作者",
+        "首次公开日期",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://arxiv.org/pdf/1910.04700",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICRA'20**",
+      "section": "Rehabilitation and Physical Assistance"
+    },
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICRA'20**",
+      "section": "Datasets, Simulators, and Benchmarks"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "用物理仿真把人与机器人的接触式照护任务统一为可训练环境，建模人体能力与偏好，并提供四类机器人、六类日常辅助任务的强化学习基线。 "
+}

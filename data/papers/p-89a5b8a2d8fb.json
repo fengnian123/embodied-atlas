@@ -1,0 +1,205 @@
+{
+  "id": "p-89a5b8a2d8fb",
+  "title": "RoboTHOR: An Open Simulation-to-Real Embodied AI Platform",
+  "short": "RoboTHOR",
+  "aliases": [
+    "RoboTHOR: An Open Simulation-to-Real Embodied AI Platform",
+    "RoboTHOR"
+  ],
+  "authors": [
+    "Deitke, Matt",
+    "Han, Winson",
+    "Herrasti, Alvaro",
+    "Kembhavi, Aniruddha",
+    "Kolve, Eric",
+    "Mottaghi, Roozbeh",
+    "Salvador, Jordi",
+    "Schwenk, Dustin",
+    "VanderBilt, Eli",
+    "Wallingford, Matthew",
+    "Weihs, Luca",
+    "Yatskar, Mark",
+    "Farhadi, Ali"
+  ],
+  "institutions": [
+    "PRIOR @ Allen Institute for AI",
+    "University of Washington ai2thor.allenai.org/robothor"
+  ],
+  "firstPublished": "2020-04-14",
+  "updated": "2020-04-14",
+  "publicationYear": 2020,
+  "venue": "CVPR",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2020,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "系统"
+    ],
+    "problem": [
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "提供配对真实与仿真室内环境，用统一平台直接测量ObjectNav的sim-to-real差距。",
+  "method": {
+    "explanation": "RoboTHOR 的新增价值是将真实物理空间与匹配数字环境配对，并开放远程真实测试，减少只在仿真排名中讨论真实泛化。Agent接收目标类别和视觉观察，选择移动/转向/停止，在训练仿真、未见仿真和真实空间上比较。论文的Image策略在简单任务仿真成功55.30%，真实33.33%，说明几何近似匹配并没有消除感知与控制域差异。平台原论文与后续挑战数据版本的房间/episode数量应分开。",
+    "input": "目标类别与机器人视觉",
+    "output": "导航动作与显式停止",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "提供配对真实与仿真室内环境，用统一平台直接测量ObjectNav的sim-to-real差距。",
+    "flow": [
+      "配对场景平台",
+      "ObjectNav基线",
+      "Sim-to-Real协议"
+    ],
+    "modules": [
+      {
+        "name": "配对场景平台",
+        "purpose": "让仿真与真实评测可比较",
+        "mechanism": "构造有物理对应的模拟环境，对机器人动作、视野和场景布置进行匹配。",
+        "sourceUrl": "https://arxiv.org/html/2004.06799",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "ObjectNav基线",
+        "purpose": "提供可复用任务与操作接口",
+        "mechanism": "按给定目标物类别导航，比较随机、盲策略、图像和检测增强策略。",
+        "sourceUrl": "https://arxiv.org/html/2004.06799",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "Sim-to-Real协议",
+        "purpose": "量化真实迁移而非只展示案例",
+        "mechanism": "相同训练方法在仿真和物理环境分难度评测，分别报告成功、SPL、动作步数和路径长度。",
+        "sourceUrl": "https://arxiv.org/html/2004.06799",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "平台不适用；基线需导航策略训练",
+    "models": "图像/检测导航基线",
+    "trainable": "论文用于对比的导航策略",
+    "frozen": "平台本身不是VLM",
+    "data": "仿真训练并在仿真/配对真实环境测试",
+    "objective": "基线导航训练目标依原文设定",
+    "stages": "配对场景构建 → 仿真训练 → 跨域固定协议测试"
+  },
+  "evaluation": [
+    {
+      "benchmark": "RoboTHOR Image基线 sim-to-real",
+      "setting": "Table 1/2；Image基线，同难度sim-to-sim与sim-to-real；SR/SPL为百分数。",
+      "result": "Easy仿真SR55.30/SPL38.12，真实33.33/3.53；Medium28.79/19.12对16.66/3.70；Hard1.47/.97对0/0。",
+      "sourceUrl": "https://arxiv.org/html/2004.06799",
+      "locator": "Table 1 / Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "难度",
+          "Sim SR / SPL (%)",
+          "Real SR / SPL (%)"
+        ],
+        "rows": [
+          [
+            "Easy",
+            "55.30 / 38.12",
+            "33.33 / 3.53"
+          ],
+          [
+            "Medium",
+            "28.79 / 19.12",
+            "16.66 / 3.70"
+          ],
+          [
+            "Hard",
+            "1.47 / 0.97",
+            "0.00 / 0.00"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "真实与数字场景配对没有消除域差异；同难度下真实成功和SPL显著低于仿真。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2004.06799",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / RoboTHOR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2004.06799",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2004.06799",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p89a5b8a2d8fb2020,\n title={RoboTHOR: An Open Simulation-to-Real Embodied AI Platform},\n author={Deitke, Matt and Han, Winson and Herrasti, Alvaro and Kembhavi, Aniruddha and Kolve, Eric and Mottaghi, Roozbeh and Salvador, Jordi and Schwenk, Dustin and VanderBilt, Eli and Wallingford, Matthew and Weihs, Luca and Yatskar, Mark and Farhadi, Ali},\n year={2020},\n url={https://arxiv.org/abs/2004.06799}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "RoboTHOR 的新增价值是将真实物理空间与匹配数字环境配对，并开放远程真实测试，减少只在仿真排名中讨论真实泛化。Agent接收目标类别和视觉观察，选择移动/转向/停止，在训练仿真、未见仿真和真实空间上比较。论文的Image策略在简单任务仿真成功55.30%，真实33.33%，说明几何近似匹配并没有消除感知与控制域差异。平台原论文与后续挑战数据版本的房间/episode数量应分开。",
+  "benchmark": {
+    "motivation": "可重复、可远程使用的仿真到真实具身AI评测。",
+    "environment": "配对模拟场景与物理室内空间。",
+    "task": "给定物体类别导航并停止。",
+    "metrics": "SR、SPL、episode length、path length，分Easy/Medium/Hard。",
+    "boundary": "真实空间配对不代表照片级或物理误差已消除；版本和平台可用性需复现前检查。"
+  },
+  "verificationLevel": "fulltext"
+}

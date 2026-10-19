@@ -1,0 +1,247 @@
+{
+  "id": "p-666d1f5c285c",
+  "title": "Beyond the Destination: A Novel Benchmark for Exploration-Aware Embodied Question Answering",
+  "short": "Fine-EQA / EXPRESS-Bench",
+  "aliases": [
+    "Fine-EQA",
+    "EXPRESS-Bench"
+  ],
+  "authors": [
+    "Jiang, Kaixuan",
+    "Liu, Yang",
+    "Chen, Weixing",
+    "Luo, Jingzhou",
+    "Chen, Ziliang",
+    "Pan, Ling",
+    "Li, Guanbin",
+    "Lin, Liang"
+  ],
+  "institutions": [
+    "Sun Yat-sen University Peng Cheng Laboratory Hong Kong University of Science and Technology"
+  ],
+  "firstPublished": "2025-03-14",
+  "updated": "2025-05-23",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实采集资产",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "提出EXPRESS-Bench与Fine-EQA，用探索—答案一致性评测主动问答而不只看语言答案。",
+  "method": {
+    "explanation": "同一篇论文同时提出EXPRESS-Bench数据、Fine-EQA方法和Exploration-Answer Consistency评测。数据含777条探索轨迹、2044问答—轨迹对；Fine-EQA结合全局frontier探索与任务相关目标导航，既扩展覆盖又靠近细节证据。EAC要求答案正确性与实际探索到的证据相符，减轻只凭语言先验猜中也高分的问题。本库将Fine-EQA与EXPRESS视为方法和数据集的别名，维护者应合并为一个论文身份。",
+    "input": "问题与在线视觉/位姿",
+    "output": "探索动作与证据支持的答案",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "提出EXPRESS-Bench与Fine-EQA，用探索—答案一致性评测主动问答而不只看语言答案。",
+    "flow": [
+      "EXPRESS数据构建",
+      "混合探索Fine-EQA",
+      "Exploration-Answer Consistency"
+    ],
+    "modules": [
+      {
+        "name": "EXPRESS数据构建",
+        "purpose": "关联问题、目标位置与探索轨迹",
+        "mechanism": "在Habitat/HM3D构建777条探索轨迹和2044问答—轨迹对，给目标与探索证据建立对应。",
+        "sourceUrl": "https://arxiv.org/html/2503.11117",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "混合探索Fine-EQA",
+        "purpose": "兼顾未知区域与局部细节",
+        "mechanism": "结合frontier-based与goal-oriented探索：前者扩展空间覆盖，后者导向与问题相关对象区域。",
+        "sourceUrl": "https://arxiv.org/html/2503.11117",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "Exploration-Answer Consistency",
+        "purpose": "防止答案依赖先验却没有看见证据",
+        "mechanism": "将答案质量与探索可信性联合评估，分别保留C、C*、Epath、目标距离等维度。",
+        "sourceUrl": "https://arxiv.org/html/2503.11117",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "基准不适用；Fine-EQA使用基础模型探索推理",
+    "models": "VLM问答及混合导航组件",
+    "trainable": "本条未确认新增模型参数训练",
+    "frozen": "基础模型用于提示推理；底层已有组件可能预训练",
+    "data": "777探索轨迹、2044问答—轨迹对，统计对象不同",
+    "objective": "探索相关性与问答；未登记新增VLM训练损失",
+    "stages": "构造数据/评测 → 混合探索 → 证据问答 → 一致性评分"
+  },
+  "evaluation": [
+    {
+      "benchmark": "EXPRESS-Bench 原论文协议",
+      "setting": "Table2，C与C*是原文不同分数，Epath为探索路径效率；须按列比较，不与FAST-EQA后续论文表直接混用。",
+      "result": "Fine-EQA C40.55、C*63.95、Epath16.22、dT6.43；FBE38.60/60.24/14.55/6.64。",
+      "sourceUrl": "https://arxiv.org/html/2503.11117",
+      "locator": "Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "探索方法",
+          "C ↑",
+          "C* ↑",
+          "Epath ↑",
+          "dT ↓"
+        ],
+        "rows": [
+          [
+            "RE",
+            "36.95",
+            "62.75",
+            "12.06",
+            "7.26"
+          ],
+          [
+            "FBE",
+            "38.60",
+            "60.24",
+            "14.55",
+            "6.64"
+          ],
+          [
+            "GOE",
+            "38.54",
+            "63.34",
+            "12.74",
+            "6.46"
+          ],
+          [
+            "Fine-EQA",
+            "40.55",
+            "63.95",
+            "16.22",
+            "6.43"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依据本条列出的任务与协议，结果只支持相应数据和实验条件；跨机器人、环境与预算的结论需要匹配协议后重测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2503.11117",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / EXPRESS-Bench",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2503.11117",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2503.11117",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / EXPRESS-Bench / Fine-EQA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2503.11117v1",
+      "locator": "Table2\nTable2\nTable2\nTable2\nTable1",
+      "supports": [
+        "待回查"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p9976f7a1f0d82025,\n title={Beyond the Destination: A Novel Benchmark for Exploration-Aware Embodied Question Answering},\n author={Jiang, Kaixuan and Liu, Yang and Chen, Weixing and Luo, Jingzhou and Chen, Ziliang and Pan, Ling and Li, Guanbin and Lin, Liang},\n year={2025},\n url={https://arxiv.org/abs/2503.11117}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；任务协议待核实",
+      "inputProtocol": "在线RGB-D、探索轨迹、证据区域；允许记忆",
+      "scale": "777轨迹、2044问答-轨迹对"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "EXPRESS-Bench",
+      "variant": "Fine-EQA"
+    }
+  ],
+  "overview": "同一篇论文同时提出EXPRESS-Bench数据、Fine-EQA方法和Exploration-Answer Consistency评测。数据含777条探索轨迹、2044问答—轨迹对；Fine-EQA结合全局frontier探索与任务相关目标导航，既扩展覆盖又靠近细节证据。EAC要求答案正确性与实际探索到的证据相符，减轻只凭语言先验猜中也高分的问题。本库将Fine-EQA与EXPRESS视为方法和数据集的别名，维护者应合并为一个论文身份。",
+  "benchmark": {
+    "motivation": "区分真实探索证据与仅凭语言先验猜答案。",
+    "environment": "Habitat仿真、HM3D真实扫描资产。",
+    "metrics": "探索—答案一致性及分离的问答、路径效率与终点距离。",
+    "scale": "777探索轨迹、2044 question-trajectory pairs。",
+    "boundary": "真实扫描资产不等同实机；数据构造与评价模型可能引入偏差。"
+  },
+  "verificationLevel": "fulltext"
+}

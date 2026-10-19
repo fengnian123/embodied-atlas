@@ -1,0 +1,205 @@
+{
+  "id": "p-c13d7b91e6b4",
+  "title": "Artificial Intelligence and the Future of Surgical Robotics",
+  "short": "AI-SurgRob",
+  "aliases": [
+    "AI-SurgRob"
+  ],
+  "authors": [
+    "Sandip Panesar",
+    "Yvonne Cagle",
+    "Divya Chander",
+    "Jose Morey",
+    "Juan Fernandez-Miranda",
+    "Michel Kliot"
+  ],
+  "institutions": [
+    "Department of Neurosurgery, Stanford University, Stanford, CA",
+    "NASA Ames Research Center, Mountain View, CA",
+    "Singularity University, Mountain View, CA",
+    "Department of Medicine, Stanford University, Stanford, CA",
+    "Liberty BioSecurity, Arlington, VA",
+    "NASA iTech, Hampton, VA",
+    "Hyperloop Transportation Technologies, Culver City, CA",
+    "University of Virginia, Charlottesville, VA"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2019,
+  "venue": "Annals of Surgery",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "2019年手术自主性观点文章，以感知—判断—执行闭环讨论AI手术机器人的设计、学习和临床转化；无作者新增临床或策略实验。",
+  "method": {
+    "input": "既有手术机器人与自主性文献",
+    "output": "研究方向和临床转化论点",
+    "flow": [
+      "自主性与需求分解",
+      "感知—判断—执行闭环",
+      "学习与应用前景"
+    ],
+    "explanation": "这篇2019年Surgical Perspective从手术自主性的定义讨论未来系统设计，作者提供的是概念框架而不是新手术机器人或新临床试验。文章用任务复杂度、环境难度和对人的独立程度界定自主性，提出传感器感知—处理器理解/计划—执行器动作的闭环。学习部分区分直接编程的显式知识、观摩示范的隐式学习和仿真/强化学习，并认为软组织手术需要多种方法及专家持续介入。最后讨论通讯受限的太空/灾害场景与手术服务可及性。文中STAR数据、设备成本和未来预测均为当时引用或观点，不应显示为作者自己的实测结果或当代最新事实。",
+    "modules": [
+      {
+        "name": "自主性与需求分解",
+        "purpose": "避免把所有自动化设备视为同等级自主手术",
+        "mechanism": "借车辆自主分级类比，结合任务复杂度、环境难度、人的独立程度三因素描述系统需求。",
+        "input": "既有手术机器人与自主性文献",
+        "output": "概念层级及任务条件"
+      },
+      {
+        "name": "感知—判断—执行闭环",
+        "purpose": "说明软组织环境要求实时反馈",
+        "mechanism": "传感估计当前手术状态，算法计算动作，执行后再次感知环境变化。",
+        "input": "多模态传感与手术目标",
+        "output": "概念性闭环架构"
+      },
+      {
+        "name": "学习与应用前景",
+        "purpose": "讨论从技能学习走向临床部署的条件",
+        "mechanism": "结合显式知识、示范和强化学习，讨论专家监督及太空/低资源环境需求。",
+        "input": "学习范式与应用约束",
+        "output": "研究方向和临床转化论点"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Perspective证据性质",
+      "setting": "4页观点文章；Fig.1/2/3为概念图，未报告新对照实验",
+      "result": "三因素操作框架与三类学习路线用于讨论未来设计；没有作者新模型准确率。",
+      "locator": "Fig.1–3；Proposed Framework；Controlling and Teaching the Robot",
+      "sourceUrl": "https://www.researchgate.net/publication/331959548_Artificial_Intelligence_and_the_Future_of_Surgical_Robotics",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "内容",
+          "证据形式"
+        ],
+        "rows": [
+          [
+            "自主性类比",
+            "0–5级概念说明"
+          ],
+          [
+            "框架维度",
+            "Mission complexity / Environmental difficulty / Human independence"
+          ],
+          [
+            "学习讨论",
+            "显式编程、示范学习及强化学习等"
+          ],
+          [
+            "新增手术/临床性能试验",
+            "无"
+          ]
+        ],
+        "locator": "Fig.1–3；Proposed Framework；Controlling and Teaching the Robot"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "作者指出把多模态感知整合为实时外科判断远比单一影像诊断复杂；需要控制、传感、视觉整合及长期试验。",
+      "未来系统必须显示技术或经济优势才能广泛采用；文中未来时间预测仅为2019年作者观点。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1097/sla.0000000000003262",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / AI-SurgRob",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1097/SLA.0000000000003262",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1097/sla.0000000000003262",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://www.researchgate.net/publication/331959548_Artificial_Intelligence_and_the_Future_of_Surgical_Robotics",
+      "locator": "Fig.1–3；Proposed Framework；Controlling and Teaching the Robot",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+    "精确首次公开日期未核实，不将年月补写成某一天。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Annals of Surgery'19**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "2019年手术自主性观点文章，以感知—判断—执行闭环讨论AI手术机器人的设计、学习和临床转化；无作者新增临床或策略实验。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

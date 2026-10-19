@@ -1,0 +1,237 @@
+{
+  "id": "p-51ba944f84ed",
+  "title": "PaLM-E: An Embodied Multimodal Language Model",
+  "short": "PaLM-E",
+  "aliases": [
+    "PaLM-E",
+    "PaLM-E: An Embodied Multimodal Language Model"
+  ],
+  "authors": [
+    "Driess, Danny",
+    "Xia, Fei",
+    "Sajjadi, Mehdi S. M.",
+    "Lynch, Corey",
+    "Chowdhery, Aakanksha",
+    "Ichter, Brian",
+    "Wahid, Ayzaan",
+    "Tompson, Jonathan",
+    "Vuong, Quan",
+    "Yu, Tianhe",
+    "Huang, Wenlong",
+    "Chebotar, Yevgen",
+    "Sermanet, Pierre",
+    "Duckworth, Daniel",
+    "Levine, Sergey",
+    "Vanhoucke, Vincent",
+    "Hausman, Karol",
+    "Toussaint, Marc",
+    "Greff, Klaus",
+    "Zeng, Andy",
+    "Mordatch, Igor",
+    "Florence, Pete"
+  ],
+  "institutions": [],
+  "firstPublished": "2023-03-06",
+  "updated": "2023-03-06",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "综合具身智能",
+      "移动操作"
+    ],
+    "task": [
+      "机器人控制",
+      "EQA",
+      "长程任务"
+    ],
+    "paradigm": [
+      "VLM",
+      "LLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "空间理解",
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "仿真",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "把图像、机器人状态等连续感知嵌入插入大语言模型输入，统一多模态问答和高层规划。",
+  "method": {
+    "explanation": "PaLM-E 的核心是输入序列接口：视觉编码器或状态编码器把真实传感数据映射到与词嵌入同维的连续向量，再与文本 token 交错送入 PaLM。模型以文本输出答案或机器人高层计划，之后由现有控制器执行；它不是直接输出底层关节控制的 RT-2。联合训练机器人任务、视觉问答与文本任务，希望把互联网知识迁移到具身推理，并研究具身训练对通用视觉语言能力的影响。",
+    "input": "图像/连续状态嵌入与文本",
+    "output": "文本回答或高层机器人计划",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "把图像、机器人状态等连续感知嵌入插入大语言模型输入，统一多模态问答和高层规划。",
+    "flow": [
+      "连续感知嵌入",
+      "交错多模态序列",
+      "机器人执行接口"
+    ],
+    "modules": [
+      {
+        "name": "连续感知嵌入",
+        "purpose": "让语言模型接收非文本机器人观察",
+        "mechanism": "将图像和状态送入编码器/投影层，得到与语言词向量相同维度的输入token。",
+        "sourceUrl": "https://arxiv.org/html/2303.03378",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "交错多模态序列",
+        "purpose": "在统一上下文中使用感知与语言",
+        "mechanism": "把文本、图像/状态嵌入放入同一序列；自回归语言解码器从这些条件生成问答、任务说明或技能计划。",
+        "sourceUrl": "https://arxiv.org/html/2303.03378",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "机器人执行接口",
+        "purpose": "区分语言推理与物理控制",
+        "mechanism": "输出高层指令，由底层技能/策略执行，再把新的传感观测反馈到下一次语言推理。",
+        "sourceUrl": "https://arxiv.org/html/2303.03378",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "多任务多模态监督训练；论文含不同冻结设置",
+    "models": "PaLM语言主干、视觉编码器、连续状态编码器",
+    "trainable": "多模态编码/投影及相应配置中的语言主干",
+    "frozen": "依模型变体；并非所有PaLM-E配置都冻结语言模型",
+    "data": "机器人数据、视觉问答及互联网图文/语言混合数据",
+    "objective": "统一自回归文本目标；任务输出可为答案或高层计划",
+    "stages": "多模态混合训练 → 机器人任务/问答推理 → 下层控制器执行"
+  },
+  "evaluation": [
+    {
+      "benchmark": "TAMP 规划输入表示消融",
+      "setting": "Table1，TAMP规划任务；不同输入表示/训练混合配方分别报告，TAMP只占混合数据1%。",
+      "result": "ViT-4B full-mixture规划p1/p2为74.1/74.6%，single-robot30.6/32.9%；不能将此表解释为真实机器人SR。",
+      "sourceUrl": "https://arxiv.org/html/2303.03378",
+      "locator": "Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "PaLM-E TAMP输入表示 / 训练条件",
+          "Planning p1 (%)",
+          "Planning p2 (%)"
+        ],
+        "rows": [
+          [
+            "GT State + LLM pretrain",
+            "55.9",
+            "49.7"
+          ],
+          [
+            "ViT-4B single robot",
+            "30.6",
+            "32.9"
+          ],
+          [
+            "ViT-4B full mixture",
+            "74.1",
+            "74.6"
+          ],
+          [
+            "OSRT full mixture",
+            "82.5",
+            "76.2"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "输出以文本/高层计划为主，底层控制另有技能；TAMP规划分数不可替代端到端实机动作成功率。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2303.03378",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / PaLM-E",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2303.03378",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://palm-e.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2303.03378",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2303.03378",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p51ba944f84ed2023,\n title={PaLM-E: An Embodied Multimodal Language Model},\n author={Driess, Danny and Xia, Fei and Sajjadi, Mehdi S. M. and Lynch, Corey and Chowdhery, Aakanksha and Ichter, Brian and Wahid, Ayzaan and Tompson, Jonathan and Vuong, Quan and Yu, Tianhe and Huang, Wenlong and Chebotar, Yevgen and Sermanet, Pierre and Duckworth, Daniel and Levine, Sergey and Vanhoucke, Vincent and Hausman, Karol and Toussaint, Marc and Greff, Klaus and Zeng, Andy and Mordatch, Igor and Florence, Pete},\n year={2023},\n url={https://arxiv.org/abs/2303.03378}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICML'23**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "PaLM-E 的核心是输入序列接口：视觉编码器或状态编码器把真实传感数据映射到与词嵌入同维的连续向量，再与文本 token 交错送入 PaLM。模型以文本输出答案或机器人高层计划，之后由现有控制器执行；它不是直接输出底层关节控制的 RT-2。联合训练机器人任务、视觉问答与文本任务，希望把互联网知识迁移到具身推理，并研究具身训练对通用视觉语言能力的影响。",
+  "verificationLevel": "fulltext"
+}

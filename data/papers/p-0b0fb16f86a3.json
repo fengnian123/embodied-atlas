@@ -1,0 +1,227 @@
+{
+  "id": "p-0b0fb16f86a3",
+  "title": "EvolveNav",
+  "short": "EvolveNav",
+  "aliases": [
+    "EvolveNav: Empowering LLM-Based Vision-Language Navigation via Self-Improving Embodied Reasoning"
+  ],
+  "authors": [
+    "Bingqian Lin",
+    "Yunshuang Nie",
+    "Khun Loun Zai",
+    "Ziming Wei",
+    "Mingfei Han",
+    "Rongtao Xu",
+    "Minzhe Niu",
+    "Jianhua Han",
+    "Hanwang Zhang",
+    "Liang Lin",
+    "Bokui Chen",
+    "Cewu Lu",
+    "Xiaodan Liang"
+  ],
+  "institutions": [
+    "Shanghai Jiao Tong University",
+    "Sun Yat-sen University",
+    "Peng Cheng Laboratory",
+    "Tsinghua University",
+    "Mohamed Bin Zayed University of Artificial Intelligence",
+    "Yinwang Intelligent Technology"
+  ],
+  "firstPublished": "2025-06-02",
+  "updated": "2025-10-14",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本；未核实正式发表状态",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "候选论文 EvolveNav（Self-Improving Embodied Reasoning）先用形式化方向—地标CoT唤醒导航推理，再以模型自身的正确推理与正负推理鉴别做后训练。",
+  "method": {
+    "input": "导航指令、观测和专家轨迹",
+    "output": "更可靠的导航决策",
+    "explanation": "候选论文 EvolveNav（Self-Improving Embodied Reasoning）先用形式化方向—地标CoT唤醒导航推理，再以模型自身的正确推理与正负推理鉴别做后训练。注意：用户笔记的“EvoNav / History to Future”包含F-CoT/H-CoE，与本候选机制不一致，身份尚未唯一确认，以下只归属于该arXiv候选。",
+    "flow": [
+      "形式化CoT监督",
+      "自增强推理标签",
+      "自反思辅助任务"
+    ],
+    "modules": [
+      {
+        "name": "形式化CoT监督",
+        "purpose": "本模块解决：形式化CoT监督",
+        "input": "导航指令、观测和专家轨迹",
+        "mechanism": "把下一步方向和需要寻找的地标写成紧凑模板，监督开放LLM生成推理与导航决定，减少自由文字冗余。",
+        "output": "具备基本导航推理的模型",
+        "sourceUrl": "https://arxiv.org/html/2506.01551v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "自增强推理标签",
+        "purpose": "本模块解决：自增强推理标签",
+        "input": "当前模型在训练样本上的推理",
+        "mechanism": "筛选正确推理作为下一轮自生成标签，迭代扩大推理模式，缓解只拟合固定模板。",
+        "output": "更丰富的CoT监督",
+        "sourceUrl": "https://arxiv.org/html/2506.01551v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "自反思辅助任务",
+        "purpose": "本模块解决：自反思辅助任务",
+        "input": "正确/错误推理与导航上下文",
+        "mechanism": "训练模型区分正负推理，在后训练中同时学习导航和判别；分别评估单任务训练与统一多任务模型。",
+        "output": "更可靠的导航决策",
+        "sourceUrl": "https://arxiv.org/html/2506.01551v3",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "候选论文 EvolveNav（Self-Improving Embodied Reasoning）先用形式化方向—地标CoT唤醒导航推理，再以模型自身的正确推理与正负推理鉴别做后训练。注意：用户笔记的“EvoNav / History to Future”包含F-CoT/H-CoE，与本候选机制不一致，身份尚未唯一确认，以下只归属于该arXiv候选。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "把下一步方向和需要寻找的地标写成紧凑模板，监督开放LLM生成推理与导航决定，减少自由文字冗余。",
+    "trainable": "候选原文明确两阶段训练，不是失败后仅写规则：Formalized CoT SFT + Self-Reflective Post-Training。训练设置区分模仿学习、完整训练及跨任务联合训练。与用户“History to Future”摘记不强行合并。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "候选原文明确两阶段训练，不是失败后仅写规则：Formalized CoT SFT + Self-Reflective Post-Training。训练设置区分模仿学习、完整训练及跨任务联合训练。与用户“History to Future”摘记不强行合并。",
+    "objective": "候选原文明确两阶段训练，不是失败后仅写规则：Formalized CoT SFT + Self-Reflective Post-Training。训练设置区分模仿学习、完整训练及跨任务联合训练。与用户“History to Future”摘记不强行合并。",
+    "stages": "候选原文明确两阶段训练，不是失败后仅写规则：Formalized CoT SFT + Self-Reflective Post-Training。训练设置区分模仿学习、完整训练及跨任务联合训练。与用户“History to Future”摘记不强行合并。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "候选EvolveNav：R2R",
+      "setting": "Table I，task-specific；未将跨任务Table V的68.07/58.30误归入单任务主结果；本条仍有用户指代身份歧义。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/html/2506.01551v3",
+      "table": {
+        "columns": [
+          "候选论文模型",
+          "划分",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "NaviLLM 复现",
+            "R2R Val Unseen",
+            70.11,
+            60.25
+          ],
+          [
+            "EvolveNav",
+            "R2R Val Unseen",
+            71.17,
+            63.48
+          ],
+          [
+            "EvolveNav IL",
+            "R2R Val Unseen",
+            51.15,
+            48.27
+          ],
+          [
+            "EvolveNav",
+            "R2R Test Unseen",
+            71,
+            63
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2506.01551v3",
+        "locator": "Table I",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2506.01551",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / EvolveNav",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2506.01551",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2506.01551v3",
+      "locator": "方法章节；Table I",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "待核实",
+  "checked": "2026-10-19",
+  "gaps": [
+    "用户的EvoNav / History to Future与本候选EvolveNav机制不一致，需确认指代；不可视为已经唯一匹配",
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "正式发表信息尚未在可靠会议/期刊来源确认"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "unresolved",
+  "overview": "候选论文 EvolveNav（Self-Improving Embodied Reasoning）先用形式化方向—地标CoT唤醒导航推理，再以模型自身的正确推理与正负推理鉴别做后训练。注意：用户笔记的“EvoNav / History to Future”包含F-CoT/H-CoE，与本候选机制不一致，身份尚未唯一确认，以下只归属于该arXiv候选。",
+  "citationNote": "本条来源身份仍有歧义；下述方法和数据仅属于arXiv:2506.01551候选，不代表用户原笔记已核实。",
+  "reproduction": {
+    "status": "未复现"
+  }
+}

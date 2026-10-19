@@ -1,0 +1,241 @@
+{
+  "id": "remembr",
+  "title": "ReMEmbR: Building and Reasoning Over Long-Horizon Spatio-Temporal Memory for Robot Navigation",
+  "short": "ReMEmbR",
+  "aliases": [],
+  "authors": [
+    "Abrar Anwar",
+    "John Welsh",
+    "Joydeep Biswas",
+    "Soha Pouya",
+    "Yan Chang"
+  ],
+  "institutions": [
+    "NVIDIA",
+    "University of Southern California",
+    "University of Texas at Austin"
+  ],
+  "firstPublished": "2024-09-20",
+  "updated": "2024-09-20",
+  "publicationYear": 2025,
+  "venue": "ICRA",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "历史检索"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解"
+    ],
+    "environment": [
+      "真实世界",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "把视觉描述、时间和位置写入可检索记忆，通过多轮查询回答长历史中的何时、何地问题，并把回答连接到机器人导航。",
+  "method": {
+    "input": "长程图像/视频、时间、机器人位置及用户问题",
+    "output": "有历史依据的答案或导航目标",
+    "flow": [
+      "无问题条件的记忆构建：在提问前持续保存可查询历史",
+      "LLM迭代检索：找到足够而紧凑的证据",
+      "结构化回答与导航接口：输出可用于问答评估及导航的目标"
+    ],
+    "assumptions": "视频描述必须保留回答所需细节；依赖可靠位置/时间；未见事件不会因检索自动补出。",
+    "difference": "检索历史证据，而非直接推断未来状态。",
+    "explanation": "ReMEmbR把持续导航视频分段，用VILA生成描述，再把描述embedding、时间与位置写入向量库。问题到来后，LLM可按文本、位置或时间反复检索，最多3轮，判断证据是否足够，最后生成带text/position/time/duration字段的JSON。位置答案可交给机器人导航，但论文主要定量评测是NaVQA离线长视频问答，而不是动态ObjectNav成功率。",
+    "modules": [
+      {
+        "name": "无问题条件的记忆构建",
+        "purpose": "在提问前持续保存可查询历史",
+        "mechanism": "按时间窗聚合连续帧，VILA生成短描述，mxbai-embed-large-v1编码；同时保存位置和时间。",
+        "input": "导航视频、位置、时间戳",
+        "output": "描述embedding+位置+时间的数据库条目"
+      },
+      {
+        "name": "LLM迭代检索",
+        "purpose": "找到足够而紧凑的证据",
+        "mechanism": "LLM根据问题与已检索记忆发出文本/位置/时间查询；可一轮多个查询，最多3个检索步骤。",
+        "input": "问题、当前证据、向量库",
+        "output": "追加记忆或可回答判断"
+      },
+      {
+        "name": "结构化回答与导航接口",
+        "purpose": "输出可用于问答评估及导航的目标",
+        "mechanism": "证据充分后汇总为JSON，区分文本、位置、时刻和时长；部署系统将位置交给原有导航栈。",
+        "input": "检索片段、问题",
+        "output": "结构化答案/目标坐标"
+      }
+    ]
+  },
+  "training": {
+    "regime": "无额外训练",
+    "models": "VILA captioner、mxbai-embed-large-v1、GPT-4o/Codestral/Command-R/Llama3.1-8B",
+    "trainable": "无任务特定梯度训练；只增量写记忆",
+    "frozen": "现成VLM、embedding和LLM",
+    "data": "NaVQA选CODa 7/23条序列；每条3时长类×10问题，210 QA；5位机器人专家标注",
+    "objective": "不适用：比较问答正确率、位置/时间误差与延迟",
+    "stages": "视频记忆构建→最多3轮检索→结构化答案"
+  },
+  "evaluation": [
+    {
+      "benchmark": "NaVQA",
+      "setting": "v1表I；GPT-4o；Short<2min/Medium2–7min/Long>7min；三类指标独立，±为原表离散度。",
+      "result": "长视频位置误差46.25m、时间误差3.6s；有检索并不意味着米级位置精度。",
+      "locator": "§VII 表I",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§VII 表I",
+        "columns": [
+          "方法/时长",
+          "描述准确率",
+          "位置误差(m)",
+          "时间误差(s)"
+        ],
+        "rows": [
+          [
+            "ReMEmbR/GPT4o Short",
+            "0.62±0.5",
+            "5.1±11.9",
+            "0.3±0.1"
+          ],
+          [
+            "ReMEmbR/GPT4o Medium",
+            "0.58±0.5",
+            "27.5±26.8",
+            "1.8±2.0"
+          ],
+          [
+            "ReMEmbR/GPT4o Long",
+            "0.65±0.5",
+            "46.25±59.6",
+            "3.6±5.9"
+          ],
+          [
+            "全caption/GPT4o Long",
+            "0.55±0.5",
+            "56.0±61.7",
+            "8.0±6.7"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2409.13682v1",
+        "locator": "§VII 表I"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "数据库不断追加重复描述，长期会稀释有效记忆。",
+      "仅使用视频caption，未充分利用房号、设备标签或场景图；真实问答可能存在多个合理答案。"
+    ],
+    "analysis": [
+      "语言描述压缩可能丢失细小故障证据；用户查询驱动不等同于自主持续监测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2409.13682",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://nvidia-ai-iot.github.io/remembr",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2409.13682",
+      "label": "论文摘要与元数据",
+      "locator": "方法与 NaVQA",
+      "supports": [
+        "日期",
+        "身份",
+        "方法",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方项目页",
+      "url": "https://nvidia-ai-iot.github.io/remembr/",
+      "locator": "ICRA 2025、Memory Building、Evaluation Dataset、Deployment",
+      "supports": [
+        "发表",
+        "方法",
+        "规模",
+        "实机局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2409.13682v1",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§IV–VIII；表I",
+      "supports": [
+        "模块与模型",
+        "NaVQA统计",
+        "分时长实验",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{remembr2024,\n  title = {ReMEmbR: Building and Reasoning Over Long-Horizon Spatio-Temporal Memory for Robot Navigation},\n  author = {Abrar Anwar and John Welsh and Joydeep Biswas and Soha Pouya and Yan Chang},\n  year = {2024},\n  eprint = {2409.13682},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2409.13682}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "VILA描述＋时间/坐标存入向量库；LLM Agent检索历史并输出答案或导航目标。主要由用户查询触发，非自主复查调度。",
+      "evaluation": "NaVQA：基于7段视频、210个问答的时空记忆/导航评测；另有机器人演示。",
+      "training": "否。预训练VILA和LLM推理，没有任务微调。",
+      "analysis": "主要是历史问答与用户驱动导航；描述可能丢失细小故障。未验证跨天异常轨迹或让Agent自主决定复查时间和地点。"
+    }
+  ],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "长时间部署产生的观测不能全部塞进一次模型上下文。ReMEmbR 将记忆建立与查询分离，保留描述、时间和空间信息，让 Agent 逐步检索相关证据。NaVQA 为长程导航视频提供时空和描述性问答。它展示的是从历史中找证据并回应用户查询，不应据此推断系统会自主安排设备复查或预测未观测物体未来位置。",
+  "benchmark": {
+    "motivation": "用长导航视频中的空间、时间与描述问题评估检索记忆。",
+    "task": "NaVQA：对过去观测进行问答；论文另展示机器人按检索目标导航。",
+    "input": "长程导航视频、时间/位置记录及问题",
+    "output": "自然语言答案，部署系统可输出导航目标",
+    "actions": "问答集本身不允许任意新采集；实机演示与离线问答分开。",
+    "success": "按原文问答评价与延迟；没有统一导航 SR 定义。",
+    "collection": "为长程机器人导航视频标注空间、时间和描述问题。",
+    "scale": "210 个问答示例，覆盖3个时间长度范围，最长20分钟（官方项目页）；不混用视频数与问答数。",
+    "split": "未核实",
+    "metrics": "问答质量与检索/推理延迟（具体版本按原文）",
+    "baselines": "LLM 与 VLM 基线",
+    "assets": "论文提供数据、代码与视频的官方项目入口；下载未逐项验证。",
+    "license": "未核实",
+    "reproduction": "需要观测描述、时间位置记录、检索存储和模型接口。",
+    "coverage": "长历史的何时/何地/描述性检索",
+    "boundary": "不评测自主复查调度或未观测未来状态预测。",
+    "leakage": "记忆仅包含许可的历史；问题、答案与未来观测不可混入历史描述。"
+  },
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,239 @@
+{
+  "id": "p-001885caf8c9",
+  "title": "Hierarchical Planning for Resource-Constrained Long-Term Monitoring Missions in Time-Varying Environments",
+  "short": "LTM-PKSMDP",
+  "aliases": [],
+  "authors": [
+    "Alex Stephens",
+    "Bruno Lacerda",
+    "Nick Hawes"
+  ],
+  "institutions": [
+    "University of Oxford"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "ECAI",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检",
+      "长程任务"
+    ],
+    "paradigm": [],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "动态环境"
+    ],
+    "environment": [
+      "仿真",
+      "室外"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "用时空GP和两层规划联合决定何时补给、去哪个补给点及沿途怎么观测，兼顾电量与长期监测收益。",
+  "method": {
+    "input": "已知可达拓扑与补给点、资源动力学、逐步采样的未知环境场",
+    "output": "下一导航/观测/补给动作和长期补给计划",
+    "assumptions": "导航与资源动态为确定性；未知场可用连续时空GP建模；有可补给站。",
+    "difference": "高层跨多个电量周期规划，低层在当前补给约束内兼顾探索与观测收益。",
+    "explanation": "环境未知量以GP信念表示，高层只保留补给站位置、离散时间和电量，枚举补给、站间移动及同站回访等宏动作。对宏动作以受约束随机游走和GP上置信界估计潜在观测价值，求解Depot-MDP，向低层下达截止时间和必须到达站点。低层信念MCTS只展开仍能满足返站/补给约束的动作，每次观测更新GP；宏动作完成后重新规划。高层减少长时搜索分支，低层保留对稀疏观测不确定性的处理。",
+    "flow": [
+      "时空GP信念",
+      "Depot-MDP",
+      "受约束MCTS",
+      "滚动执行"
+    ],
+    "modules": [
+      {
+        "name": "时空GP信念",
+        "purpose": "预测观测价值及不确定性",
+        "mechanism": "利用采样更新时空GP，可拟合超参数",
+        "input": "时间位置和观测",
+        "output": "预测均值/方差"
+      },
+      {
+        "name": "Depot-MDP",
+        "purpose": "规划跨资源周期日程",
+        "mechanism": "把状态压缩为站点、离散时间、电量；宏动作评估GP-UCB收益",
+        "input": "补给站图与GP",
+        "output": "下一补给目标/期限"
+      },
+      {
+        "name": "受约束MCTS",
+        "purpose": "生成具体观测路线",
+        "mechanism": "剪除无法按期满足高层返站约束的动作，在信念空间搜索",
+        "input": "当前位置、电量、站点期限",
+        "output": "导航与观测动作"
+      },
+      {
+        "name": "滚动执行",
+        "purpose": "适应未知场变化",
+        "mechanism": "执行后更新GP，宏动作结束重建高层计划",
+        "input": "最新观测和资源状态",
+        "output": "更新日程"
+      }
+    ]
+  },
+  "training": {
+    "regime": "概率模型拟合与在线规划；不涉及VLM训练",
+    "models": "时空Gaussian Process、Depot-MDP、MCTS",
+    "trainable": "GP超参数可根据观测边缘似然拟合",
+    "frozen": "不适用：没有VLM或VLA骨干",
+    "data": "合成变化场；MODIS火点资料拟合的野火场",
+    "objective": "长期累计观测价值；MCTS和GP-UCB探索",
+    "stages": "采样更新GP→高层宏规划→低层MCTS执行"
+  },
+  "evaluation": [
+    {
+      "benchmark": "移动峰值合成场",
+      "setting": "作者PDF ECAI2024；20×20网格、50天任务，250次MCTS trials；同为5天规划horizon时比较固定日程与自适应。",
+      "result": "作者在Fig4附近正文报告同horizon下累计奖励平均提高7%，而非7个百分点导航SR。10天配置平均14.0s/步。",
+      "locator": "§6.2 / Fig.4",
+      "sourceUrl": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§6.2 / Fig.4",
+        "columns": [
+          "设置或指标",
+          "原文数据"
+        ],
+        "rows": [
+          [
+            "任务长度",
+            "50天"
+          ],
+          [
+            "对固定日程的平均奖励提升（同5天horizon）",
+            "7%"
+          ],
+          [
+            "10天horizon平均计算",
+            "14.0s/步"
+          ]
+        ],
+        "sourceUrl": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+        "locator": "§6.2 / Fig.4"
+      }
+    },
+    {
+      "benchmark": "MODIS野火监测场",
+      "setting": "§6.3：2019-12至2020-01澳大利亚Kosciuszko资料；GP拟合的仿真场，非真实无人机野火实飞；20天任务、500MCTS trials、高层步长4h。",
+      "result": "最长10天horizon时平均94.4s/步；图7累计奖励曲线未提供可直接抄录数值，未伪造精确读数。",
+      "locator": "§6.3 / Fig.7",
+      "sourceUrl": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§6.3 / Fig.7",
+        "columns": [
+          "协议",
+          "数值"
+        ],
+        "rows": [
+          [
+            "地图近似范围",
+            "90×110 km"
+          ],
+          [
+            "任务长度",
+            "20天"
+          ],
+          [
+            "最长horizon",
+            "10天"
+          ],
+          [
+            "平均规划计算",
+            "94.4s/步"
+          ]
+        ],
+        "sourceUrl": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+        "locator": "§6.3 / Fig.7"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "实测MODIS热点每处每日仅1–5次卫星观测，作为连续场真值的时间分辨率有限。"
+    ],
+    "analysis": [
+      "对环境连续性、已知拓扑与确定性资源模型的依赖，区别于室内视觉异常检测。",
+      "大范围设置规划约94s/步，不适合直接当低延迟避障控制器。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Hierarchical Planning for Resource-Constrained Long-Term Monitoring Missions in Time-Varying Environments",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://journals.sagepub.com/doi/abs/10.3233/FAIA240617",
+      "label": "出版社记录",
+      "locator": "ECAI2024 pp.1214–1221；online2024-10-17",
+      "supports": [
+        "作者",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p001885caf8c92024,\n  title = {Hierarchical Planning for Resource-Constrained Long-Term Monitoring Missions in Time-Varying Environments},\n  author = {Alex Stephens and Bruno Lacerda and Nick Hawes},\n  year = {2024},\n  url = {https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "首次预印本公开日期未核实；仅确认ECAI2024出版",
+    "官方代码、数据许可证与最终下载包未核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "历史：时空高斯过程持续更新环境模型。\n何时：高层规划长期监测/补给安排。\n去哪：低层规划近期观察路径，结合新数据重新规划。",
+      "evaluation": "自建合成时变环境＋基于真实数据的野火监测情景；模拟规划评测，非室内设备巡检数据集。",
+      "training": "否。拟合高斯过程并做分层决策规划，不使用VLM。",
+      "analysis": "观测价值和环境状态是数值模型；未接入视觉设备异常、恶化严重度，以及人形行走/观察成本。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "长期巡检不仅要选下一观测点，还要决定什么时候充电，避免在最有价值的时段停工。该方法用时空Gaussian Process预测监测对象，把高层规划压缩成“补给站、时间、电量”的Depot-MDP，再让低层基于信念的MCTS执行具体采样路线。它研究未知环境场的资源受限监测，奖励来自观测价值；不涉及VLM指令理解或物体级语义导航。",
+  "citationNote": "根据已核验作者、题名和出版年整理；完整正式卷页引用请以链接中的出版方BibTeX为准。"
+}

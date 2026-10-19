@@ -1,0 +1,3913 @@
+{
+  "checked": "2026-10-19T12:03:57.415331+00:00",
+  "scope": "Resource URLs only; HTTP HEAD; observations may be reused (see observedAt; --refresh checks again). 403/429/timeouts are inconclusive. Reachability is not download, license, or reproduction verification.",
+  "counts": {
+    "reachable": 287,
+    "unavailable": 3,
+    "inconclusive": 9
+  },
+  "results": [
+    {
+      "url": "https://3dlg-hcvc.github.io/hssd/",
+      "uses": [
+        {
+          "id": "p-af9ba9589496",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://3dlg-hcvc.github.io/hssd/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://agenticnav-vln.github.io/",
+      "uses": [
+        {
+          "id": "agenticnav-vln",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://agenticnav-vln.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://aha-vlm.github.io/",
+      "uses": [
+        {
+          "id": "p-ea5179b8da3b",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://aha-vlm.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://ai.stanford.edu/~quocle/activevision.pdf",
+      "uses": [
+        {
+          "id": "p-e41916babd5f",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:25.966650+00:00",
+      "http": 200,
+      "finalUrl": "https://ai.stanford.edu/~quocle/activevision.pdf",
+      "state": "reachable"
+    },
+    {
+      "url": "https://aihabitat.org/datasets/hm3d/",
+      "uses": [
+        {
+          "id": "hm3d",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://aihabitat.org/datasets/hm3d/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://amap-cvlab.github.io/ABot-AgentOS",
+      "uses": [
+        {
+          "id": "abot-agentos",
+          "resource": "project"
+        }
+      ],
+      "http": 404,
+      "state": "unavailable",
+      "getRecheck": 404,
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/1709.06158",
+      "uses": [
+        {
+          "id": "p-f5a588433cb2",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/1709.06158",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/1711.07280",
+      "uses": [
+        {
+          "id": "p-245034be53d7",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/1711.07280",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/1904.03461",
+      "uses": [
+        {
+          "id": "p-03943f9bbe8f",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/1904.03461",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/1904.10151",
+      "uses": [
+        {
+          "id": "p-bc635c0cef0e",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/1904.10151",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/1905.12255",
+      "uses": [
+        {
+          "id": "p-b02ad9650d2c",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/1905.12255",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/1910.04700",
+      "uses": [
+        {
+          "id": "p-f206a8702d35",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/1910.04700",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2004.02857",
+      "uses": [
+        {
+          "id": "p-88eb93ee13bd",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2004.02857",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2004.06799",
+      "uses": [
+        {
+          "id": "p-89a5b8a2d8fb",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2004.06799",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2007.00643",
+      "uses": [
+        {
+          "id": "p-7a17536245b6",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2007.00643",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2010.07954",
+      "uses": [
+        {
+          "id": "p-cdc3a13da2fb",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2010.07954",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2103.04918",
+      "uses": [
+        {
+          "id": "p-7ca2f30fdde2",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2103.04918",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2109.08238",
+      "uses": [
+        {
+          "id": "hm3d",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2109.08238",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2204.01691",
+      "uses": [
+        {
+          "id": "p-063be20e7ce8",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2204.01691",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2206.06994",
+      "uses": [
+        {
+          "id": "p-0c497b2d55bd",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2206.06994",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2209.07753",
+      "uses": [
+        {
+          "id": "p-f5f3a21f9f89",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2209.07753",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2209.07896",
+      "uses": [
+        {
+          "id": "p-7615f32ae45a",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2209.07896",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.13445",
+      "uses": [
+        {
+          "id": "p-0826bd202c54",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2210.13445",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2212.06817",
+      "uses": [
+        {
+          "id": "p-ff38a5c7fa4c",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2212.06817",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2303.03378",
+      "uses": [
+        {
+          "id": "p-51ba944f84ed",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2303.03378",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2303.04137",
+      "uses": [
+        {
+          "id": "p-8faea6ac20b1",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2303.04137",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2306.11290",
+      "uses": [
+        {
+          "id": "p-af9ba9589496",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2306.11290",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2306.14846",
+      "uses": [
+        {
+          "id": "p-399432cc84b3",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2306.14846",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2307.05973",
+      "uses": [
+        {
+          "id": "p-f5ef0ae35b12",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2307.05973",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2307.15818",
+      "uses": [
+        {
+          "id": "p-718502fca05a",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2307.15818",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2308.04079",
+      "uses": [
+        {
+          "id": "p-14b5531a75e6",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2308.04079",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2309.13101",
+      "uses": [
+        {
+          "id": "p-8588e4b96e61",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2309.13101",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.08528",
+      "uses": [
+        {
+          "id": "4dgs-deformation",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2310.08528",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.08864",
+      "uses": [
+        {
+          "id": "p-2a555cc9b806",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2310.08864",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.10642",
+      "uses": [
+        {
+          "id": "4dgs-native",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2310.10642",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2312.02010",
+      "uses": [
+        {
+          "id": "p-ef8bc5541e53",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2312.02010",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2401.01339",
+      "uses": [
+        {
+          "id": "p-fc7e30888833",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2401.01339",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2403.15941",
+      "uses": [
+        {
+          "id": "p-1bc406357bc2",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2403.15941",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2403.17888",
+      "uses": [
+        {
+          "id": "p-2ffe439eb1ba",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2403.17888",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2404.06609",
+      "uses": [
+        {
+          "id": "goat-bench",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2404.06609",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2404.12379",
+      "uses": [
+        {
+          "id": "p-50ec2ef82c5e",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2404.12379",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2405.14093",
+      "uses": [
+        {
+          "id": "p-c240762f60ca",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2405.14093",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2405.17421",
+      "uses": [
+        {
+          "id": "p-4a1242e127e6",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2405.17421",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2406.00434",
+      "uses": [
+        {
+          "id": "p-cd878abbdc6e",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2406.00434",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2406.09246",
+      "uses": [
+        {
+          "id": "openvla",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2406.09246",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2407.05890",
+      "uses": [
+        {
+          "id": "p-dde64313836d",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2407.05890",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2407.08693",
+      "uses": [
+        {
+          "id": "p-aa67a577f682",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2407.08693",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2407.12998",
+      "uses": [
+        {
+          "id": "p-e5e3d322b847",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2407.12998",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2407.13764",
+      "uses": [
+        {
+          "id": "shape-of-motion",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2407.13764",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2408.16760",
+      "uses": [
+        {
+          "id": "p-d683b4b81795",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2408.16760",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2409.13682",
+      "uses": [
+        {
+          "id": "remembr",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2409.13682",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2409.19590",
+      "uses": [
+        {
+          "id": "p-a072272a4f0b",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2409.19590",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2410.00371",
+      "uses": [
+        {
+          "id": "p-ea5179b8da3b",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2410.00371",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2410.05111",
+      "uses": [
+        {
+          "id": "p-4fd4f0f43eab",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2410.05111",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2410.08189",
+      "uses": [
+        {
+          "id": "p-47e661483270",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2410.08189",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2410.17084",
+      "uses": [
+        {
+          "id": "p-8cd89ffbe2d5",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2410.17084",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2411.17735",
+      "uses": [
+        {
+          "id": "p-131c5f8fafc1",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2411.17735",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.04457",
+      "uses": [
+        {
+          "id": "p-3209995b40ca",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2412.04457",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.04463",
+      "uses": [
+        {
+          "id": "p-c0e3911c11b4",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2412.04463",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.06171",
+      "uses": [
+        {
+          "id": "p-443fd392a2e5",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2412.06171",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.08591",
+      "uses": [
+        {
+          "id": "p-5e8c6e320f51",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2412.08591",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.10402",
+      "uses": [
+        {
+          "id": "p-d282554905ff",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2412.10402",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.14480",
+      "uses": [
+        {
+          "id": "p-d82360cea73f",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2412.14480",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.07468",
+      "uses": [
+        {
+          "id": "p-fee1c4a56d18",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2501.07468",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2502.13451",
+      "uses": [
+        {
+          "id": "p-b626bd59e0fb",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2502.13451",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2502.14254",
+      "uses": [
+        {
+          "id": "p-30e2beb338d1",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2502.14254",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2503.10630",
+      "uses": [
+        {
+          "id": "p-cb5caf94cd61",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2503.10630",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2503.11117",
+      "uses": [
+        {
+          "id": "p-666d1f5c285c",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2503.11117",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2503.22020",
+      "uses": [
+        {
+          "id": "p-b5c3179530a0",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2503.22020",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.02152",
+      "uses": [
+        {
+          "id": "p-fa3b62e4c9cb",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.02152",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.10251",
+      "uses": [
+        {
+          "id": "p-1ab150890824",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.10251",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.11409",
+      "uses": [
+        {
+          "id": "p-dedfde9d7c99",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.11409",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.11663",
+      "uses": [
+        {
+          "id": "p-655ea3c2a4f6",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.11663",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.13948",
+      "uses": [
+        {
+          "id": "p-9954554b77cf",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.13948",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.14443",
+      "uses": [
+        {
+          "id": "semantic-inspection",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.14443",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.20640",
+      "uses": [
+        {
+          "id": "p-eb1ccf5871a6",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.20640",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2505.22657",
+      "uses": [
+        {
+          "id": "p-dd8050bafc94",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2505.22657",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2506.01174",
+      "uses": [
+        {
+          "id": "p-95aeaa24987a",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2506.01174",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2506.01551",
+      "uses": [
+        {
+          "id": "p-0b0fb16f86a3",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2506.01551",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2506.06487",
+      "uses": [
+        {
+          "id": "p-fba57d822a08",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2506.06487",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2506.08862",
+      "uses": [
+        {
+          "id": "p-34a5dbdb0d8c",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2506.08862",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2506.23918",
+      "uses": [
+        {
+          "id": "p-92fc3b4045b7",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2506.23918",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2507.04047",
+      "uses": [
+        {
+          "id": "p-195b161ffdb0",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2507.04047",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2507.10065",
+      "uses": [
+        {
+          "id": "p-672aaae4a2d7",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2507.10065",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2509.11292",
+      "uses": [
+        {
+          "id": "p-619a6d33c8f9",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2509.11292",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2509.23690",
+      "uses": [
+        {
+          "id": "homesafebench",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2509.23690",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2511.10376",
+      "uses": [
+        {
+          "id": "p-9bac8e0e6461",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2511.10376",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2511.12370",
+      "uses": [
+        {
+          "id": "p-e3ae85d6e4bd",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2511.12370",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2511.19033",
+      "uses": [
+        {
+          "id": "p-5a4e947c6397",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2511.19033",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2511.19418",
+      "uses": [
+        {
+          "id": "p-fd7a47f38ca1",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2511.19418",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2512.12622",
+      "uses": [
+        {
+          "id": "p-ab4137ccf421",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2512.12622",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2601.05251",
+      "uses": [
+        {
+          "id": "p-3da43536d4d1",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2601.05251",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2601.05368",
+      "uses": [
+        {
+          "id": "p-b3b2d9ca757f",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2601.05368",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2601.08665",
+      "uses": [
+        {
+          "id": "p-d54de00b55ef",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2601.08665",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2601.13132",
+      "uses": [
+        {
+          "id": "p-91f1ecb94809",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2601.13132",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.06427",
+      "uses": [
+        {
+          "id": "p-5087c1b337e5",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2602.06427",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.08961",
+      "uses": [
+        {
+          "id": "p-85fa9b6d2cff",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2602.08961",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.15513",
+      "uses": [
+        {
+          "id": "p-b7e0eb0ae7a4",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2602.15513",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.15813",
+      "uses": [
+        {
+          "id": "p-3669b99e0ece",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2602.15813",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.05078",
+      "uses": [
+        {
+          "id": "p-4e9a45d155a1",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2603.05078",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.07997",
+      "uses": [
+        {
+          "id": "p-653ff869670f",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2603.07997",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.13133",
+      "uses": [
+        {
+          "id": "p-e5c7705b9332",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2603.13133",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.14807",
+      "uses": [
+        {
+          "id": "p-38c47880c5df",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2603.14807",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.24060",
+      "uses": [
+        {
+          "id": "roboharness-memory",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2603.24060",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.28064",
+      "uses": [
+        {
+          "id": "p-2ea21918bab7",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2603.28064",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.28691",
+      "uses": [
+        {
+          "id": "p-3ce25b8b47c9",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2603.28691",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.10096",
+      "uses": [
+        {
+          "id": "p-2f85fc2530a3",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2604.10096",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.26839",
+      "uses": [
+        {
+          "id": "p-113f275da6df",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2604.26839",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.01700",
+      "uses": [
+        {
+          "id": "p-7c7dafb2b344",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2605.01700",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.20682",
+      "uses": [
+        {
+          "id": "p-9ec8c2e5f995",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2605.20682",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.20821",
+      "uses": [
+        {
+          "id": "p-e792ec2c3692",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2605.20821",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.25407",
+      "uses": [
+        {
+          "id": "realtwin",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2605.25407",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.27582",
+      "uses": [
+        {
+          "id": "p-a2ae5d358c9c",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2605.27582",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.28237",
+      "uses": [
+        {
+          "id": "p-c9c5dc03e2a3",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2605.28237",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.00095",
+      "uses": [
+        {
+          "id": "p-da862dc60771",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.00095",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.08992",
+      "uses": [
+        {
+          "id": "p-bc652274b6b3",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.08992",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.09258",
+      "uses": [
+        {
+          "id": "p-16b1e31b54ec",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.09258",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.10577",
+      "uses": [
+        {
+          "id": "agenticnav-vln",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.10577",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.18112",
+      "uses": [
+        {
+          "id": "p-ab1fd5bd54af",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.18112",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.18847",
+      "uses": [
+        {
+          "id": "p-2bb5f7842d08",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.18847",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.23565",
+      "uses": [
+        {
+          "id": "holoagent-0",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.23565",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.25206",
+      "uses": [
+        {
+          "id": "p-17049dc973c4",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.25206",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.25445",
+      "uses": [
+        {
+          "id": "p-81232111673b",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.25445",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.01120",
+      "uses": [
+        {
+          "id": "p-09fe1a9b9c02",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.01120",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.05369",
+      "uses": [
+        {
+          "id": "gap",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.05369",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.05482",
+      "uses": [
+        {
+          "id": "typego",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.05482",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.10350",
+      "uses": [
+        {
+          "id": "abot-agentos",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.10350",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.13285",
+      "uses": [
+        {
+          "id": "p-59c1b7374cbc",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.13285",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.14586",
+      "uses": [
+        {
+          "id": "p-57fca4f321a9",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.14586",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.18060",
+      "uses": [
+        {
+          "id": "roboharness-routing",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.18060",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.23797",
+      "uses": [
+        {
+          "id": "p-467e63508912",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2607.23797",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2608.03924",
+      "uses": [
+        {
+          "id": "eta",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2608.03924",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2608.10817",
+      "uses": [
+        {
+          "id": "p-2bfe5df5413c",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2608.10817",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2608.29783",
+      "uses": [
+        {
+          "id": "inspectorgpt",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2608.29783",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2609.11225",
+      "uses": [
+        {
+          "id": "hros",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2609.11225",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2609.22385",
+      "uses": [
+        {
+          "id": "p-fe38d46e48e7",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2609.22385",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2609.24124",
+      "uses": [
+        {
+          "id": "p-cec390561363",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2609.24124",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2610.01286",
+      "uses": [
+        {
+          "id": "p-387292d4cfe1",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2610.01286",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://astronirav.github.io/fasteqa",
+      "uses": [
+        {
+          "id": "p-3669b99e0ece",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://astronirav.github.io/fasteqa/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://bagh2178.github.io/SG-Nav/",
+      "uses": [
+        {
+          "id": "p-47e661483270",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://bagh2178.github.io/SG-Nav/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://bagh2178.github.io/UniGoal/",
+      "uses": [
+        {
+          "id": "p-cb5caf94cd61",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://bagh2178.github.io/UniGoal/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://brownvc.github.io/MonoDyGauBench.github.io/",
+      "uses": [
+        {
+          "id": "p-3209995b40ca",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://brownvc.github.io/MonoDyGauBench.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://chumsy0725.github.io/O-SCD/",
+      "uses": [
+        {
+          "id": "p-e3ae85d6e4bd",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://chumsy0725.github.io/O-SCD/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://code-as-policies.github.io",
+      "uses": [
+        {
+          "id": "p-f5f3a21f9f89",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://code-as-policies.github.io",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://coolmaoguo.github.io/drive-nav-page/",
+      "uses": [
+        {
+          "id": "p-3ce25b8b47c9",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://coolmaoguo.github.io/drive-nav-page/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://cot-vla.github.io/",
+      "uses": [
+        {
+          "id": "p-b5c3179530a0",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://cot-vla.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1007/s10462-026-11524-7",
+      "uses": [
+        {
+          "id": "p-bfcf1fb0dc66",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://link.springer.com/article/10.1007/s10462-026-11524-7?error=cookies_not_supported&code=7a23fbcd-6a37-4fef-ba31-703bdd496a5c",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1007/s10514-023-10154-0",
+      "uses": [
+        {
+          "id": "p-2b77c6f5a106",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://link.springer.com/article/10.1007/s10514-023-10154-0?error=cookies_not_supported&code=7a1d1e19-6ffb-46c4-a7d3-c8fa9f955e8d",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1007/s10916-024-02117-4",
+      "uses": [
+        {
+          "id": "p-707278ba1b65",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://link.springer.com/article/10.1007/s10916-024-02117-4?error=cookies_not_supported&code=92bdfd28-7770-4f21-93bf-9f03ab1b2325",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1007/s11063-026-11860-3",
+      "uses": [
+        {
+          "id": "inspection-vla",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://link.springer.com/article/10.1007/s11063-026-11860-3?error=cookies_not_supported&code=28b119e9-65fd-40e6-b81f-f034a0140731",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1007/s11370-021-00368-5",
+      "uses": [
+        {
+          "id": "p-dea76964f2d9",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://link.springer.com/article/10.1007/s11370-021-00368-5?error=cookies_not_supported&code=c7725be4-5f2f-47ac-bc5f-f518e9b7d1f4",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1007/s12369-020-00634-z",
+      "uses": [
+        {
+          "id": "p-ef0a96baa464",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://link.springer.com/article/10.1007/s12369-020-00634-z?error=cookies_not_supported&code=ab5a65e1-6635-451c-8656-5cc247df8c3a",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1016/j.aei.2026.104841",
+      "uses": [
+        {
+          "id": "ccv-vlm",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://linkinghub.elsevier.com/retrieve/pii/S1474034626005331",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1016/j.arr.2022.101633",
+      "uses": [
+        {
+          "id": "p-7a01480c0f29",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://linkinghub.elsevier.com/retrieve/pii/S1568163722000757",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1016/j.cacaie.2026.100007",
+      "uses": [
+        {
+          "id": "p-0b551c73fc5b",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://linkinghub.elsevier.com/retrieve/pii/S1093968726018153",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1016/j.jamda.2010.10.002",
+      "uses": [
+        {
+          "id": "p-4cd69b2528d8",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://linkinghub.elsevier.com/retrieve/pii/S1525861010003476",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1038/s41598-026-49800-9",
+      "uses": [
+        {
+          "id": "p-adc371218d43",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.nature.com/articles/s41598-026-49800-9?error=cookies_not_supported&code=2fce6ed9-82ed-4beb-9298-7648b85fed90",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1038/s42256-025-01005-x",
+      "uses": [
+        {
+          "id": "p-d7e5fccd7811",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:25.971215+00:00",
+      "http": 200,
+      "finalUrl": "https://www.nature.com/articles/s42256-025-01005-x?error=cookies_not_supported&code=d31a1be4-0269-47c9-b1e2-c271a2dc1597",
+      "state": "reachable"
+    },
+    {
+      "url": "https://doi.org/10.1097/sla.0000000000003262",
+      "uses": [
+        {
+          "id": "p-c13d7b91e6b4",
+          "resource": "paper"
+        }
+      ],
+      "http": 402,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/access.2025.3559076",
+      "uses": [
+        {
+          "id": "p-b5c70c19c319",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/10960333/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/icra.2011.5980213",
+      "uses": [
+        {
+          "id": "p-0e4363f4b115",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/5980213/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/icra.2019.8794306",
+      "uses": [
+        {
+          "id": "p-c1ad098b2a22",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/8794306/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/iros.2018.8594290",
+      "uses": [
+        {
+          "id": "p-558433df414d",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/8594290/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/iros51168.2021.9635867",
+      "uses": [
+        {
+          "id": "p-41eb2970e1f3",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/9635867/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/tbme.2016.2647680",
+      "uses": [
+        {
+          "id": "p-eb0ae2ffd3a5",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/7805258/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/tcds.2021.3115228",
+      "uses": [
+        {
+          "id": "p-5b574ed984f6",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/9548693/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/tmi.2016.2593957",
+      "uses": [
+        {
+          "id": "p-3e47ed201a0f",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/7519080/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1109/tmrb.2019.2949870",
+      "uses": [
+        {
+          "id": "p-80de6b6e7be7",
+          "resource": "paper"
+        }
+      ],
+      "http": 202,
+      "finalUrl": "https://ieeexplore.ieee.org/document/8884158/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1115/1.4039145",
+      "uses": [
+        {
+          "id": "p-0b78576d9183",
+          "resource": "paper"
+        }
+      ],
+      "http": 403,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1126/scirobotics.abj2908",
+      "uses": [
+        {
+          "id": "p-7572fd195855",
+          "resource": "paper"
+        }
+      ],
+      "http": 403,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1126/scirobotics.adt3093",
+      "uses": [
+        {
+          "id": "p-abb80176560e",
+          "resource": "paper"
+        }
+      ],
+      "http": 403,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1126/scitranslmed.aad9398",
+      "uses": [
+        {
+          "id": "p-1a788dff39d0",
+          "resource": "paper"
+        }
+      ],
+      "http": 403,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1136/bmjopen-2019-033096",
+      "uses": [
+        {
+          "id": "p-2ba17ae070b3",
+          "resource": "paper"
+        }
+      ],
+      "http": 429,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1145/3610978.3640592",
+      "uses": [
+        {
+          "id": "p-450f588def14",
+          "resource": "paper"
+        }
+      ],
+      "http": 403,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.1145/3717059",
+      "uses": [
+        {
+          "id": "p-8d6162ee79c9",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:25.971796+00:00",
+      "http": 403,
+      "state": "inconclusive"
+    },
+    {
+      "url": "https://doi.org/10.1186/1743-0003-11-3",
+      "uses": [
+        {
+          "id": "p-f1aafe7579f2",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://link.springer.com/article/10.1186/1743-0003-11-3?error=cookies_not_supported&code=1b31a238-5793-462c-b0e4-d588002f6fb2",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.2196/13216",
+      "uses": [
+        {
+          "id": "p-50affbc9aa8f",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.jmir.org/2019/5/e13216/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.2196/17509",
+      "uses": [
+        {
+          "id": "p-189ee7f3757c",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.jmir.org:443/2020/11/e17509/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.2196/63312",
+      "uses": [
+        {
+          "id": "p-37498cced893",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.jmir.org/2025/1/e63312",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.3310/hta24540",
+      "uses": [
+        {
+          "id": "p-8f064b7d1ce2",
+          "resource": "paper"
+        }
+      ],
+      "http": 403,
+      "state": "inconclusive",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.3390/app14219922",
+      "uses": [
+        {
+          "id": "p-1393adf0b03e",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.mdpi.com/2076-3417/14/21/9922",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.3390/healthcare14050572",
+      "uses": [
+        {
+          "id": "p-94683eaafdcc",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.mdpi.com/2227-9032/14/5/572",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.3390/robotics13080112",
+      "uses": [
+        {
+          "id": "p-67e172cf580b",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.mdpi.com/2218-6581/13/8/112",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://doi.org/10.3390/s26154932",
+      "uses": [
+        {
+          "id": "activeinspect",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.mdpi.com/1424-8220/26/15/4932",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://explore-eqa.github.io",
+      "uses": [
+        {
+          "id": "p-1bc406357bc2",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://explore-eqa.github.io",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://fudan-zvg.github.io/4d-gaussian-splatting/",
+      "uses": [
+        {
+          "id": "4dgs-native",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://fudan-zvg.github.io/4d-gaussian-splatting/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://general-navigation-models.github.io",
+      "uses": [
+        {
+          "id": "p-399432cc84b3",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://general-navigation-models.github.io",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/3dlg-hcvc/hssd",
+      "uses": [
+        {
+          "id": "p-af9ba9589496",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/3dlg-hcvc/hssd",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/AgenticNav/mas-llm-robotics",
+      "uses": [
+        {
+          "id": "agenticnav-mas",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/AgenticNav/mas-llm-robotics",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/AutoCompSysLab/C3-Bench",
+      "uses": [
+        {
+          "id": "p-81232111673b",
+          "resource": "code"
+        },
+        {
+          "id": "p-81232111673b",
+          "resource": "data"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/AutoCompSysLab/C3-Bench",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/AutoCompSysLab/VSCD",
+      "uses": [
+        {
+          "id": "p-e792ec2c3692",
+          "resource": "code"
+        },
+        {
+          "id": "p-e792ec2c3692",
+          "resource": "data"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/AutoCompSysLab/VSCD",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/BITHLP/HomeSafeBench",
+      "uses": [
+        {
+          "id": "homesafebench",
+          "resource": "code"
+        },
+        {
+          "id": "homesafebench",
+          "resource": "data"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/BITHLP/HomeSafeBench",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/Chumsy0725/O-SCD",
+      "uses": [
+        {
+          "id": "p-e3ae85d6e4bd",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/Chumsy0725/O-SCD",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/DSL-Lab/StreamSplat",
+      "uses": [
+        {
+          "id": "p-34a5dbdb0d8c",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/DSL-Lab/StreamSplat",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/HellexF/MoRe",
+      "uses": [
+        {
+          "id": "p-4e9a45d155a1",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/HellexF/MoRe",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/HorizonRobotics/HoloAgent",
+      "uses": [
+        {
+          "id": "holoagent-0",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/HorizonRobotics/HoloAgent",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/Isabella98Liu/DG-Mesh",
+      "uses": [
+        {
+          "id": "p-50ec2ef82c5e",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/Isabella98Liu/DG-Mesh",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/JiahuiLei/MoSca",
+      "uses": [
+        {
+          "id": "p-4a1242e127e6",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/JiahuiLei/MoSca",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/KAIR-BAIR/dycheck",
+      "uses": [
+        {
+          "id": "p-0826bd202c54",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/KAIR-BAIR/dycheck",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/LZY-1021/RoboHarness",
+      "uses": [
+        {
+          "id": "roboharness-memory",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/LZY-1021/RoboHarness",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/MTU3D/MTU3D",
+      "uses": [
+        {
+          "id": "p-195b161ffdb0",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/MTU3D/MTU3D",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/Mobiuslqm/MoDGS",
+      "uses": [
+        {
+          "id": "p-cd878abbdc6e",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/Mobiuslqm/MoDGS",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/MrZihan/D3D-VLP",
+      "uses": [
+        {
+          "id": "p-ab4137ccf421",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/MrZihan/D3D-VLP",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/NVlabs/AHA",
+      "uses": [
+        {
+          "id": "p-ea5179b8da3b",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/NVlabs/AHA",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/OpenMOSS/OpenETA",
+      "uses": [
+        {
+          "id": "eta",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/OpenMOSS/OpenETA",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/QwenLM/Qwen-RobotNav",
+      "uses": [
+        {
+          "id": "p-ab1fd5bd54af",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/QwenLM/Qwen-RobotNav",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/Ram81/goat-bench",
+      "uses": [
+        {
+          "id": "goat-bench",
+          "resource": "code"
+        },
+        {
+          "id": "goat-bench",
+          "resource": "data"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/Ram81/goat-bench",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/Stanford-ILIAD/explore-eqa",
+      "uses": [
+        {
+          "id": "p-1bc406357bc2",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/Stanford-ILIAD/explore-eqa",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/Teacher-Tom/HSGM_public",
+      "uses": [
+        {
+          "id": "p-da862dc60771",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/Teacher-Tom/HSGM_public",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/TencentARC/MotionCrafter",
+      "uses": [
+        {
+          "id": "p-85fa9b6d2cff",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/TencentARC/MotionCrafter",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/UMass-Embodied-AGI/3D-Mem",
+      "uses": [
+        {
+          "id": "p-131c5f8fafc1",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/UMass-Embodied-AGI/3D-Mem",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/Wakals/CoVT",
+      "uses": [
+        {
+          "id": "p-fd7a47f38ca1",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/Wakals/CoVT",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/YuankaiQi/REVERIE",
+      "uses": [
+        {
+          "id": "p-bc635c0cef0e",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/YuankaiQi/REVERIE",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/ZiboKNOW/BeliefMapNav",
+      "uses": [
+        {
+          "id": "p-fba57d822a08",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/ZiboKNOW/BeliefMapNav",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/ZilingLiu/GeoSCD",
+      "uses": [
+        {
+          "id": "p-619a6d33c8f9",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/ZilingLiu/GeoSCD",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/allenai/procthor",
+      "uses": [
+        {
+          "id": "p-0c497b2d55bd",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/allenai/procthor",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/amap-cvlab/ABot-AgentOS",
+      "uses": [
+        {
+          "id": "abot-agentos",
+          "resource": "code"
+        }
+      ],
+      "http": 404,
+      "state": "unavailable",
+      "getRecheck": 404,
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/amap-cvlab/ABot-Claw",
+      "uses": [
+        {
+          "id": "p-2f85fc2530a3",
+          "resource": "project"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:25.972512+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/amap-cvlab/ABot-Claw",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/areal-project/AReaL",
+      "uses": [
+        {
+          "id": "p-09fe1a9b9c02",
+          "resource": "code"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:25.974393+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/areal-project/AReaL",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/bagh2178/SG-Nav",
+      "uses": [
+        {
+          "id": "p-47e661483270",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/bagh2178/SG-Nav",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/bagh2178/UniGoal",
+      "uses": [
+        {
+          "id": "p-cb5caf94cd61",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/bagh2178/UniGoal",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/changhaonan/A3VLM",
+      "uses": [
+        {
+          "id": "p-e1464426d0ea",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/changhaonan/A3VLM",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/chenguolin/MoVieS",
+      "uses": [
+        {
+          "id": "p-672aaae4a2d7",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/chenguolin/MoVieS",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/coolmaoguo/DRIVE-Nav",
+      "uses": [
+        {
+          "id": "p-3ce25b8b47c9",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/coolmaoguo/DRIVE-Nav",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/cqf7419/LiDAR-GS",
+      "uses": [
+        {
+          "id": "p-4fd4f0f43eab",
+          "resource": "code"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:25.977470+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/cqf7419/LiDAR-GS",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/daiguangzhao/EvoNav_CVPR2026",
+      "uses": [
+        {
+          "id": "p-962498b14e89",
+          "resource": "code"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:31.027441+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/daiguangzhao/EvoNav_CVPR2026",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/ethz-asl/3d_vsg",
+      "uses": [
+        {
+          "id": "p-7615f32ae45a",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/ethz-asl/3d_vsg",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/facebookresearch/habitat-matterport3d-dataset",
+      "uses": [
+        {
+          "id": "hm3d",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/facebookresearch/habitat-matterport3d-dataset",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/facebookresearch/open-eqa",
+      "uses": [
+        {
+          "id": "openeqa",
+          "resource": "code"
+        },
+        {
+          "id": "openeqa",
+          "resource": "data"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/facebookresearch/open-eqa",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/fudan-zvg/4d-gaussian-splatting",
+      "uses": [
+        {
+          "id": "4dgs-native",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/fudan-zvg/4d-gaussian-splatting",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/google-research-datasets/RxR",
+      "uses": [
+        {
+          "id": "p-cdc3a13da2fb",
+          "resource": "code"
+        },
+        {
+          "id": "p-cdc3a13da2fb",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/google-research-datasets/RxR",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/graph-robots/graph-as-policy",
+      "uses": [
+        {
+          "id": "gap",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/graph-robots/graph-as-policy",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/graphdeco-inria/gaussian-splatting",
+      "uses": [
+        {
+          "id": "p-14b5531a75e6",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/graphdeco-inria/gaussian-splatting",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/greenguy13/intermittent_preservation",
+      "uses": [
+        {
+          "id": "p-7f5ff67c08d8",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/greenguy13/intermittent_preservation",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/hbb1/2d-gaussian-splatting",
+      "uses": [
+        {
+          "id": "p-2ffe439eb1ba",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/hbb1/2d-gaussian-splatting",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/hustvl/4DGaussians",
+      "uses": [
+        {
+          "id": "4dgs-deformation",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/hustvl/4DGaussians",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/ingra14m/Deformable-3D-Gaussians",
+      "uses": [
+        {
+          "id": "p-8588e4b96e61",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/ingra14m/Deformable-3D-Gaussians",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/jzr99/Mesh4D",
+      "uses": [
+        {
+          "id": "p-3da43536d4d1",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/jzr99/Mesh4D",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/kaist-ami/SplatReasoner",
+      "uses": [
+        {
+          "id": "p-91f1ecb94809",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/kaist-ami/SplatReasoner",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/kalebbennaveed/mEclares-main",
+      "uses": [
+        {
+          "id": "p-655ea3c2a4f6",
+          "resource": "code"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:31.036059+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/kalebbennaveed/mEclares-main",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/linglingxiansen/MapNav",
+      "uses": [
+        {
+          "id": "p-b626bd59e0fb",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/linglingxiansen/MapNav",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/lvkailin0118/HiMemVLN",
+      "uses": [
+        {
+          "id": "p-38c47880c5df",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/lvkailin0118/HiMemVLN",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/lynl7130/MonoDyGauBench_code",
+      "uses": [
+        {
+          "id": "p-3209995b40ca",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/lynl7130/MonoDyGauBench_code",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/matterport/habitat-matterport-3dresearch",
+      "uses": [
+        {
+          "id": "hm3d",
+          "resource": "data"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/matterport/habitat-matterport-3dresearch",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/med-air/SurRoL",
+      "uses": [
+        {
+          "id": "p-41eb2970e1f3",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/med-air/SurRoL",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/mega-sam/mega-sam",
+      "uses": [
+        {
+          "id": "p-c0e3911c11b4",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/mega-sam/mega-sam",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/openvla/openvla",
+      "uses": [
+        {
+          "id": "openvla",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/openvla/openvla",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/pipixin321/HolmesVAU",
+      "uses": [
+        {
+          "id": "p-443fd392a2e5",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/pipixin321/HolmesVAU",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/vye16/shape-of-motion",
+      "uses": [
+        {
+          "id": "shape-of-motion",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/vye16/shape-of-motion",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/xieyuser/GS-LIVM",
+      "uses": [
+        {
+          "id": "p-8cd89ffbe2d5",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/xieyuser/GS-LIVM",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/yix8/VisualPlanning",
+      "uses": [
+        {
+          "id": "p-dedfde9d7c99",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/yix8/VisualPlanning",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/ylwhxht/MSGNav",
+      "uses": [
+        {
+          "id": "p-9bac8e0e6461",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/ylwhxht/MSGNav",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/yueen-ma/Awesome-VLA",
+      "uses": [
+        {
+          "id": "p-c240762f60ca",
+          "resource": "code"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:31.106030+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/yueen-ma/Awesome-VLA",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/ziyc/drivestudio",
+      "uses": [
+        {
+          "id": "p-d683b4b81795",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/ziyc/drivestudio",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://github.com/zju3dv/street_gaussians",
+      "uses": [
+        {
+          "id": "p-fc7e30888833",
+          "resource": "code"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://github.com/zju3dv/street_gaussians",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://graph-robots.github.io/gap/",
+      "uses": [
+        {
+          "id": "gap",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://graph-robots.github.io/gap/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://guanjunwu.github.io/4dgs/",
+      "uses": [
+        {
+          "id": "4dgs-deformation",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://guanjunwu.github.io/4dgs/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://hellexf.github.io/MoRe/",
+      "uses": [
+        {
+          "id": "p-4e9a45d155a1",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://hellexf.github.io/MoRe/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://horizonrobotics.github.io/robot_lab/holoagent/",
+      "uses": [
+        {
+          "id": "holoagent-0",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://horizonrobotics.github.io/robot_lab/holoagent/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://huggingface.co/openvla/openvla-7b",
+      "uses": [
+        {
+          "id": "openvla",
+          "resource": "weights"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://huggingface.co/openvla/openvla-7b",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://ingra14m.github.io/Deformable-Gaussians/",
+      "uses": [
+        {
+          "id": "p-8588e4b96e61",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://ingra14m.github.io/Deformable-Gaussians/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://jiahuilei.com/projects/mosca/",
+      "uses": [
+        {
+          "id": "p-4a1242e127e6",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://jiahuilei.com/projects/mosca/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://kair-bair.github.io/dycheck/",
+      "uses": [
+        {
+          "id": "p-0826bd202c54",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://kair-bair.github.io/dycheck/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+      "uses": [
+        {
+          "id": "p-db9cbaf48a92",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://linglingxiansen.github.io/Walk-with-Me/",
+      "uses": [
+        {
+          "id": "p-113f275da6df",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://linglingxiansen.github.io/Walk-with-Me/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://lzy-1021.github.io/RoboHarness/",
+      "uses": [
+        {
+          "id": "roboharness-memory",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://lzy-1021.github.io/RoboHarness/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://mega-sam.github.io/",
+      "uses": [
+        {
+          "id": "p-c0e3911c11b4",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://mega-sam.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://mesh-4d.github.io/",
+      "uses": [
+        {
+          "id": "p-3da43536d4d1",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://mesh-4d.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://modgs.github.io/",
+      "uses": [
+        {
+          "id": "p-cd878abbdc6e",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://modgs.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://mtu3d.github.io",
+      "uses": [
+        {
+          "id": "p-195b161ffdb0",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://mtu3d.github.io",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://mukulkhanna.github.io/goat-bench/",
+      "uses": [
+        {
+          "id": "goat-bench",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://mukulkhanna.github.io/goat-bench/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://nvidia-ai-iot.github.io/remembr",
+      "uses": [
+        {
+          "id": "remembr",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://nvidia-ai-iot.github.io/remembr/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://open-eqa.github.io/",
+      "uses": [
+        {
+          "id": "openeqa",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://open-eqa.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.html",
+      "uses": [
+        {
+          "id": "openeqa",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://openaccess.thecvf.com/content/CVPR2024/html/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.html",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.html",
+      "uses": [
+        {
+          "id": "p-962498b14e89",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:31.868875+00:00",
+      "http": 200,
+      "finalUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.html",
+      "state": "reachable"
+    },
+    {
+      "url": "https://openmoss.ai/OpenETA/",
+      "uses": [
+        {
+          "id": "eta",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://openmoss.ai/OpenETA/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://openvla.github.io/",
+      "uses": [
+        {
+          "id": "openvla",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://openvla.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://proceedings.mlr.press/v270/huang25b.html",
+      "uses": [
+        {
+          "id": "p-e1464426d0ea",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://proceedings.mlr.press/v270/huang25b.html",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://procthor.allenai.org",
+      "uses": [
+        {
+          "id": "p-0c497b2d55bd",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://procthor.allenai.org",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://qwen.ai/blog?id=qwen-robotnav",
+      "uses": [
+        {
+          "id": "p-ab1fd5bd54af",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "state": "reachable",
+      "getRecheck": 200,
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/",
+      "uses": [
+        {
+          "id": "p-14b5531a75e6",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://robotics-transformer-x.github.io/",
+      "uses": [
+        {
+          "id": "p-2a555cc9b806",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://robotics-transformer-x.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://ruhan-wang.github.io/Harness-Handbook/",
+      "uses": [
+        {
+          "id": "p-59c1b7374cbc",
+          "resource": "project"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:34.915790+00:00",
+      "http": 200,
+      "finalUrl": "https://ruhan-wang.github.io/Harness-Handbook/",
+      "state": "reachable"
+    },
+    {
+      "url": "https://ruijiezhu94.github.io/MotionCrafter_Page/",
+      "uses": [
+        {
+          "id": "p-85fa9b6d2cff",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://ruijiezhu94.github.io/MotionCrafter_Page/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://say-can.github.io/",
+      "uses": [
+        {
+          "id": "p-063be20e7ce8",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://say-can.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://shape-of-motion.github.io/",
+      "uses": [
+        {
+          "id": "shape-of-motion",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://shape-of-motion.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://splatreasoner.github.io/",
+      "uses": [
+        {
+          "id": "p-91f1ecb94809",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://splatreasoner.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://streamsplat3d.github.io/",
+      "uses": [
+        {
+          "id": "p-34a5dbdb0d8c",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://streamsplat3d.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://surfsplatting.github.io/",
+      "uses": [
+        {
+          "id": "p-2ffe439eb1ba",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://surfsplatting.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://umass-embodied-agi.github.io/3D-Mem/",
+      "uses": [
+        {
+          "id": "p-131c5f8fafc1",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://umass-embodied-agi.github.io/3D-Mem/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://voxposer.github.io/",
+      "uses": [
+        {
+          "id": "p-f5ef0ae35b12",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://voxposer.github.io/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://wsakobe.github.io/VLingNav-web/",
+      "uses": [
+        {
+          "id": "p-d54de00b55ef",
+          "resource": "project"
+        }
+      ],
+      "http": 404,
+      "state": "unavailable",
+      "getRecheck": 404,
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://www.ifaamas.org/Proceedings/aamas2026/pdfs/UYQK9511.pdf",
+      "uses": [
+        {
+          "id": "p-7f5ff67c08d8",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.ifaamas.org/Proceedings/aamas2026/pdfs/UYQK9511.pdf",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://www.liuisabella.com/DG-Mesh/",
+      "uses": [
+        {
+          "id": "p-50ec2ef82c5e",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.liuisabella.com/DG-Mesh/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+      "uses": [
+        {
+          "id": "p-001885caf8c9",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://www.sciopen.com/article/10.26599/AIR.2024.9150042",
+      "uses": [
+        {
+          "id": "p-281977beb698",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-19T12:03:35.050384+00:00",
+      "http": 200,
+      "finalUrl": "https://www.sciopen.com/article/10.26599/AIR.2024.9150042",
+      "state": "reachable"
+    },
+    {
+      "url": "https://xetroubadour.github.io/Uni-LaViRA/",
+      "uses": [
+        {
+          "id": "p-a2ae5d358c9c",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://xetroubadour.github.io/Uni-LaViRA/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://ziyc.github.io/omnire/",
+      "uses": [
+        {
+          "id": "p-d683b4b81795",
+          "resource": "project"
+        }
+      ],
+      "http": 200,
+      "finalUrl": "https://ziyc.github.io/omnire/",
+      "state": "reachable",
+      "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://cirl.lcsr.jhu.edu/wp-content/uploads/2015/11/JIGSAWS.pdf",
+      "uses": [
+        {
+          "id": "p-0b20527a0147",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "state": "reachable",
+      "method": "GET via original PDF inspection",
+      "observedAt": "2026-10-19T12:05:49.022749+00:00"
+    }
+  ]
+}

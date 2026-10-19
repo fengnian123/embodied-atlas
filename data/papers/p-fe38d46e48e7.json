@@ -1,0 +1,286 @@
+{
+  "id": "p-fe38d46e48e7",
+  "title": "Active Spatial Inspection for Effective and Efficient Embodied Exploration",
+  "short": "ACE",
+  "aliases": [],
+  "authors": [
+    "Wenbin Wang",
+    "Xiang Bai",
+    "Yizhao Wang",
+    "Hang Sun",
+    "Dong Ren",
+    "Jie Qin",
+    "Qingquan Li",
+    "Bing Wang"
+  ],
+  "institutions": [
+    "The Hong Kong Polytechnic University",
+    "China Three Gorges University",
+    "Huazhong University of Science and Technology",
+    "Nanjing University of Aeronautics and Astronautics",
+    "Shenzhen University"
+  ],
+  "firstPublished": "2026-09-18",
+  "updated": "2026-09-18",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "ObjectNav",
+      "多目标导航"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统",
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "主动感知",
+      "规划",
+      "记忆"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用局部证据定位和近距离核实决定是否结束，并结合隐藏空间价值与历史低进展抑制规划frontier。",
+  "method": {
+    "input": "目标/问题、RGB-D、位姿、快照和物体记忆",
+    "output": "有依据的回答/目标位置或下一探索frontier",
+    "assumptions": "Habitat RGB-D与地图；视觉点需要深度反投影；不训练任务骨干。",
+    "difference": "把终止证据检查与继续探索方向选择分开，后者同时利用前景信息增益和已检查历史。",
+    "explanation": "判别探查先在快照的3×3网格定位可能证据，裁剪并放大后才能回答；ObjNav先从物体记忆选候选，缺失检测时从原图预测归一化视觉点，反投影并接近复查，不能仅凭候选停止。frontier通过跨时关联继承检查状态，评分结合当前任务相关性和将来可能暴露新房间/走廊的隐藏空间潜力。射线投射累计视觉覆盖，对充分检查却无效的方向拒绝；近期低进展轨迹再施加软惩罚。",
+    "flow": [
+      "判别探查",
+      "跨时frontier关联",
+      "前瞻优先级",
+      "回顾抑制"
+    ],
+    "modules": [
+      {
+        "name": "判别探查",
+        "purpose": "避免未经证实的终止",
+        "mechanism": "3×3区域筛查、裁剪核验；物体/视觉点接近后复核",
+        "input": "快照、物体记忆、任务",
+        "output": "确认的答案或目标证据"
+      },
+      {
+        "name": "跨时frontier关联",
+        "purpose": "让经验持续影响决策",
+        "mechanism": "在地图中匹配frontier并继承失败/无证据计数",
+        "input": "新旧frontier",
+        "output": "持久检查状态"
+      },
+      {
+        "name": "前瞻优先级",
+        "purpose": "发现尚未可见的有效信息",
+        "mechanism": "融合任务cue分数与隐藏空间潜力",
+        "input": "任务、frontier视图",
+        "output": "基础效用分数"
+      },
+      {
+        "name": "回顾抑制",
+        "purpose": "减少已耗尽方向与兜圈",
+        "mechanism": "射线视觉覆盖硬拒绝＋历史低进展软惩罚",
+        "input": "覆盖图、轨迹历史",
+        "output": "校正后的frontier选择"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "GPT-4o默认VLM；YOLO-World、SAM、CLIP",
+    "trainable": "无任务专属模型训练",
+    "frozen": "模型作为冻结推理组件",
+    "data": "无新增训练集；在A-EQA/HM3D-OVON/GOAT评测",
+    "objective": "几何建图、提示推理与手工效用计算",
+    "stages": "证据验证→不足则frontier决策→执行并更新检查历史"
+  },
+  "evaluation": [
+    {
+      "benchmark": "A-EQA 184-subset",
+      "setting": "arXiv v1（2026-09-18）；GPT-4o默认，Habitat；LLM-Match与LLM-Match SPL均%。",
+      "result": "ACE 60.4/50.2，SCOPE59.1/41.0；不能把184主实验与41条消融合并。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/abs/2609.22385",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table I",
+        "columns": [
+          "方法",
+          "LLM-Match(%)",
+          "LLM-Match SPL(%)"
+        ],
+        "rows": [
+          [
+            "3D-Mem",
+            52.6,
+            42.0
+          ],
+          [
+            "MetaNav",
+            58.3,
+            45.5
+          ],
+          [
+            "SCOPE",
+            59.1,
+            41.0
+          ],
+          [
+            "ACE",
+            60.4,
+            50.2
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2609.22385",
+        "locator": "Table I"
+      }
+    },
+    {
+      "benchmark": "HM3D-OVON / GOAT-Bench",
+      "setting": "Table II/III；导航1.0m成功阈值；GOAT全量与278-subset分列，SR/SPL%。",
+      "result": "HM3D-OVON54.4/32.8；GOAT全量69.9/47.7；278子集76.3/50.5。",
+      "locator": "Tables II–III",
+      "sourceUrl": "https://arxiv.org/abs/2609.22385",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Tables II–III",
+        "columns": [
+          "方法",
+          "HM3D-OVON SR/SPL",
+          "GOAT全量SR/SPL",
+          "GOAT278子集SR/SPL"
+        ],
+        "rows": [
+          [
+            "3D-Mem",
+            "未报告",
+            "62.9 / 44.7",
+            "69.1 / 48.9"
+          ],
+          [
+            "SCOPE",
+            "未报告",
+            "66.8 / 46.5",
+            "73.7 / 53.5"
+          ],
+          [
+            "ACE",
+            "54.4 / 32.8",
+            "69.9 / 47.7",
+            "76.3 / 50.5"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2609.22385",
+        "locator": "Tables II–III"
+      }
+    },
+    {
+      "benchmark": "A-EQA 41-subset消融",
+      "setting": "同一41条子集，固定其余组件；不能与184条主实验数字直接横向归因。",
+      "result": "完整ACE61.6/47.2；去掉判别探查55.2/42.0。",
+      "locator": "Table IV",
+      "sourceUrl": "https://arxiv.org/abs/2609.22385",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table IV",
+        "columns": [
+          "变体",
+          "LLM-Match(%)",
+          "LLM-Match SPL(%)"
+        ],
+        "rows": [
+          [
+            "完整ACE",
+            61.6,
+            47.2
+          ],
+          [
+            "去掉判别探查",
+            55.2,
+            42.0
+          ],
+          [
+            "去掉隐藏空间评分",
+            59.9,
+            46.1
+          ],
+          [
+            "去掉低进展惩罚",
+            59.3,
+            44.8
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2609.22385",
+        "locator": "Table IV"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "实验为静态仿真任务；对实时移动物体和深度/位姿噪声的鲁棒性尚不能从这些结果推断。",
+      "依赖VLM核验与启发式阈值；原文未给统一实机实时性保证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2609.22385",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "主动交互巡检与故障诊断_相关工作调研.md",
+      "locator": "Active Spatial Inspection for Effective and Efficient Embodied Exploration(2026)",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2609.22385",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pfe38d46e48e72026,\n  title = {Active Spatial Inspection for Effective and Efficient Embodied Exploration},\n  author = {Wenbin Wang and Xiang Bai and Yizhao Wang and Hang Sun and Dong Ren and Jie Qin and Qingquan Li and Bing Wang},\n  year = {2026},\n  url = {https://arxiv.org/abs/2609.22385}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "代码声明可用，但本次未定位到可靠官方仓库URL",
+    "正式发表状态和资源许可证未核实"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "探索Agent既可能凭模糊线索过早回答，也可能已经看过答案却继续兜圈。ACE 让“完成了吗”建立在局部可检查的证据上：EQA先定位候选图像区域再放大核实，目标导航则确认物体或视觉点并接近复核。证据不足时，再选择有望露出新空间的frontier，利用视觉覆盖与低进展历史减少反复探索。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

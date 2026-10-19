@@ -1,0 +1,278 @@
+{
+  "id": "hm3d",
+  "title": "Habitat-Matterport 3D Dataset (HM3D): 1000 Large-scale 3D Environments for Embodied AI",
+  "short": "HM3D",
+  "aliases": [],
+  "authors": [
+    "Santhosh K. Ramakrishnan",
+    "Aaron Gokaslan",
+    "Erik Wijmans",
+    "Oleksandr Maksymets",
+    "Alex Clegg",
+    "John Turner",
+    "Eric Undersander",
+    "Wojciech Galuba",
+    "Andrew Westbury",
+    "Angel X. Chang",
+    "Manolis Savva",
+    "Yili Zhao",
+    "Dhruv Batra"
+  ],
+  "institutions": [
+    "Facebook AI Research",
+    "UT Austin",
+    "Georgia Tech",
+    "Simon Fraser University",
+    "Cornell University"
+  ],
+  "firstPublished": "2021-09-16",
+  "updated": "2021-09-16",
+  "publicationYear": 2021,
+  "venue": "NeurIPS",
+  "publicationStatus": "已发表",
+  "year": 2021,
+  "tags": {
+    "direction": [
+      "导航",
+      "场景表征"
+    ],
+    "task": [
+      "ObjectNav",
+      "场景理解"
+    ],
+    "paradigm": [],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "数据集"
+    ],
+    "problem": [
+      "泛化",
+      "空间理解"
+    ],
+    "environment": [
+      "真实采集资产",
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "来自 1,000 个真实空间的高分辨率 3D 扫描资产，可在 Habitat 中建立导航任务；场景资产、语义注释与 ObjectNav episode 是不同资源。",
+  "method": {
+    "input": "真实空间扫描",
+    "output": "Mesh 与纹理资产",
+    "flow": [
+      "真实建筑扫描和重建：保留真实室内几何与外观",
+      "双阶段质量筛选：减少洞、裂缝和不可通行缺陷",
+      "导航资产统计：量化与下游导航有关的空间规模",
+      "跨数据集PointNav实验：检验更大/更好资产是否有助泛化"
+    ],
+    "assumptions": "这是静态融合mesh；大多数对象不是可独立控制的刚体资产。每种下游episode、传感器和语义版本都需另行声明。",
+    "difference": "区分场景集与任务集。",
+    "explanation": "HM3D是一组可渲染的真实建筑纹理mesh，而不是一套固定ObjectNav episodes。采集用Matterport Pro2；重建管线完成RGB-D配准、曲面与纹理，随后经过15名志愿者质量打分和3名专家复核选择。论文以可导航面积、视觉逼真度、缺陷等分析资产质量，再用相同PointNav学习框架比较不同训练场景库的迁移。语义标注版本HM3D-Semantics须单独区分。",
+    "modules": [
+      {
+        "name": "真实建筑扫描和重建",
+        "purpose": "保留真实室内几何与外观",
+        "mechanism": "Matterport Pro2采集，Matterport管线做RGB-D对齐、mesh和纹理，覆盖多层住宅/商店等。",
+        "input": "真实建筑RGB-D扫描",
+        "output": "纹理3D mesh"
+      },
+      {
+        "name": "双阶段质量筛选",
+        "purpose": "减少洞、裂缝和不可通行缺陷",
+        "mechanism": "15位志愿者按1–5分评价，3位专家复核并兼顾楼层多样性；总人工投入800+小时。",
+        "input": "候选重建、可导航统计",
+        "output": "1000场景资产"
+      },
+      {
+        "name": "导航资产统计",
+        "purpose": "量化与下游导航有关的空间规模",
+        "mechanism": "以半径0.1m、高1.5m圆柱体构建导航网格，统计可达面积、复杂度及clutter。",
+        "input": "mesh、导航网格设置",
+        "output": "可导航面积与质量指标"
+      },
+      {
+        "name": "跨数据集PointNav实验",
+        "purpose": "检验更大/更好资产是否有助泛化",
+        "mechanism": "固定导航学习设置，分别在不同场景集训练，再跨Gibson/MP3D/HM3D测试。",
+        "input": "训练场景、深度/RGB、目标坐标",
+        "output": "跨库Success/SPL"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "资产论文；下游PointNav策略",
+    "trainable": "采集/重建本体不适用VLA训练；论文另训练导航基线",
+    "frozen": "不适用统一冻结主干描述",
+    "data": "1000扫描；PointNav训练/评估场景分离",
+    "objective": "导航基线用PointNav任务学习目标，非数据集的通用损失",
+    "stages": "扫描→重建→筛选→资产发布→跨库导航评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3D资产规模与质量",
+      "setting": "v1表1；Floor area与Navigable area统计不同，后者采用指定圆柱体navmesh。",
+      "result": "1000建筑扫描、总floor area365.42k m²、可导航面积112.50k m²；不等于1000个语义标注场景。",
+      "locator": "§3 表1",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§3 表1",
+        "columns": [
+          "统计项",
+          "HM3D"
+        ],
+        "rows": [
+          [
+            "场景数",
+            "1000"
+          ],
+          [
+            "Floor area",
+            "365.42k m²"
+          ],
+          [
+            "Navigable area",
+            "112.50k m²"
+          ],
+          [
+            "Navigation complexity",
+            "13.31"
+          ],
+          [
+            "Scene clutter",
+            "3.90"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2109.08238v1",
+        "locator": "§3 表1"
+      }
+    },
+    {
+      "benchmark": "跨数据集PointNav test",
+      "setting": "v1表2；深度输入；1个训练种子、3个评估种子；选取HM3D与MP3D训练行，±为原表std。",
+      "result": "HM3D训练在MP3D test SR0.94/SPL0.83；这是PointNav，不是ObjectNav。",
+      "locator": "§4 表2",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§4 表2",
+        "columns": [
+          "训练集",
+          "Gibson test SR/SPL",
+          "MP3D test SR/SPL",
+          "HM3D test SR/SPL"
+        ],
+        "rows": [
+          [
+            "MP3D",
+            "0.97±0.01/0.90±0.01",
+            "0.89±0.00/0.80±0.00",
+            "0.96±0.00/0.87±0.00"
+          ],
+          [
+            "HM3D",
+            "1.00±0.00/0.93±0.01",
+            "0.94±0.00/0.83±0.00",
+            "0.99±0.00/0.92±0.00"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2109.08238v1",
+        "locator": "§4 表2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "可渲染场景不保证支持物体交互或连续动态；语义注释覆盖也不等同于全部扫描数量。"
+    ]
+  },
+  "resources": {
+    "project": {
+      "url": "https://aihabitat.org/datasets/hm3d/",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://github.com/matterport/habitat-matterport-3dresearch",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/facebookresearch/habitat-matterport3d-dataset",
+      "status": "已核实入口"
+    },
+    "paper": {
+      "url": "https://arxiv.org/abs/2109.08238",
+      "status": "已核实入口",
+      "note": "已核实原论文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://github.com/matterport/habitat-matterport-3dresearch",
+      "label": "资产发布仓库",
+      "locator": "资源与用途限制",
+      "supports": [
+        "规模",
+        "资产",
+        "许可"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/facebookresearch/habitat-matterport3d-dataset",
+      "label": "官方实验仓库",
+      "locator": "NeurIPS 2021",
+      "supports": [
+        "发表",
+        "定位"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2109.08238v1",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§3–4；表1/2",
+      "supports": [
+        "作者日期",
+        "采集与QC",
+        "资产统计",
+        "跨库PointNav协议"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{hm3d2021,\n  title = {Habitat-Matterport 3D Dataset (HM3D): 1000 Large-scale 3D Environments for Embodied AI},\n  author = {Santhosh K. Ramakrishnan and Aaron Gokaslan and Erik Wijmans and Oleksandr Maksymets and Alex Clegg and John Turner and Eric Undersander and Wojciech Galuba and Andrew Westbury and Angel X. Chang and Manolis Savva and Yili Zhao and Dhruv Batra},\n  year = {2021},\n  url = {https://arxiv.org/abs/2109.08238}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "HM3D 提供的是真实建筑的数字资产，而不是一份包办全部导航任务定义的数据。研究者还需选择语义标注、任务 episode、机器人尺寸与传感器配置。比较论文时，应把 HM3D 版本、语义资产版本与 episode 划分一起记录；“使用真实扫描场景”不应被写成“完成真实机器人实验”。",
+  "benchmark": {
+    "motivation": "提供大规模真实建筑数字资产。",
+    "task": "场景数据集；导航任务由另行定义的 episode 指定。",
+    "input": "3D 场景资产",
+    "output": "模拟器可加载的环境",
+    "actions": "由下游模拟器配置决定",
+    "success": "不适用：不是统一任务成功率",
+    "collection": "Matterport Pro2真实建筑扫描，经Matterport配准/meshing/texturing；15名志愿者评分、3名专家复核；800+小时人工。",
+    "scale": "1000建筑场景，38国家、181地区；112.5k m²可导航面积。HM3D-Semantics是另行发布的语义子集，不能混作原1000全覆盖。",
+    "split": "原论文场景级训练/验证/测试隔离；使用新版本或ObjectNav episodes时需另核对场景清单。",
+    "metrics": "下游任务另行定义",
+    "baselines": "官方仓库包含场景研究实验",
+    "assets": "OBJ/GLB、纹理与材料；版本文件分别下载。",
+    "license": "学术、非商业用途；以资产条款为准。",
+    "reproduction": "需接受下载条款并匹配 Habitat 资产配置。",
+    "coverage": "静态室内几何与外观",
+    "boundary": "不提供完整动态事件、所有对象独立 Mesh 或交互脚本。",
+    "leakage": "场景层划分应独立于由其生成的 episode。"
+  },
+  "verificationLevel": "fulltext"
+}

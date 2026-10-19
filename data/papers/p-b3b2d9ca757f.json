@@ -1,0 +1,243 @@
+{
+  "id": "p-b3b2d9ca757f",
+  "title": "MOSAIC-GS: Monocular Scene Reconstruction via Advanced Initialization for Complex Dynamic Environments",
+  "short": "MOSAIC-GS",
+  "aliases": [
+    "MOSAIC-GS"
+  ],
+  "authors": [
+    "Svitlana Morkva",
+    "Vaishakh Patil",
+    "Alessio Tonioni",
+    "Michael Oechsle",
+    "Maximum Wilder-Smith",
+    "Marco Hutter"
+  ],
+  "institutions": [
+    "ETH Zürich",
+    "Google"
+  ],
+  "firstPublished": "2026-01-08",
+  "updated": "2026-01-08",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "在光度优化之前用分割、跟踪、深度与刚性约束估计运动，以Poly-Fourier曲线初始化动态高斯，减少训练时丢失动态点。",
+  "method": {
+    "input": "相机内外参、单目视频及传感器/预测深度",
+    "output": "显式动静高斯及紧凑轨迹、新视图",
+    "flow": [
+      "动态检测和实例跟踪",
+      "三维运动初估",
+      "显式光度优化"
+    ],
+    "assumptions": "初始化依赖外部分割和场景流；从未可见的对象区域仍困难。",
+    "difference": "把更多运动信息放在优化前的初始化，而非让RGB损失从错误运动状态中自行恢复。",
+    "explanation": "在光度优化之前用分割、跟踪、深度与刚性约束估计运动，以Poly-Fourier曲线初始化动态高斯，减少训练时丢失动态点。 把更多运动信息放在优化前的初始化，而非让RGB损失从错误运动状态中自行恢复。 利用极线误差、SAM2和点跟踪划分静态背景与动态实例。 深度提升跟踪为scene flow，按实例刚性约束细化，再编码为每高斯Poly-Fourier轨迹。 按区域细节自适应采样静动态高斯，并在时间相关轨迹上联合优化几何和外观。",
+    "modules": [
+      {
+        "name": "动态检测和实例跟踪",
+        "purpose": "识别需独立处理的运动区域",
+        "mechanism": "利用极线误差、SAM2和点跟踪划分静态背景与动态实例。",
+        "input": "RGB、相机及先验模型",
+        "output": "动态掩码与长期对应"
+      },
+      {
+        "name": "三维运动初估",
+        "purpose": "防止光度训练早期错误剪除动态点",
+        "mechanism": "深度提升跟踪为scene flow，按实例刚性约束细化，再编码为每高斯Poly-Fourier轨迹。",
+        "input": "深度、对应与实例",
+        "output": "初始化运动曲线"
+      },
+      {
+        "name": "显式光度优化",
+        "purpose": "以较小表示获得快速收敛",
+        "mechanism": "按区域细节自适应采样静动态高斯，并在时间相关轨迹上联合优化几何和外观。",
+        "input": "初始化高斯/曲线、RGB",
+        "output": "紧凑动态场景和渲染"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "高斯及Poly-Fourier轨迹参数",
+    "trainable": "高斯及Poly-Fourier轨迹参数",
+    "frozen": "深度、SAM2、跟踪器作为外部预处理",
+    "data": "单个动态视频",
+    "objective": "场景光度重建与初始化几何/刚性约束",
+    "stages": "先运动初始化，后高斯优化；表2效率对比在单RTX4090，原文另列例外"
+  },
+  "evaluation": [
+    {
+      "benchmark": "DyCheck",
+      "setting": "CVPR2026；7序列平均；PSNR/LPIPS依本文设置；同表MoSca画质更高的情况保留，不以速度掩盖质量差异。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "DyCheck · Table 1",
+        "columns": [
+          "方法",
+          "平均PSNR↑",
+          "平均LPIPS↓"
+        ],
+        "rows": [
+          [
+            "Shape of Motion",
+            "17.32",
+            "0.295"
+          ],
+          [
+            "MoSca",
+            "19.32",
+            "0.264"
+          ],
+          [
+            "MOSAIC-GS",
+            "18.40",
+            "0.255"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2601.05368v1",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "DyCheck 效率",
+      "setting": "除Gaussian Marbles*为原论文引用外，其余单RTX4090。表标题明确训练时间含预处理，采用原文口径。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "DyCheck 效率 · Table 2",
+        "columns": [
+          "Methods",
+          "Training Time↓",
+          "Rendering Speed↑"
+        ],
+        "rows": [
+          [
+            "Gaussian Flow",
+            "23 min",
+            "52 FPS"
+          ],
+          [
+            "MoSca",
+            "50 min",
+            "38 FPS"
+          ],
+          [
+            "Ours",
+            "10.5 min",
+            "180 FPS"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2601.05368v1",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "分割和scene flow错误会传播；对象完全不可见或被分成多个实例时细化不足。"
+    ],
+    "analysis": [
+      "速度表需注明预处理是否计时；本文画质与MoSca相近不代表全部指标更高。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2601.05368",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / MOSAIC-GS",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2601.05368",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2601.05368v1",
+      "label": "论文全文 v1",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Morkva_MOSAIC-GS_Monocular_Scene_Reconstruction_via_Advanced_Initialization_for_Complex_Dynamic_CVPR_2026_paper.html",
+      "label": "正式会议论文集",
+      "locator": "标题、作者顺序与会议年份",
+      "supports": [
+        "发表",
+        "作者",
+        "身份"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{260105368,\n  title = {MOSAIC-GS: Monocular Scene Reconstruction via Advanced Initialization for Complex Dynamic Environments},\n  author = {Morkva, Svitlana and Wilder-Smith, Maximum and Oechsle, Michael and Tonioni, Alessio and Hutter, Marco and Patil, Vaishakh},\n  year = {2026},\n  eprint = {2601.05368},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2601.05368}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。",
+    "CVPR2026正式版作者顺序与arXiv初版不同，基础信息采用会议版顺序，预印本BibTeX保留对应元数据。"
+  ],
+  "overview": "在光度优化之前用分割、跟踪、深度与刚性约束估计运动，以Poly-Fourier曲线初始化动态高斯，减少训练时丢失动态点。 把更多运动信息放在优化前的初始化，而非让RGB损失从错误运动状态中自行恢复。 初始化依赖外部分割和场景流；从未可见的对象区域仍困难。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

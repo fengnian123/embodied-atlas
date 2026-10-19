@@ -1,0 +1,198 @@
+{
+  "id": "p-962498b14e89",
+  "title": "History to Future: Evolving Agent with Experience and Thought for Zero-shot Vision-and-Language Navigation",
+  "short": "EvoNav",
+  "aliases": [],
+  "authors": [
+    "Guangzhao Dai",
+    "Shuo Wang",
+    "Zihan Wang",
+    "Guo-Sen Xie",
+    "Yang Yang",
+    "Jinshan Pan",
+    "Qianru Sun",
+    "Xiangbo Shu"
+  ],
+  "institutions": [
+    "Nanjing University of Science and Technology",
+    "Renmin University of China",
+    "National University of Singapore",
+    "Singapore Management University"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "正式发表；出版社/会议原始记录已核验",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM",
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "结合历史经验回顾与未来动作/地标预测，为零样本VLN-CE增加显式历史—当前—未来反馈。",
+  "method": {
+    "explanation": "EvoNav 的F-CoT从指令预测后续动作与地标，帮助定位当前进度；H-CoE把既往完整轨迹的成功/失败总结为文本经验，并建立外观/描述视觉场景经验库。当前决策同时读取未来思想、相似轨迹经验和视觉经验，在waypoint候选中选择下一步。经验更新主要是非参数记忆与提示，zero-shot不表示waypoint predictor没有预训练；真实实验是4个场景每场景20条样本。",
+    "input": "语言、当前视觉、候选航点、历史经验",
+    "output": "下一导航waypoint",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "结合历史经验回顾与未来动作/地标预测，为零样本VLN-CE增加显式历史—当前—未来反馈。",
+    "flow": [
+      "Future Chain-of-Thought",
+      "History Chain-of-Experience",
+      "候选waypoint决策"
+    ],
+    "modules": [
+      {
+        "name": "Future Chain-of-Thought",
+        "purpose": "用未来动作和地标约束当前选择",
+        "mechanism": "解析指令中的子动作/地标，向前预测应出现的下一动作与地标，用来判断当前导航阶段。",
+        "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.pdf",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "History Chain-of-Experience",
+        "purpose": "从轨迹与场景两种来源复用经验",
+        "mechanism": "文本经验总结成功轨迹/失败原因；视觉经验使用描述嵌入和外观嵌入，检索当前场景相关记忆。",
+        "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.pdf",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "候选waypoint决策",
+        "purpose": "联合过去和未来选择当前动作",
+        "mechanism": "在当前视觉候选中结合观察描述、未来thought及检索experience进行决策，实际移动由既有waypoint/低层执行完成。",
+        "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.pdf",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "高层LLM零样本；已有waypoint predictor预训练",
+    "models": "多种开放/商用LLM，CLIP等视觉经验，现成VLN-CE waypoint predictor",
+    "trainable": "经验库非参数更新；高层LLM未因方法额外微调",
+    "frozen": "LLM作为推理后端；waypoint predictor是预训练组件",
+    "data": "历史导航经历及视觉描述；真实4场景×20样本",
+    "objective": "提示推理与经验检索，无新高层动作损失",
+    "stages": "建立经验库 → 未来thought → 历史召回 → 候选waypoint选择"
+  },
+  "evaluation": [
+    {
+      "benchmark": "EvoNav R2R-CE Val-Unseen",
+      "setting": "CVPR2026 Table1，R2R-CE Val-Unseen，Gemini2.5Pro相同后端；Table2为NavRAG-CE，不混排。",
+      "result": "R2R EvoNav NE5.04/OSR51/SR43/SPL37.77；Open-Nav7.28/30/23/19.90。NavRAG EvoNav SR30/SPL17.60。",
+      "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.pdf",
+      "locator": "CVPR2026 Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "Gemini2.5Pro配置",
+          "NE(m)",
+          "OSR (%)",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "Open-Nav",
+            "7.28",
+            "30",
+            "23",
+            "19.90"
+          ],
+          [
+            "EvoNav",
+            "5.04",
+            "51",
+            "43",
+            "37.77"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "历史经验库及预训练waypoint能力是重要前提；训练自由指高层方法，不等于整个导航栈从未训练。"
+    ]
+  },
+  "resources": {
+    "code": {
+      "url": "https://github.com/daiguangzhao/EvoNav_CVPR2026",
+      "status": "已核实入口",
+      "note": "原文提供的官方链接；开放内容与许可未逐项验证"
+    },
+    "paper": {
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.html",
+      "status": "已核实入口",
+      "note": "已核实原始论文/出版社记录"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / EvoNav / History to Future",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "本轮回查原始来源",
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/papers/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.pdf",
+      "supports": [
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式原始来源",
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.html",
+      "supports": [
+        "题名",
+        "作者",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p962498b14e892026,\n title={History to Future: Evolving Agent with Experience and Thought for Zero-shot Vision-and-Language Navigation},\n author={Guangzhao Dai and Shuo Wang and Zihan Wang and Guo-Sen Xie and Yang Yang and Jinshan Pan and Qianru Sun and Xiangbo Shu},\n year={2026},\n url={https://openaccess.thecvf.com/content/CVPR2026/html/Dai_History_to_Future_Evolving_Agent_with_Experience_and_Thought_for_CVPR_2026_paper.html}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [],
+  "overview": "EvoNav 的F-CoT从指令预测后续动作与地标，帮助定位当前进度；H-CoE把既往完整轨迹的成功/失败总结为文本经验，并建立外观/描述视觉场景经验库。当前决策同时读取未来思想、相似轨迹经验和视觉经验，在waypoint候选中选择下一步。经验更新主要是非参数记忆与提示，zero-shot不表示waypoint predictor没有预训练；真实实验是4个场景每场景20条样本。",
+  "verificationLevel": "fulltext"
+}

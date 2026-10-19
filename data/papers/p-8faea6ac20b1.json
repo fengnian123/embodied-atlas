@@ -1,0 +1,250 @@
+{
+  "id": "p-8faea6ac20b1",
+  "title": "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion",
+  "short": "DiffusionPolicy",
+  "aliases": [
+    "DiffusionPolicy",
+    "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion"
+  ],
+  "authors": [
+    "Chi, Cheng",
+    "Xu, Zhenjia",
+    "Feng, Siyuan",
+    "Cousineau, Eric",
+    "Du, Yilun",
+    "Burchfiel, Benjamin",
+    "Tedrake, Russ",
+    "Song, Shuran"
+  ],
+  "institutions": [
+    "† † affiliation: \\affilnum * Joint First Author \\affilnum 1Columbia University, US \\affilnum 2Toyota Research Institute, US. \\affilnum 3MIT, US. \\affilnum 4Stanford University, US."
+  ],
+  "firstPublished": "2023-03-07",
+  "updated": "2024-03-14",
+  "publicationYear": 2023,
+  "venue": "RSS",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "把动作序列视为条件概率分布，通过反向扩散生成多峰、连续且平滑的控制轨迹。",
+  "method": {
+    "explanation": "Diffusion Policy 从高斯噪声动作序列开始，以视觉或状态观察为条件反复去噪，得到一段未来动作。执行时采用滚动时域控制：生成较长序列，只执行前一段，再利用新观察重新采样。训练时给示范动作注入随机强度的噪声，学习预测噪声/去噪方向，避免单次均值回归把多个可行行为平均成不可行动作。论文同时研究CNN和Transformer去噪器；其动作策略主要由离线人类示范学习，不是推理时直接调用语言模型。",
+    "input": "视觉或状态观测短历史",
+    "output": "连续未来动作序列",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "把动作序列视为条件概率分布，通过反向扩散生成多峰、连续且平滑的控制轨迹。",
+    "flow": [
+      "观察条件编码",
+      "条件动作扩散",
+      "滚动执行"
+    ],
+    "modules": [
+      {
+        "name": "观察条件编码",
+        "purpose": "把视觉或状态转为动作分布的条件",
+        "mechanism": "视觉版本用编码器提取观测特征，状态版本直接使用低维状态；多帧观察提供运动上下文。",
+        "sourceUrl": "https://arxiv.org/html/2303.04137",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "条件动作扩散",
+        "purpose": "表示多种可行行为",
+        "mechanism": "对整段未来动作施加噪声并训练去噪网络；推理从噪声经多步反向扩散采样动作序列。",
+        "sourceUrl": "https://arxiv.org/html/2303.04137",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "滚动执行",
+        "purpose": "兼顾动作一致性与在线反馈",
+        "mechanism": "预测较长动作窗口，只执行其中前若干步，重新获取观察后再次规划，降低逐帧动作抖动。",
+        "sourceUrl": "https://arxiv.org/html/2303.04137",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "离线模仿学习；训练动作去噪策略",
+    "models": "CNN/Transformer去噪器与视觉编码器；不需要LLM",
+    "trainable": "动作去噪网络及相应视觉策略模块",
+    "frozen": "无统一冻结VLM主干设定",
+    "data": "robomimic、Push-T、BlockPush、Kitchen及真实机器人示范",
+    "objective": "随机扩散时刻的去噪/噪声预测损失",
+    "stages": "从示范训练 → 条件反向扩散 → 滚动时域控制"
+  },
+  "evaluation": [
+    {
+      "benchmark": "BlockPush / Kitchen 多阶段状态观察",
+      "setting": "Table 4：状态观察的多阶段任务；p1/p2为BlockPush完成1/2个目标比例，Kitchen p4为4步全完成比例。",
+      "result": "DiffusionPolicy-T在BlockPush p2为0.94（BET 0.71）；DiffusionPolicy-C在Kitchen p4为0.99（BET 0.44）。",
+      "sourceUrl": "https://arxiv.org/html/2303.04137",
+      "locator": "原文 Table 4 ",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 4 : Multi-Stage Tasks (State Observation) . For PushBlock, p x px is the frequency of pushing x x blocks into the targets. For Kitchen, p x px is the frequency of interacting with x x or more objects (e.g. bottom burner). Diffusion Policy performs better, especially for difficult metrics such as p 2 p2 for Block Pushing and p 4 p4 for Kitchen, as demonstrated by our results.",
+        "columns": [
+          "",
+          "p1",
+          "p2",
+          "p1",
+          "p2",
+          "p3",
+          "p4"
+        ],
+        "rows": [
+          [
+            "LSTM-GMM",
+            "0.03",
+            "0.01",
+            "1.00",
+            "0.90",
+            "0.74",
+            "0.34"
+          ],
+          [
+            "IBC",
+            "0.01",
+            "0.00",
+            "0.99",
+            "0.87",
+            "0.61",
+            "0.24"
+          ],
+          [
+            "BET",
+            "0.96",
+            "0.71",
+            "0.99",
+            "0.93",
+            "0.71",
+            "0.44"
+          ],
+          [
+            "DiffusionPolicy-C",
+            "0.36",
+            "0.11",
+            "1.00",
+            "1.00",
+            "1.00",
+            "0.99"
+          ],
+          [
+            "DiffusionPolicy-T",
+            "0.99",
+            "0.94",
+            "1.00",
+            "0.99",
+            "0.99",
+            "0.96"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "离线示范的动作分布和任务条件约束泛化；多步去噪也需考虑部署延迟。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2303.04137",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / DiffusionPolicy",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.15607/RSS.2023.XIX.026",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://github.com/real-stanford/diffusion_policy",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2303.04137",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2303.04137",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p8faea6ac20b12023,\n title={Diffusion Policy: Visuomotor Policy Learning via Action Diffusion},\n author={Chi, Cheng and Xu, Zhenjia and Feng, Siyuan and Cousineau, Eric and Du, Yilun and Burchfiel, Benjamin and Tedrake, Russ and Song, Shuran},\n year={2023},\n url={https://arxiv.org/abs/2303.04137}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**RSS'23**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "Diffusion Policy 从高斯噪声动作序列开始，以视觉或状态观察为条件反复去噪，得到一段未来动作。执行时采用滚动时域控制：生成较长序列，只执行前一段，再利用新观察重新采样。训练时给示范动作注入随机强度的噪声，学习预测噪声/去噪方向，避免单次均值回归把多个可行行为平均成不可行动作。论文同时研究CNN和Transformer去噪器；其动作策略主要由离线人类示范学习，不是推理时直接调用语言模型。",
+  "verificationLevel": "fulltext"
+}

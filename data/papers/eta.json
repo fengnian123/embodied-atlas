@@ -1,0 +1,303 @@
+{
+  "id": "eta",
+  "title": "ETA: A New Agentic Paradigm for Embodied Tasks",
+  "short": "ETA / OpenETA",
+  "aliases": [],
+  "authors": [
+    "Yitong Chen",
+    "Zezheng Huai",
+    "Sixian Li",
+    "Yubang Wang",
+    "Haozhe Zhang",
+    "Yifei Zhang",
+    "Hechang Chen",
+    "Jingjing Gong",
+    "Yu-Gang Jiang",
+    "Xipeng Qiu"
+  ],
+  "institutions": [
+    "Shanghai Innovation Institute",
+    "Fudan University",
+    "Jilin University",
+    "Nanjing University",
+    "Zhejiang University"
+  ],
+  "firstPublished": "2026-08-04",
+  "updated": "2026-08-04",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作",
+      "综合具身智能"
+    ],
+    "task": [
+      "长程操作"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "安全"
+    ],
+    "environment": [],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用 Agent—Interface—World 闭环把每次行动绑定到新观测与可信回执；经验更新必须经过验证闸门，当前实验没有候选通过全部晋升条件。",
+  "method": {
+    "input": "任务、当前观测、带来源的执行回执",
+    "output": "受接口约束的工具调用",
+    "flow": [
+      "Planner与工作记忆：选择下一步并保留任务状态",
+      "Interface合同与义务：约束执行并追踪证据",
+      "World与可信回执：区分执行结果与成功判据",
+      "受约束经验晋升：防止错误经验进入未来执行"
+    ],
+    "assumptions": "必须提供稳定工具合同、可信奖励/任务检查器、观测来源与隔离后端。Codex三工具版使用正交视图/表面射线等几何接口，不等同于纯单RGB端到端策略。",
+    "difference": "原文§6.4明确：没有候选通过全部 promotion gates；不能宣称已经获得稳定自进化性能提升。",
+    "explanation": "ETA把任务层推理、执行授权和物理反馈分成三个角色。Planner每次只决定一个改变世界的工具调用；Interface先检查格式、目标来源和未完成义务，再由World执行。一次动作后必须获得新观测，不能把工具返回成功等同于任务完成。自进化修改的是可审计的文字经验或Skill，须通过隔离审查、同种子重放、留出集收益与安全门，原文没有任何候选完成晋升。",
+    "modules": [
+      {
+        "name": "Planner与工作记忆",
+        "purpose": "选择下一步并保留任务状态",
+        "mechanism": "综合目标、新观测和回执生成tool_call或response；Skill是文字指导，不能暗中执行动作序列。",
+        "input": "任务、当前图像、历史回执、Skill",
+        "output": "一个结构化调用或回复"
+      },
+      {
+        "name": "Interface合同与义务",
+        "purpose": "约束执行并追踪证据",
+        "mechanism": "检验目标确认、抓取候选来源、释放前提；动作后缺新观测则阻断下一次状态相关行动。",
+        "input": "调用、工具注册合同、观测来源",
+        "output": "通过的原子动作或带原因的拒绝"
+      },
+      {
+        "name": "World与可信回执",
+        "purpose": "区分执行结果与成功判据",
+        "mechanism": "模拟器/实机MCP适配返回观测和状态；官方奖励需匹配会话和执行ID，普通工具不能伪造奖励。",
+        "input": "合法运动或夹爪动作",
+        "output": "新观测、工具结果、可信奖励/终止回执"
+      },
+      {
+        "name": "受约束经验晋升",
+        "purpose": "防止错误经验进入未来执行",
+        "mechanism": "从轨迹诊断生成候选，独立上下文审查；先复现成功，再进行相同预算的留出配对评测，检查回归与回滚元数据。",
+        "input": "可信轨迹、基础Skill、冻结任务清单",
+        "output": "晋升版本或可审计拒绝记录"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "Full OpenETA: GPT-5.6 Luna；三工具Codex版比较Luna/Terra/Sol；另封装分割、抓取与运动规划器",
+    "trainable": "无新增任务策略参数训练；Skill候选是非参数更新",
+    "frozen": "Planner及现成感知/控制工具按原有权重使用",
+    "data": "LIBERO评测轨迹与经验候选；正式基线为只读模式",
+    "objective": "不适用：本工作主要评测运行时工具闭环",
+    "stages": "现成模型→工具执行→可信验证；经验更新另做配对验证"
+  },
+  "evaluation": [
+    {
+      "benchmark": "LIBERO · Full OpenETA",
+      "setting": "v1；40任务×10种子=400 episodes；Luna medium；只读、无在线经验更新；含3个基础设施污染单元。",
+      "result": "Overall 56/400=14.0%；这是固定矩阵episode成功率，不可与Codex三工具版Pass@5互换。",
+      "locator": "§5.2.1 表2",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.2.1 表2",
+        "columns": [
+          "Suite",
+          "成功/总数",
+          "成功率"
+        ],
+        "rows": [
+          [
+            "Spatial",
+            "8/100",
+            "8.0%"
+          ],
+          [
+            "Object",
+            "26/100",
+            "26.0%"
+          ],
+          [
+            "Goal",
+            "21/100",
+            "21.0%"
+          ],
+          [
+            "Long/LIBERO-10",
+            "1/100",
+            "1.0%"
+          ],
+          [
+            "Overall",
+            "56/400",
+            "14.0%"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2608.03924v1",
+        "locator": "§5.2.1 表2"
+      }
+    },
+    {
+      "benchmark": "LIBERO · Codex三工具版",
+      "setting": "v1；130任务；每任务最多5次尝试；Planner medium；observe/mark_point/move_to，无VLA或任务特定策略工具。",
+      "result": "Sol首次种子92/130，Pass@5为117/130；数值是任务级至少一次成功。",
+      "locator": "§5.2.2；附录B.2 表7",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.2.2；附录B.2 表7",
+        "columns": [
+          "Planner",
+          "Pass@1任务数",
+          "Pass@5任务数"
+        ],
+        "rows": [
+          [
+            "Luna",
+            "21/130",
+            "62/130"
+          ],
+          [
+            "Terra",
+            "58/130",
+            "83/130"
+          ],
+          [
+            "Sol",
+            "92/130",
+            "117/130"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2608.03924v1",
+        "locator": "§5.2.2；附录B.2 表7"
+      }
+    },
+    {
+      "benchmark": "受约束自进化",
+      "setting": "LIBERO Spatial，3任务×10留出种子，双臂相同预算；历史清单未冻结主Planner身份。",
+      "result": "Exact-task playbook从4/30降至1/30；所有候选均未通过完整promotion gates。",
+      "locator": "§6.4 表6；附录E",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§6.4 表6；附录E",
+        "columns": [
+          "候选类型",
+          "基线成功",
+          "候选成功",
+          "结论"
+        ],
+        "rows": [
+          [
+            "Task-local Skill",
+            "0/30",
+            "0/30",
+            "未晋升"
+          ],
+          [
+            "Exact-task playbook",
+            "4/30",
+            "1/30",
+            "未晋升"
+          ],
+          [
+            "Stage-local v1",
+            "0/3",
+            "0/3",
+            "重放失败，未评留出集"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2608.03924v1",
+        "locator": "§6.4 表6；附录E"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "频繁Planner调用增加时延；固定矩阵中超时是主要失败原因。",
+      "自进化实验没有候选通过完整晋升，文字经验的有效性尚未得到证实。",
+      "实机为接口集成及少量定性演示；没有通过正式分母与安全审计的实机成功率。"
+    ],
+    "analysis": [
+      "原文§6.4明确：没有候选通过全部 promotion gates；不能宣称已经获得稳定自进化性能提升。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2608.03924",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/OpenMOSS/OpenETA",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://openmoss.ai/OpenETA/",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.03924",
+      "label": "arXiv 原论文元数据与摘要",
+      "locator": "版本历史、方法与评测概述",
+      "supports": [
+        "身份",
+        "日期",
+        "方法",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2608.03924v1",
+      "label": "原论文全文",
+      "locator": "§6.3–6.4；表6；实机证据附录",
+      "supports": [
+        "自进化",
+        "局限",
+        "实验协议"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2608.03924v1",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§3–6；表2/6；附录B/E/G",
+      "supports": [
+        "方法模块",
+        "模型配置",
+        "固定矩阵与Pass@k区别",
+        "自进化负面结果",
+        "实机证据边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{eta2026,\n  title = {ETA: A New Agentic Paradigm for Embodied Tasks},\n  author = {Yitong Chen and Zezheng Huai and Sixian Li and Yubang Wang and Haozhe Zhang and Yifei Zhang and Hechang Chen and Jingjing Gong and Yu-Gang Jiang and Xipeng Qiu},\n  year = {2026},\n  eprint = {2608.03924},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2608.03924}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "用 Agent—Interface—World 闭环把每次行动绑定到新观测与可信回执；经验更新必须经过验证闸门，当前实验没有候选通过全部晋升条件。 该工作关注系统如何组织观测、推理与行动，阅读时要把运行时机制、底层策略的训练来源和最终任务证据分开。与单一模型的离线准确率相比，更应检查反馈接口、实验预算和失败时的行为。",
+  "citationNote": "由已核实完整作者、标题及arXiv元数据生成预印本格式。",
+  "verificationLevel": "fulltext"
+}

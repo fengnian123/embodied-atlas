@@ -1,0 +1,216 @@
+{
+  "id": "p-bfcf1fb0dc66",
+  "title": "Feeding, grooming, dressing, and body repositioning: categorizing four pillars of learning-based manipulation for robotic caregiving",
+  "short": "Robotic-Caregiving",
+  "aliases": [
+    "Robotic-Caregiving"
+  ],
+  "authors": [
+    "Wenkai Chen",
+    "Shifeng Huang",
+    "Hui Zhang",
+    "Yuyang Tu",
+    "Yao Lu",
+    "Qingdu Li",
+    "Jianwei Zhang"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-03-03",
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "Artificial Intelligence Review",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "具身医疗",
+      "操作"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "按喂食、梳洗、穿衣与体位重定位四类照护操作，比较多模态感知、模仿学习、强化学习和具身推理，归纳接触安全、个性化和仿真评测问题。",
+  "method": {
+    "input": "任务和学习方法组合关键词",
+    "output": "感知—推理—控制框架及研究议程",
+    "flow": [
+      "结构化文献检索",
+      "任务×学习范式交叉分类",
+      "仿真、约束与部署分析"
+    ],
+    "explanation": "该综述以任务需求组织护理操作学习，而不是提出可直接部署的单一护理模型。作者对2010–2025年文献做结构化检索，纳入有仿真或实机实验验证的辅助机器人研究，排除无实证概念文章和非辅助任务。四类护理任务分别是进食、穿衣、梳洗、身体重定位；再交叉比较多模态感知、模仿学习、强化学习与具身推理如何解决接触、变形材料、身体差异和用户意图。文章另整理仿真平台，并提出感知—推理—控制概念框架，讨论力/接触约束、可中断执行、人体模型、长期个体化与真实用户验证，不能把综述中的被引工作数值当作作者新策略成绩。",
+    "modules": [
+      {
+        "name": "结构化文献检索",
+        "purpose": "限定已出现可验证进展的护理操作",
+        "mechanism": "检索2010–2025年IEEE/ACM/Springer/Elsevier/MDPI/arXiv，要求仿真或实机实验。",
+        "input": "任务和学习方法组合关键词",
+        "output": "有实证护理操作文献"
+      },
+      {
+        "name": "任务×学习范式交叉分类",
+        "purpose": "说明同一种算法在不同接触条件下的适用性",
+        "mechanism": "以进食/穿衣/梳洗/重定位四任务，对照多模态感知、IL、RL、具身推理四类学习路线。",
+        "input": "文献的方法、输入和身体接触形式",
+        "output": "按任务的能力及不足"
+      },
+      {
+        "name": "仿真、约束与部署分析",
+        "purpose": "连接实验室性能与人身辅助需求",
+        "mechanism": "汇总仿真环境，讨论约束意识学习、人体差异、舒适度、可解释/可中断执行与长时评测。",
+        "input": "实验与部署案例",
+        "output": "感知—推理—控制框架及研究议程"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "综述覆盖和组织结构",
+      "setting": "Sec.1/2/3/4/5；不提供新模型的统一量化实验",
+      "result": "四类任务与四类学习范式交叉组织；任务成功、接触力、舒适等指标因研究而异。",
+      "locator": "Sec.1–5；Fig.2；Fig.9",
+      "sourceUrl": "https://link.springer.com/article/10.1007/s10462-026-11524-7",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "维度",
+          "原文范围"
+        ],
+        "rows": [
+          [
+            "检索年份",
+            "2010–2025"
+          ],
+          [
+            "护理操作",
+            "Feeding / Dressing / Grooming / Body repositioning"
+          ],
+          [
+            "学习路线",
+            "Multimodal perception / Imitation learning / Reinforcement learning / Embodied reasoning"
+          ],
+          [
+            "平台范围",
+            "主要机械臂；身体重定位另含外骨骼和人形机器人"
+          ],
+          [
+            "新统一性能数字",
+            "不适用，本文为综述"
+          ]
+        ],
+        "locator": "Sec.1–5；Fig.2；Fig.9"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "多项被综述工作仍在仿真或受控实验室中评估，真实人群差异、无结构居家、长期可靠性未充分刻画。",
+      "缺少统一失败、舒适度和长期一致性指标；如厕等隐私/卫生约束强的任务不在四类主体范围内。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1007/s10462-026-11524-7",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surveys and Scope / Robotic-Caregiving",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1007/s10462-026-11524-7",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Rehabilitation and Physical Assistance / Robotic-Caregiving",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1007/s10462-026-11524-7",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://link.springer.com/article/10.1007/s10462-026-11524-7",
+      "locator": "Sec.1–5；Fig.2；Fig.9",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Artificial Intelligence Review'26**",
+      "section": "Surveys and Scope"
+    },
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Artificial Intelligence Review'26**",
+      "section": "Rehabilitation and Physical Assistance"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "按喂食、梳洗、穿衣与体位重定位四类照护操作，比较多模态感知、模仿学习、强化学习和具身推理，归纳接触安全、个性化和仿真评测问题。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

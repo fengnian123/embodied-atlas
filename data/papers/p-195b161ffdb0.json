@@ -1,0 +1,249 @@
+{
+  "id": "p-195b161ffdb0",
+  "title": "Move to Understand a 3D Scene: Bridging Visual Grounding and Exploration for Efficient and Versatile Embodied Navigation",
+  "short": "Move to Understand a 3D Scene",
+  "aliases": [
+    "MTU3D"
+  ],
+  "authors": [
+    "Ziyu Zhu",
+    "Xilin Wang",
+    "Yixuan Li",
+    "Zhuofan Zhang",
+    "Xiaojian Ma",
+    "Yixin Chen",
+    "Baoxiong Jia",
+    "Wei Liang",
+    "Qian Yu",
+    "Zhidong Deng",
+    "Siyuan Huang",
+    "Qing Li"
+  ],
+  "institutions": [
+    "Tsinghua University",
+    "Beijing Institute of Technology",
+    "Beihang University",
+    "BIGAI"
+  ],
+  "firstPublished": "2025-07-05",
+  "updated": "2025-07-30",
+  "publicationYear": 2025,
+  "venue": "ICCV",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav",
+      "EQA",
+      "多目标导航"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "MTU3D 将视觉接地与探索放在同一候选决策空间：能确认目标时选择物体 query，否则选择 frontier query。",
+  "method": {
+    "input": "posed RGB-D 与局部视觉特征",
+    "output": "目标实例或下一探索位置",
+    "explanation": "MTU3D 将视觉接地与探索放在同一候选决策空间：能确认目标时选择物体 query，否则选择 frontier query。在线 3D 空间记忆融合跨帧实例，联合训练感知和决策，避免接地与寻路彼此割裂。",
+    "flow": [
+      "在线 3D query",
+      "统一物体与前沿候选",
+      "接地或探索"
+    ],
+    "modules": [
+      {
+        "name": "在线 3D query",
+        "purpose": "本模块解决：在线 3D query",
+        "input": "posed RGB-D 与局部视觉特征",
+        "mechanism": "解码实例 3D 框、mask、开放词汇和置信度；按框 IoU 将局部 query 与全局记忆匹配并动量融合。",
+        "output": "长期物体 query",
+        "sourceUrl": "https://arxiv.org/html/2507.04047v2",
+        "locator": "方法章节"
+      },
+      {
+        "name": "统一物体与前沿候选",
+        "purpose": "本模块解决：统一物体与前沿候选",
+        "input": "物体 query、占据图和目标",
+        "mechanism": "从已知/未知边界生成前沿 query，与物体一起输入空间推理 Transformer，通过 type embedding 区分候选。",
+        "output": "统一的候选决策分数",
+        "sourceUrl": "https://arxiv.org/html/2507.04047v2",
+        "locator": "方法章节"
+      },
+      {
+        "name": "接地或探索",
+        "purpose": "本模块解决：接地或探索",
+        "input": "全部候选分数",
+        "mechanism": "选物体表示确认目标并导航；选前沿则探索后更新记忆，使 grounding 与 exploration 在同一模型中切换。",
+        "output": "目标实例或下一探索位置",
+        "sourceUrl": "https://arxiv.org/html/2507.04047v2",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "MTU3D 将视觉接地与探索放在同一候选决策空间：能确认目标时选择物体 query，否则选择 frontier query。在线 3D 空间记忆融合跨帧实例，联合训练感知和决策，避免接地与寻路彼此割裂。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "从已知/未知边界生成前沿 query，与物体一起输入空间推理 Transformer，通过 type embedding 区分候选。",
+    "trainable": "第一阶段用 RGB-D 轨迹训练实例感知（框、mask、词汇、score 损失）；第二阶段在百万级轨迹上联合训练 grounding/exploration，以二元交叉熵监督候选分数。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "第一阶段用 RGB-D 轨迹训练实例感知（框、mask、词汇、score 损失）；第二阶段在百万级轨迹上联合训练 grounding/exploration，以二元交叉熵监督候选分数。",
+    "objective": "第一阶段用 RGB-D 轨迹训练实例感知（框、mask、词汇、score 损失）；第二阶段在百万级轨迹上联合训练 grounding/exploration，以二元交叉熵监督候选分数。",
+    "stages": "第一阶段用 RGB-D 轨迹训练实例感知（框、mask、词汇、score 损失）；第二阶段在百万级轨迹上联合训练 grounding/exploration，以二元交叉熵监督候选分数。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "GOAT-Bench / HM3D-OVON",
+      "setting": "HM3D-OVON三个独立split；GOAT多模态终身导航单独一行，不合并计算平均。HM3D-OVON原表第二组标题分两行，已按rowspan/colspan核对为Val Seen Synonyms。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 3 / Table 5",
+      "sourceUrl": "https://arxiv.org/html/2507.04047v2",
+      "table": {
+        "columns": [
+          "方法",
+          "数据划分",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "MTU3D",
+            "HM3D-OVON Val Seen",
+            55.0,
+            23.6
+          ],
+          [
+            "MTU3D",
+            "HM3D-OVON Val Seen Synonyms",
+            45.0,
+            14.7
+          ],
+          [
+            "MTU3D",
+            "HM3D-OVON Val Unseen",
+            40.8,
+            12.1
+          ],
+          [
+            "MTU3D",
+            "GOAT-Bench Val Unseen",
+            47.2,
+            27.7
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2507.04047v2",
+        "locator": "Table 3 / Table 5",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2507.04047",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/MTU3D/MTU3D",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://mtu3d.github.io",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / Move to Understand a 3D Scene: Bridging Visual Grounding and Exploration for Efficient and Versatile Embodied Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / MTU3D",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2507.04047",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2507.04047v2",
+      "locator": "方法章节；Table 3 / Table 5",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p195b161ffdb0,\n  title={Move to Understand a 3D Scene: Bridging Visual Grounding and Exploration for Efficient and Versatile Embodied Navigation},\n  author={Ziyu Zhu and Xilin Wang and Yixuan Li and Zhuofan Zhang and Xiaojian Ma and Yixin Chen and Baoxiong Jia and Wei Liang and Qian Yu and Zhidong Deng and Siyuan Huang and Qing Li},\n  year={2025},\n  eprint={2507.04047},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2507.04047}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "HM3D-OVON、SG3D-Nav、GOAT-Bench、A-EQA",
+      "comparisons": "HM3D-OVON：BC、DAgger、RL、BCRL、DAgRL、VLFM、Uni-NaVid、TANGO、DAgRL+OD；                                                                     SG3D-Nav：Embodied Video Agent、SenseAct-NN Monolithic               GOAT-Bench：Modular GOAT、Modular CoW、SenseAct-NN Skill Chain、SenseAct-NN Monolithic、TANGO                                                               A-EQA：Blind LLMs、LLM with captions、VLMs    ",
+      "training": "训练型。VLE pre-training使用百万级trajectory，之后还有task-specific navigation fine-tuning。",
+      "resourceClaim": "是"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "MTU3D 将视觉接地与探索放在同一候选决策空间：能确认目标时选择物体 query，否则选择 frontier query。在线 3D 空间记忆融合跨帧实例，联合训练感知和决策，避免接地与寻路彼此割裂。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

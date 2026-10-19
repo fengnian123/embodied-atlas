@@ -1,0 +1,218 @@
+{
+  "id": "p-655ea3c2a4f6",
+  "title": "Adaptive Ergodic Search with Energy-Aware Scheduling for Persistent Multi-Robot Missions",
+  "short": "mEclares",
+  "aliases": [
+    "Adaptive ergodic search with energy-aware scheduling for persistent multi-robot missions",
+    "Adaptive ergodic search with energy-aware scheduling for per"
+  ],
+  "authors": [
+    "Naveed, Kaleb Ben",
+    "Agrawal, Devansh R.",
+    "Kumar, Rahul",
+    "Panagou, Dimitra"
+  ],
+  "institutions": [
+    "University of Michigan"
+  ],
+  "firstPublished": "2025-05-16",
+  "updated": "2025-05-16",
+  "publicationYear": 2025,
+  "venue": "Autonomous Robots",
+  "publicationStatus": "正式发表：Autonomous Robots 49, 27 (2025)，2025-09-24",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "主动感知",
+      "长程任务"
+    ],
+    "paradigm": [],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "联合时变信息清晰度驱动的遍历搜索与共享移动充电调度，支持多机器人持续监测。",
+  "method": {
+    "explanation": "mEclares 用clarity表示环境信息的已知程度，未观察时信息会因随机时空变化而衰减。由clarity构建目标信息空间分布，让多机器人轨迹把更多时间分给更不确定的区域；RmeSch同时安排到共享移动充电站的返回与充电，保留不确定着陆和中央节点故障时的安全后备路线。方法是模型式信息规划与能量调度，不是VLM问答或目标物迁移预测；理论可行性依赖原文动力学和能量假设。",
+    "input": "动态场估计、机器人状态/电量、充电站状态",
+    "output": "多机感知轨迹与鲁棒充电安排",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "联合时变信息清晰度驱动的遍历搜索与共享移动充电调度，支持多机器人持续监测。",
+    "flow": [
+      "Clarity与TISD",
+      "多机遍历轨迹",
+      "RmeSch鲁棒充电调度"
+    ],
+    "modules": [
+      {
+        "name": "Clarity与TISD",
+        "purpose": "使信息过时能够触发重访",
+        "mechanism": "用估计不确定性定义有界clarity并建模无观测衰减，生成随时间和观测变化的目标信息分布。",
+        "sourceUrl": "https://arxiv.org/html/2505.11663",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "多机遍历轨迹",
+        "purpose": "按信息分布持续分配感知",
+        "mechanism": "优化轨迹的时间平均访问分布与TISD一致，同时考虑控制代价和多机间距。",
+        "sourceUrl": "https://arxiv.org/html/2505.11663",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "RmeSch鲁棒充电调度",
+        "purpose": "在共享移动充电资源下保证续航",
+        "mechanism": "结合gap-aware和energy-aware检查构建候选/返回轨迹，预留不确定着陆能量，并提供中央节点故障后备机动。",
+        "sourceUrl": "https://arxiv.org/html/2505.11663",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "模型式优化与调度；不涉及VLM训练",
+    "models": "clarity信息估计、ergodic trajectory optimizer、RmeSch调度",
+    "trainable": "在线状态估计和轨迹优化；无学习型VLA参数",
+    "frozen": "不适用",
+    "data": "随机时空仿真与多无人机/移动地面充电硬件实验",
+    "objective": "遍历度量、能量/充电互斥约束",
+    "stages": "clarity更新 → TISD → 搜索轨迹 → 能量调度/故障后备"
+  },
+  "evaluation": [
+    {
+      "benchmark": "mEclares 充电约束比较",
+      "setting": "arXiv v1 Table2，比较充电访问及违反次数；出版版已正式发表于Autonomous Robots 2025。",
+      "result": "RmeSch总充电8次、gap违规0、最小能量违规0；仅gware变体4次充电/能量违规4；meSch无中央故障处理。",
+      "sourceUrl": "https://arxiv.org/html/2505.11663",
+      "locator": "arXiv v1 Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "方法",
+          "充电访问数",
+          "Gap违反",
+          "最低能量违反",
+          "中央节点故障支持"
+        ],
+        "rows": [
+          [
+            "meSch only gware",
+            "4",
+            "0",
+            "4",
+            "否"
+          ],
+          [
+            "meSch",
+            "8",
+            "0",
+            "0",
+            "否"
+          ],
+          [
+            "RmeSch",
+            "8",
+            "0",
+            "0",
+            "是"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "环境监测场是连续随机过程，不等于只追踪少数离散移动目标；充电可行性保证依赖动力学/不确定性等假设。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2505.11663",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "code": {
+      "url": "https://github.com/kalebbennaveed/mEclares-main",
+      "status": "已核实入口",
+      "note": "原文提供的官方链接；开放内容与许可未逐项验证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Adaptive ergodic search with energy-aware scheduling for persistent multi-robot missions",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2505.11663",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2505.11663",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "Springer正式出版页",
+      "url": "https://link.springer.com/article/10.1007/s10514-025-10215-6",
+      "supports": [
+        "正式发表",
+        "出版日期",
+        "方法与实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p655ea3c2a4f62025,\n title={Adaptive Ergodic Search with Energy-Aware Scheduling for Persistent Multi-Robot Missions},\n author={Naveed, Kaleb Ben and Agrawal, Devansh R. and Kumar, Rahul and Panagou, Dimitra},\n year={2025},\n url={https://arxiv.org/abs/2505.11663}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "历史：更新各区域的Clarity（信息确定程度），未观测时随过程噪声衰减。\n去哪：按信息缺口生成巡查轨迹。\n何时：在线安排返航充电；轨迹重规划周期由用户设定。",
+      "evaluation": "5类合成信息衰减场；多四旋翼仿真＋室内FlyLab四旋翼/移动充电车实验。评测信息缺口与能源调度。",
+      "training": "否。状态估计、遍历搜索和能源约束调度，不使用VLM。",
+      "analysis": "用历史更新不确定性，但环境动态模型仍有假设；不是学习设备故障演化。未输出每台设备的独立复查时间，未做人形实验。"
+    }
+  ],
+  "overview": "mEclares 用clarity表示环境信息的已知程度，未观察时信息会因随机时空变化而衰减。由clarity构建目标信息空间分布，让多机器人轨迹把更多时间分给更不确定的区域；RmeSch同时安排到共享移动充电站的返回与充电，保留不确定着陆和中央节点故障时的安全后备路线。方法是模型式信息规划与能量调度，不是VLM问答或目标物迁移预测；理论可行性依赖原文动力学和能量假设。",
+  "verificationLevel": "fulltext"
+}

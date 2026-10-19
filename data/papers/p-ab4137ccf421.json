@@ -1,0 +1,234 @@
+{
+  "id": "p-ab4137ccf421",
+  "title": "D3D-VLP: Dynamic 3D Vision-Language-Planning Model for Embodied Grounding and Navigation",
+  "short": "D3D-VLP",
+  "aliases": [],
+  "authors": [
+    "Zihan Wang",
+    "Seungjun Lee",
+    "Guangzhao Dai",
+    "Gim Hee Lee"
+  ],
+  "institutions": [
+    "National University of Singapore",
+    "Nanjing University of Science and Technology"
+  ],
+  "firstPublished": "2025-12-14",
+  "updated": "2025-12-14",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN",
+      "ObjectNav",
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "D3D-VLP 把规划、3D grounding 和下一航点选择写入同一条 3D CoT。",
+  "method": {
+    "input": "流式 posed RGB-D",
+    "output": "联合规划、接地和导航模型",
+    "explanation": "D3D-VLP 把规划、3D grounding 和下一航点选择写入同一条 3D CoT。在线多层 3D 记忆保存局部点、物体和区域表征，历史推理记忆支持反馈重规划；碎片监督让不同标注完整度的数据共同训练。",
+    "flow": [
+      "多层 3D 感知",
+      "动态 3D CoT",
+      "碎片监督协同"
+    ],
+    "modules": [
+      {
+        "name": "多层 3D 感知",
+        "purpose": "本模块解决：多层 3D 感知",
+        "input": "流式 posed RGB-D",
+        "mechanism": "Dynam3D 将 2D 特征投影到 3D，聚成实例/区域 token，并渲染局部全景 patch token；预测可达候选航点。",
+        "output": "结构化 3D token 与候选航点",
+        "sourceUrl": "https://arxiv.org/html/2512.12622v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "动态 3D CoT",
+        "purpose": "本模块解决：动态 3D CoT",
+        "input": "指令、3D 记忆和历史 CoT",
+        "mechanism": "3D-VLM 自回归生成规划文字、接地 token、下一航点与回答，将新推理写回 CoT 记忆。",
+        "output": "可解释决策与更新的推理历史",
+        "sourceUrl": "https://arxiv.org/html/2512.12622v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "碎片监督协同",
+        "purpose": "本模块解决：碎片监督协同",
+        "input": "完整或部分标注的 3D CoT 样本",
+        "mechanism": "联合利用 planning/grounding/navigation 不同组合的标注，避免只用昂贵的完整三项金标。",
+        "output": "联合规划、接地和导航模型",
+        "sourceUrl": "https://arxiv.org/html/2512.12622v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "D3D-VLP 把规划、3D grounding 和下一航点选择写入同一条 3D CoT。在线多层 3D 记忆保存局部点、物体和区域表征，历史推理记忆支持反馈重规划；碎片监督让不同标注完整度的数据共同训练。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "3D-VLM 自回归生成规划文字、接地 token、下一航点与回答，将新推理写回 CoT 记忆。",
+    "trainable": "监督训练统一 3D-VLM。Table 1 报告约 175K 全标注金标和约 9.9M 部分标注样本；这两种统计口径分开，不声称 9.9M 都有完整 CoT。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "监督训练统一 3D-VLM。Table 1 报告约 175K 全标注金标和约 9.9M 部分标注样本；这两种统计口径分开，不声称 9.9M 都有完整 CoT。",
+    "objective": "监督训练统一 3D-VLM。Table 1 报告约 175K 全标注金标和约 9.9M 部分标注样本；这两种统计口径分开，不声称 9.9M 都有完整 CoT。",
+    "stages": "监督训练统一 3D-VLM。Table 1 报告约 175K 全标注金标和约 9.9M 部分标注样本；这两种统计口径分开，不声称 9.9M 都有完整 CoT。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "四项单目导航基准",
+      "setting": "Table 2，单目；跨任务协议独立，不综合排名",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 2",
+      "sourceUrl": "https://arxiv.org/html/2512.12622v1",
+      "table": {
+        "columns": [
+          "方法",
+          "基准",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "D3D-VLP",
+            "R2R-CE",
+            61.3,
+            56.1
+          ],
+          [
+            "D3D-VLP",
+            "REVERIE-CE",
+            47.5,
+            34.7
+          ],
+          [
+            "D3D-VLP",
+            "NavRAG-CE",
+            31.1,
+            23.9
+          ],
+          [
+            "D3D-VLP",
+            "HM3D-OVON",
+            47.3,
+            30.4
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.12622v1",
+        "locator": "Table 2",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2512.12622",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/MrZihan/D3D-VLP",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / D3D-VLP: Dynamic 3D Vision-Language-Planning Model for Embodied Grounding and Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2512.12622",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2512.12622v1",
+      "locator": "方法章节；Table 2",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式发表页面",
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wang_D3D-VLP_Dynamic_3D_Vision-Language-Planning_Model_for_Embodied_Grounding_and_Navigation_CVPR_2026_paper.html",
+      "locator": "会议论文集",
+      "supports": [
+        "正式发表年份",
+        "会议",
+        "版本对应"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pab4137ccf421,\n  title={D3D-VLP: Dynamic 3D Vision-Language-Planning Model for Embodied Grounding and Navigation},\n  author={Zihan Wang and Seungjun Lee and Guangzhao Dai and Gim Hee Lee},\n  year={2025},\n  eprint={2512.12622},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2512.12622}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "R2R-CE、REVERIE-CE、NavRAG-CE、HM3D-OVON、SG3D",
+      "comparisons": "CM2、WS-MGMap、InstructNav、CA-Nav、AO-Planner、DreamNav、VLFM、DAgRL+OD、MTU3D、VLN-3DFF、g3D-LF、NaVid、MapNav、Uni-NaVid、NaVILA、Aux-Think、Dynam3D、MonoDream、StreamVLN、NavFoM、InternVLA-N1、VideoAgent、SenseAct-NN、Dynam3D-VisTA",
+      "training": "训练型3D-VLM。构建约1000万hybrid samples，来自5K真实scan+20K合成场景进行训练。",
+      "resourceClaim": "否"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "D3D-VLP 把规划、3D grounding 和下一航点选择写入同一条 3D CoT。在线多层 3D 记忆保存局部点、物体和区域表征，历史推理记忆支持反馈重规划；碎片监督让不同标注完整度的数据共同训练。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

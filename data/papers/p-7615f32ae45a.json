@@ -1,0 +1,249 @@
+{
+  "id": "p-7615f32ae45a",
+  "title": "3D VSG: Long-term Semantic Scene Change Prediction through 3D Variable Scene Graphs",
+  "short": "3D VSG / DeltaVSG",
+  "aliases": [],
+  "authors": [
+    "Samuel Looper",
+    "Javier Rodriguez-Puigvert",
+    "Roland Siegwart",
+    "Cesar Cadena",
+    "Lukas Schmid"
+  ],
+  "institutions": [
+    "ETH Zürich",
+    "Universidad de Zaragoza",
+    "MIT"
+  ],
+  "firstPublished": "2022-09-16",
+  "updated": "2023-02-28",
+  "publicationYear": 2023,
+  "venue": "ICRA",
+  "publicationStatus": "已发表",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "场景理解",
+      "巡检"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "规划",
+      "空间理解"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "仿真"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "在当前3D场景图上预测物体位置、状态和实例变化概率，用变化先验引导机器人主动复查。",
+  "method": {
+    "input": "当前3D语义场景图，含物体类别、属性、位置和关系",
+    "output": "各物体位置/语义状态/实例变化概率组成的VSG",
+    "assumptions": "当前图近似Markov输入；无显式时间间隔，长期变化通过重复扫描监督。",
+    "difference": "从描述当前场景扩展为对节点可变性的预测；不等于未来坐标或完整动态轨迹预测。",
+    "explanation": "节点把物体语义与属性嵌入，使用PCA压缩稀疏表示；边结合物体关系与相对3D位移，仅连接一定距离内的物体。两层消息传递卷积综合局部上下文，输出三种变化属性。训练时将同一环境的重复扫描配对，依据匹配实例和属性获得标签；对类别不平衡使用加权focal loss和采样。主动检测示例按预测变化概率优先选检查目标，再求访问路线，而非盲目覆盖全部物体。",
+    "flow": [
+      "图嵌入",
+      "DeltaVSG",
+      "重复扫描监督",
+      "VSG规划"
+    ],
+    "modules": [
+      {
+        "name": "图嵌入",
+        "purpose": "编码局部语义与几何",
+        "mechanism": "节点压缩类别/属性，边拼接语义关系和相对位移",
+        "input": "3D语义图",
+        "output": "节点和边向量"
+      },
+      {
+        "name": "DeltaVSG",
+        "purpose": "学习物体可变性",
+        "mechanism": "两层消息传递、ReLU和dropout输出三属性",
+        "input": "图向量",
+        "output": "位置/状态/实例概率"
+      },
+      {
+        "name": "重复扫描监督",
+        "purpose": "无需标注连续运动",
+        "mechanism": "当前未来实例匹配；同场景构造双向无序扫描对",
+        "input": "3RScan/3DSSG重复场景",
+        "output": "监督变化标签"
+      },
+      {
+        "name": "VSG规划",
+        "purpose": "优先发现变化",
+        "mechanism": "预测优先检查物体，结合TSP构造访问路径",
+        "input": "VSG与检查预算",
+        "output": "巡检顺序"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督训练图网络",
+    "models": "DeltaVSG两层消息传递GNN",
+    "trainable": "图网络与预测头",
+    "frozen": "不使用/训练VLM",
+    "data": "3RScan/3DSSG：1482扫描、478环境；增强后3650训练样本",
+    "objective": "类加权focal loss(γ=0.5)；重要性采样",
+    "stages": "重复场景匹配→样本增强→三类可变性学习"
+  },
+  "evaluation": [
+    {
+      "benchmark": "3RScan / 3DSSG",
+      "setting": "arXiv v2；三种可变性分别评估，数值为%。测试分项不可与摘要整体准确率77.1%混同。",
+      "result": "DeltaVSG状态/位置/实例F1为48.9/66.6/30.1；3DSSG的位置F1更高，本文并非每列最优。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/abs/2209.07896",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table I",
+        "columns": [
+          "模型",
+          "状态Acc/F1",
+          "位置Acc/F1",
+          "实例Acc/F1"
+        ],
+        "rows": [
+          [
+            "MLP",
+            "38.9 / 42.0",
+            "83.3 / 60.0",
+            "55.3 / 26.5"
+          ],
+          [
+            "3DSSG",
+            "61.5 / 34.2",
+            "88.7 / 68.7",
+            "63.1 / 31.6"
+          ],
+          [
+            "DeltaVSG",
+            "62.9 / 48.9",
+            "88.1 / 66.6",
+            "68.5 / 30.1"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2209.07896",
+        "locator": "Table I"
+      }
+    },
+    {
+      "benchmark": "主动变化检测示例",
+      "setting": "§V-E / Fig4：规划示例基于重复扫描变化，用路线长度/检测效率衡量，非标准ObjectNav SR。",
+      "result": "68.7%情况找到更短路径，作者报告平均加速66.0%。",
+      "locator": "§V-E / Fig.4",
+      "sourceUrl": "https://arxiv.org/abs/2209.07896",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§V-E / Fig.4",
+        "columns": [
+          "指标",
+          "作者报告"
+        ],
+        "rows": [
+          [
+            "找到更短路径的场合比例",
+            "68.7%"
+          ],
+          [
+            "变化检测平均加速",
+            "66.0%"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2209.07896",
+        "locator": "§V-E / Fig.4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "可行未来有多个，而数据只观测一种实现；假阳性多，状态和实例变化样本较少。"
+    ],
+    "analysis": [
+      "未显式建模观察间隔及目标未来落点；需要已有语义场景图及实例对应质量。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2209.07896",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/ethz-asl/3d_vsg",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / 3D VSG: Long-term Semantic Scene Change Prediction through 3D Variable Scene Graphs",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2209.07896",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/ethz-asl/3d_vsg",
+      "label": "官方仓库与引用",
+      "locator": "ICRA2023；10.1109/ICRA48891.2023.10161212",
+      "supports": [
+        "发表信息",
+        "代码"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p7615f32ae45a2022,\n  title = {3D VSG: Long-term Semantic Scene Change Prediction through 3D Variable Scene Graphs},\n  author = {Samuel Looper and Javier Rodriguez-Puigvert and Roland Siegwart and Cesar Cadena and Lukas Schmid},\n  year = {2022},\n  url = {https://arxiv.org/abs/2209.07896}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "模型与源数据许可证未逐项核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "历史数据用于训练：重复扫描产生变化标签。\n推理：DeltaVSG图神经网络从当前场景图预测物体变化概率。\n去哪：把预测用于主动变化检测规划；未自主选择复查间隔。",
+      "evaluation": "3RScan＋3DSSG的重复室内3D扫描；变化概率预测和主动变化检测规划评测。",
+      "training": "否。训练图神经网络，不使用VLM。",
+      "analysis": "推理只输入当前图，非在线读取完整巡检历史；没有决定下一次检查日期，也未预测设备从正常到异常的恶化速度。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "长期部署时，椅子可能移动、显示器可能开关，场景图不应被当成永久真值。3D VSG 把这三类不确定性写成物体节点的变化概率；DeltaVSG 学习当前物体语义、状态、邻近几何与关系怎样影响可变性。模型预测“是否容易改变”，不是确定物体在某个未来时刻会移到哪里。它为巡检规划提供优先级，是长期变化建模的早期路线。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

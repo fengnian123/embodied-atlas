@@ -1,0 +1,215 @@
+{
+  "id": "p-d7e5fccd7811",
+  "title": "Embodied large language models enable robots to complete complex tasks in unpredictable environments",
+  "short": "ELLMER",
+  "aliases": [
+    "ELLMER"
+  ],
+  "authors": [
+    "Ruaridh Mon-Williams",
+    "Gen Li",
+    "Ran Long",
+    "Wenqian Du",
+    "Christopher G. Lucas"
+  ],
+  "institutions": [
+    "University of Edinburgh",
+    "Massachusetts Institute of Technology",
+    "Princeton University",
+    "Alan Turing Institute"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2025,
+  "venue": "Nature Machine Intelligence",
+  "publicationStatus": "正式发表；出版社/会议原始记录已核验",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "LLM",
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用RAG检索可执行运动例程，结合力与视觉反馈完成咖啡制作和绘画等长程操作。",
+  "method": {
+    "explanation": "ELLMER 将人工整理的低/高层运动示例作为知识库，GPT-4依据用户任务检索相关例程并生成机器人执行代码。Grounded-SAM从图像获取物体并恢复三维位姿，力/扭矩反馈支持放置、开抽屉、倾倒和绘画中的在线修正。实机演示用Kinova Gen3；量化RAG结果是80条合成任务查询的计划faithfulness，不是80次真实机器人完整任务成功率，需明确标注。",
+    "input": "高层用户任务、视觉与力传感",
+    "output": "机器人计划/代码和反馈控制",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "用RAG检索可执行运动例程，结合力与视觉反馈完成咖啡制作和绘画等长程操作。",
+    "flow": [
+      "动作例程RAG",
+      "语言视觉定位",
+      "力与视觉闭环"
+    ],
+    "modules": [
+      {
+        "name": "动作例程RAG",
+        "purpose": "把高层语言连接到可执行运动",
+        "mechanism": "知识库保存倾倒、舀取、绘画、交接、抓放和开门等例程；检索与任务有关的示例后由GPT-4组合代码。",
+        "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12088599/",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "语言视觉定位",
+        "purpose": "为计划提供对象空间依据",
+        "mechanism": "Grounded-Segment-Anything定位对象，RGB-D生成三维表征并提取机器人坐标下目标位姿。",
+        "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12088599/",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "力与视觉闭环",
+        "purpose": "处理接触和目标移动",
+        "mechanism": "执行时视觉更新目标位置，力/扭矩检测接触和约束；不同技能采用相应反馈而非一条开环轨迹。",
+        "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12088599/",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "GPT-4与感知基础模型仅推理；例程知识库非参数更新",
+    "models": "GPT-4、Grounded-SAM、RAG、力/视觉机器人控制",
+    "trainable": "知识库整理与控制接口；未训练新的LLM权重",
+    "frozen": "GPT-4及现成视觉模型",
+    "data": "人工例程知识库；80条LLM生成任务查询用于faithfulness评价",
+    "objective": "RAG计划生成；控制反馈，不是动作模型SFT",
+    "stages": "知识库构建 → 检索/代码生成 → 视觉定位 → 力/视觉闭环"
+  },
+  "evaluation": [
+    {
+      "benchmark": "ELLMER 计划faithfulness（非实机SR）",
+      "setting": "正文Evaluation：80条LLM生成human-like查询评估计划faithfulness；咖啡/绘画为实机演示。",
+      "result": "GPT-4 faithfulness无RAG.74→有RAG.88；GPT3.5 .78→.86；Zephyr7B .37→.44。",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12088599/",
+      "locator": "Results → Evaluation",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "正文Evaluation数值整理；非原文独立表格",
+        "columns": [
+          "模型",
+          "无RAG faithfulness",
+          "有RAG faithfulness"
+        ],
+        "rows": [
+          [
+            "GPT-4-0613",
+            "0.74",
+            "0.88"
+          ],
+          [
+            "GPT-3.5-turbo-0125",
+            "0.78",
+            "0.86"
+          ],
+          [
+            "Zephyr-7B-beta",
+            "0.37",
+            "0.44"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "80条计划评分不能推出80次机器人成功率；遮挡和相似外形影响定位，论文白杯高遮挡识别下降是感知边界。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1038/s42256-025-01005-x",
+      "status": "已核实入口",
+      "note": "已核实原始论文/出版社记录"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / ELLMER",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.nature.com/articles/s42256-025-01005-x.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1038/s42256-025-01005-x",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "本轮回查原始来源",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12088599/",
+      "supports": [
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式原始来源",
+      "url": "https://doi.org/10.1038/s42256-025-01005-x",
+      "supports": [
+        "题名",
+        "作者",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pd7e5fccd78112025,\n title={Embodied large language models enable robots to complete complex tasks in unpredictable environments},\n author={Ruaridh Mon-Williams and Gen Li and Ran Long and Wenqian Du and Christopher G. Lucas},\n year={2025},\n url={https://doi.org/10.1038/s42256-025-01005-x}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Nature Machine Intelligence'25**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "ELLMER 将人工整理的低/高层运动示例作为知识库，GPT-4依据用户任务检索相关例程并生成机器人执行代码。Grounded-SAM从图像获取物体并恢复三维位姿，力/扭矩反馈支持放置、开抽屉、倾倒和绘画中的在线修正。实机演示用Kinova Gen3；量化RAG结果是80条合成任务查询的计划faithfulness，不是80次真实机器人完整任务成功率，需明确标注。",
+  "verificationLevel": "fulltext"
+}

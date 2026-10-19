@@ -1,0 +1,218 @@
+{
+  "id": "p-da862dc60771",
+  "title": "Bridging the 2D-3D Gap: A Hierarchical Semantic-Geometric Map for Vision Language Navigation",
+  "short": "Bridging the 2D-3D Gap",
+  "aliases": [],
+  "authors": [
+    "Kailing Li",
+    "Tianwen Qian",
+    "Lijin Yang",
+    "Yuqian Fu",
+    "Jingyu Gong",
+    "Xiaoling Wang",
+    "Liang He"
+  ],
+  "institutions": [
+    "East China Normal University",
+    "Bosch Corporate Research",
+    "King Abdullah University of Science and Technology"
+  ],
+  "firstPublished": "2026-05-25",
+  "updated": "2026-05-25",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "HSGM 将在线几何、物体语义和决策状态分层建图，再渲染成 VLM 能读的 BEV 图。",
+  "method": {
+    "input": "多视角 RGB-D、位姿",
+    "output": "低层动作及更新后的任务进度",
+    "explanation": "HSGM 将在线几何、物体语义和决策状态分层建图，再渲染成 VLM 能读的 BEV 图。VLM 负责任务分解与局部航点选择，A* 负责可达路径，使语言规划与几何执行形成闭环。",
+    "flow": [
+      "几何与语义建图",
+      "决策地图与视觉提示",
+      "分层规划与执行"
+    ],
+    "modules": [
+      {
+        "name": "几何与语义建图",
+        "purpose": "本模块解决：几何与语义建图",
+        "input": "多视角 RGB-D、位姿",
+        "mechanism": "反投影生成点云；YOLO-E 分割得到实例并按 3D 重叠和标签合并；检测楼梯以支持跨楼层。",
+        "output": "可通行点云、障碍与物体实例",
+        "sourceUrl": "https://arxiv.org/html/2606.00095v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "决策地图与视觉提示",
+        "purpose": "本模块解决：决策地图与视觉提示",
+        "input": "几何图、历史与子任务状态",
+        "mechanism": "采样全局航点图和局部候选，进行圆柱碰撞/可达性检查；在 BEV 和第一视角标出同一编号。",
+        "output": "带编号的局部动作候选",
+        "sourceUrl": "https://arxiv.org/html/2606.00095v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "分层规划与执行",
+        "purpose": "本模块解决：分层规划与执行",
+        "input": "指令、BEV、候选图像",
+        "mechanism": "将指令拆为 pending/in_progress/done 子任务；VLM 结构化推理选择航点或转向；A* 在全局图生成路径。",
+        "output": "低层动作及更新后的任务进度",
+        "sourceUrl": "https://arxiv.org/html/2606.00095v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "HSGM 将在线几何、物体语义和决策状态分层建图，再渲染成 VLM 能读的 BEV 图。VLM 负责任务分解与局部航点选择，A* 负责可达路径，使语言规划与几何执行形成闭环。"
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "将指令拆为 pending/in_progress/done 子任务；VLM 结构化推理选择航点或转向；A* 在全局图生成路径。",
+    "trainable": "仅推理调用现成 VLM 与感知模型；地图构建和 A* 规划不构成 VLM 参数训练。",
+    "frozen": "现成模型仅推理使用，不新增任务训练。",
+    "data": "仅推理调用现成 VLM 与感知模型；地图构建和 A* 规划不构成 VLM 参数训练。",
+    "objective": "仅推理调用现成 VLM 与感知模型；地图构建和 A* 规划不构成 VLM 参数训练。",
+    "stages": "仅推理调用现成 VLM 与感知模型；地图构建和 A* 规划不构成 VLM 参数训练。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE / RxR-CE",
+      "setting": "Table 1，Val-Unseen；不与附录或消融中的 51.0 SR 混用",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2606.00095v1",
+      "table": {
+        "columns": [
+          "方法",
+          "基准",
+          "SR (%)",
+          "SPL (%)",
+          "NE (m)"
+        ],
+        "rows": [
+          [
+            "HSGM",
+            "R2R-CE",
+            47.9,
+            32.8,
+            5.42
+          ],
+          [
+            "HSGM",
+            "RxR-CE",
+            41.8,
+            25.1,
+            7.43
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.00095v1",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+      "主表与消融的 Full Model 数值不同，原文没有在表内解释全部差异，分别保留设置，不能替换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.00095",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/Teacher-Tom/HSGM_public",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / Bridging the 2D-3D Gap: A Hierarchical Semantic-Geometric Map for Vision Language Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2606.00095",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2606.00095v1",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pda862dc60771,\n  title={Bridging the 2D-3D Gap: A Hierarchical Semantic-Geometric Map for Vision Language Navigation},\n  author={Kailing Li and Tianwen Qian and Lijin Yang and Yuqian Fu and Jingyu Gong and Xiaoling Wang and Liang He},\n  year={2026},\n  eprint={2606.00095},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2606.00095}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "主表与消融的 Full Model 数值不同，原文没有在表内解释全部差异，分别保留设置，不能替换。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "R2R-CE、RxR-CE",
+      "comparisons": "Supervised：SASRA、Seq2Seq、CMA、NaVid、ETPNav、MapNav、Dynam3D；                                                                                             Zero-shot：SmartWay、OpenNav、A2Nav、InstructNav、AO-Planner、CA-Nav、DreamNav",
+      "training": "Training-free Zero-shot。主实验使用GPT-5作为高层VLM，不训练导航策略，底层A*执行。",
+      "resourceClaim": "是"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "HSGM 将在线几何、物体语义和决策状态分层建图，再渲染成 VLM 能读的 BEV 图。VLM 负责任务分解与局部航点选择，A* 负责可达路径，使语言规划与几何执行形成闭环。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

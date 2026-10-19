@@ -1,0 +1,196 @@
+{
+  "id": "p-450f588def14",
+  "title": "Creating Virtual Patients using Robots and Large Language Models: A Preliminary Study with Medical Students",
+  "short": "VP-Robot-LLM",
+  "aliases": [
+    "VP-Robot-LLM"
+  ],
+  "authors": [
+    "Alexander Borg",
+    "Ioannis Parodis",
+    "Gabriel Skantze"
+  ],
+  "institutions": [
+    "Karolinska Institute, Stockholm, Sweden",
+    "KTH Royal Institute of Technology, Stockholm, Sweden"
+  ],
+  "firstPublished": "2024-03-11",
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "Companion of the 2024 ACM/IEEE International Conference on Human-Robot Interaction",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "以Furhat机器人和LLM构造可对话、带情感表达的虚拟患者；15名医学生试点评价真实性与学习感受，完整统计待全文核实。",
+  "method": {
+    "input": "病例和学生问诊",
+    "output": "真实性和自感学习结论",
+    "flow": [
+      "机器人虚拟患者",
+      "反馈与试点评价"
+    ],
+    "explanation": "已核实的ACM原始摘要明确：Furhat机器人与LLM共同构成虚拟患者平台，语言模型既驱动自由对话，也参与面部情感表达和对学生的分析反馈。试点将该平台与传统半线性虚拟患者工具比较，15位医学生报告对真实性及学习感受的偏好。这是医学教育中的交互研究，不是用语言模型治疗患者或生成手术动作。全文访问仍未成功，具体LLM版本、轮次调度、问卷逐题数值和对照顺序待核；不能从后续JMIR论文反向移入本篇未核的细节。",
+    "modules": [
+      {
+        "name": "机器人虚拟患者",
+        "purpose": "使医学生能够自然语言追问",
+        "mechanism": "Furhat配合LLM生成病人回答与面部情感；仅摘要范围核实。",
+        "input": "病例和学生问诊",
+        "output": "虚拟患者对话与表情"
+      },
+      {
+        "name": "反馈与试点评价",
+        "purpose": "比较与传统半线性平台的体验",
+        "mechanism": "摘要描述LLM分析反馈；15名医学生比较机器人与传统平台，报告体验偏好。",
+        "input": "交互及评价记录",
+        "output": "真实性和自感学习结论"
+      }
+    ],
+    "assumptions": "临床/用户研究的结果受纳入标准、样本与评价场景限制。",
+    "difference": "对应真实证据类型：临床/用户研究"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "初步医学生研究",
+      "setting": "ACM原文摘要；15人试点；没有本次已核的原表数值",
+      "result": "摘要支持样本规模和对照性质，不支持新增具体均值或P值。",
+      "locator": "ACM Abstract；全文表格未取得",
+      "sourceUrl": "https://doi.org/10.1145/3610978.3640592",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "项目",
+          "原摘要信息"
+        ],
+        "rows": [
+          [
+            "参与者",
+            "15名医学生"
+          ],
+          [
+            "实验平台",
+            "Furhat + LLM虚拟患者"
+          ],
+          [
+            "对照",
+            "传统半线性虚拟患者平台"
+          ],
+          [
+            "定量结局均值及P值",
+            "未核实"
+          ]
+        ],
+        "locator": "ACM Abstract；全文表格未取得"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：接受度、教学体验或某项临床终点只说明指定研究条件下的结果，不能替代独立外部验证或直接推为其他场景的结论。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1145/3610978.3640592",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / VP-Robot-LLM",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://dl.acm.org/doi/pdf/10.1145/3610978.3640592",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1145/3610978.3640592",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1145/3610978.3640592",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始摘要/出版入口（本轮回查）",
+      "url": "https://doi.org/10.1145/3610978.3640592",
+      "locator": "摘要与出版记录；全文细节仍待核",
+      "supports": [
+        "研究范围",
+        "摘要明确的模块及实验覆盖（如有）",
+        "核验边界"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "p-37498cced893",
+      "reason": "同一Furhat虚拟患者研究线的后续混合方法论文；出版物分别保留，不将后续统计直接归入本篇。"
+    }
+  ],
+  "bibtex": null,
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+    "ACM全文未成功取得；KTH存档触发反机器人页面；逐题数字和实验流程仍待全文核实。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ACM HRI Companion'24**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    }
+  ],
+  "verificationLevel": "metadata",
+  "verification": "本轮回查原始元数据与可取得摘要；全文未成功取得，实验表格和未见训练细节不声称已核实。",
+  "overview": "以Furhat机器人和LLM构造可对话、带情感表达的虚拟患者；15名医学生试点评价真实性与学习感受，完整统计待全文核实。 本条详情限已取得的原始摘要，全文图表仍待补齐。"
+}

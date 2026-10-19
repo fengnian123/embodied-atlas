@@ -1,0 +1,252 @@
+{
+  "id": "p-f5f3a21f9f89",
+  "title": "Code as Policies: Language Model Programs for Embodied Control",
+  "short": "Code-as-Policies",
+  "aliases": [
+    "Code-as-Policies",
+    "Code as Policies: Language Model Programs for Embodied Control"
+  ],
+  "authors": [
+    "Liang, Jacky",
+    "Huang, Wenlong",
+    "Xia, Fei",
+    "Xu, Peng",
+    "Hausman, Karol",
+    "Ichter, Brian",
+    "Florence, Pete",
+    "Zeng, Andy"
+  ],
+  "institutions": [
+    "Robotics at Google"
+  ],
+  "firstPublished": "2022-09-16",
+  "updated": "2023-05-25",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "LLM",
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "让代码模型生成可调用感知、几何运算和控制 API 的机器人策略程序。",
+  "method": {
+    "explanation": "CaP 把语言到动作的中间表示从技能清单改为可执行 Python 程序。提示中提供 API、示例指令与示例代码，模型据此组合感知结果、NumPy/Shapely 几何计算和机器人控制函数；未定义的辅助函数会递归生成。运行时由程序读取最新感知并执行循环或轨迹，因而可表达反馈策略和精确空间关系。方法复用既有感知控制能力，代码生成无须机器人数据微调；底层模型和机器人API依赖仍然存在。",
+    "input": "自然语言与API/示例及感知输出",
+    "output": "可执行策略程序",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "让代码模型生成可调用感知、几何运算和控制 API 的机器人策略程序。",
+    "flow": [
+      "语言到策略代码",
+      "递归函数生成",
+      "程序执行与反馈"
+    ],
+    "modules": [
+      {
+        "name": "语言到策略代码",
+        "purpose": "把含糊指令转成精确运算",
+        "mechanism": "给代码模型展示指令注释、函数接口和示例程序；模型生成包含对象定位、几何计算和控制调用的程序。",
+        "sourceUrl": "https://arxiv.org/html/2209.07753",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "递归函数生成",
+        "purpose": "支持超出单段提示长度的复杂逻辑",
+        "mechanism": "检测新程序中尚未定义的函数，逐个递归生成实现，再拼接为完整可运行策略。",
+        "sourceUrl": "https://arxiv.org/html/2209.07753",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "程序执行与反馈",
+        "purpose": "把生成计划接到真实感知和运动",
+        "mechanism": "执行生成代码中的循环、分支、航点和控制API；感知结果作为运行时变量，而非把图像全部交给LLM数值推算。",
+        "sourceUrl": "https://arxiv.org/html/2209.07753",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "代码LLM仅推理；复用现有感知与控制",
+    "models": "Codex/GPT-3代码生成；任务相关感知模型与机器人API",
+    "trainable": "本文提示式代码生成不做机器人微调；低层组件可能预先训练",
+    "frozen": "代码生成基础模型",
+    "data": "少样本提示示例；机器人评测与RoboCodeGen/HumanEval分开",
+    "objective": "推理时生成可执行代码，无新策略损失",
+    "stages": "准备API与示例 → 生成代码及辅助函数 → 执行闭环"
+  },
+  "evaluation": [
+    {
+      "benchmark": "CaP 操作任务族",
+      "setting": "Table III：每任务50次试验；SA/UA为已见/未见属性，SI/UI为已见/未见指令。",
+      "result": "UA/UI长程任务CaP 80.00%，NL Planner 64.00%；UA/UI空间几何CaP 62.00%，CLIPort 0.01%。",
+      "sourceUrl": "https://arxiv.org/html/2209.07753",
+      "locator": "原文 TABLE III ",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "TABLE III : Success rates over task families with 50 50 trials per task.",
+        "columns": [
+          "Train/Test",
+          "Task Family",
+          "CLIPort [ 36 ]",
+          "NL Planner",
+          "CaP (ours)"
+        ],
+        "rows": [
+          [
+            "SA SI",
+            "Long-Horizon",
+            "78.80",
+            "86.40",
+            "97.20"
+          ],
+          [
+            "SA SI",
+            "Spatial-Geometric",
+            "97.33",
+            "N/A",
+            "89.30"
+          ],
+          [
+            "UA SI",
+            "Long-Horizon",
+            "36.80",
+            "88.00",
+            "97.60"
+          ],
+          [
+            "UA SI",
+            "Spatial-Geometric",
+            "0.00",
+            "N/A",
+            "73.33"
+          ],
+          [
+            "UA UI",
+            "Long-Horizon",
+            "0.00",
+            "64.00",
+            "80.00"
+          ],
+          [
+            "UA UI",
+            "Spatial-Geometric",
+            "0.01",
+            "N/A",
+            "62.00"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "生成代码的可执行性依赖感知接口和已有控制API；代码正确不等同物理执行成功。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2209.07753",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://code-as-policies.github.io",
+      "status": "已核实入口",
+      "note": "原文明确提供的官方链接；未逐文件检查下载与许可证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / Code-as-Policies",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2209.07753",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://code-as-policies.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2209.07753",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2209.07753",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pf5f3a21f9f892022,\n title={Code as Policies: Language Model Programs for Embodied Control},\n author={Liang, Jacky and Huang, Wenlong and Xia, Fei and Xu, Peng and Hausman, Karol and Ichter, Brian and Florence, Pete and Zeng, Andy},\n year={2022},\n url={https://arxiv.org/abs/2209.07753}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICRA'23**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "CaP 把语言到动作的中间表示从技能清单改为可执行 Python 程序。提示中提供 API、示例指令与示例代码，模型据此组合感知结果、NumPy/Shapely 几何计算和机器人控制函数；未定义的辅助函数会递归生成。运行时由程序读取最新感知并执行循环或轨迹，因而可表达反馈策略和精确空间关系。方法复用既有感知控制能力，代码生成无须机器人数据微调；底层模型和机器人API依赖仍然存在。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,263 @@
+{
+  "id": "p-03943f9bbe8f",
+  "title": "Embodied Question Answering in Photorealistic Environments with Point Cloud Perception",
+  "short": "MP3D-EQA",
+  "aliases": [
+    "MP3D-EQA"
+  ],
+  "authors": [
+    "Wijmans, Erik",
+    "Datta, Samyak",
+    "Maksymets, Oleksandr",
+    "Das, Abhishek",
+    "Gkioxari, Georgia",
+    "Lee, Stefan",
+    "Essa, Irfan",
+    "Parikh, Devi",
+    "Batra, Dhruv"
+  ],
+  "institutions": [
+    "Georgia Institute of Technology",
+    "Facebook AI Research"
+  ],
+  "firstPublished": "2019-04-06",
+  "updated": "2019-04-06",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA"
+    ],
+    "paradigm": [
+      "3D/4D 表征",
+      "模仿学习"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实采集资产",
+      "室内"
+    ],
+    "training": [
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "在真实扫描室内环境扩展EQA，比较RGB、点云与记忆，并提出动作转折加权模仿学习。",
+  "method": {
+    "explanation": "原论文将EmbodiedQA放到Matterport3D，提出MP3D-EQA v1，评估RGB、点云及组合感知。导航从距专家轨迹终点10/30/50步的位置开始，策略同时要避障、找目标并为回答提供合适视角；Inflection Weighting上调专家动作发生变化处的监督权重，减轻大量重复前进动作主导训练。论文发现随机/仅前进基线在该起点协议下很强，提醒不能仅凭距离进步证明语言理解。",
+    "input": "问题、RGB或点云观察及历史",
+    "output": "导航动作及53类答案",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "在真实扫描室内环境扩展EQA，比较RGB、点云与记忆，并提出动作转折加权模仿学习。",
+    "flow": [
+      "MP3D问题与划分",
+      "点云/RGB感知",
+      "Inflection Weighting"
+    ],
+    "modules": [
+      {
+        "name": "MP3D问题与划分",
+        "purpose": "从合成房屋扩展到真实扫描资产",
+        "mechanism": "构造1136问答、83建筑，按57/10/16建筑划分train/val/test；原文任务主要为53类答案分类。",
+        "sourceUrl": "https://arxiv.org/html/1904.03461",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "点云/RGB感知",
+        "purpose": "比较几何对避障与答案视角的作用",
+        "mechanism": "以PointNet++与ResNet50等编码点云/RGB；冻结预训练感知后训练导航和问答。",
+        "sourceUrl": "https://arxiv.org/html/1904.03461",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "Inflection Weighting",
+        "purpose": "提高行为克隆对转折动作的学习",
+        "mechanism": "在专家动作改变的时刻提高损失权重，用于长重复动作序列的导航训练，避免只学前进先验。",
+        "sourceUrl": "https://arxiv.org/html/1904.03461",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "感知预训练后冻结；导航行为克隆与QA监督",
+    "models": "PointNet++、ResNet50、导航RNN/反应式策略、QA分类器",
+    "trainable": "导航与53类答案分类网络；感知先训练后固定",
+    "frozen": "预训练perception models",
+    "data": "MP3D-EQA v1专家最短轨迹与问答",
+    "objective": "动作行为克隆，转折加权；QA交叉熵",
+    "stages": "感知预训练 → 冻结 → 导航/QA监督 → T−10/30/50测试"
+  },
+  "evaluation": [
+    {
+      "benchmark": "MP3D-EQA v1 数据划分",
+      "setting": "Table1原始MP3D-EQA v1，统计是建筑/Floors/问题；不等于后续Habitat重制episode规模。",
+      "result": "train57建筑/767题，val10/130，test16/239，总83建筑/1136题。",
+      "sourceUrl": "https://arxiv.org/html/1904.03461",
+      "locator": "Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 1 : Statistics of splits for EQA in Matterport3D",
+        "columns": [
+          "",
+          "Homes",
+          "Floors",
+          "Total Qns.",
+          "Unique Qns."
+        ],
+        "rows": [
+          [
+            "train",
+            "57",
+            "102",
+            "767",
+            "174"
+          ],
+          [
+            "val",
+            "10",
+            "16",
+            "130",
+            "88"
+          ],
+          [
+            "test",
+            "16",
+            "28",
+            "239",
+            "112"
+          ]
+        ]
+      }
+    },
+    {
+      "benchmark": "MP3D-EQA v1 原始T−50测试",
+      "setting": "Table3；M=有记忆，Q=问题条件，RGB/PC为感知；导航使用inflection weighting。所有下列值只取T−50起点，QA为0–1比例。",
+      "result": "M+PC的QA Top1 .390、终点距离1.817m；M+RGB为.384/2.177m。M+PC+RGB距离更低但QA不一定更高，说明不同指标不能互代。",
+      "attribution": "作者原文表值；非本站复现",
+      "locator": "Table 3 / T−50 columns",
+      "sourceUrl": "https://arxiv.org/html/1904.03461",
+      "table": {
+        "columns": [
+          "模型",
+          "终点距离dT(m) ↓",
+          "碰撞比例(%) ↓",
+          "QA Top1 ↑"
+        ],
+        "rows": [
+          [
+            "M+RGB",
+            "2.177",
+            "26.179",
+            "0.384"
+          ],
+          [
+            "M+PC",
+            "1.817",
+            "18.319",
+            "0.390"
+          ],
+          [
+            "M+PC+RGB",
+            "1.791",
+            "18.890",
+            "0.363"
+          ],
+          [
+            "Random",
+            "2.654",
+            "10.677",
+            "0.364"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "原始T−10/30/50起点可让简单基线很强；后续NaviLLM或Uni-LaViRA协议改变后，不能直接混排原始问答与导航数字。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/1904.03461",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / MP3D-EQA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/1904.03461",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/1904.03461",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p03943f9bbe8f2019,\n title={Embodied Question Answering in Photorealistic Environments with Point Cloud Perception},\n author={Wijmans, Erik and Datta, Samyak and Maksymets, Oleksandr and Das, Abhishek and Gkioxari, Georgia and Lee, Stefan and Essa, Irfan and Parikh, Devi and Batra, Dhruv},\n year={2019},\n url={https://arxiv.org/abs/1904.03461}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；任务协议待核实",
+      "inputProtocol": "RGB/深度/点云依模型；导航历史或GT路径\nGT导航路径观测＋问题\nGT路径观测＋问题",
+      "scale": "原始1136QA/83环境；NaviLLM使用筛选val"
+    }
+  ],
+  "overview": "原论文将EmbodiedQA放到Matterport3D，提出MP3D-EQA v1，评估RGB、点云及组合感知。导航从距专家轨迹终点10/30/50步的位置开始，策略同时要避障、找目标并为回答提供合适视角；Inflection Weighting上调专家动作发生变化处的监督权重，减轻大量重复前进动作主导训练。论文发现随机/仅前进基线在该起点协议下很强，提醒不能仅凭距离进步证明语言理解。",
+  "verificationLevel": "fulltext",
+  "benchmark": {
+    "motivation": "将EQA扩展到照片真实感扫描场景并研究几何感知。",
+    "task": "原始协议从专家终点前10/30/50动作开始；导航并回答对象属性等问题。",
+    "metrics": "终点/最近距离、碰撞、目标IoU与QA Top1，分别统计不同起点。",
+    "environment": "MP3D真实扫描资产中的模拟，不是实机采集导航。",
+    "scale": "83建筑、1136问答；57/10/16建筑train/val/test。",
+    "boundary": "强起点先验；53答案集合而非开放词汇回答。"
+  }
+}

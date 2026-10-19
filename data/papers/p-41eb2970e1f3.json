@@ -1,0 +1,297 @@
+{
+  "id": "p-41eb2970e1f3",
+  "title": "SurRoL: An Open-source Reinforcement Learning Centered and dVRK Compatible Platform for Surgical Robot Learning",
+  "short": "SurRoL",
+  "aliases": [
+    "SurRoL"
+  ],
+  "authors": [
+    "Jiaqi Xu",
+    "Bin Li",
+    "Bo Lu",
+    "Yun-Hui Liu",
+    "Qi Dou",
+    "Pheng-Ann Heng"
+  ],
+  "institutions": [],
+  "firstPublished": "2021-09-27",
+  "updated": null,
+  "publicationYear": 2021,
+  "venue": "2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2021,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [
+      "强化学习",
+      "模仿学习"
+    ],
+    "system": [],
+    "contribution": [
+      "Benchmark",
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "强化学习"
+    ]
+  },
+  "summary": "提供兼容dVRK的10任务手术机器人RL平台；以物理接触抓取代替近距离自动吸附，并用真实dVRK验证仿真训练策略迁移。",
+  "method": {
+    "input": "机器人模型、手术物体资产",
+    "output": "真实机器人成功率",
+    "flow": [
+      "dVRK兼容物理仿真",
+      "任务和奖励接口",
+      "HER与示范辅助学习",
+      "零样本实机迁移检验"
+    ],
+    "explanation": "SurRoL提供兼容dVRK接口的PyBullet手术训练环境，而不是一个只用于展示的固定任务脚本。平台重建PSM器械臂和ECM相机臂运动学，支持末端笛卡尔位移、夹爪与部分旋转动作；观测既可用仿真真值状态，也可渲染RGB/深度/掩码。原论文基线主要使用低维状态以先研究控制难点。多数任务使用目标稀疏奖励，移动目标相机跟踪采用稠密奖励；作者以DDPG/HER及少量脚本示范改善探索。关键设计是保留摩擦和真实接触式抓取，避免物体靠近夹爪便自动吸附。最后将四类技能迁移到真实dVRK，并用NeedlePick对照检验接触仿真的价值。",
+    "modules": [
+      {
+        "name": "dVRK兼容物理仿真",
+        "purpose": "减少环境接口与运动学迁移负担",
+        "mechanism": "PyBullet重建PSM/ECM，接口与实机对齐；使用摩擦接触式抓取和位置控制。",
+        "input": "机器人模型、手术物体资产",
+        "output": "带接触动力学的Gym式环境"
+      },
+      {
+        "name": "任务和奖励接口",
+        "purpose": "显式定义控制学习问题",
+        "mechanism": "10个PSM/ECM任务；通常给定目标，未成功奖励−1；ActiveTrack按持续跟踪效果给稠密奖励。",
+        "input": "状态、目标、动作",
+        "output": "下一状态、奖励、成功标志"
+      },
+      {
+        "name": "HER与示范辅助学习",
+        "purpose": "缓解接触任务稀疏奖励与探索失败",
+        "mechanism": "使用DDPG/HER；以脚本策略采集少量示范辅助复杂抓取、传递学习；本文主要用低维状态。",
+        "input": "经验回放、目标、示范",
+        "output": "低层连续动作策略"
+      },
+      {
+        "name": "零样本实机迁移检验",
+        "purpose": "验证物理建模的实际意义",
+        "mechanism": "统一工作空间；将GauzeRetrieve、NeedlePick、PegTransfer和StaticTrack策略部署dVRK，单独比较自动吸附与接触仿真。",
+        "input": "仿真策略与实机感知状态",
+        "output": "真实机器人成功率"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：数据或仿真平台"
+  },
+  "training": {
+    "regime": "强化学习",
+    "models": "DDPG、HER及HER+DEMO；非LLM/VLM策略。",
+    "trainable": "连续动作策略与价值函数；示范帮助稀疏奖励探索。",
+    "frozen": "无预训练VLM；不适用冻结主干描述。",
+    "data": "PyBullet在线交互；部分复杂任务的脚本示范。",
+    "objective": "最大化目标达成奖励或跟踪稠密回报，HER重标记目标。",
+    "stages": "构建任务→仿真RL/示范辅助→选择策略→对齐实机接口部署。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "真实dVRK NeedlePick",
+      "setting": "每种训练方式50次真实测试；比较近距离自动吸附Approx@2mm与摩擦接触Interact",
+      "result": "更真实接触仿真训练策略43/50成功；近距离吸附训练策略29/50。",
+      "locator": "Table IV；IV-B",
+      "sourceUrl": "https://arxiv.org/pdf/2108.13035",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "仿真抓取方式",
+          "成功次数 / 次数",
+          "实机成功率"
+        ],
+        "rows": [
+          [
+            "Approx@2mm",
+            "29/50",
+            "58%"
+          ],
+          [
+            "Interact",
+            "43/50",
+            "86%"
+          ]
+        ],
+        "locator": "Table IV；IV-B"
+      }
+    },
+    {
+      "benchmark": "其他真实dVRK技能",
+      "setting": "按原文分别统计，各任务成功阈值不同，不合并平均",
+      "result": "GauzeRetrieve 25次96%；StaticTrack 10次90%。",
+      "locator": "IV-B；Fig.8",
+      "sourceUrl": "https://arxiv.org/pdf/2108.13035",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "任务",
+          "测试规模",
+          "成功率 / 条件"
+        ],
+        "rows": [
+          [
+            "GauzeRetrieve",
+            "25 episodes",
+            "96%；目标位置5mm内"
+          ],
+          [
+            "ECM StaticTrack",
+            "10 episodes",
+            "90%；归一化位置误差<0.03且朝向误差<0.1rad"
+          ]
+        ],
+        "locator": "IV-B；Fig.8"
+      }
+    },
+    {
+      "benchmark": "仿真评测协议",
+      "setting": "10任务，3随机种子；goal-based任务每episode50步，ActiveTrack500步",
+      "result": "论文Fig.5给学习曲线；不把曲线目测为精确终值。",
+      "locator": "Table II；Fig.5；IV-A",
+      "sourceUrl": "https://arxiv.org/pdf/2108.13035",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "协议项",
+          "原文值"
+        ],
+        "rows": [
+          [
+            "任务数",
+            "10"
+          ],
+          [
+            "随机种子",
+            "3"
+          ],
+          [
+            "每epoch",
+            "40 episodes"
+          ],
+          [
+            "达到约150Hz仿真的条件",
+            "reaching任务、位置控制、随机动作"
+          ]
+        ],
+        "locator": "Table II；Fig.5；IV-A"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "多数实验使用低维真值状态，不能直接等同端到端视觉策略。",
+      "存在仿真与实机动力学差异；任务限制部分旋转自由度，复杂软组织过程与临床安全未由此证明。"
+    ],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/iros51168.2021.9635867",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    },
+    "code": {
+      "url": "https://github.com/med-air/SurRoL",
+      "status": "已核实入口",
+      "note": "官方开源仓库，运行未核验"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / SurRoL",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/IROS51168.2021.9635867",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://github.com/med-air/SurRoL",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Datasets, Simulators, and Benchmarks / SurRoL",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/iros51168.2021.9635867",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://arxiv.org/pdf/2108.13035",
+      "locator": "Table IV；IV-B; IV-B；Fig.8; Table II；Fig.5；IV-A",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**IROS'21**",
+      "section": "Surgical Embodied Intelligence"
+    },
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**IROS'21**",
+      "section": "Datasets, Simulators, and Benchmarks"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "提供兼容dVRK的10任务手术机器人RL平台；以物理接触抓取代替近距离自动吸附，并用真实dVRK验证仿真训练策略迁移。 "
+}

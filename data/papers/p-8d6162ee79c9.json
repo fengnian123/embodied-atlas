@@ -1,0 +1,158 @@
+{
+  "id": "p-8d6162ee79c9",
+  "title": "Embodied Intelligence: A Synergy of Morphology, Action, Perception and Learning",
+  "short": "EmbodiedIntelligence-CSUR",
+  "aliases": [
+    "EmbodiedIntelligence-CSUR"
+  ],
+  "authors": [
+    "Huaping Liu",
+    "Di Guo",
+    "Angelo Cangelosi"
+  ],
+  "institutions": [
+    "Tsinghua University",
+    "Beijing University of Posts and Telecommunications",
+    "University of Manchester"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2025,
+  "venue": "ACM Computing Surveys",
+  "publicationStatus": "正式发表；出版社/会议原始记录已核验",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "从形态、动作、感知和学习的协同关系组织具身智能文献。",
+  "method": {
+    "explanation": "作者机构的正式书目和摘要确认，本文将具身智能视为身体形态、动作、感知与学习的协同，并着重研究四者之间的联系，而非孤立技术模块。它适合提供比VLA更广的具身智能概念地图。本轮出版社全文与作者稿下载受限，只核实作者、期刊、年份和摘要；机构记录early online为2025-02-12，出版页面显示2025-03-05，保留日期口径差异而不捏造首次公开日。",
+    "input": "具身智能文献",
+    "output": "形态—动作—感知—学习协同分类",
+    "assumptions": "本轮只核实出版社/作者机构书目和摘要；下列内容不表示已逐节读取全文。",
+    "difference": "从形态、动作、感知和学习的协同关系组织具身智能文献。",
+    "flow": [
+      "形态与动作",
+      "感知与学习协同"
+    ],
+    "modules": [
+      {
+        "name": "形态与动作",
+        "purpose": "摘要确认的分析维度",
+        "mechanism": "讨论身体条件和动作能力如何共同影响智能；不是只把机器人看作LLM输出接口。",
+        "sourceUrl": "https://research.manchester.ac.uk/en/publications/embodied-intelligence-a-synergy-of-morphology-action-perception-a/",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "感知与学习协同",
+        "purpose": "摘要确认的分析维度",
+        "mechanism": "重点在四类成分之间的连接及潜在研究方向；具体文献对照与实证待全文。",
+        "sourceUrl": "https://research.manchester.ac.uk/en/publications/embodied-intelligence-a-synergy-of-morphology-action-perception-a/",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用：综述",
+    "models": "文献中的形态/动作/感知/学习方法",
+    "trainable": "无本文已核实新训练策略",
+    "frozen": "不适用",
+    "data": "文献综述",
+    "objective": "不适用",
+    "stages": "协同视角综述"
+  },
+  "evaluation": [
+    {
+      "benchmark": "作者机构书目与摘要",
+      "setting": "作者机构书目与摘要；全文下载受限，未填未经确认的图表数字。",
+      "result": "无本轮已取得的原创控制实验结果；出版与早期在线日期口径分别保留。",
+      "sourceUrl": "https://research.manchester.ac.uk/en/publications/embodied-intelligence-a-synergy-of-morphology-action-perception-a/",
+      "locator": "正文",
+      "attribution": "作者原文报告；非本站复现"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "摘要级分类未说明具体系统训练或控制机制，不据此生成某个通用机器人方法的性能。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1145/3717059",
+      "status": "已核实入口",
+      "note": "已核实原始论文/出版社记录"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / EmbodiedIntelligence-CSUR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1145/3717059",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "本轮回查原始来源",
+      "url": "https://research.manchester.ac.uk/en/publications/embodied-intelligence-a-synergy-of-morphology-action-perception-a/",
+      "supports": [
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式原始来源",
+      "url": "https://doi.org/10.1145/3717059",
+      "supports": [
+        "题名",
+        "作者",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p8d6162ee79c92025,\n title={Embodied Intelligence: A Synergy of Morphology, Action, Perception and Learning},\n author={Huaping Liu and Di Guo and Angelo Cangelosi},\n year={2025},\n url={https://doi.org/10.1145/3717059}\n}",
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "全文逐节/原图表核验",
+    "早期在线与最终出版日期口径",
+    "首次公开版本日期"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ACM CSUR'25**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "作者机构的正式书目和摘要确认，本文将具身智能视为身体形态、动作、感知与学习的协同，并着重研究四者之间的联系，而非孤立技术模块。它适合提供比VLA更广的具身智能概念地图。本轮出版社全文与作者稿下载受限，只核实作者、期刊、年份和摘要；机构记录early online为2025-02-12，出版页面显示2025-03-05，保留日期口径差异而不捏造首次公开日。",
+  "verificationLevel": "metadata",
+  "publicationNotes": "作者机构early online记录2025-02-12，出版社页面显示2025-03-05；不把两者混作首次预印本日期。"
+}

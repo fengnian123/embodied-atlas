@@ -1,0 +1,221 @@
+{
+  "id": "p-5e8c6e320f51",
+  "title": "RoomTour3D: Geometry-Aware Video-Instruction Tuning for Embodied Navigation",
+  "short": "RoomTour3D",
+  "aliases": [
+    "RoomTour3D: Geometry-Aware Video-Instruction Tuning for Embodied Navigation",
+    "RoomTour3D"
+  ],
+  "authors": [
+    "Han, Mingfei",
+    "Ma, Liang",
+    "Zhumakhanova, Kamila",
+    "Radionova, Ekaterina",
+    "Zhang, Jingyi",
+    "Chang, Xiaojun",
+    "Liang, Xiaodan",
+    "Laptev, Ivan"
+  ],
+  "institutions": [
+    "Department of Computer Vision, MBZUAI",
+    "ReLER Lab, AAII, UTS",
+    "Shenzhen Campus of Sun Yat-Sen University"
+  ],
+  "firstPublished": "2024-12-11",
+  "updated": "2025-03-19",
+  "publicationYear": 2025,
+  "venue": "CVPR",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "3D/4D 表征",
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "空间理解",
+      "泛化"
+    ],
+    "environment": [
+      "真实采集资产",
+      "室内",
+      "预采集观测池"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "从互联网看房视频恢复三维行走轨迹与几何线索，构建可用于导航训练的图文数据。",
+  "method": {
+    "explanation": "RoomTour3D 不要求先由模拟器人工构建每个导航场景，而从真实室内看房视频恢复相机轨迹和场景几何。流水线补充房间类型、物体位置与三维形状信息，生成轨迹描述和动作增强指令，用于NaviLLM等模型的导航/总结训练。约10万条description轨迹、20万条指令和1.7万条action轨迹是不同数据层级，不能相加称独立机器人示范。实验是数据带来的多任务泛化，trainable zero-shot仍需要训练。",
+    "input": "互联网室内看房视频",
+    "output": "三维轨迹/描述/动作指令训练数据",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "从互联网看房视频恢复三维行走轨迹与几何线索，构建可用于导航训练的图文数据。",
+    "flow": [
+      "视频三维恢复",
+      "几何感知指令生成",
+      "导航模型数据增强"
+    ],
+    "modules": [
+      {
+        "name": "视频三维恢复",
+        "purpose": "从未标注视频获得导航结构",
+        "mechanism": "对看房视频重建相机路径与环境几何，补充房间和对象等三维语义。",
+        "sourceUrl": "https://arxiv.org/html/2412.08591",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "几何感知指令生成",
+        "purpose": "让描述关联可走路线而非泛泛caption",
+        "mechanism": "用对象标签、深度/框和房间类型生成轨迹级描述及动作信息，构造可用于跟随的图文样本。",
+        "sourceUrl": "https://arxiv.org/html/2412.08591",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "导航模型数据增强",
+        "purpose": "评估视频数据能否迁移到标准VLN",
+        "mechanism": "用生成的描述/动作数据训练NaviLLM，并在CVDN、SOON、R2R、REVERIE检验泛化；加入轨迹总结辅助历史记忆。",
+        "sourceUrl": "https://arxiv.org/html/2412.08591",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "导航监督训练与视频指令调优",
+    "models": "NaviLLM为验证基座，三维重建与语义标注模型用于数据生成",
+    "trainable": "导航模型及图文对齐组件；按NaviLLM训练设定",
+    "frozen": "数据标注基础模型用作现有工具",
+    "data": "1847看房环境；约100K描述轨迹/200K指令/17K动作增强轨迹",
+    "objective": "下一步导航、停止及轨迹总结等生成监督",
+    "stages": "视频重建与标注 → 数据增强训练 → 标准VLN迁移"
+  },
+  "evaluation": [
+    {
+      "benchmark": "NaviLLM + RT3D 多任务Val-Unseen",
+      "setting": "Table 1，统一模型Val-Unseen；CVDN为Goal Progress，其他列为SPL，不能平均。",
+      "result": "NaviLLM复现R2R SPL56.7、REVERIE31.4；加RT3D Action为62.4、37.4；描述数据CVDN GP6.96。",
+      "sourceUrl": "https://arxiv.org/html/2412.08591",
+      "locator": "Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "数据配置",
+          "CVDN GP",
+          "SOON SPL",
+          "R2R SPL",
+          "REVERIE SPL"
+        ],
+        "rows": [
+          [
+            "NaviLLM复现",
+            "6.09",
+            "28.0",
+            "56.7",
+            "31.4"
+          ],
+          [
+            "+RT3D Desc",
+            "6.96",
+            "30.2",
+            "62.3",
+            "37.1"
+          ],
+          [
+            "+RT3D Action",
+            "6.33",
+            "31.7",
+            "62.4",
+            "37.4"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网上视频恢复的相机轨迹不是具备碰撞和可操作物体的完整可交互场景资产。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2412.08591",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / RoomTour3D: Geometry-Aware Video-Instruction Tuning for Embodied Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2412.08591",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2412.08591",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p5e8c6e320f512025,\n title={RoomTour3D: Geometry-Aware Video-Instruction Tuning for Embodied Navigation},\n author={Han, Mingfei and Ma, Liang and Zhumakhanova, Kamila and Radionova, Ekaterina and Zhang, Jingyi and Chang, Xiaojun and Liang, Xiaodan and Laptev, Ivan},\n year={2025},\n url={https://arxiv.org/abs/2412.08591}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "R2R、CVDN、SOON、REVERIE",
+      "comparisons": "常规训练：PREVALENT、HOP、HAMT、DUET、VLN-SIG、VLN-PETL、NavGPT2、BEV-BERT、NaviLLM；                                                         R2R zero-shot：NavGPT(GPT-3.5/4)、MapGPT(GPT-4/4V)、DiscussNav、LangNav、NavCoT、DUET、NaviLLM",
+      "training": "不是training-free zero-shot。目标Benchmark action/geometric data不参与训练，但模型使用RoomTour3D action-enriched trajectory进行训练。",
+      "resourceClaim": "是"
+    }
+  ],
+  "overview": "RoomTour3D 不要求先由模拟器人工构建每个导航场景，而从真实室内看房视频恢复相机轨迹和场景几何。流水线补充房间类型、物体位置与三维形状信息，生成轨迹描述和动作增强指令，用于NaviLLM等模型的导航/总结训练。约10万条description轨迹、20万条指令和1.7万条action轨迹是不同数据层级，不能相加称独立机器人示范。实验是数据带来的多任务泛化，trainable zero-shot仍需要训练。",
+  "benchmark": {
+    "motivation": "缓解人工模拟器导航训练数据规模与多样性限制。",
+    "collection": "网上看房视频 → 三维相机轨迹与几何恢复 → 语义/指令生成。",
+    "environment": "真实采集视频；标准任务验证在离散VLN基准。",
+    "scale": "1847环境、约100K描述增强轨迹、200K指令、17K动作增强轨迹，口径不同。",
+    "boundary": "视频轨迹不天然提供可任意交互的物理仿真资产；许可与生成误差需复核。"
+  },
+  "verificationLevel": "fulltext"
+}

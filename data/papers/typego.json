@@ -1,0 +1,194 @@
+{
+  "id": "typego",
+  "title": "TypeGo: An OS Runtime for Embodied Agents",
+  "short": "TypeGo",
+  "aliases": [],
+  "authors": [
+    "Guojun Chen",
+    "Alex Schott",
+    "Lin Zhong"
+  ],
+  "institutions": [
+    "Yale University"
+  ],
+  "firstPublished": "2026-07-06",
+  "updated": "2026-07-06",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "并发任务"
+    ],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "实时性",
+      "规划"
+    ],
+    "environment": [
+      "真实世界",
+      "四足机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "把 LLM 规划拆成异步多时间尺度循环，用 Skill Kernel 仲裁物理资源，并通过任务抢占与恢复隐藏推理延迟。",
+  "method": {
+    "input": "自然语言行为要求与运行状态",
+    "output": "可调度、可抢占的技能进程",
+    "flow": [
+      "Process/PCB：在中断与并发时保留任务上下文",
+      "多时标异步规划：掩蔽LLM推理等待",
+      "Skill Kernel资源仲裁：保护物理资源不被并发冲突调用",
+      "S0反射与恢复：快速响应障碍和紧急事件"
+    ],
+    "assumptions": "需要具备typed资源声明的底层技能、可取消执行和传感事件。结果来自Unitree Go2 Kalos小规模原型。",
+    "difference": "原文定位为早期原型；延迟改善不能直接当成通用导航或操作成功率。",
+    "explanation": "TypeGo将每个自然语言任务建成独立Process，并用PCB保留计划与进度。Skill Kernel统一仲裁身体、传感等资源，只有获得资源的技能才能执行。S2拆任务，S1异步预测并缓存后续技能，S0低延迟反射可抢占，S3依据任务来源决定恢复还是替换。这样推理与运动可重叠，但冲突技能不会同时控制同一身体资源。论文将持久记忆列为未来工作，不能写成已有长期图记忆系统。",
+    "modules": [
+      {
+        "name": "Process/PCB",
+        "purpose": "在中断与并发时保留任务上下文",
+        "mechanism": "每任务有控制块和独立规划状态，S3按来源决定抢占、暂停、恢复或终止。",
+        "input": "用户任务、传感触发、调度事件",
+        "output": "活动进程及可恢复计划"
+      },
+      {
+        "name": "多时标异步规划",
+        "purpose": "掩蔽LLM推理等待",
+        "mechanism": "S2进行任务分解，S1在当前技能执行时推测流式生成后续步骤并入队，快速首动作通路先响应。",
+        "input": "任务状态、观测、技能返回",
+        "output": "前瞻技能队列"
+      },
+      {
+        "name": "Skill Kernel资源仲裁",
+        "purpose": "保护物理资源不被并发冲突调用",
+        "mechanism": "技能声明所需typed subsystem；内核负责独占/共享与执行生命周期。",
+        "input": "技能请求与资源需求",
+        "output": "被授权技能或等待/抢占"
+      },
+      {
+        "name": "S0反射与恢复",
+        "purpose": "快速响应障碍和紧急事件",
+        "mechanism": "低时延handler打断动作；中断后调度器重新检查任务来源、状态和资源再恢复。",
+        "input": "事件/障碍信号、当前Process",
+        "output": "安全中断与恢复决策"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "LLM规划器及Unitree Go2低层技能；反射handler",
+    "trainable": "运行时编排不要求额外模型训练；自然语言prescription可编译为handler",
+    "frozen": "现成LLM和底层控制栈",
+    "data": "8类原型任务；T1–T5每项10次",
+    "objective": "不适用：主要比较成功率、时延与调度开销",
+    "stages": "注册技能/反射→异步规划→资源调度→中断恢复"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Kalos Unitree Go2原型",
+      "setting": "v1表3；T1–T5各10次；TTFA和Step为秒，Total/Token是相对归一化；mean/std按原表。",
+      "result": "TypeGo TTFA 0.87s，对比ReAct1.46s；每步0.62s，对比1.25s。PAE总规划一次，所以不能只用Step列判断响应体验。",
+      "locator": "§8.1 表3",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§8.1 表3",
+        "columns": [
+          "系统",
+          "T1–T5成功数(/10)",
+          "TTFA mean/std(s)",
+          "Step mean/std(s)"
+        ],
+        "rows": [
+          [
+            "TypeGo",
+            "10/10/8/6/10",
+            "0.87/0.05",
+            "0.62/0.54"
+          ],
+          [
+            "ReAct",
+            "10/10/7/6/9",
+            "1.46/0.23",
+            "1.25/0.27"
+          ],
+          [
+            "PAE",
+            "10/10/0/9/10",
+            "3.27/1.73",
+            "0.01/0.01"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.05482v1",
+        "locator": "§8.1 表3"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "早期原型和有限任务套件；持久记忆、丰富隔离模型与成本感知调度列为未来工作。"
+    ],
+    "analysis": [
+      "原文定位为早期原型；延迟改善不能直接当成通用导航或操作成功率。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.05482",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.05482",
+      "label": "arXiv 原论文元数据与摘要",
+      "locator": "原文摘要；首次公开日期由检索元数据核实；最新版本日期未核实",
+      "supports": [
+        "身份",
+        "日期",
+        "方法",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2607.05482v1",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§3–8；表3/4；§9",
+      "supports": [
+        "运行时分层",
+        "资源和进程",
+        "小样本成功与时延",
+        "记忆尚未实现"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{typego2026,\n  title = {TypeGo: An OS Runtime for Embodied Agents},\n  author = {Guojun Chen and Alex Schott and Lin Zhong},\n  year = {2026},\n  eprint = {2607.05482},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2607.05482}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "把 LLM 规划拆成异步多时间尺度循环，用 Skill Kernel 仲裁物理资源，并通过任务抢占与恢复隐藏推理延迟。 该工作关注系统如何组织观测、推理与行动，阅读时要把运行时机制、底层策略的训练来源和最终任务证据分开。与单一模型的离线准确率相比，更应检查反馈接口、实验预算和失败时的行为。",
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,356 @@
+{
+  "checked": "2026-10-19",
+  "batch": "inspection",
+  "total": 23,
+  "counts": {
+    "fulltext": 22,
+    "metadata": 1,
+    "unresolved": 0
+  },
+  "scope": "仅修改此批23篇数据文件；不删除真实但全文受限论文。",
+  "notes": [
+    "所有23篇都具有真实论文入口；本批未发现需要按非论文删除的标题。",
+    "RoboInspect仅官方摘要/元数据；出版社全文403，未补造表格。",
+    "Feature-Following VLA与Persistent Monitoring包含明确标注的图估读，不伪称作者精确表值。",
+    "Real-to-Twin TableI/II口径差异保留，不混写指标。",
+    "CoRL2024会议与PMLR2025出版年分开；AHA数值固定arXiv v1，会议录用另有官方来源。",
+    "fulltext表示已读方法与关键实验，并非所有参数/许可/下载内容均已复现。",
+    "A3VLM Table2已见AVG0.91与20列简单均值约0.731不同，已保留原值并标注聚合待核实。"
+  ],
+  "papers": [
+    {
+      "id": "inspection-vla",
+      "title": "Assessment of a Fine-Tuned Vision-Language-Action Model for Robotic Feature-Following Inspection",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://doi.org/10.1007/s11063-026-11860-3",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 1,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "id": "homesafebench",
+      "title": "HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2509.23690",
+      "methodModules": 4,
+      "experimentSections": 1,
+      "numericTables": 1,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容"
+      ]
+    },
+    {
+      "id": "activeinspect",
+      "title": "ActiveInspect: GRPO-Optimized Multi-Sensor Evidence Selection for Industrial Defect Detection",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://doi.org/10.3390/s26154932",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容",
+        "作者机构",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "id": "p-ea5179b8da3b",
+      "title": "AHA: A Vision-Language-Model for Detecting and Reasoning Over Failures in Robotic Manipulation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2410.00371",
+      "methodModules": 4,
+      "experimentSections": 1,
+      "numericTables": 1,
+      "gaps": [
+        "会议版与arXiv v1实验数值未逐项对齐；本页明确采用v1",
+        "模型权重与数据许可证未逐项核实"
+      ]
+    },
+    {
+      "id": "p-0b551c73fc5b",
+      "title": "Toward next-generation autonomous structural health monitoring and inspection with humanoid robots",
+      "verificationLevel": "metadata",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://doi.org/10.1016/j.cacaie.2026.100007",
+      "methodModules": 3,
+      "experimentSections": 1,
+      "numericTables": 0,
+      "gaps": [
+        "全文与关键实验图表未取得（出版社访问返回403）",
+        "作者机构、精确首发日期未核实；仅确认2026年4月卷44文章100007",
+        "视觉模型、训练数据/目标与完整评测指标未核实",
+        "代码/数据开放与许可未核实"
+      ]
+    },
+    {
+      "id": "p-001885caf8c9",
+      "title": "Hierarchical Planning for Resource-Constrained Long-Term Monitoring Missions in Time-Varying Environments",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://www.robots.ox.ac.uk/~nickh/papers/stephens24ecai.pdf",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "首次预印本公开日期未核实；仅确认ECAI2024出版",
+        "官方代码、数据许可证与最终下载包未核实"
+      ]
+    },
+    {
+      "id": "semantic-inspection",
+      "title": "Semantically-driven Deep Reinforcement Learning for Inspection Path Planning",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2505.14443",
+      "methodModules": 3,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容",
+        "作者机构",
+        "最新版本日期"
+      ]
+    },
+    {
+      "id": "p-e3ae85d6e4bd",
+      "title": "Changes in Real Time: Online Scene Change Detection with Multi-View Fusion",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2511.12370",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "资源许可证与完整下载包未逐项核验"
+      ]
+    },
+    {
+      "id": "p-7f5ff67c08d8",
+      "title": "A Hierarchical Approach with Crisis Mitigation for Multi-Robot Spatio-Temporal Restoration",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://www.ifaamas.org/Proceedings/aamas2026/pdfs/UYQK9511.pdf",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "首次预印本日期未核实，仅确认AAMAS2026出版",
+        "Fig5危机增益未取得精确原始数据；未伪造图表精度"
+      ]
+    },
+    {
+      "id": "p-81232111673b",
+      "title": "C3-Bench: A Context-Aware Change Captioning Benchmark",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2606.25445",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "ECCV状态由作者官方仓库声明，正式出版页面未逐项回查",
+        "源图像许可证、全部划分细节待核实"
+      ]
+    },
+    {
+      "id": "realtwin",
+      "title": "Towards Active Real-to-Twin Inspection: A New Paradigm for Zero-Shot Anomaly Detection",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2605.25407",
+      "methodModules": 3,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容",
+        "作者机构",
+        "最新版本日期"
+      ]
+    },
+    {
+      "id": "p-443fd392a2e5",
+      "title": "Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2412.06171",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "原文测试总数约数与分项合计存在差异，已显式注明",
+        "数据再分发与源监控数据许可证须分别核验"
+      ]
+    },
+    {
+      "id": "p-619a6d33c8f9",
+      "title": "Leveraging Geometric Priors for Unaligned Scene Change Detection",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2509.11292",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "ICRA发表信息由作者官方仓库确认，会议出版DOI尚未核实",
+        "所有资源许可证未逐项核实"
+      ]
+    },
+    {
+      "id": "ccv-vlm",
+      "title": "Tandem CCV-VLM: Visual construction safety inspection based on Collaborative Cross-Verification VLM",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://doi.org/10.1016/j.aei.2026.104841",
+      "methodModules": 3,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容",
+        "训练冻结配置",
+        "数据划分与逐表量化复核",
+        "论文 DOI 与资源入口",
+        "作者机构",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "id": "p-fe38d46e48e7",
+      "title": "Active Spatial Inspection for Effective and Efficient Embodied Exploration",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2609.22385",
+      "methodModules": 4,
+      "experimentSections": 3,
+      "numericTables": 3,
+      "gaps": [
+        "代码声明可用，但本次未定位到可靠官方仓库URL",
+        "正式发表状态和资源许可证未核实"
+      ]
+    },
+    {
+      "id": "p-9ec8c2e5f995",
+      "title": "IndusAgent: Reinforcing Open-Vocabulary Industrial Anomaly Detection with Agentic Tools",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2605.20682",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "具体冻结范围/训练计算资源需逐项回查",
+        "官方代码/权重URL未可靠定位",
+        "正式发表信息未核实，保留预印本"
+      ]
+    },
+    {
+      "id": "p-e1464426d0ea",
+      "title": "A3VLM: Actionable Articulation-Aware Vision Language Model",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://proceedings.mlr.press/v270/huang25b.html",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "全部训练数据量与下载许可未逐项核实",
+        "CoRL会议年2024与论文集出版年2025已分开注明",
+        "Table2 A3VLM已见AVG0.91与显示20类别简单均值约0.731不一致；未找到权重说明，保留原值并标明疑点"
+      ]
+    },
+    {
+      "id": "hros",
+      "title": "Harness Robotic OS: A Unified Embodied-Agent Runtime for Closed-Loop Quadruped Inspection",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2609.11225",
+      "methodModules": 4,
+      "experimentSections": 1,
+      "numericTables": 1,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容",
+        "作者机构",
+        "最新版本日期"
+      ]
+    },
+    {
+      "id": "p-7615f32ae45a",
+      "title": "3D VSG: Long-term Semantic Scene Change Prediction through 3D Variable Scene Graphs",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2209.07896",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "模型与源数据许可证未逐项核实"
+      ]
+    },
+    {
+      "id": "p-db9cbaf48a92",
+      "title": "Persistent Monitoring of Large Environments with Robot Deployment Scheduling in between Remote Sensing Cycles",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://kmasaba21.github.io/assets/pdf/2024_km_icra_adeployment.pdf",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "首次公开日期与作者代码仓库未核实",
+        "图5估读仅约数；精确原始统计未公开/未获取"
+      ]
+    },
+    {
+      "id": "inspectorgpt",
+      "title": "InspectorGPT: A Comparative Reasoning Enhanced VLM for Comprehensive Industrial Anomaly Detection",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2608.29783",
+      "methodModules": 4,
+      "experimentSections": 3,
+      "numericTables": 3,
+      "gaps": [
+        "尚未逐项核实所有资源许可证与下载内容",
+        "作者机构",
+        "最新版本日期"
+      ]
+    },
+    {
+      "id": "p-3ce25b8b47c9",
+      "title": "DRIVE-Nav: Directional Reasoning, Inspection, and Verification for Efficient Open-Vocabulary Navigation",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2603.28691",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "正式录用/发表状态未获可靠出版记录，保留预印本",
+        "全部episode样本量、资源许可未逐项核实"
+      ]
+    },
+    {
+      "id": "p-e792ec2c3692",
+      "title": "VSCD: Video-based Scene Change Detection in Unaligned Scenes",
+      "verificationLevel": "fulltext",
+      "checked": "2026-10-19",
+      "primaryUrl": "https://arxiv.org/abs/2605.20821",
+      "methodModules": 4,
+      "experimentSections": 2,
+      "numericTables": 2,
+      "gaps": [
+        "合成各划分精确规模与源场景资产许可待逐项核实"
+      ]
+    }
+  ]
+}

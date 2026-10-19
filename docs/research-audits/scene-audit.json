@@ -1,0 +1,549 @@
+[
+  {
+    "id": "4dgs-deformation",
+    "arxiv": "2310.08528",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 4,
+    "authors": 9,
+    "institutions": [
+      "School of CS, Huazhong University of Science and Technology",
+      "School of EIC, Huazhong University of Science and Technology",
+      "Huawei Inc."
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2310.08528",
+      "https://arxiv.org/html/2310.08528v3",
+      "https://guanjunwu.github.io/4dgs/",
+      "https://github.com/hustvl/4DGaussians"
+    ]
+  },
+  {
+    "id": "4dgs-native",
+    "arxiv": "2310.10642",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 3,
+    "authors": 4,
+    "institutions": [
+      "Fudan University"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2310.10642",
+      "https://arxiv.org/html/2310.10642v3",
+      "https://fudan-zvg.github.io/4d-gaussian-splatting/",
+      "https://github.com/fudan-zvg/4d-gaussian-splatting"
+    ]
+  },
+  {
+    "id": "shape-of-motion",
+    "arxiv": "2407.13764",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 7,
+    "institutions": [
+      "UC Berkeley",
+      "Google DeepMind",
+      "UC San Diego",
+      "Adobe Research"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2407.13764",
+      "https://arxiv.org/html/2407.13764v2",
+      "https://shape-of-motion.github.io/",
+      "https://github.com/vye16/shape-of-motion"
+    ]
+  },
+  {
+    "id": "p-14b5531a75e6",
+    "arxiv": "2308.04079",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 4,
+    "institutions": [
+      "Inria",
+      "Université Côte d’Azur",
+      "Max-Planck-Institut für Informatik"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2308.04079",
+      "https://arxiv.org/html/2308.04079v1",
+      "https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/",
+      "https://github.com/graphdeco-inria/gaussian-splatting"
+    ]
+  },
+  {
+    "id": "p-2ffe439eb1ba",
+    "arxiv": "2403.17888",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 5,
+    "institutions": [
+      "ShanghaiTech University",
+      "University of Tübingen",
+      "Tübingen AI Center"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2403.17888",
+      "https://arxiv.org/html/2403.17888v3",
+      "https://surfsplatting.github.io/",
+      "https://github.com/hbb1/2d-gaussian-splatting"
+    ]
+  },
+  {
+    "id": "p-50ec2ef82c5e",
+    "arxiv": "2404.12379",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 3,
+    "institutions": [
+      "UC San Diego"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2404.12379",
+      "https://arxiv.org/html/2404.12379v3",
+      "https://www.liuisabella.com/DG-Mesh/",
+      "https://github.com/Isabella98Liu/DG-Mesh"
+    ]
+  },
+  {
+    "id": "p-3209995b40ca",
+    "arxiv": "2412.04457",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 7,
+    "institutions": [
+      "Brown University",
+      "Stanford University",
+      "NVIDIA"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2412.04457",
+      "https://arxiv.org/html/2412.04457v2",
+      "https://brownvc.github.io/MonoDyGauBench.github.io/",
+      "https://github.com/lynl7130/MonoDyGauBench_code"
+    ]
+  },
+  {
+    "id": "p-d683b4b81795",
+    "arxiv": "2408.16760",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 12,
+    "institutions": [
+      "University of Southern California",
+      "NVIDIA Research",
+      "Technion",
+      "University of Toronto",
+      "Stanford University"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2408.16760",
+      "https://arxiv.org/html/2408.16760v2",
+      "https://ziyc.github.io/omnire/",
+      "https://github.com/ziyc/drivestudio"
+    ]
+  },
+  {
+    "id": "p-0826bd202c54",
+    "arxiv": "2210.13445",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 5,
+    "institutions": [
+      "UC Berkeley",
+      "Carnegie Mellon University",
+      "Adobe Research"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2210.13445",
+      "https://arxiv.org/html/2210.13445v1",
+      "https://kair-bair.github.io/dycheck/",
+      "https://github.com/KAIR-BAIR/dycheck"
+    ]
+  },
+  {
+    "id": "p-3da43536d4d1",
+    "arxiv": "2601.05251",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 5,
+    "institutions": [
+      "University of Oxford",
+      "Nanyang Technological University",
+      "Naver Labs Europe"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2601.05251",
+      "https://arxiv.org/html/2601.05251v1",
+      "https://mesh-4d.github.io/",
+      "https://github.com/jzr99/Mesh4D"
+    ]
+  },
+  {
+    "id": "p-387292d4cfe1",
+    "arxiv": "2610.01286",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 5,
+    "institutions": [
+      "University of California, Davis",
+      "Genies Inc."
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。",
+      "未确认正式会议/期刊发表信息；仅以arXiv预印本标识。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2610.01286",
+      "https://arxiv.org/html/2610.01286v1"
+    ]
+  },
+  {
+    "id": "p-cd878abbdc6e",
+    "arxiv": "2406.00434",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 7,
+    "institutions": [
+      "City University of Hong Kong",
+      "Hong Kong University of Science and Technology",
+      "University of Hong Kong",
+      "Texas A&M University",
+      "Chinese University of Hong Kong, Shenzhen"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2406.00434",
+      "https://arxiv.org/html/2406.00434v4",
+      "https://modgs.github.io/",
+      "https://github.com/Mobiuslqm/MoDGS"
+    ]
+  },
+  {
+    "id": "p-85fa9b6d2cff",
+    "arxiv": "2602.08961",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 7,
+    "institutions": [
+      "ARC Lab, Tencent PCG",
+      "HKUST",
+      "CUHK(SZ)",
+      "Monash University"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2602.08961",
+      "https://arxiv.org/html/2602.08961v2",
+      "https://ruijiezhu94.github.io/MotionCrafter_Page/",
+      "https://github.com/TencentARC/MotionCrafter",
+      "https://arxiv.org/pdf/2602.08961"
+    ]
+  },
+  {
+    "id": "p-4e9a45d155a1",
+    "arxiv": "2603.05078",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 7,
+    "institutions": [
+      "Tsinghua University",
+      "Li Auto"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2603.05078",
+      "https://arxiv.org/html/2603.05078v2",
+      "https://hellexf.github.io/MoRe/",
+      "https://github.com/HellexF/MoRe",
+      "https://openaccess.thecvf.com/content/CVPR2026/html/Fang_MoRe_Motion-aware_Feed-forward_4D_Reconstruction_Transformer_CVPR_2026_paper.html"
+    ]
+  },
+  {
+    "id": "p-34a5dbdb0d8c",
+    "arxiv": "2506.08862",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 5,
+    "institutions": [
+      "University of British Columbia",
+      "Vector Institute for AI",
+      "Nanyang Technological University",
+      "Canada CIFAR AI Chair"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2506.08862",
+      "https://arxiv.org/html/2506.08862v2",
+      "https://streamsplat3d.github.io/",
+      "https://github.com/DSL-Lab/StreamSplat"
+    ]
+  },
+  {
+    "id": "p-4a1242e127e6",
+    "arxiv": "2405.17421",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 5,
+    "institutions": [
+      "University of Pennsylvania",
+      "Stanford University",
+      "Archimedes, Athena RC"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2405.17421",
+      "https://arxiv.org/html/2405.17421v2",
+      "https://jiahuilei.com/projects/mosca/",
+      "https://github.com/JiahuiLei/MoSca"
+    ]
+  },
+  {
+    "id": "p-4fd4f0f43eab",
+    "arxiv": "2410.05111",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 7,
+    "institutions": [
+      "Cainiao, Alibaba Group",
+      "Sun Yat-sen University",
+      "Zhejiang University"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。",
+      "未确认正式会议/期刊发表信息；仅以arXiv预印本标识。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2410.05111",
+      "https://arxiv.org/html/2410.05111v3",
+      "https://github.com/cqf7419/LiDAR-GS"
+    ]
+  },
+  {
+    "id": "p-8cd89ffbe2d5",
+    "arxiv": "2410.17084",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 4,
+    "institutions": [
+      "Hong Kong University of Science and Technology (Guangzhou)",
+      "Hong Kong University of Science and Technology"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2410.17084",
+      "https://arxiv.org/html/2410.17084v1",
+      "https://github.com/xieyuser/GS-LIVM",
+      "https://openaccess.thecvf.com/content/ICCV2025/html/Xie_GS-LIVM_Real-Time_Photo-Realistic_LiDAR-Inertial-Visual_Mapping_with_Gaussian_Splatting_ICCV_2025_paper.html"
+    ]
+  },
+  {
+    "id": "p-2ea21918bab7",
+    "arxiv": "2603.28064",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 4,
+    "institutions": [
+      "Australian National University",
+      "NVIDIA",
+      "Amazon"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2603.28064",
+      "https://arxiv.org/html/2603.28064v1",
+      "https://openaccess.thecvf.com/content/CVPR2026/html/Wu_4DSurf_High-Fidelity_Dynamic_Scene_Surface_Reconstruction_CVPR_2026_paper.html"
+    ]
+  },
+  {
+    "id": "p-fc7e30888833",
+    "arxiv": "2401.01339",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 9,
+    "institutions": [
+      "Zhejiang University",
+      "Li Auto"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2401.01339",
+      "https://arxiv.org/html/2401.01339v3",
+      "https://github.com/zju3dv/street_gaussians"
+    ]
+  },
+  {
+    "id": "p-8588e4b96e61",
+    "arxiv": "2309.13101",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 6,
+    "institutions": [
+      "State Key Laboratory of CAD&CG, Zhejiang University",
+      "ByteDance Inc."
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2309.13101",
+      "https://arxiv.org/html/2309.13101v2",
+      "https://ingra14m.github.io/Deformable-Gaussians/",
+      "https://github.com/ingra14m/Deformable-3D-Gaussians",
+      "https://openaccess.thecvf.com/content/CVPR2024/html/Yang_Deformable_3D_Gaussians_for_High-Fidelity_Monocular_Dynamic_Scene_Reconstruction_CVPR_2024_paper.html"
+    ]
+  },
+  {
+    "id": "p-c0e3911c11b4",
+    "arxiv": "2412.04463",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 9,
+    "institutions": [
+      "Google DeepMind",
+      "UC Berkeley",
+      "University of Michigan"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2412.04463",
+      "https://arxiv.org/html/2412.04463v2",
+      "https://mega-sam.github.io/",
+      "https://github.com/mega-sam/mega-sam"
+    ]
+  },
+  {
+    "id": "p-b3b2d9ca757f",
+    "arxiv": "2601.05368",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 2,
+    "authors": 6,
+    "institutions": [
+      "ETH Zürich",
+      "Google"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2601.05368",
+      "https://arxiv.org/html/2601.05368v1",
+      "https://openaccess.thecvf.com/content/CVPR2026/html/Morkva_MOSAIC-GS_Monocular_Scene_Reconstruction_via_Advanced_Initialization_for_Complex_Dynamic_CVPR_2026_paper.html"
+    ]
+  },
+  {
+    "id": "p-672aaae4a2d7",
+    "arxiv": "2507.10065",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "authors": 8,
+    "institutions": [
+      "Peking University",
+      "ByteDance",
+      "Carnegie Mellon University"
+    ],
+    "gaps": [
+      "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2507.10065",
+      "https://arxiv.org/html/2507.10065v2",
+      "https://github.com/chenguolin/MoVieS"
+    ]
+  }
+]

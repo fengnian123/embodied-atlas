@@ -1,0 +1,174 @@
+{
+  "id": "p-7572fd195855",
+  "title": "Autonomous robotic laparoscopic surgery for intestinal anastomosis",
+  "short": "STAR-Lap",
+  "aliases": [
+    "STAR-Lap"
+  ],
+  "authors": [
+    "H. Saeidi",
+    "J. D. Opfermann",
+    "M. Kam",
+    "S. Wei",
+    "S. Leonard",
+    "M. H. Hsieh",
+    "J. U. Kang",
+    "A. Krieger"
+  ],
+  "institutions": [
+    "Department of Computer Science, University of North Carolina Wilmington, Wilmington, NC 28403, USA.",
+    "Department of Mechanical Engineering, Johns Hopkins University; Baltimore, MD 21211, USA.",
+    "Laboratory for Computational Sensing and Robotics, Johns Hopkins University; Baltimore, MD 21211, USA.",
+    "Department of Electrical and Computer Engineering, Johns Hopkins University; Baltimore, MD 21211, USA.",
+    "Department of Urology, Children’s National Hospital, 111 Michigan Ave. N.W., Washington, DC 20010, USA"
+  ],
+  "firstPublished": "2022-01-26",
+  "updated": null,
+  "publicationYear": 2022,
+  "venue": "Science Robotics",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "通过近红外组织跟踪、三维重建、缝合规划及反馈控制，实现监督式腹腔镜肠吻合；术者选择计划，机器人在软组织形变与呼吸运动下执行。",
+  "method": {
+    "input": "3D内窥镜、NIR组织标记和术者计划选择",
+    "output": "缝合点序列、工具动作与重规划请求",
+    "flow": [
+      "组织运动与三维重建",
+      "缝合计划与风险检查",
+      "反馈执行与调整"
+    ],
+    "explanation": "通过近红外组织跟踪、三维重建、缝合规划及反馈控制，实现监督式腹腔镜肠吻合；术者选择计划，机器人在软组织形变与呼吸运动下执行。",
+    "modules": [
+      {
+        "name": "组织运动与三维重建",
+        "purpose": "在组织相对静止时获得可靠几何",
+        "mechanism": "跟踪NIR标记并检测呼吸停顿，再触发点云重建以降低运动模糊。",
+        "input": "3D内窥镜、NIR组织标记和术者计划选择",
+        "output": "组织运动与三维重建的中间结果"
+      },
+      {
+        "name": "缝合计划与风险检查",
+        "purpose": "确定针距和工具可达性",
+        "mechanism": "在组织点云上生成候选缝合方案、预测碰撞，由操作者选择或重建计划。",
+        "input": "组织运动与三维重建的结果",
+        "output": "缝合计划与风险检查的中间结果"
+      },
+      {
+        "name": "反馈执行与调整",
+        "purpose": "处理组织形变导致的偏移",
+        "mechanism": "高层缝合逻辑串联动作原语和低层控制，并允许术者监督和计划调整。",
+        "input": "缝合计划与风险检查的结果",
+        "output": "缝合点序列、工具动作与重规划请求"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1126/scirobotics.abj2908",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / STAR-Lap",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8992572/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1126/scirobotics.abj2908",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1126/scirobotics.abj2908",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8992572/",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Science Robotics'22**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "通过近红外组织跟踪、三维重建、缝合规划及反馈控制，实现监督式腹腔镜肠吻合；术者选择计划，机器人在软组织形变与呼吸运动下执行。 "
+}

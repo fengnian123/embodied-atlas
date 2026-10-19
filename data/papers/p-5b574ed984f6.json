@@ -1,0 +1,206 @@
+{
+  "id": "p-5b574ed984f6",
+  "title": "Conversational Affective Social Robots for Ageing and Dementia Support",
+  "short": "Affective-SAR",
+  "aliases": [
+    "Affective-SAR"
+  ],
+  "authors": [
+    "Maria R. Lima",
+    "Maitreyee Wairagkar",
+    "Manish Gupta",
+    "Ferdinando Rodriguez y Baena",
+    "Payam Barnaghi",
+    "David J. Sharp",
+    "Ravi Vaidyanathan"
+  ],
+  "institutions": [
+    "Department of Mechanical Engineering, Imperial College London, London, U.K.",
+    "Google Research India, Bengaluru, India",
+    "Department of Mechanical Engineering, Hamlyn Centre for Robotic Surgery, Imperial College London, London, U.K.",
+    "Care Research and Technology Centre, U.K. Dementia Research Institute, London, U.K."
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2022,
+  "venue": "IEEE Transactions on Cognitive and Developmental Systems",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "回顾面向老龄与失智支持的情感对话社会机器人，重点讨论语音交互、情感参与、沟通失败与长期部署的设计缺口。",
+  "method": {
+    "input": "机器人交互研究",
+    "output": "需要验证的长期交互与监测方向",
+    "flow": [
+      "带语音情感交互的平台筛选",
+      "用途与设计趋势比较",
+      "语音交互与临床转化缺口"
+    ],
+    "explanation": "本文聚焦能说话、有脸和情感表达、且在老年人或失智人群中实际评测过的社会辅助机器人；PARO等不具备口语输出的机器人不在这一核心集合。作者检索2000–2021年研究，为每种平台优先选较新、样本较大、交互较长的代表工作，得到30项关键研究。文章按陪伴、健康监测、认知支持和临床治疗四种用途组织，同时审查语音识别、意图理解、对话管理、语言生成及语音合成这一交互链条。重点不只是“能聊天”，还包括听不懂、轮次管理失败、文化/语言差异和长期健康信息记录。统计揭示当时研究仍以小样本、短时和有限自主性评测为主。",
+    "modules": [
+      {
+        "name": "带语音情感交互的平台筛选",
+        "purpose": "保持纳入条件与研究问题一致",
+        "mechanism": "检索2000–2021年，要求目标人群评测、具脸/语音/情感标记；同平台优先较新、规模较大、时长较长工作。",
+        "input": "机器人交互研究",
+        "output": "30项关键研究"
+      },
+      {
+        "name": "用途与设计趋势比较",
+        "purpose": "分辨机器人在健康支持中的角色",
+        "mechanism": "分陪伴、健康监测、认知支持、临床治疗；比较移动/小型设计、用户中心设计、自主性与场景。",
+        "input": "纳入研究特征",
+        "output": "用途、设计与部署证据"
+      },
+      {
+        "name": "语音交互与临床转化缺口",
+        "purpose": "解释自然对话距离长期支持的障碍",
+        "mechanism": "审查ASR、NLU、对话管理、NLG、TTS和沟通修复；讨论文化适配、长期参与、隐私及临床验证。",
+        "input": "语音/NLP功能与用户体验",
+        "output": "需要验证的长期交互与监测方向"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "对话社会机器人综述样本",
+      "setting": "30项关键研究；统计来自Sec.II、Fig.3–5与Table I，不是新机器人策略实验",
+      "result": "18/30研究样本规模小或受限；40%平台具有某种程度自主性。",
+      "locator": "Sec.II-B/C；Table I；Fig.3–5",
+      "sourceUrl": "https://spiral.imperial.ac.uk/bitstreams/f505e777-8f7d-4c72-a887-3429a49a26e3/download",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "统计项",
+          "原文报告"
+        ],
+        "rows": [
+          [
+            "关键研究数",
+            "30"
+          ],
+          [
+            "样本小或受限研究",
+            "18 / 30 (60%)"
+          ],
+          [
+            "有某种自主性的SAR平台",
+            "40%"
+          ],
+          [
+            "能理解并回答超过一种语言的平台",
+            "5"
+          ],
+          [
+            "包含文化适配/敏感性的研究",
+            "3"
+          ]
+        ],
+        "locator": "Sec.II-B/C；Table I；Fig.3–5"
+      },
+      "caveat": "纳入的是代表工作，非全领域穷尽清点；平台统计与研究统计口径不能互换。"
+    }
+  ],
+  "limitations": {
+    "author": [
+      "长期信任、临床获益与真实居家部署证据仍不成熟；大样本研究也多不是长时连续自主交互。",
+      "语音识别与对话修复在目标人群面临困难，多语言及文化适配不足，隐私与情感依附需要关注。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/tcds.2021.3115228",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / Affective-SAR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/TCDS.2021.3115228",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/tcds.2021.3115228",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://spiral.imperial.ac.uk/bitstreams/f505e777-8f7d-4c72-a887-3429a49a26e3/download",
+      "locator": "Sec.II-B/C；Table I；Fig.3–5",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+    "精确首次公开日期未核实，不将年月补写成某一天。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**TCDS'21**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "回顾面向老龄与失智支持的情感对话社会机器人，重点讨论语音交互、情感参与、沟通失败与长期部署的设计缺口。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

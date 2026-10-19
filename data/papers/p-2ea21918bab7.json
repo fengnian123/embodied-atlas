@@ -1,0 +1,260 @@
+{
+  "id": "p-2ea21918bab7",
+  "title": "4DSurf: High-Fidelity Dynamic Scene Surface Reconstruction",
+  "short": "4DSurf",
+  "aliases": [],
+  "authors": [
+    "Renjie Wu",
+    "Hongdong Li",
+    "Jose M. Alvarez",
+    "Miaomiao Liu"
+  ],
+  "institutions": [
+    "Australian National University",
+    "NVIDIA",
+    "Amazon"
+  ],
+  "firstPublished": "2026-03-30",
+  "updated": "2026-03-30",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "用高斯速度诱导的SDF流约束维持动态表面一致，再通过重叠时间分段与低秩运动更新处理大形变并减少存储。",
+  "method": {
+    "input": "有相机、时间和前景掩码的动态多视角观测",
+    "output": "时间一致的动态表面/Mesh",
+    "flow": [
+      "高斯速度与SDF流",
+      "Overlapping Segment Partitioning",
+      "Incremental Motion Tuning"
+    ],
+    "assumptions": "实验证据包含CMU Panoptic、Hi4D；不假设可从任意单视频恢复同等精度。",
+    "difference": "将表面SDF演化和显式高斯运动联系起来，而不只优化独立时刻的深度/法线。",
+    "explanation": "用高斯速度诱导的SDF流约束维持动态表面一致，再通过重叠时间分段与低秩运动更新处理大形变并减少存储。 将表面SDF演化和显式高斯运动联系起来，而不只优化独立时刻的深度/法线。 高斯运动诱导速度场，与三维几何变化推得的SDF流对齐，约束时间一致表面。 序列分成K+1步重叠片段，虚拟交接时刻的高斯初始化下一段；每段保留自身规范形状。 后段在前段速度场上以LoRA低秩增量更新；结合RGB、法线、深度畸变、mask及SDF流目标优化。",
+    "modules": [
+      {
+        "name": "高斯速度与SDF流",
+        "purpose": "把运动约束传到隐式表面",
+        "mechanism": "高斯运动诱导速度场，与三维几何变化推得的SDF流对齐，约束时间一致表面。",
+        "input": "高斯运动、几何与SDF",
+        "output": "受运动约束的表面演化"
+      },
+      {
+        "name": "Overlapping Segment Partitioning",
+        "purpose": "缓解单一规范场处理大形变的困难",
+        "mechanism": "序列分成K+1步重叠片段，虚拟交接时刻的高斯初始化下一段；每段保留自身规范形状。",
+        "input": "长序列及前段末状态",
+        "output": "可持续衔接的分段重建"
+      },
+      {
+        "name": "Incremental Motion Tuning",
+        "purpose": "控制多段形变网络的存储增长",
+        "mechanism": "后段在前段速度场上以LoRA低秩增量更新；结合RGB、法线、深度畸变、mask及SDF流目标优化。",
+        "input": "前段速度网络与新片段",
+        "output": "低存储动态表面模型"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "各段表面高斯、速度场；后段可用LoRA运动增量",
+    "trainable": "各段表面高斯、速度场；后段可用LoRA运动增量",
+    "frozen": "无VLM主干；LoRA用于运动网络而非语言模型",
+    "data": "动态多视角序列",
+    "objective": "图像L1/D-SSIM、法线、深度畸变、SDF流、mask",
+    "stages": "顺序重叠分段优化；对比IMT-64及不使用IMT版本"
+  },
+  "evaluation": [
+    {
+      "benchmark": "CMU Panoptic 表面",
+      "setting": "CVPR2026/arXiv当前版；Overall Chamfer单位mm；IMT-64是低秩运动配置，与不使用IMT分列。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "CMU Panoptic 表面 · Table 1",
+        "columns": [
+          "配置",
+          "Band1 CD↓ mm",
+          "Ian3 CD↓ mm",
+          "Haggling b2 CD↓ mm",
+          "Pizza1 CD↓ mm"
+        ],
+        "rows": [
+          [
+            "4DGS",
+            "17.3",
+            "13.0",
+            "14.4",
+            "17.1"
+          ],
+          [
+            "Dynamic-2DGS",
+            "16.0",
+            "12.5",
+            "13.7",
+            "16.2"
+          ],
+          [
+            "4DSurf+IMT64",
+            "12.8",
+            "10.4",
+            "11.0",
+            "12.1"
+          ],
+          [
+            "4DSurf wo IMT",
+            "12.7",
+            "10.5",
+            "10.8",
+            "12.2"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2603.28064v1",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "Hi4D 表面",
+      "setting": "与Panoptic独立协议；此表单位cm；这里只摘四序列Overall CD，不虚构全数据集均值。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Hi4D 表面 · Table 2",
+        "columns": [
+          "配置",
+          "Cheers37↓ cm",
+          "Talk22↓ cm",
+          "Football18↓ cm",
+          "Fight17↓ cm"
+        ],
+        "rows": [
+          [
+            "4DGS",
+            "2.24",
+            "3.74",
+            "2.63",
+            "2.73"
+          ],
+          [
+            "4DSurf+IMT64",
+            "0.48",
+            "0.84",
+            "0.56",
+            "0.64"
+          ],
+          [
+            "4DSurf wo IMT",
+            "0.47",
+            "0.84",
+            "0.51",
+            "0.63"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2603.28064v1",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "CMU表单位mm，Hi4D表单位cm；必须保留单位，不能直接混合数值排名。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2603.28064",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / 4DSurf: High-Fidelity Dynamic Scene Surface Reconstruction",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.28064",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2603.28064v1",
+      "label": "论文全文 v1",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Wu_4DSurf_High-Fidelity_Dynamic_Scene_Surface_Reconstruction_CVPR_2026_paper.html",
+      "label": "正式会议论文集",
+      "locator": "标题、作者顺序与会议年份",
+      "supports": [
+        "发表",
+        "作者",
+        "身份"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{260328064,\n  title = {4DSurf: High-Fidelity Dynamic Scene Surface Reconstruction},\n  author = {Wu, Renjie and Li, Hongdong and Alvarez, Jose M. and Liu, Miaomiao},\n  year = {2026},\n  eprint = {2603.28064},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2603.28064}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "用高斯速度诱导的SDF流约束维持动态表面一致，再通过重叠时间分段与低秩运动更新处理大形变并减少存储。 将表面SDF演化和显式高斯运动联系起来，而不只优化独立时刻的深度/法线。 实验证据包含CMU Panoptic、Hi4D；不假设可从任意单视频恢复同等精度。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

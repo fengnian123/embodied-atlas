@@ -1,0 +1,331 @@
+{
+  "id": "abot-agentos",
+  "title": "ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory",
+  "short": "ABot-AgentOS",
+  "aliases": [
+    "ABot-AgentOS static memory"
+  ],
+  "authors": [
+    "Jiayi Tian",
+    "Shiao Liu",
+    "Yuting Xu",
+    "Jia Lu",
+    "Zihao Guan",
+    "Honglin Han",
+    "Di Yang",
+    "Minqi Gu",
+    "Yifei Qian",
+    "Tianlin Zhang",
+    "Yanqing Zhu",
+    "Zeqian Ye",
+    "Menglin Yang",
+    "Fei Wang",
+    "Xu Hu",
+    "Xiuxian Li",
+    "Wei Zhang",
+    "Shihui Su",
+    "Yiyan Ji",
+    "Jingbo Wang",
+    "Ziteng Feng",
+    "Jiaheng Liu",
+    "Zhaoxiang Zhang",
+    "Xiaolong Wu",
+    "Zixiao Tang",
+    "Zhining Gu",
+    "Yang Cai",
+    "Linbo Zheng",
+    "Jingjing Ma",
+    "Mingyang Yin",
+    "Zedong Chu",
+    "Wenbin Tang",
+    "Mu Xu"
+  ],
+  "institutions": [
+    "AMAP CV Lab"
+  ],
+  "firstPublished": "2026-07-11",
+  "updated": "2026-07-17",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "长程任务"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法",
+      "Benchmark"
+    ],
+    "problem": [
+      "记忆",
+      "规划"
+    ],
+    "environment": [],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "以推理—执行—验证运行时组织技能，把多模态证据写成带来源的图记忆，并在隔离后续评估中检验失败产生的经验资产。",
+  "method": {
+    "input": "任务、观测与工具反馈",
+    "output": "技能调用、验证结果与可追踪记忆",
+    "flow": [
+      "场景条件主规划：把指令落到当前环境和执行阶段",
+      "隔离上下文Skill Runner：处理局部多步执行而不淹没主上下文",
+      "多阶段Verifier：避免未完成就终止及无效循环",
+      "源可追溯图记忆与演化：跨任务检索关系证据并修正规则"
+    ],
+    "assumptions": "需要机器人适配Skill和可靠观测；正式Agent子集是UnrealZoo/NavMesh执行，不应把插件可接实机写成规模化实机验证。",
+    "difference": "当前官方仓库说明代码与资源仍在准备，存在项目页不等于可下载完整系统。",
+    "explanation": "ABot-AgentOS在底层控制器之上组织主LLM、局部Skill Runner和Verifier。主规划器读取场景与记忆，局部执行器在隔离上下文里反复感知和行动，返回压缩结果；Verifier检查阶段进度及最终完成证据。多模态图把人、物、地点、事件、时间、视觉帧及来源连成可检索证据子图。失败驱动演化修改记忆写入/检索规则，只能影响之后的评测split。",
+    "modules": [
+      {
+        "name": "场景条件主规划",
+        "purpose": "把指令落到当前环境和执行阶段",
+        "mechanism": "依据可见地图、记忆和反馈拆分子任务；需要持续执行的过程交给Skill Runner。",
+        "input": "指令、过滤后的语义地图、记忆、当前反馈",
+        "output": "高层计划、工具/Skill选择"
+      },
+      {
+        "name": "隔离上下文Skill Runner",
+        "purpose": "处理局部多步执行而不淹没主上下文",
+        "mechanism": "局部维护观察、重复动作和中间状态，结束后只返回结果和关键证据。",
+        "input": "子任务、局部工具、上下文",
+        "output": "状态摘要、失败原因、证据"
+      },
+      {
+        "name": "多阶段Verifier",
+        "purpose": "避免未完成就终止及无效循环",
+        "mechanism": "在执行中检查进度，结束时检查成功条件，把修正信号交回主规划器。",
+        "input": "轨迹、技能回执、视觉与任务标准",
+        "output": "继续、恢复、重规划或完成"
+      },
+      {
+        "name": "源可追溯图记忆与演化",
+        "purpose": "跨任务检索关系证据并修正规则",
+        "mechanism": "typed节点/边保存实体、事件、场所、会话和来源；混合检索结合语义、词面、元数据与类型，再用检索轨迹定位失败并门控新规则。",
+        "input": "对话、关键帧、空间/时间上下文、执行轨迹",
+        "output": "局部证据子图、回答、后续split可用evo-assets"
+      }
+    ]
+  },
+  "training": {
+    "regime": "训练细节未公开",
+    "models": "公开Agent评测：Qwen3.6-Plus或DeepSeek-V4-Pro主控制器；统一Qwen3-VL-Plus观测工具",
+    "trainable": "公开评测使用现成模型；另描述未公开生产训练流水线，包含小模型SFT与RL",
+    "frozen": "公开推理/记忆评测不应等同于已经训练生产小模型",
+    "data": "生产训练：文本环境、教师轨迹蒸馏；私有训练数据和生产结果未公开",
+    "objective": "SFT学习教师工具调用；RL用LLM-as-a-Judge奖励和Meta-Judge检查；这些阶段与公开评测表分开",
+    "stages": "公开推理评测；独立生产方案为教师蒸馏→SFT→在线RL→奖励器演化"
+  },
+  "evaluation": [
+    {
+      "benchmark": "EmbodiedWorldBench初始子集",
+      "setting": "v3；UnrealZoo；主LLM不同，观测工具均为Qwen3-VL-Plus；作者明确只是子集初步系统验证。",
+      "result": "同Qwen3.6-Plus条件下TSR从49.97到61.96；不是完整Benchmark榜单。",
+      "locator": "§5.1 表1",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.1 表1",
+        "columns": [
+          "Agent",
+          "主控制器",
+          "TSR",
+          "GCR"
+        ],
+        "rows": [
+          [
+            "ReAct",
+            "Qwen3.6-Plus",
+            "49.97%",
+            "57.95%"
+          ],
+          [
+            "ABot-AgentOS",
+            "Qwen3.6-Plus",
+            "61.96%",
+            "68.79%"
+          ],
+          [
+            "ABot-AgentOS",
+            "DeepSeek-V4-Pro",
+            "68.18%",
+            "74.62%"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.10350v3",
+        "locator": "§5.1 表1"
+      }
+    },
+    {
+      "benchmark": "OpenEQA EM-EQA · Static图记忆",
+      "setting": "v3表3；8/24帧记忆设置；ScanNet/HM3D分别报告；这是作者自己的设置，不与原OpenEQA会议版GPT-4V子集直接合榜。",
+      "result": "Static 8帧Overall 59.2，24帧59.9；增加帧数不保证各子集一致提升。",
+      "locator": "§5.2 表3",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.2 表3",
+        "columns": [
+          "配置",
+          "帧数",
+          "ScanNet",
+          "HM3D",
+          "Overall"
+        ],
+        "rows": [
+          [
+            "ABot Static",
+            "8",
+            "62.8",
+            "52.3",
+            "59.2"
+          ],
+          [
+            "ABot Static",
+            "24",
+            "61.9",
+            "55.7",
+            "59.9"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.10350v3",
+        "locator": "§5.2 表3"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "Agent实验只是初始子集，不能代表完整EmbodiedWorldBench。",
+      "观测工具会混淆人物/物体及室内外位置；细粒度主动观察和状态确认不足。",
+      "面向生产的小模型数据与生产结果不公开。"
+    ],
+    "analysis": [
+      "本轮可检索的官方 README 声明代码与资源仍在准备；当前下载状态未独立验证，存在项目页不等于可复现完整系统。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.10350",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/amap-cvlab/ABot-AgentOS",
+      "status": "暂不可用（2026-10-19 GET/HEAD均返回404；保留原文入口供后续回查）",
+      "note": "官方README曾说明待发布；本轮仓库返回404，当前不可用，不能称已开源实现"
+    },
+    "project": {
+      "url": "https://amap-cvlab.github.io/ABot-AgentOS",
+      "status": "暂不可用（2026-10-19 GET/HEAD均返回404；保留原文入口供后续回查）",
+      "note": "原文给出的项目入口；下载内容未逐项核验"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.10350",
+      "label": "arXiv 原论文元数据与摘要",
+      "locator": "版本历史、方法与评测概述",
+      "supports": [
+        "身份",
+        "日期",
+        "方法",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/amap-cvlab/ABot-AgentOS/blob/main/README.md",
+      "label": "官方仓库 README",
+      "locator": "Release Status",
+      "supports": [
+        "代码尚未发布",
+        "训练管线"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA EM-EQA / ABot-AgentOS static memory，8帧",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2607.10350v3",
+      "locator": "GraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nTable2\nTable2\nTable1\nTable1\nTable1 / Sec4.1\nOpenEQA静态记忆结果表\nOpenEQA静态记忆结果表",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA EM-EQA / ABot-AgentOS static memory，24帧",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2607.10350v3",
+      "locator": "GraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nTable2\nTable2\nTable1\nTable1\nTable1 / Sec4.1\nOpenEQA静态记忆结果表\nOpenEQA静态记忆结果表",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2607.10350v3",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§2–5；表1、3；Contributions",
+      "supports": [
+        "方法",
+        "公开推理评测",
+        "生产训练范围",
+        "作者机构",
+        "记忆实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{abotagentos2026,\n  title = {ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory},\n  author = {Jiayi Tian and Shiao Liu and Yuting Xu and Jia Lu and Zihao Guan and Honglin Han and Di Yang and Minqi Gu and Yifei Qian and Tianlin Zhang and Yanqing Zhu and Zeqian Ye and Menglin Yang and Fei Wang and Xu Hu and Xiuxian Li and Wei Zhang and Shihui Su and Yiyan Ji and Jingbo Wang and Ziteng Feng and Jiaheng Liu and Zhaoxiang Zhang and Xiaolong Wu and Zixiao Tang and Zhining Gu and Yang Cai and Linbo Zheng and Jingjing Ma and Mingyang Yin and Zedong Chu and Wenbin Tang and Mu Xu},\n  year = {2026},\n  eprint = {2607.10350},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2607.10350}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。",
+    "code原文入口本轮访问返回404，当前不能确认资源公开可用",
+    "project原文入口本轮访问返回404，当前不能确认资源公开可用"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA EM-EQA",
+      "variant": "ABot-AgentOS static memory，8帧"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA EM-EQA",
+      "variant": "ABot-AgentOS static memory，24帧"
+    }
+  ],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "以推理—执行—验证运行时组织技能，把多模态证据写成带来源的图记忆，并在隔离后续评估中检验失败产生的经验资产。 该工作关注系统如何组织观测、推理与行动，阅读时要把运行时机制、底层策略的训练来源和最终任务证据分开。与单一模型的离线准确率相比，更应检查反馈接口、实验预算和失败时的行为。",
+  "citationNote": "由已核实完整作者、标题及arXiv元数据生成预印本格式。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,251 @@
+{
+  "id": "holoagent-0",
+  "title": "HoloAgent-0: A Unified Embodied Agent Framework with 3D Spatial Memory",
+  "short": "HoloAgent-0",
+  "aliases": [],
+  "authors": [
+    "Xiaolin Zhou",
+    "Liu Liu",
+    "Tingyang Xiao",
+    "Wei Feng",
+    "Fa Fu",
+    "Xinrui Meng",
+    "Xinjie Wang",
+    "Jialiang Han",
+    "Boyang Yu",
+    "Yun Du",
+    "Wei Sui",
+    "Zhizhong Su"
+  ],
+  "institutions": [
+    "Horizon Robotics",
+    "D-Robotics Robotics"
+  ],
+  "firstPublished": "2026-06-22",
+  "updated": "2026-06-22",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能",
+      "移动操作"
+    ],
+    "task": [
+      "长程任务",
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划"
+    ],
+    "environment": [
+      "真实世界"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "用 AgentOS 管理技能图、资源与执行反馈，依靠持久 3D 空间记忆把语言任务落到真实机器人可执行能力。",
+  "method": {
+    "input": "语言任务、3D 记忆与实时观测",
+    "output": "技能图及监测/重规划行为",
+    "flow": [
+      "几何与定位底座：提供可执行坐标与安全空间",
+      "开放词汇语义实例：把语言目标绑定3D物体",
+      "HMSG分层检索：先缩小空间范围再验证视觉证据",
+      "任务时间记忆与局部更新：维持进度并响应世界变化"
+    ],
+    "assumptions": "需要标定、位姿/深度或多相机几何；时间记忆主要追踪任务进度，不应等同于预测未观测物体未来位置。",
+    "difference": "通用运行时可复用不代表每项技能都无需训练，也不等于无条件迁移到新硬件。",
+    "explanation": "HoloAgent-0把AgentOS、持久3D记忆和可执行Skill分层。3D记忆先提供几何、定位和可通行信息，再将SAM2掩码与SigLIP视觉特征提升到物体实例，组织为楼层—房间—视图—物体图。时间记忆保存当前目标、技能图、执行状态和恢复轨迹。每次技能执行后验证结果；若观察冲突、操作改变物体或用户纠正，就只刷新受影响区域和子图。",
+    "modules": [
+      {
+        "name": "几何与定位底座",
+        "purpose": "提供可执行坐标与安全空间",
+        "mechanism": "LiDAR后端融合LiDAR/IMU/图像；纯视觉后端GeoFlow-SLAM++需要至少3个标定相机，利用多视角深度与重定位atlas。",
+        "input": "标定传感器流、可选预建地图",
+        "output": "点云/mesh、位姿、占据与拓扑"
+      },
+      {
+        "name": "开放词汇语义实例",
+        "purpose": "把语言目标绑定3D物体",
+        "mechanism": "SAM2生成2D掩码；融合全图、掩码和框的SigLIP描述；投影旧3D实例掩码，以IoU关联新观测。",
+        "input": "关键帧、深度、已有实例",
+        "output": "持续实例ID和可检索特征"
+      },
+      {
+        "name": "HMSG分层检索",
+        "purpose": "先缩小空间范围再验证视觉证据",
+        "mechanism": "楼层/房间粗筛，view连接位姿和图像，对少量候选用VLM确认，再把目标给导航/操作技能。",
+        "input": "语言查询、楼层房间视图物体层次图",
+        "output": "候选对象、位置、验证视图"
+      },
+      {
+        "name": "任务时间记忆与局部更新",
+        "purpose": "维持进度并响应世界变化",
+        "mechanism": "记录指令、活动Skill图、前提、状态、重试和用户纠正；新深度冲突更新局部几何，刷新受影响对象及父房间/可见view。",
+        "input": "技能回执、冲突观测、纠正",
+        "output": "最新空间记录与可恢复任务轨迹"
+      }
+    ]
+  },
+  "training": {
+    "regime": "训练细节未公开",
+    "models": "SAM2、SigLIP、GeoFlow-SLAM++几何；HoloNavi/HoloBrain/HoloMotion执行技能",
+    "trainable": "框架本身不是统一端到端训练；SigLIP特征融合含权重，是否额外学习及各底层技能训练须逐模块核对",
+    "frozen": "现成基础模块被系统集成；不能笼统声明所有底层技能均无训练",
+    "data": "公开原文主要报告系统接口与评测，完整各模块训练清单未统一公开",
+    "objective": "运行时检索、验证与更新；各技能训练目标不等同于AgentOS目标",
+    "stages": "基础技能→空间建图→图检索→技能闭环执行"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3D-ObjNav",
+      "setting": "v1表1；沿MSGNav评测协议；HoloAgent-Nav是AgentOS包裹的导航栈。",
+      "result": "HoloAgent-Nav SR=82.6%、SPL=42.8%；这些是该仿真协议的导航指标。",
+      "locator": "§5.2 表1",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.2 表1",
+        "columns": [
+          "方法",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "SG-Nav",
+            "49.6",
+            "25.5"
+          ],
+          [
+            "VLFM",
+            "62.6",
+            "31.0"
+          ],
+          [
+            "FSR-VLN slow",
+            "80.8",
+            "41.0"
+          ],
+          [
+            "HoloAgent-Nav",
+            "82.6",
+            "42.8"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.23565v1",
+        "locator": "§5.2 表1"
+      }
+    },
+    {
+      "benchmark": "实机导航目标候选评测",
+      "setting": "v1表2；Top-1与Top-5候选、1m/2m/3m阈值；与仿真SR/SPL定义不同。",
+      "result": "HoloAgent-Nav Top-1@1m=97.70，Top-5@1m=98.90。",
+      "locator": "§5.2 表2",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§5.2 表2",
+        "columns": [
+          "方法",
+          "Top-1@1m",
+          "Top-1@2m",
+          "Top-5@1m"
+        ],
+        "rows": [
+          [
+            "HOV-SG",
+            "51.72",
+            "57.47",
+            "77.00"
+          ],
+          [
+            "FSR-VLN",
+            "91.95",
+            "91.95",
+            "94.25"
+          ],
+          [
+            "HoloAgent-Nav",
+            "97.70",
+            "97.70",
+            "98.90"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.23565v1",
+        "locator": "§5.2 表2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "通用运行时可复用不代表每项技能都无需训练，也不等于无条件迁移到新硬件。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.23565",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://horizonrobotics.github.io/robot_lab/holoagent/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/HorizonRobotics/HoloAgent",
+      "status": "已核实入口",
+      "note": "原文公开代码入口；未实际运行"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2606.23565",
+      "label": "arXiv 原论文元数据与摘要",
+      "locator": "版本历史、方法与评测概述",
+      "supports": [
+        "身份",
+        "日期",
+        "方法",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2606.23565v1",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§2–5；表1–3",
+      "supports": [
+        "分层记忆",
+        "几何条件",
+        "运行时更新",
+        "导航与实机候选评测"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{holoagent02026,\n  title = {HoloAgent-0: A Unified Embodied Agent Framework with 3D Spatial Memory},\n  author = {Xiaolin Zhou and Liu Liu and Tingyang Xiao and Wei Feng and Fa Fu and Xinrui Meng and Xinjie Wang and Jialiang Han and Boyang Yu and Yun Du and Wei Sui and Zhizhong Su},\n  year = {2026},\n  eprint = {2606.23565},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2606.23565}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "用 AgentOS 管理技能图、资源与执行反馈，依靠持久 3D 空间记忆把语言任务落到真实机器人可执行能力。 该工作关注系统如何组织观测、推理与行动，阅读时要把运行时机制、底层策略的训练来源和最终任务证据分开。与单一模型的离线准确率相比，更应检查反馈接口、实验预算和失败时的行为。",
+  "citationNote": "由已核实完整作者、标题及arXiv元数据生成预印本格式。",
+  "verificationLevel": "fulltext"
+}

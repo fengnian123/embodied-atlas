@@ -1,0 +1,282 @@
+{
+  "id": "inspectorgpt",
+  "title": "InspectorGPT: A Comparative Reasoning Enhanced VLM for Comprehensive Industrial Anomaly Detection",
+  "short": "InspectorGPT",
+  "aliases": [],
+  "authors": [
+    "Weifei Chen",
+    "Honghao Zhang",
+    "Zhiyuan You",
+    "Xinyi Le"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-08-30",
+  "updated": null,
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "静态图像"
+    ],
+    "training": [
+      "监督微调",
+      "强化学习"
+    ]
+  },
+  "summary": "将异常解释与定位能力分支训练后融合，用比较推理和可验证奖励增强工业异常问答；属于视觉诊断支撑工作。",
+  "method": {
+    "input": "工业图像与参考图像/问题",
+    "output": "异常判断、解释与定位",
+    "flow": [
+      "比较式推理监督",
+      "GRPO 优化答案与框一致性",
+      "训练分割适配分支",
+      "融合任务向量"
+    ],
+    "assumptions": "主要基于图像异常数据",
+    "difference": "把语义推理与定位适配分开优化。",
+    "explanation": "InspectorGPT以正常参考图和查询图的显式比较为诊断依据。先SFT学习结构化差异推理，再以可验证的答案、框重叠和格式奖励做GRPO。另训练带Seg-LoRA与分割解码器的像素分支；由于分割提高异常判别却削弱语义任务，作者没有简单联合训练，而是对推理与分割分支做任务向量融合，平衡两类能力。",
+    "modules": [
+      {
+        "name": "正常—查询双图比较",
+        "purpose": "避免单图外观捷径",
+        "mechanism": "围绕参考中正常结构解释查询图的异常位置、类型与影响",
+        "input": "正常参考和查询图",
+        "output": "有依据的CoT诊断"
+      },
+      {
+        "name": "推理后训练",
+        "purpose": "对齐文本判断与定位",
+        "mechanism": "CoT-SFT后做GRPO，联合答案正确性、IoU和格式奖励",
+        "input": "MMAD推理及框监督",
+        "output": "InspectorGPT-Reason"
+      },
+      {
+        "name": "Seg-LoRA分支",
+        "purpose": "获得像素级缺陷掩码",
+        "mechanism": "分割解码器加LoRA，使像素损失可影响骨干表征",
+        "input": "图像对与掩码",
+        "output": "InspectorGPT-Seg"
+      },
+      {
+        "name": "任务向量融合",
+        "purpose": "平衡判别与语义性能",
+        "mechanism": "相对共同初始模型计算分支权重差，以α=0.3融合",
+        "input": "两个训练分支",
+        "output": "融合模型"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调＋强化学习",
+    "models": "Qwen2.5-VL-7B",
+    "trainable": "推理适配、分割 LoRA 与融合参数",
+    "frozen": "具体冻结配置按原文/代码核对",
+    "data": "工业异常问答及定位监督",
+    "objective": "SFT、GRPO、定位监督",
+    "stages": "分支训练 → 任务向量融合"
+  },
+  "evaluation": [
+    {
+      "benchmark": "MMAD",
+      "setting": "VQA accuracy (%)；7B；A-Disc为异常判别，Sem-6为其余六维均值；同一原表口径。",
+      "result": "融合模型平均82.38%，异常判别73.90%；推理分支平均82.50但判别69.57，体现融合是权衡而非每列都最高。",
+      "locator": "Table 4",
+      "sourceUrl": "https://arxiv.org/abs/2608.29783",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "MMAD：Table 4",
+        "columns": [
+          "模型/消融",
+          "A-Disc (%)",
+          "Sem-6 (%)",
+          "Avg (%)"
+        ],
+        "rows": [
+          [
+            "Qwen2.5-VL-7B",
+            70.47,
+            72.47,
+            72.19
+          ],
+          [
+            "无CoT",
+            52.66,
+            76.06,
+            72.72
+          ],
+          [
+            "Reason (α=0)",
+            69.57,
+            84.66,
+            82.5
+          ],
+          [
+            "Seg (α=1)",
+            79.08,
+            74.31,
+            74.99
+          ],
+          [
+            "联合训练",
+            69.08,
+            81.67,
+            79.87
+          ],
+          [
+            "融合 (α=0.3)",
+            73.9,
+            83.8,
+            82.38
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.29783",
+        "locator": "Table 4"
+      }
+    },
+    {
+      "benchmark": "MVTec-AD / VisA",
+      "setting": "标准少样本AUROC (%)；InspectorGPT-Seg；不能与MMAD的VQA准确率比较。",
+      "result": "MVTec-AD图像/像素AUROC=96.9/98.7；VisA=83.2/97.8。AnomalyDINO对应96.6/96.8与87.4/97.8。",
+      "locator": "Table 2",
+      "sourceUrl": "https://arxiv.org/abs/2608.29783",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "MVTec-AD / VisA：Table 2",
+        "columns": [
+          "方法",
+          "MVTec图像AUROC(%)",
+          "MVTec像素AUROC(%)",
+          "VisA图像AUROC(%)",
+          "VisA像素AUROC(%)"
+        ],
+        "rows": [
+          [
+            "AnomalyDINO",
+            96.6,
+            96.8,
+            87.4,
+            97.8
+          ],
+          [
+            "InspectorGPT-Seg",
+            96.9,
+            98.7,
+            83.2,
+            97.8
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.29783",
+        "locator": "Table 2"
+      }
+    },
+    {
+      "benchmark": "MMAD训练后的零样本迁移",
+      "setting": "未对DAGM、DTD、SDD、MPDD目标域适配；AD accuracy (%)。",
+      "result": "InspectorGPT在DAGM/DTD/SDD/MPDD为95.08/93.75/86.67/72.12，平均86.91；Qwen2.5-VL平均83.23。",
+      "locator": "Table 3",
+      "sourceUrl": "https://arxiv.org/abs/2608.29783",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "零样本迁移：Table 3",
+        "columns": [
+          "模型",
+          "DAGM",
+          "DTD",
+          "SDD",
+          "MPDD",
+          "平均AD准确率(%)"
+        ],
+        "rows": [
+          [
+            "InspectorGPT",
+            95.08,
+            93.75,
+            86.67,
+            72.12,
+            86.91
+          ],
+          [
+            "Qwen2.5-VL",
+            "原表见来源",
+            "原表见来源",
+            "原表见来源",
+            "原表见来源",
+            83.23
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2608.29783",
+        "locator": "Table 3"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "静态图像诊断不覆盖实机取证失败、移动成本和设备因果干预。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2608.29783",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：InspectorGPT.pdf",
+      "url": "https://arxiv.org/abs/2608.29783",
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2608.29783",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{inspectorgpt2026,\n  title = {InspectorGPT: A Comparative Reasoning Enhanced VLM for Comprehensive Industrial Anomaly Detection},\n  author = {Weifei Chen and Honghao Zhang and Zhiyuan You and Xinyi Le},\n  year = {2026},\n  eprint = {2608.29783},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2608.29783}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容",
+    "作者机构",
+    "最新版本日期"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "异常判断和像素定位可能需要不同的能力。InspectorGPT 将推理与分割相关适配分开学习，结合对比图像推理及答案—位置一致性奖励，再融合任务向量。它帮助理解如何让视觉模型提供可核查异常解释，但本身不是控制机器人主动取证的导航策略。",
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

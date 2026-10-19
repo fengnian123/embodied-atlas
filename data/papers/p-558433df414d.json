@@ -1,0 +1,245 @@
+{
+  "id": "p-558433df414d",
+  "title": "A Confidence-Based Shared Control Strategy for the Smart Tissue Autonomous Robot (STAR)",
+  "short": "STAR-Shared",
+  "aliases": [
+    "STAR-Shared"
+  ],
+  "authors": [
+    "H. Saeidi",
+    "Justin D. Opfermann",
+    "Michael Kam",
+    "Sudarshan Raghunathan",
+    "S. Leonard",
+    "A. Krieger"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2018,
+  "venue": "2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2018,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "依据自主控制与人工控制的可信度动态分配操控权，在切割线被血液局部遮挡时兼顾机器人精度与操作者补偿能力。",
+  "method": {
+    "input": "RGB视频、切割图案",
+    "output": "误差和人工控制时长",
+    "flow": [
+      "轨迹与血斑检测",
+      "人机置信度标定",
+      "置信度控制权仲裁",
+      "离体组织验证"
+    ],
+    "explanation": "该工作不是用神经网络直接生成手术动作，而是在人工遥操作与视觉自主控制之间分配控制权。RGB图像用于检测圆形切割轨迹与血液遮挡，机器人先在激光跟踪实验中测量两种控制方式的误差。作者把相对血斑位置归一化，拟合人工控制的线性误差模型和自主控制的高斯形误差模型，以1减预测误差定义置信度。运行时依据自主置信度的双阈值切换：接近遮挡交给操作者，离开遮挡恢复自主，并使触觉手柄跟随机器人位置以减轻接管突变。最后在离体猪脂肪电切割中检查准确度与人工控制时间。",
+    "modules": [
+      {
+        "name": "轨迹与血斑检测",
+        "purpose": "定位自主视觉控制何时可能失效",
+        "mechanism": "OpenCV识别期望切线与血斑位置/大小；用透视变换统一误差度量尺度。",
+        "input": "RGB视频、切割图案",
+        "output": "轨迹位置、血斑区间与归一化相对位置"
+      },
+      {
+        "name": "人机置信度标定",
+        "purpose": "使控制权依据实际误差分配",
+        "mechanism": "用22次激光跟踪实验标定人工和自主控制的局部误差，分别拟合线性和高斯形函数。",
+        "input": "人工/自主轨迹误差",
+        "output": "C_M和C_A两类经验置信度"
+      },
+      {
+        "name": "置信度控制权仲裁",
+        "purpose": "结合遮挡区人工判断与无遮挡区机器人精度",
+        "mechanism": "总控制U=αM+(1−α)A；C_A低于0.93切至人工，高于0.94切回自主；手柄同步跟随以辅助接管。",
+        "input": "两类控制指令、C_A",
+        "output": "KUKA机械臂和电切工具命令"
+      },
+      {
+        "name": "离体组织验证",
+        "purpose": "检查激光标定能否迁移到电切割",
+        "mechanism": "比较1次自主、2次人工、2次共享控制，在同类双血斑圆形图案上测切线误差与人工介入时间。",
+        "input": "猪脂肪样本",
+        "output": "误差和人工控制时长"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "传统视觉控制器、人工遥操作器与经验置信度函数；没有VLM/VLA。",
+    "trainable": "通过误差曲线拟合标定置信度函数，不属于神经策略训练。",
+    "frozen": "不适用",
+    "data": "激光轨迹标定实验中的人工/自主误差与血斑相对位置。",
+    "objective": "使经验误差函数拟合观测误差，以此分配控制权。",
+    "stages": "标定单模式误差→拟合置信函数→固定阈值共享控制→猪组织验证。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "猪脂肪电切割",
+      "setting": "5次样本切割：A一次、M两次、S两次；误差单位mm",
+      "result": "共享控制两次合并均值0.991 mm，人工1.057 mm；作者报告改善6.4%，人工控制时间44.01%。",
+      "locator": "Table I；III-D；Fig.16",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6716799/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "模式/试次",
+          "平均误差 (mm)",
+          "误差标准差 (mm)"
+        ],
+        "rows": [
+          [
+            "自主 A",
+            "3.212",
+            "2.141"
+          ],
+          [
+            "人工 M-1",
+            "0.881",
+            "0.662"
+          ],
+          [
+            "人工 M-2",
+            "1.234",
+            "1.114"
+          ],
+          [
+            "共享 S-1",
+            "0.866",
+            "0.565"
+          ],
+          [
+            "共享 S-2",
+            "1.116",
+            "0.899"
+          ]
+        ],
+        "locator": "Table I；III-D；Fig.16"
+      },
+      "caveat": "样本量小、单操作者实验，不能据此推出临床优势。"
+    },
+    {
+      "benchmark": "激光跟踪测试",
+      "setting": "18次共享跟踪测试；与标定阶段人工/自主控制比较",
+      "result": "共享控制跟踪误差低于人工；人工实际控制时间占21.85%。",
+      "locator": "III-C；Fig.15",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6716799/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "模式",
+          "误差均值±标准差 (mm)"
+        ],
+        "rows": [
+          [
+            "人工",
+            "0.789±0.566"
+          ],
+          [
+            "自主",
+            "1.272±1.439"
+          ],
+          [
+            "共享",
+            "0.731±0.559"
+          ]
+        ],
+        "locator": "III-C；Fig.15"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "切换时操作者缺乏情境感知可能产生瞬态大误差；不规则血斑使基于形状的阈值切换不准确。",
+      "实验排除了血斑增大、轨迹形变和多遍切割等动态变化，置信模型未随这些变化在线修正。"
+    ],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/iros.2018.8594290",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / STAR-Shared",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/IROS.2018.8594290",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/iros.2018.8594290",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6716799/",
+      "locator": "Table I；III-D；Fig.16; III-C；Fig.15",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+    "精确首次公开日期未核实，不将年月补写成某一天。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**IROS'18**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "依据自主控制与人工控制的可信度动态分配操控权，在切割线被血液局部遮挡时兼顾机器人精度与操作者补偿能力。 "
+}

@@ -1,0 +1,391 @@
+{
+  "id": "4dgs-deformation",
+  "title": "4D Gaussian Splatting for Real-Time Dynamic Scene Rendering",
+  "short": "4D-GS · 形变场",
+  "aliases": [
+    "4DGS",
+    "4D-GS",
+    "HexPlane",
+    "形变场"
+  ],
+  "authors": [
+    "Guanjun Wu",
+    "Taoran Yi",
+    "Jiemin Fang",
+    "Lingxi Xie",
+    "Xiaopeng Zhang",
+    "Wei Wei",
+    "Wenyu Liu",
+    "Qi Tian",
+    "Xinggang Wang"
+  ],
+  "institutions": [
+    "School of CS, Huazhong University of Science and Technology",
+    "School of EIC, Huazhong University of Science and Technology",
+    "Huawei Inc."
+  ],
+  "firstPublished": "2023-10-12",
+  "updated": "2024-07-15",
+  "publicationYear": 2024,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "实时性"
+    ],
+    "environment": [
+      "离线重建",
+      "真实世界"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "以规范空间 3D 高斯搭配 HexPlane 与轻量 MLP，学习随时间变化的位置、旋转和尺度，在保留快速 splatting 的同时拟合动态场景。",
+  "method": {
+    "input": "具有相机内外参和时间戳的动态 RGB 图像；真实场景用 SfM 点初始化",
+    "output": "指定时刻与视角的 RGB 渲染、形变后的高斯",
+    "flow": [
+      "规范空间高斯",
+      "HexPlane 时空编码",
+      "多头形变与渲染"
+    ],
+    "assumptions": "逐场景离线优化；相机估计与初始化质量影响收敛。",
+    "difference": "时间进入共享形变场；不同于把 (x,y,z,t) 直接建模为四维高斯协方差。",
+    "explanation": "以规范空间 3D 高斯搭配 HexPlane 与轻量 MLP，学习随时间变化的位置、旋转和尺度，在保留快速 splatting 的同时拟合动态场景。 时间进入共享形变场；不同于把 (x,y,z,t) 直接建模为四维高斯协方差。 先用 3DGS 预热 3,000 步，使高斯覆盖动静区域，再学习时变形变。 在 xy/xz/yz/xt/yt/zt 六个可训练多分辨率平面上双线性插值；同尺度特征相乘，再跨尺度组合送入小 MLP。 独立 MLP 预测位置、旋转、尺度偏移；更新后投影到相机并按深度 alpha 合成。训练用 RGB L1 与网格 TV 损失。",
+    "modules": [
+      {
+        "name": "规范空间高斯",
+        "purpose": "保存跨时间共享几何与外观",
+        "mechanism": "先用 3DGS 预热 3,000 步，使高斯覆盖动静区域，再学习时变形变。",
+        "input": "SfM/初始化点、训练图像",
+        "output": "规范高斯位置、尺度、旋转、透明度和球谐颜色"
+      },
+      {
+        "name": "HexPlane 时空编码",
+        "purpose": "让邻近高斯共享运动特征并压缩四维网格",
+        "mechanism": "在 xy/xz/yz/xt/yt/zt 六个可训练多分辨率平面上双线性插值；同尺度特征相乘，再跨尺度组合送入小 MLP。",
+        "input": "高斯中心 (x,y,z) 与查询时间 t",
+        "output": "时空特征"
+      },
+      {
+        "name": "多头形变与渲染",
+        "purpose": "把规范高斯映射到指定时刻",
+        "mechanism": "独立 MLP 预测位置、旋转、尺度偏移；更新后投影到相机并按深度 alpha 合成。训练用 RGB L1 与网格 TV 损失。",
+        "input": "时空特征、规范高斯、相机",
+        "output": "动态高斯及渲染图像"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "高斯参数、六平面特征、小 MLP 与形变头",
+    "trainable": "高斯参数、六平面特征、小 MLP 与形变头",
+    "frozen": "不适用：没有 VLM/VLA 主干",
+    "data": "每个目标场景的图像、相机和时间戳",
+    "objective": "RGB L1 + 网格 TV",
+    "stages": "3,000 步静态预热；D-NeRF 共 20,000 步，15,000 步停止增密；RTX 3090"
+  },
+  "evaluation": [
+    {
+      "benchmark": "D-NeRF 合成动态场景",
+      "setting": "arXiv v3；800×800，RTX3090；Time为训练时间；表中基线来源/复跑混合，不能假定都由同一硬件复跑。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "D-NeRF 合成动态场景 · Table 1",
+        "columns": [
+          "Model",
+          "PSNR (dB)↑",
+          "SSIM↑",
+          "LPIPS↓",
+          "Time↓",
+          "FPS ↑",
+          "Storage (MB)↓"
+        ],
+        "rows": [
+          [
+            "TiNeuVox-B [9]",
+            "32.67",
+            "0.97",
+            "0.04",
+            "28 mins",
+            "1.5",
+            "48"
+          ],
+          [
+            "HexPlane-Slim [5]",
+            "31.04",
+            "0.97",
+            "0.04",
+            "11m 30s",
+            "2.5",
+            "38"
+          ],
+          [
+            "Ours",
+            "34.05",
+            "0.98",
+            "0.02",
+            "8 mins",
+            "82",
+            "18"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2310.08528v3",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "HyperNeRF vrig",
+      "setting": "arXiv v3；960×540；MS-SSIM与SSIM不同。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "HyperNeRF vrig · Table 2",
+        "columns": [
+          "Model",
+          "PSNR (dB)↑",
+          "MS-SSIM↑",
+          "Times↓",
+          "FPS↑",
+          "Storage (MB)↓"
+        ],
+        "rows": [
+          [
+            "HyperNeRF [39]",
+            "22.4",
+            "0.814",
+            "32 hours",
+            "<< 1",
+            "-"
+          ],
+          [
+            "TiNeuVox-B [9]",
+            "24.3",
+            "0.836",
+            "30 mins",
+            "1",
+            "48"
+          ],
+          [
+            "Ours",
+            "25.2",
+            "0.845",
+            "30 mins",
+            "34",
+            "61"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2310.08528v3",
+        "locator": "Table 2"
+      }
+    },
+    {
+      "benchmark": "Neu3D",
+      "setting": "arXiv v3；1352×1014；各基线统计场景可能不同，原文表脚注需保留。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 3",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Neu3D · Table 3",
+        "columns": [
+          "Model",
+          "PSNR (dB)↑",
+          "D-SSIM↓",
+          "LPIPS↓",
+          "Time ↓",
+          "FPS↑",
+          "Storage (MB)↓"
+        ],
+        "rows": [
+          [
+            "HexPlane-all* [5]",
+            "31.70",
+            "0.014",
+            "0.075",
+            "12 hours",
+            "0.2",
+            "250"
+          ],
+          [
+            "Ours",
+            "31.15",
+            "0.016",
+            "0.049",
+            "40 mins",
+            "30",
+            "90"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2310.08528v3",
+        "locator": "Table 3"
+      }
+    },
+    {
+      "benchmark": "D-NeRF 模块消融",
+      "setting": "arXiv v3；同表主模型的合成设置，800×800，RTX3090。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 4",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "D-NeRF 模块消融 · Table 4",
+        "columns": [
+          "变体",
+          "PSNR↑",
+          "SSIM↑",
+          "LPIPS↓",
+          "训练时间↓",
+          "FPS↑",
+          "MB↓"
+        ],
+        "rows": [
+          [
+            "Ours w/o HexPlane Rl(i,j)R_{l}(i,j)",
+            "27.05",
+            "0.95",
+            "0.05",
+            "4 mins",
+            "140",
+            "12"
+          ],
+          [
+            "Ours w/o initialization",
+            "31.91",
+            "0.97",
+            "0.03",
+            "7.5 mins",
+            "79",
+            "18"
+          ],
+          [
+            "Ours",
+            "34.05",
+            "0.98",
+            "0.02",
+            "8 mins",
+            "82",
+            "18"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2310.08528v3",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "大运动、背景点不足和不准确相机位姿会导致优化困难。",
+      "单目下缺少额外监督时难分离动静运动；城市尺度下大量高斯查询形变场的成本较高。"
+    ],
+    "analysis": [
+      "渲染时间插值不能直接证明导航碰撞几何或未观测未来预测能力。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2310.08528",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://guanjunwu.github.io/4dgs/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/hustvl/4DGaussians",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2310.08528",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2310.08528v3",
+      "label": "论文全文 v3",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://guanjunwu.github.io/4dgs/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/hustvl/4DGaussians",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "4dgs-native",
+      "reason": "相同动态渲染目标，不同时间表示"
+    },
+    {
+      "id": "shape-of-motion",
+      "reason": "比较显式长程运动轨迹"
+    }
+  ],
+  "bibtex": "@misc{231008528,\n  title = {4D Gaussian Splatting for Real-Time Dynamic Scene Rendering},\n  author = {Wu, Guanjun and Yi, Taoran and Fang, Jiemin and Xie, Lingxi and Zhang, Xiaopeng and Wei, Wei and Liu, Wenyu and Tian, Qi and Wang, Xinggang},\n  year = {2023},\n  eprint = {2310.08528},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2310.08528}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "overview": "以规范空间 3D 高斯搭配 HexPlane 与轻量 MLP，学习随时间变化的位置、旋转和尺度，在保留快速 splatting 的同时拟合动态场景。 时间进入共享形变场；不同于把 (x,y,z,t) 直接建模为四维高斯协方差。 逐场景离线优化；相机估计与初始化质量影响收敛。",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。",
+  "verificationLevel": "fulltext"
+}

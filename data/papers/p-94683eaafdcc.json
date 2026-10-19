@@ -1,0 +1,169 @@
+{
+  "id": "p-94683eaafdcc",
+  "title": "Embodied Artificial Intelligence in Healthcare: A Systematic Review of Robotic Perception, Decision-Making, and Clinical Impact",
+  "short": "Healthcare-EAI-SR",
+  "aliases": [
+    "Healthcare-EAI-SR"
+  ],
+  "authors": [
+    "Bilal Ahmad Mir",
+    "Dur E. Nishwa",
+    "Seung Won Lee"
+  ],
+  "institutions": [
+    "Department of Electronics and Information Engineering, Jeonbuk National University, Jeonju 54896, Republic of Korea",
+    "Department of Precision Medicine, School of Medicine, Sungkyunkwan University, Suwon 16419, Republic of Korea",
+    "Department of Metabiohealth, Institute for Cross-Disciplinary Studies, Sungkyunkwan University, Suwon 16419, Republic of Korea",
+    "Department of Artificial Intelligence, Sungkyunkwan University, Suwon 16419, Republic of Korea",
+    "Personalized Cancer Immunotherapy Research Center, School of Medicine, Sungkyunkwan University, Suwon 16419, Republic of Korea",
+    "Department of Family Medicine, Kangbuk Samsung Hospital, School of Medicine, Sungkyunkwan University, 29 Saemunan-ro, Jongno-gu, Seoul 03181, Republic of Korea"
+  ],
+  "firstPublished": "2026-02-25",
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "Healthcare",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "按感知、决策和临床影响组织医疗具身智能系统综述，覆盖手术辅助、康复、医院物流和远程呈现；其汇总临床数字来自所纳入研究而非新试验。",
+  "method": {
+    "input": "2020年1月至2025年8月的医疗机器人研究",
+    "output": "PRISMA筛选、系统分类与证据综合",
+    "flow": [
+      "系统检索",
+      "感知与决策分类",
+      "临床证据分层"
+    ],
+    "explanation": "按感知、决策和临床影响组织医疗具身智能系统综述，覆盖手术辅助、康复、医院物流和远程呈现；其汇总临床数字来自所纳入研究而非新试验。",
+    "modules": [
+      {
+        "name": "系统检索",
+        "purpose": "给出可追踪的文献集合",
+        "mechanism": "按PRISMA 2020检索PubMed、Scopus、Web of Science、IEEE Xplore和ACM。",
+        "input": "2020年1月至2025年8月的医疗机器人研究",
+        "output": "系统检索的中间结果"
+      },
+      {
+        "name": "感知与决策分类",
+        "purpose": "比较技术构成",
+        "mechanism": "整理视觉/力/深度等融合以及模仿学习、强化学习、符号神经混合控制。",
+        "input": "系统检索的结果",
+        "output": "感知与决策分类的中间结果"
+      },
+      {
+        "name": "临床证据分层",
+        "purpose": "防止技术成功率替代临床获益",
+        "mechanism": "对外部验证、样本量和成本证据讨论局限；汇总结果需回到原研究核查。",
+        "input": "感知与决策分类的结果",
+        "output": "PRISMA筛选、系统分类与证据综合"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.3390/healthcare14050572",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surveys and Scope / Healthcare-EAI-SR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.mdpi.com/2227-9032/14/5/572/pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.3390/healthcare14050572",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.3390/healthcare14050572",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://www.mdpi.com/2227-9032/14/5/572/pdf",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Healthcare'26**",
+      "section": "Surveys and Scope"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "按感知、决策和临床影响组织医疗具身智能系统综述，覆盖手术辅助、康复、医院物流和远程呈现；其汇总临床数字来自所纳入研究而非新试验。 本文为证据/概念综述，以下“模块”表示文献组织框架；不代表作者训练了同名机器人模型。"
+}

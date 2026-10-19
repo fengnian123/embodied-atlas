@@ -1,0 +1,225 @@
+{
+  "id": "p-abb80176560e",
+  "title": "Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery",
+  "short": "Surgical-EI",
+  "aliases": [
+    "Surgical-EI"
+  ],
+  "authors": [
+    "Yonghao Long",
+    "Anran Lin",
+    "Derek Hang Chun Kwok",
+    "Lin Zhang",
+    "Zhenya Yang",
+    "Kejian Shi",
+    "Lei Song",
+    "Jiawei Fu",
+    "Hongbin Lin",
+    "Wang Wei",
+    "Kai Chen",
+    "Xiangyu Chu",
+    "Yang Hu",
+    "Hon Chi Yip",
+    "Philip Wai Yan Chiu",
+    "Peter Kazanzides",
+    "Russell H. Taylor",
+    "Yunhui Liu",
+    "Zihan Chen",
+    "Zerui Wang",
+    "Samuel Kwok Wai Au",
+    "Qi Dou"
+  ],
+  "institutions": [
+    "Department of Computer Science and Engineering, Chinese University of Hong Kong, HKSAR, China.",
+    "Cornerstone Robotics Ltd., HKSAR, China.",
+    "Department of Mechanical and Automation Engineering, Chinese University of Hong Kong, HKSAR, China.",
+    "Department of Surgery, Chinese University of Hong Kong, HKSAR, China.",
+    "Department of Computer Science, Johns Hopkins University, Baltimore, USA."
+  ],
+  "firstPublished": "2025-07-16",
+  "updated": null,
+  "publicationYear": 2025,
+  "venue": "Science Robotics",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "将视觉解析、感知回归、仿真强化学习与视觉伺服相结合，研究微创手术任务的仿真到真实零样本迁移。不是直接以VLA替代全部控制器。",
+  "method": {
+    "input": "手术视觉输入",
+    "output": "真实手术机器人动作及覆盖证据",
+    "flow": [
+      "视觉解析与感知回归",
+      "仿真强化学习",
+      "视觉伺服与实机验证"
+    ],
+    "explanation": "依据作者公开摘要，系统将双目深度估计与视觉基础模型分割用于视觉解析，由感知回归器连接视觉和任务状态，在手术具身模拟器内通过强化学习学习策略，再结合视觉伺服控制执行；这保留了数据驱动决策与经典控制分工。评估分为dVRK游戏式技能、Sentire离体动物组织辅助任务及活体动物任务三部分。摘要能核实这些模块和实验覆盖，但不足以确认具体基础模型、损失函数、训练量、成功率或消融表，以下不作补造。",
+    "modules": [
+      {
+        "name": "视觉解析与感知回归",
+        "purpose": "从影像取得任务状态",
+        "mechanism": "摘要明确双目深度、视觉基础模型分割和感知回归器；具体网络配置仍未核。",
+        "input": "手术视觉输入",
+        "output": "控制相关感知状态"
+      },
+      {
+        "name": "仿真强化学习",
+        "purpose": "降低实机反复试错需求",
+        "mechanism": "作者报告在开放交互手术模拟器内学习策略；具体算法超参数与目标仍待全文。",
+        "input": "模拟环境交互",
+        "output": "仿真训练策略"
+      },
+      {
+        "name": "视觉伺服与实机验证",
+        "purpose": "将学习策略衔接到手术工具",
+        "mechanism": "结合经典伺服控制，分别验证dVRK、Sentire离体及活体任务；摘要不提供逐任务成功率。",
+        "input": "策略输出与当前视觉反馈",
+        "output": "真实手术机器人动作及覆盖证据"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "强化学习",
+    "models": "摘要明确视觉基础模型、感知回归器、仿真RL策略及经典视觉伺服；具体模型版本未核。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "交互手术模拟器训练；真实任务用于零样本迁移验证（原始摘要）。",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [
+    {
+      "benchmark": "公开摘要中的实机实验覆盖",
+      "setting": "摘要报告不同平台上的任务种类数；不是试次数或成功率",
+      "result": "7类dVRK技能、5类Sentire离体辅助任务、3类活体任务。",
+      "locator": "作者摘要；尚未取得可完整核读原文表图",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/40668896/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "平台 / 场景",
+          "任务类别数"
+        ],
+        "rows": [
+          [
+            "dVRK游戏式技能",
+            "7"
+          ],
+          [
+            "Sentire离体动物组织",
+            "5"
+          ],
+          [
+            "活体动物环境",
+            "3"
+          ]
+        ],
+        "locator": "作者摘要；尚未取得可完整核读原文表图"
+      },
+      "caveat": "类别可能有交集，不能把7+5+3当成15个互斥Benchmark；原文具体成功率未核。"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1126/scirobotics.adt3093",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / Surgical-EI",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1126/scirobotics.adt3093",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://github.com/med-air/SurRoL",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1126/scirobotics.adt3093",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始摘要/出版入口（本轮回查）",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40668896/",
+      "locator": "摘要与出版记录；全文细节仍待核",
+      "supports": [
+        "研究范围",
+        "摘要明确的模块及实验覆盖（如有）",
+        "核验边界"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "p-41eb2970e1f3",
+      "reason": "SurRoL同一项目后续独立期刊工作，新增感知与真实手术任务验证；不把IROS 2021全文结果误移至本篇。"
+    }
+  ],
+  "bibtex": null,
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+    "Science Robotics正文/补充材料未取得可完整核读版本，成功率、消融、冻结与训练细节仍待核实。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Science Robotics'25**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "metadata",
+  "verification": "本轮回查原始元数据与可取得摘要；全文未成功取得，实验表格和未见训练细节不声称已核实。",
+  "overview": "将视觉解析、感知回归、仿真强化学习与视觉伺服相结合，研究微创手术任务的仿真到真实零样本迁移。不是直接以VLA替代全部控制器。 本条详情限已取得的原始摘要，全文图表仍待补齐。"
+}

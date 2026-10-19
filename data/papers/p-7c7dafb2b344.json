@@ -1,0 +1,218 @@
+{
+  "id": "p-7c7dafb2b344",
+  "title": "TrajRAG: Retrieving Geometric-Semantic Experience for Zero-Shot Object Navigation",
+  "short": "TrajRAG",
+  "aliases": [],
+  "authors": [
+    "Yiyao Wang",
+    "Sixian Zhang",
+    "Keming Zhang",
+    "Xinhang Song",
+    "Songjie Du",
+    "Shuqiang Jiang"
+  ],
+  "institutions": [
+    "Institute of Computing Technology, Chinese Academy of Sciences",
+    "University of Chinese Academy of Sciences"
+  ],
+  "firstPublished": "2026-05-03",
+  "updated": "2026-05-03",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "TrajRAG 用过去导航的几何—语义轨迹增强大模型规划。",
+  "method": {
+    "input": "带位姿的 RGB-D 序列",
+    "output": "基于检索的前沿选择",
+    "explanation": "TrajRAG 用过去导航的几何—语义轨迹增强大模型规划。把 RGB-D 轨迹压成无环拓扑序列，每个节点保存极坐标扇区的局部结构；先匹配场景布局，再检索相关路径，辅助判断当前前沿。",
+    "flow": [
+      "Topo-polar 轨迹",
+      "增量经验库",
+      "粗到细检索与决策"
+    ],
+    "modules": [
+      {
+        "name": "Topo-polar 轨迹",
+        "purpose": "本模块解决：Topo-polar 轨迹",
+        "input": "带位姿的 RGB-D 序列",
+        "mechanism": "占据区域骨架化形成拓扑节点；每节点按 30° 扇区记录障碍/语义；合并重复并裁掉轨迹回环。",
+        "output": "紧凑几何—语义路径",
+        "sourceUrl": "https://arxiv.org/html/2605.01700v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "增量经验库",
+        "purpose": "本模块解决：增量经验库",
+        "input": "拓扑路径、文字描述和轨迹编码",
+        "mechanism": "以场景摘要、轨迹 chunk 和序列 embedding 分层组织，增量吸收新经验。",
+        "output": "可复用的历史经验索引",
+        "sourceUrl": "https://arxiv.org/html/2605.01700v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "粗到细检索与决策",
+        "purpose": "本模块解决：粗到细检索与决策",
+        "input": "当前路径和各前沿的候选轨迹",
+        "mechanism": "先用布局过滤场景，再用专门序列编码检索轨迹；把匹配到的经验交给大模型，选择下一航点。",
+        "output": "基于检索的前沿选择",
+        "sourceUrl": "https://arxiv.org/html/2605.01700v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "TrajRAG 用过去导航的几何—语义轨迹增强大模型规划。把 RGB-D 轨迹压成无环拓扑序列，每个节点保存极坐标扇区的局部结构；先匹配场景布局，再检索相关路径，辅助判断当前前沿。"
+  },
+  "training": {
+    "regime": "冻结主干并训练模块",
+    "models": "详见原文方法模块；未独立列全基础模型。",
+    "trainable": "导航策略按 zero-shot 评估，但轨迹序列编码器经过训练。Table 2 明确比较 trained sequence encoder 与预训练文本 embedding，因此不能归类为所有模块都不训练。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "导航策略按 zero-shot 评估，但轨迹序列编码器经过训练。Table 2 明确比较 trained sequence encoder 与预训练文本 embedding，因此不能归类为所有模块都不训练。",
+    "objective": "导航策略按 zero-shot 评估，但轨迹序列编码器经过训练。Table 2 明确比较 trained sequence encoder 与预训练文本 embedding，因此不能归类为所有模块都不训练。",
+    "stages": "导航策略按 zero-shot 评估，但轨迹序列编码器经过训练。Table 2 明确比较 trained sequence encoder 与预训练文本 embedding，因此不能归类为所有模块都不训练。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3Dv1",
+      "setting": "原文 Table 1/2 的消融；不是主表所有基准成绩",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1 / Table 2",
+      "sourceUrl": "https://arxiv.org/html/2605.01700v1",
+      "table": {
+        "columns": [
+          "消融变体",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "TNA 单独",
+            53.9,
+            25.7
+          ],
+          [
+            "TPS-G + TPS-S",
+            61.7,
+            33.2
+          ],
+          [
+            "无 coarse，sequence embedding",
+            54.3,
+            25.6
+          ],
+          [
+            "coarse + text embedding",
+            57.8,
+            29.7
+          ],
+          [
+            "coarse + sequence embedding",
+            61.7,
+            33.2
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2605.01700v1",
+        "locator": "Table 1 / Table 2",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2605.01700",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / TrajRAG: Retrieving Geometric-Semantic Experience for Zero-Shot Object Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2605.01700",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2605.01700v1",
+      "locator": "方法章节；Table 1 / Table 2",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p7c7dafb2b344,\n  title={TrajRAG: Retrieving Geometric-Semantic Experience for Zero-Shot Object Navigation},\n  author={Yiyao Wang and Sixian Zhang and Keming Zhang and Xinhang Song and Songjie Du and Shuqiang Jiang},\n  year={2026},\n  eprint={2605.01700},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2605.01700}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "MP3D、HM3D-v1、HM3D-v2",
+      "comparisons": "DD-PPO、SemExp、SGM、T-Diff、GOAL、ZSON、PSL、ESC、VLFM、VoroNav、InstructNav、SG-Nav、UniGoal、ApexNav、BeliefMapNav",
+      "training": "Zero-shot ObjectNav。不做目标Benchmark上的策略训练，但会维护并检索过去episode形成的trajectory experience memory。与“完全无历史经验”方法略有区别。",
+      "resourceClaim": "否"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "TrajRAG 用过去导航的几何—语义轨迹增强大模型规划。把 RGB-D 轨迹压成无环拓扑序列，每个节点保存极坐标扇区的局部结构；先匹配场景布局，再检索相关路径，辅助判断当前前沿。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

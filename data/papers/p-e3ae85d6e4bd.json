@@ -1,0 +1,271 @@
+{
+  "id": "p-e3ae85d6e4bd",
+  "title": "Changes in Real Time: Online Scene Change Detection with Multi-View Fusion",
+  "short": "O-SCD",
+  "aliases": [],
+  "authors": [
+    "Chamuditha Jayanga Galappaththige",
+    "Jason Lai",
+    "Lloyd Windrim",
+    "Donald Dansereau",
+    "Niko Sünderhauf",
+    "Dimity Miller"
+  ],
+  "institutions": [
+    "QUT Centre for Robotics",
+    "University of Sydney",
+    "ARIAM",
+    "Abyss Solutions"
+  ],
+  "firstPublished": "2025-11-15",
+  "updated": "2026-02-24",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "场景理解",
+      "巡检"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "模块化系统",
+      "场景表示"
+    ],
+    "contribution": [
+      "方法",
+      "系统"
+    ],
+    "problem": [
+      "动态环境",
+      "记忆",
+      "实时性"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "室外"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "以参考3DGS对齐新观测，在高斯上持续融合像素/特征变化线索，在线输出多视角一致变化掩码并局部更新场景。",
+  "method": {
+    "input": "预先采集的参考RGB图像＋在线重访RGB流",
+    "output": "逐帧变化掩码＋重访结束后的更新3DGS",
+    "assumptions": "参考采集足以重建高质量3DGS；单次重访中场景静止；新图能匹配参考。",
+    "difference": "不预先提供全部未来重访图；不同于以启发式交集融合两个变化掩码。",
+    "explanation": "离线用 SfM 与 Speedy-Splat 建立参考3DGS。在线提取 XFeat，检索4张参考图，用PnP-RANSAC和miniBA估计新帧位姿；渲染对齐的旧图，与新图比较像素和SAM2-Tiny特征。为每个高斯增加可训练变化参数，每帧做16次自监督更新，从历史帧采样并偏重当前帧。损失鼓励强变化线索处激活，同时惩罚整图全变的退化解。最后按变化掩码重建局部、与未变高斯融合并作快速全局精修。",
+    "flow": [
+      "轻量定位",
+      "双层变化线索",
+      "多视角变化记忆",
+      "选择性更新"
+    ],
+    "modules": [
+      {
+        "name": "轻量定位",
+        "purpose": "对齐不受约束的新视点",
+        "mechanism": "XFeat匹配参考点，经PnP-RANSAC和miniBA求位姿",
+        "input": "当前RGB、参考2D–3D锚点",
+        "output": "参考坐标系位姿"
+      },
+      {
+        "name": "双层变化线索",
+        "purpose": "兼顾细微外观和语义变化",
+        "mechanism": "L1+D-SSIM光度差与SAM2特征差归一化后相加",
+        "input": "当前图、同位姿旧图",
+        "output": "稠密变化线索"
+      },
+      {
+        "name": "多视角变化记忆",
+        "purpose": "抑制单视角噪声",
+        "mechanism": "仅优化高斯变化参数，16次迭代融合当前及历史已见图；损失含面积正则",
+        "input": "累积线索与参考高斯",
+        "output": "多视角一致掩码"
+      },
+      {
+        "name": "选择性更新",
+        "purpose": "低成本维护当前场景",
+        "mechanism": "重建变化区，剔除旧变化高斯，再融合与限制增密的全局精修",
+        "input": "变化掩码与重访图",
+        "output": "更新后的3DGS"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "XFeat、SAM2-Tiny、Speedy-Splat",
+    "trainable": "每场景3DGS与高斯变化参数；重访后局部场景优化",
+    "frozen": "不训练XFeat/SAM2骨干；label-free 不等于无测试时优化",
+    "data": "参考与截至当前时刻的重访图像，无人工变化标注",
+    "objective": "自监督变化融合损失＋正则；3DGS重建损失",
+    "stages": "离线参考重建→逐帧变化优化→重访后选择性重建"
+  },
+  "evaluation": [
+    {
+      "benchmark": "PASLCD",
+      "setting": "arXiv v3；20实例平均；在线只用截至当前帧；离线有完整重访序列。作者设备速度依原文，不代表任意机器。",
+      "result": "在线F1=0.638，11.2 FPS；离线F1=0.694。两种模式不可混成同一个数值。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/abs/2511.12370",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 1",
+        "columns": [
+          "方法/模式",
+          "mIoU",
+          "F1",
+          "速度/耗时"
+        ],
+        "rows": [
+          [
+            "CS+CYWS2D / 在线",
+            0.243,
+            0.36,
+            "8.2 FPS"
+          ],
+          [
+            "O-SCD / 在线",
+            0.486,
+            0.638,
+            "11.2 FPS"
+          ],
+          [
+            "MV3DCD / 离线",
+            0.478,
+            0.628,
+            "479 s"
+          ],
+          [
+            "O-SCD / 离线",
+            0.552,
+            0.694,
+            "156 s"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2511.12370",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "PASLCD场景更新",
+      "setting": "Table 4 总耗时含变化检测与refinement；Table 5消融不含这两项，故42s与36s口径不同。",
+      "result": "PASLCD更新PSNR 23.70dB、42s；3DGS从头优化22.21dB、550s。",
+      "locator": "Table 4",
+      "sourceUrl": "https://arxiv.org/abs/2511.12370",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 4",
+        "columns": [
+          "方法",
+          "PSNR(dB)",
+          "SSIM",
+          "LPIPS↓",
+          "总耗时(s)"
+        ],
+        "rows": [
+          [
+            "3DGS",
+            22.21,
+            0.7558,
+            0.2426,
+            550
+          ],
+          [
+            "O-SCD",
+            23.7,
+            0.7868,
+            0.2491,
+            42
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2511.12370",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "单次重访内假设环境静止；XFeat匹配限制在补充材料讨论。"
+    ],
+    "analysis": [
+      "无法直接表示拍摄过程中连续运动的4D物体轨迹；参考重建覆盖和定位失败会影响检测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2511.12370",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/Chumsy0725/O-SCD",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://chumsy0725.github.io/O-SCD/",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Changes in Real Time: Online Scene Change Detection with Multi-View Fusion",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2511.12370",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Galappaththige_Changes_in_Real_Time_Online_Scene_Change_Detection_with_Multi-View_CVPR_2026_paper.html",
+      "label": "CVPR正式记录",
+      "locator": "CVPR2026 pp.32246–32256",
+      "supports": [
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pe3ae85d6e4bd2025,\n  title = {Changes in Real Time: Online Scene Change Detection with Multi-View Fusion},\n  author = {Chamuditha Jayanga Galappaththige and Jason Lai and Lloyd Windrim and Donald Dansereau and Niko Sünderhauf and Dimity Miller},\n  year = {2025},\n  url = {https://arxiv.org/abs/2511.12370}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与完整下载包未逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "旧3DGS场景＋PnP定位；自监督多视角融合检测变化，按变化区域更新模型。未安排回访时间/目标。",
+      "evaluation": "PASLCD（online）；官方仓库提供20个场景实例的变化检测与场景更新脚本。",
+      "training": "否。优化场景表示和自监督融合；使用视觉模块，没有语言VLM任务微调。",
+      "analysis": "在线更新不等于保存多轮异常演化；尚未判断变化的危险程度、预测何时恶化或主动安排复查；无人形长期实验。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "重访同一房间时，图像差异可能只是视角、光照，也可能是物体被移动。O-SCD 先重建旧场景，再把当前 RGB 定位到旧坐标系并渲染同视角旧图；用光度和 SAM2 特征差异产生候选变化，将所有已见帧的线索写入共享高斯变化表示。每帧在线检测，重访结束后局部重建发生变化的区域。这里“动态”指不同重访之间的状态变化，单次重访内仍假设场景静止。",
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

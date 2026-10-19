@@ -1,0 +1,200 @@
+{
+  "id": "p-7a17536245b6",
+  "title": "Object Goal Navigation using Goal-Oriented Semantic Exploration",
+  "short": "SemExp",
+  "aliases": [
+    "Semantic Exploration for Object-Goal Navigation",
+    "SemExp"
+  ],
+  "authors": [
+    "Chaplot, Devendra Singh",
+    "Gandhi, Dhiraj",
+    "Gupta, Abhinav",
+    "Salakhutdinov, Ruslan"
+  ],
+  "institutions": [
+    "Carnegie Mellon University"
+  ],
+  "firstPublished": "2020-07-01",
+  "updated": "2020-07-02",
+  "publicationYear": 2020,
+  "venue": "CVPR",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2020,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "强化学习",
+      "3D/4D 表征"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "空间理解"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内"
+    ],
+    "training": [
+      "强化学习"
+    ]
+  },
+  "summary": "用学习的语义地图和目标条件探索策略选择长期航点，再用确定性局部规划执行。",
+  "method": {
+    "explanation": "SemExp 将ObjectNav分成语义建图、目标导向长期探索和局部控制。RGB-D及语义分割投影到俯视地图，累计已探索区域和物体类别；目标条件策略根据语义布局选长期目标，局部路径规划器沿可通行区域到达。目标可见后转向该目标并停止。长期探索策略通过训练学习物体共现和布局先验，不是一个完全training-free的几何导航器。",
+    "input": "RGB-D、目标类别与位姿估计",
+    "output": "长期探索航点和局部动作",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用学习的语义地图和目标条件探索策略选择长期航点，再用确定性局部规划执行。",
+    "flow": [
+      "情景语义地图",
+      "目标条件长期策略",
+      "确定性局部规划"
+    ],
+    "modules": [
+      {
+        "name": "情景语义地图",
+        "purpose": "累计可通行性与对象类别",
+        "mechanism": "将深度和语义预测投影到全局俯视图，随机器人移动融合已探索区域、障碍与对象语义。",
+        "sourceUrl": "https://arxiv.org/html/2007.00643",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "目标条件长期策略",
+        "purpose": "选择最值得探索的地方",
+        "mechanism": "给定目标类别与语义地图，学习利用对象布局先验决定长期航点；看到目标后以其位置为导航目标。",
+        "sourceUrl": "https://arxiv.org/html/2007.00643",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "确定性局部规划",
+        "purpose": "把长期目标转为可靠低层动作",
+        "mechanism": "在地图上进行局部路径规划，逐步移动、转向与重新观察，避免端到端策略同时承担所有控制。",
+        "sourceUrl": "https://arxiv.org/html/2007.00643",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "语义感知监督训练 + 探索策略强化学习",
+    "models": "语义映射模块、goal-oriented exploration policy、局部规划器",
+    "trainable": "语义/长期探索组件依原文训练",
+    "frozen": "局部规划为算法；不是冻结LLM架构",
+    "data": "Gibson/MP3D ObjectNav任务和感知训练数据",
+    "objective": "探索策略强化学习、语义监督；分别训练模块",
+    "stages": "训练模块 → 在线建图 → 目标策略选点 → 局部执行"
+  },
+  "evaluation": [
+    {
+      "benchmark": "SemExp ObjectNav 与语义消融",
+      "setting": "Table1，Gibson与MP3D；Success/SPL均为0–1比例，DTS为到成功区域距离(m)。",
+      "result": "SemExp Gibson Success.544/SPL.199；MP3D.360/.144；Gibson GT语义分割消融提高到.731/.457。",
+      "sourceUrl": "https://arxiv.org/html/2007.00643",
+      "locator": "Table 1 / Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "配置 / 基准",
+          "Success",
+          "SPL",
+          "DTS(m)"
+        ],
+        "rows": [
+          [
+            "SemExp / Gibson",
+            ".544",
+            ".199",
+            "1.723"
+          ],
+          [
+            "SemExp / MP3D",
+            ".360",
+            ".144",
+            "6.733"
+          ],
+          [
+            "无Goal Policy / Gibson",
+            ".450",
+            ".148",
+            "2.315"
+          ],
+          [
+            "GT语义 / Gibson",
+            ".731",
+            ".457",
+            "1.089"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依据本条列出的任务与协议，结果只支持相应数据和实验条件；跨机器人、环境与预算的结论需要匹配协议后重测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2007.00643",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / SemExp",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2007.00643",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2007.00643",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p7a17536245b62020,\n title={Object Goal Navigation using Goal-Oriented Semantic Exploration},\n author={Chaplot, Devendra Singh and Gandhi, Dhiraj and Gupta, Abhinav and Salakhutdinov, Ruslan},\n year={2020},\n url={https://arxiv.org/abs/2007.00643}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "SemExp 将ObjectNav分成语义建图、目标导向长期探索和局部控制。RGB-D及语义分割投影到俯视地图，累计已探索区域和物体类别；目标条件策略根据语义布局选长期目标，局部路径规划器沿可通行区域到达。目标可见后转向该目标并停止。长期探索策略通过训练学习物体共现和布局先验，不是一个完全training-free的几何导航器。",
+  "verificationLevel": "fulltext"
+}

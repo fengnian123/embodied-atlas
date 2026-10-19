@@ -1,0 +1,190 @@
+{
+  "id": "p-bc652274b6b3",
+  "title": "SpaceVLN: A Zero-Shot Vision-and-Language Navigation Agent with Online Spatial Cognitive Memory and Reasoning",
+  "short": "SpaceVLN",
+  "aliases": [
+    "SpaceVLN"
+  ],
+  "authors": [
+    "Deng, Yucheng",
+    "Lai, Pingrui",
+    "Li, Xinhai",
+    "Bai, Chenjia",
+    "Deng, Xiaoheng",
+    "Sun, Chengnuo",
+    "Li, Xuelong",
+    "Yang, Hua"
+  ],
+  "institutions": [
+    "School of Information Science and Electronic Engineering & School of Integrated Circuits,Shanghai Jiao Tong University",
+    "Institute of Artificial Intelligence, China Telecom",
+    "Central South University Jiangsu University"
+  ],
+  "firstPublished": "2026-06-08",
+  "updated": "2026-06-08",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM",
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用空间—地标阶段作为规划执行接口，并在线维护空间认知记忆验证导航进度。",
+  "method": {
+    "explanation": "SpaceVLN 将长指令拆为可验证的space-landmark阶段。SpatialWaypointGraph保存探索空间与连通关系，ExecutedSpatialWaypointChain保存走过的空间顺序，LocalLandmarkMemory只保留当前子任务有关的地标证据。Spatial-CoT在这些记忆上判断当前阶段进度、空间关系及下一阶段；executor执行后再验证并必要时重规划。阶段目标是空间/地标接口，不是生成一张理想stage image；同一接口也可适配ObjectNav。",
+    "input": "任务、视觉观察、空间/阶段记忆",
+    "output": "空间—地标阶段与低层动作",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用空间—地标阶段作为规划执行接口，并在线维护空间认知记忆验证导航进度。",
+    "flow": [
+      "空间认知记忆",
+      "Spatial-CoT阶段规划",
+      "执行—验证闭环"
+    ],
+    "modules": [
+      {
+        "name": "空间认知记忆",
+        "purpose": "将区域、路线与局部地标分层保存",
+        "mechanism": "维护SpatialWaypointGraph、ExecutedSpatialWaypointChain和LocalLandmarkMemory，增量抽象探索区域并记录当前任务证据。",
+        "sourceUrl": "https://arxiv.org/html/2606.08992",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "Spatial-CoT阶段规划",
+        "purpose": "结合进度与空间结构选目标",
+        "mechanism": "推理当前处于哪个阶段、还缺哪些地标证据、应向哪个空间前进，输出可验证的space-landmark子任务。",
+        "sourceUrl": "https://arxiv.org/html/2606.08992",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "执行—验证闭环",
+        "purpose": "防止阶段切换只凭时间或动作数",
+        "mechanism": "executor执行当前子任务，返回新观察后验证阶段是否完成；若空间或进度不匹配，更新记忆并重规划。",
+        "sourceUrl": "https://arxiv.org/html/2606.08992",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "零样本高层Agent；无任务专属策略训练",
+    "models": "Qwen3.5系列planner/executor配置",
+    "trainable": "空间/地标记忆在线更新；不训练基础导航主干",
+    "frozen": "基础模型仅推理",
+    "data": "R2R/RxR/GN-Bench/OVON评测；无专属任务训练",
+    "objective": "提示式空间推理与阶段验证",
+    "stages": "记忆更新 → 空间阶段规划 → executor → 进度核验"
+  },
+  "evaluation": [
+    {
+      "benchmark": "SpaceVLN 连续VLN Val-Unseen",
+      "setting": "Table 1，R2R-CE/RxR-CE Val-Unseen，Qwen3.5 Open-Source与Plus/Flash分别列出。",
+      "result": "Open-Source R2R SR48.9/SPL32.0、RxR46.6/30.1；Plus/Flash53.3/34.5与48.9/31.7。",
+      "sourceUrl": "https://arxiv.org/html/2606.08992",
+      "locator": "Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "配置",
+          "R2R SR / SPL (%)",
+          "RxR SR / SPL (%)"
+        ],
+        "rows": [
+          [
+            "Qwen3.5 Open-Source",
+            "48.9 / 32.0",
+            "46.6 / 30.1"
+          ],
+          [
+            "Qwen3.5 Plus/Flash",
+            "53.3 / 34.5",
+            "48.9 / 31.7"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "Stage验证发生在空间/地标层面，没有证据支持把它描述为每阶段生成理想图像再匹配。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.08992",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / SpaceVLN",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2606.08992",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2606.08992",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pbc652274b6b32026,\n title={SpaceVLN: A Zero-Shot Vision-and-Language Navigation Agent with Online Spatial Cognitive Memory and Reasoning},\n author={Deng, Yucheng and Lai, Pingrui and Li, Xinhai and Bai, Chenjia and Deng, Xiaoheng and Sun, Chengnuo and Li, Xuelong and Yang, Hua},\n year={2026},\n url={https://arxiv.org/abs/2606.08992}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "SpaceVLN 将长指令拆为可验证的space-landmark阶段。SpatialWaypointGraph保存探索空间与连通关系，ExecutedSpatialWaypointChain保存走过的空间顺序，LocalLandmarkMemory只保留当前子任务有关的地标证据。Spatial-CoT在这些记忆上判断当前阶段进度、空间关系及下一阶段；executor执行后再验证并必要时重规划。阶段目标是空间/地标接口，不是生成一张理想stage image；同一接口也可适配ObjectNav。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,218 @@
+{
+  "id": "p-eb1ccf5871a6",
+  "title": "IndustryEQA: Pushing the Frontiers of Embodied Question Answering in Industrial Scenarios",
+  "short": "IndustryEQA",
+  "aliases": [
+    "IndustryEQA"
+  ],
+  "authors": [
+    "Li, Yifan",
+    "Chen, Yuhang",
+    "Dao, Anh",
+    "Li, Lichi",
+    "Cai, Zhongyi",
+    "Tan, Zhen",
+    "Chen, Tianlong",
+    "Kong, Yu"
+  ],
+  "institutions": [
+    "Michigan State University, {liyifa11, anhdao, caizhon2, yukong}@msu.edu",
+    "University of North Carolina at Chapel Hill, {yuhang, tianlong}@cs.unc.edu",
+    "Independent researcher,",
+    "Arizona State University,"
+  ],
+  "firstPublished": "2025-05-27",
+  "updated": "2025-05-27",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "安全",
+      "动态环境"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "预采集观测池"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "在Isaac Sim仓库视频中评测设备/人员安全、时空理解与安全推理。",
+  "method": {
+    "explanation": "IndustryEQA把家居EQA扩展到安全关键的仓储场景：作者在Isaac Sim生成带工业资产、动态人员和危险情境的情景记忆视频，按安全指南组织问答与推理标签。六类问题包含设备安全、人员安全、对象、属性、时间和空间。小仓库971对、大仓库373对共1344问答；输入是预录视频/多帧，不是Agent在线控制探索。因此高语言分数不能直接解释为机器人安全导航能力。",
+    "input": "预录工业场景视频/多帧与问题",
+    "output": "答案与安全推理",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "在Isaac Sim仓库视频中评测设备/人员安全、时空理解与安全推理。",
+    "flow": [
+      "仓储风险场景合成",
+      "问答与推理注释",
+      "分输入形态基线评估"
+    ],
+    "modules": [
+      {
+        "name": "仓储风险场景合成",
+        "purpose": "覆盖家庭基准缺少的安全内容",
+        "mechanism": "在Isaac Sim布置设备、人员与动态危险，参考现实安全指南构造情景视频。",
+        "sourceUrl": "https://arxiv.org/html/2505.20640",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "问答与推理注释",
+        "purpose": "同时考察识别和原因解释",
+        "mechanism": "对六类问题给出答案和推理评价，并按人员存在与仓库大小分组。",
+        "sourceUrl": "https://arxiv.org/html/2505.20640",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "分输入形态基线评估",
+        "purpose": "区分语言先验、图像与视频信息",
+        "mechanism": "分别测试Blind LLM、多帧VLM和视频VLM，报告Direct/Reasoning而非统一导航SR。",
+        "sourceUrl": "https://arxiv.org/html/2505.20640",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "数据集与推理评测；基线仅推理",
+    "models": "多帧/视频VLM和Blind LLM基线",
+    "trainable": "不训练新增机器人动作策略",
+    "frozen": "评测基础模型",
+    "data": "小仓库971、大仓库373问答；情景记忆视频",
+    "objective": "Direct/Reasoning答案评分，不是控制奖励",
+    "stages": "场景生成 → 视频/问答标注 → 多模型推理评价"
+  },
+  "evaluation": [
+    {
+      "benchmark": "IndustryEQA 仓库大小分组",
+      "setting": "Table2，Direct/Reasoning Score (%)，按Small/Large仓库分组；不是主动探索SR。",
+      "result": "o4-mini小/大Direct69.67/69.03、Reasoning67.71/63.25；Gemini2.5-Flash66.76/70.24与60.14/61.45。",
+      "sourceUrl": "https://arxiv.org/html/2505.20640",
+      "locator": "Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "模型 / 输入",
+          "Small Direct",
+          "Large Direct",
+          "Small Reasoning",
+          "Large Reasoning"
+        ],
+        "rows": [
+          [
+            "GPT-4o / 多帧",
+            "57.39",
+            "61.39",
+            "50.43",
+            "46.39"
+          ],
+          [
+            "o4-mini / 多帧",
+            "69.67",
+            "69.03",
+            "67.71",
+            "63.25"
+          ],
+          [
+            "Gemini2.5-Flash / 视频",
+            "66.76",
+            "70.24",
+            "60.14",
+            "61.45"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "预录视频输入缺少主动行动闭环；安全问答得分不能当作机器人事故概率或安全保证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2505.20640",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / IndustryEQA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2505.20640",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2505.20640",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{peb1ccf5871a62025,\n title={IndustryEQA: Pushing the Frontiers of Embodied Question Answering in Industrial Scenarios},\n author={Li, Yifan and Chen, Yuhang and Dao, Anh and Li, Lichi and Cai, Zhongyi and Tan, Zhen and Chen, Tianlong and Kong, Yu},\n year={2025},\n url={https://arxiv.org/abs/2505.20640}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；任务协议待核实",
+      "inputProtocol": "小仓30帧RGB＋问题\n小仓30帧RGB＋问题\n小仓30帧RGB＋问题\n小仓30帧RGB＋问题\n完整视频/片段＋问题",
+      "scale": "小仓库971 QA"
+    }
+  ],
+  "overview": "IndustryEQA把家居EQA扩展到安全关键的仓储场景：作者在Isaac Sim生成带工业资产、动态人员和危险情境的情景记忆视频，按安全指南组织问答与推理标签。六类问题包含设备安全、人员安全、对象、属性、时间和空间。小仓库971对、大仓库373对共1344问答；输入是预录视频/多帧，不是Agent在线控制探索。因此高语言分数不能直接解释为机器人安全导航能力。",
+  "benchmark": {
+    "motivation": "工业安全而非仅家居识别。",
+    "task": "预录episodic-memory视频问答，不是在线主动探索。",
+    "environment": "Isaac Sim仓库仿真，含动态人员。",
+    "metrics": "Direct/Reasoning分数，并按人员存在和仓库大小报告。",
+    "scale": "1344 QA=971 Small+373 Large；六类问题。",
+    "boundary": "不能据此推出真实闭环安全保证；视频合成分布与评分模型有边界。"
+  },
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,240 @@
+{
+  "id": "p-387292d4cfe1",
+  "title": "Dyna3: VLM-Guided Training-Free 4D Reconstruction via Depth Foundation Models",
+  "short": "Dyna3",
+  "aliases": [],
+  "authors": [
+    "Xinhao Xiang",
+    "Weiyang Li",
+    "Zhijie Zheng",
+    "Abhijeet Rastogi",
+    "Jiawei Zhang"
+  ],
+  "institutions": [
+    "University of California, Davis",
+    "Genies Inc."
+  ],
+  "firstPublished": "2026-10-01",
+  "updated": "2026-10-01",
+  "publicationYear": null,
+  "venue": "arXiv",
+  "publicationStatus": "预印本",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征",
+      "VLM"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "仅在推理阶段组合 DA3 几何、特征运动分数、VLM 生成的对象提示和 SAM3，分离持久静态背景与逐帧动态对象。",
+  "method": {
+    "input": "未经标定的单目动态 RGB 视频",
+    "output": "相机、静态背景点云、逐帧动态对象的 4D 重建",
+    "flow": [
+      "DA3 几何与特征",
+      "运动先验与 VLM 提示",
+      "实例选择与动静重建"
+    ],
+    "assumptions": "预训练 DA3、VLM 与 SAM3 的域外误差会影响分解；不是优化 4D 高斯的方法。",
+    "difference": "不再训练时序对应模型；把深度模型的 patch 特征与语义分割组合成动态选择机制。",
+    "explanation": "仅在推理阶段组合 DA3 几何、特征运动分数、VLM 生成的对象提示和 SAM3，分离持久静态背景与逐帧动态对象。 不再训练时序对应模型；把深度模型的 patch 特征与语义分割组合成动态选择机制。 预训练 DA3 输出深度、相机和 patch 特征，供后续三维融合与运动判断。 邻近帧特征最佳匹配形成粗运动分数；把运动区域提示给 VLM，生成场景特定的文本对象描述。 SAM3 生成实例掩码；将实例内运动分数与阈值结合选择动态对象，静态背景跨时融合、动态区域逐帧恢复。",
+    "modules": [
+      {
+        "name": "DA3 几何与特征",
+        "purpose": "同时恢复相机和初始结构",
+        "mechanism": "预训练 DA3 输出深度、相机和 patch 特征，供后续三维融合与运动判断。",
+        "input": "RGB 视频",
+        "output": "几何、相机、patch 特征"
+      },
+      {
+        "name": "运动先验与 VLM 提示",
+        "purpose": "从几何特征变化找到真正运动对象",
+        "mechanism": "邻近帧特征最佳匹配形成粗运动分数；把运动区域提示给 VLM，生成场景特定的文本对象描述。",
+        "input": "patch 特征与视频观测",
+        "output": "运动先验、SAM3 文本提示"
+      },
+      {
+        "name": "实例选择与动静重建",
+        "purpose": "在保留语义边界同时避免全场景漂移",
+        "mechanism": "SAM3 生成实例掩码；将实例内运动分数与阈值结合选择动态对象，静态背景跨时融合、动态区域逐帧恢复。",
+        "input": "实例掩码、运动分数、深度/相机",
+        "output": "持久静态背景及动态前景"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "无额外可训练模块",
+    "trainable": "无额外可训练模块",
+    "frozen": "DA3、VLM 与 SAM3 均使用预训练能力，不微调",
+    "data": "无额外训练数据；只输入测试视频",
+    "objective": "不适用：无训练损失",
+    "stages": "推理处理长边 504，运动邻域 4 帧、动态阈值 0.3；复用 SAM3 session 特征"
+  },
+  "evaluation": [
+    {
+      "benchmark": "DAVIS 动态对象分割",
+      "setting": "arXiv v1；不是RGB新视角或Mesh质量；J/F均为百分数。 原文统一单NVIDIA A100。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "DAVIS 动态对象分割 · Table 1",
+        "columns": [
+          "方法",
+          "DAVIS16 J↑ (%)",
+          "DAVIS16 F↑ (%)",
+          "DAVIS17 J↑ (%)",
+          "DAVIS17 F↑ (%)"
+        ],
+        "rows": [
+          [
+            "Easi3R [4]",
+            "48.92",
+            "45.29",
+            "49.65",
+            "44.09"
+          ],
+          [
+            "VGGT4D [8]",
+            "59.50",
+            "55.47",
+            "56.45",
+            "51.09"
+          ],
+          [
+            "Dyna3 (Ours)",
+            "65.04",
+            "66.93",
+            "58.73",
+            "62.46"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2610.01286v1",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "TUM-dynamics 相机",
+      "setting": "arXiv v1；ATE/RTE单位m，RRE单位度；Time是每视频，Mem是原文GPU实验占用。不同采样stride不能混比。 原文统一单NVIDIA A100。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "TUM-dynamics 相机 · Table 2",
+        "columns": [
+          "Method",
+          "ATE↓",
+          "RTE↓",
+          "RRE↓",
+          "Time(s/vid)↓",
+          "Mem(GB)↓"
+        ],
+        "rows": [
+          [
+            "VGGT4D [8]",
+            "0.016",
+            "0.020",
+            "0.612",
+            "45.53",
+            "130.1"
+          ],
+          [
+            "Dyna3 (Ours)",
+            "0.121",
+            "0.024",
+            "2.506",
+            "15.64",
+            "24.7"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2610.01286v1",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "语义上可能运动的类别不保证当前确实在运动，本文因此用实例内运动分数再筛选；不能把分割精度等同 Mesh/物理真实性。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2610.01286",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / Dyna3: VLM-Guided Training-Free 4D Reconstruction via Depth Foundation Models",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.01286",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2610.01286v1",
+      "label": "论文全文 v1",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{261001286,\n  title = {Dyna3: VLM-Guided Training-Free 4D Reconstruction via Depth Foundation Models},\n  author = {Xiang, Xinhao and Li, Weiyang and Zheng, Zhijie and Rastogi, Abhijeet and Zhang, Jiawei},\n  year = {2026},\n  eprint = {2610.01286},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2610.01286}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。",
+    "未确认正式会议/期刊发表信息；仅以arXiv预印本标识。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "仅在推理阶段组合 DA3 几何、特征运动分数、VLM 生成的对象提示和 SAM3，分离持久静态背景与逐帧动态对象。 不再训练时序对应模型；把深度模型的 patch 特征与语义分割组合成动态选择机制。 预训练 DA3、VLM 与 SAM3 的域外误差会影响分解；不是优化 4D 高斯的方法。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

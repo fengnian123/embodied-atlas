@@ -1,0 +1,215 @@
+{
+  "id": "p-57fca4f321a9",
+  "title": "SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation",
+  "short": "SoftNav",
+  "aliases": [],
+  "authors": [
+    "Yi Wu",
+    "Junjie An",
+    "Xiao Liu",
+    "Yiqun Zhou",
+    "Yuechen Wu",
+    "Xiaoqing Guan",
+    "Shuyang Yu",
+    "You Wang",
+    "Guang Li"
+  ],
+  "institutions": [
+    "Zhejiang University",
+    "Shandong University"
+  ],
+  "firstPublished": "2026-07-16",
+  "updated": "2026-07-16",
+  "publicationYear": 2026,
+  "venue": "IROS",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "SoftNav 通过可学习 soft token 接口把 3D 实体与前沿直接注入 VLM 隐藏空间，减少把空间结构强行写成文字的损失。",
+  "method": {
+    "input": "最近 16 帧 RGB",
+    "output": "可执行前沿决策",
+    "explanation": "SoftNav 通过可学习 soft token 接口把 3D 实体与前沿直接注入 VLM 隐藏空间，减少把空间结构强行写成文字的损失。视觉历史和 3D 查询两路融合，冻结主要编码器，只训练投影和 LoRA。",
+    "flow": [
+      "紧凑视觉历史",
+      "3D soft token 注入",
+      "融合与航点选择"
+    ],
+    "modules": [
+      {
+        "name": "紧凑视觉历史",
+        "purpose": "本模块解决：紧凑视觉历史",
+        "input": "最近 16 帧 RGB",
+        "mechanism": "冻结 DINOv3 提特征并压成每帧 15 token，构成 240-token 滚动视觉上下文。",
+        "output": "视觉 memory token",
+        "sourceUrl": "https://arxiv.org/html/2607.14586v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "3D soft token 注入",
+        "purpose": "本模块解决：3D soft token 注入",
+        "input": "累积 RGB-D 的物体/前沿查询",
+        "mechanism": "冻结 PQ3D 产生 768 维实体 embedding，可训练 MLP 投影到 Qwen2.5-VL-3B 的 2048 维隐藏空间。",
+        "output": "每个实体一个连续 soft token",
+        "sourceUrl": "https://arxiv.org/html/2607.14586v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "融合与航点选择",
+        "purpose": "本模块解决：融合与航点选择",
+        "input": "视觉 token、3D token 和指令",
+        "mechanism": "VLM 联合注意后选前沿航点；仅更新 MLP 和 LoRA，保持基础视觉和 3D 表征。",
+        "output": "可执行前沿决策",
+        "sourceUrl": "https://arxiv.org/html/2607.14586v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "依赖RGB-D、在线3D感知与候选前沿；小规模split的数值不能自动推广为官方全量评测。",
+    "difference": "SoftNav 通过可学习 soft token 接口把 3D 实体与前沿直接注入 VLM 隐藏空间，减少把空间结构强行写成文字的损失。视觉历史和 3D 查询两路融合，冻结主要编码器，只训练投影和 LoRA。"
+  },
+  "training": {
+    "regime": "冻结主干并训练模块",
+    "models": "冻结 PQ3D 产生 768 维实体 embedding，可训练 MLP 投影到 Qwen2.5-VL-3B 的 2048 维隐藏空间。；VLM 联合注意后选前沿航点；仅更新 MLP 和 LoRA，保持基础视觉和 3D 表征。",
+    "trainable": "冻结视觉编码器、3D 编码器和 VLM 原始权重；训练约 4M 参数 MLP 与约 13M LoRA。应归类冻结主干并训练模块，不是 training-free。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "冻结视觉编码器、3D 编码器和 VLM 原始权重；训练约 4M 参数 MLP 与约 13M LoRA。应归类冻结主干并训练模块，不是 training-free。",
+    "objective": "冻结视觉编码器、3D 编码器和 VLM 原始权重；训练约 4M 参数 MLP 与约 13M LoRA。应归类冻结主干并训练模块，不是 training-free。",
+    "stages": "冻结视觉编码器、3D 编码器和 VLM 原始权重；训练约 4M 参数 MLP 与约 13M LoRA。应归类冻结主干并训练模块，不是 training-free。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3D-OVON",
+      "setting": "每 split 120 episodes；成功阈值 0.25m；不能默认等同官方全量评测",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table II",
+      "sourceUrl": "https://arxiv.org/html/2607.14586v1",
+      "table": {
+        "columns": [
+          "方法",
+          "split",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "SoftNav",
+            "Seen",
+            74.2,
+            33.9
+          ],
+          [
+            "SoftNav",
+            "Synonyms",
+            68.3,
+            28.6
+          ],
+          [
+            "SoftNav",
+            "Unseen",
+            66.7,
+            25.7
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.14586v1",
+        "locator": "Table II",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依赖RGB-D、在线3D感知与候选前沿；小规模split的数值不能自动推广为官方全量评测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.14586",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2607.14586",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2607.14586v1",
+      "locator": "方法章节；Table II",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p57fca4f321a9,\n  title={SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation},\n  author={Yi Wu and Junjie An and Xiao Liu and Yiqun Zhou and Yuechen Wu and Xiaoqing Guan and Shuyang Yu and You Wang and Guang Li},\n  year={2026},\n  eprint={2607.14586},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2607.14586}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "HM3D-OVON、GOAT-Bench、SG3D",
+      "comparisons": "HM3D-OVON：BC、DAgger、BCRL、VLFM、DAgRL+OD、RL、DAgRL、Uni-NaVid、TANGO、MTU3D                                                                                                              GOAT-Bench：Mod. CoW、SA-NN Mono.、Mod. GOAT、SA-NN Chain、TANGO、MTU3D、MSGNav                                                                                 SG3D：SenseAct-NN Mono. 、Embodied VideoAgent、MTU3D",
+      "training": "不是严格zero-shot。冻结视觉编码器、PQ3D和VLM backbone，仅训练MLP projector（约4M）和LoRA adapters（约13M），共约17M参数；使用约1.2K OVON样本训练，之后zero-shot迁移至GOAT-Bench、SG3D和真机。",
+      "resourceClaim": "否"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "SoftNav 通过可学习 soft token 接口把 3D 实体与前沿直接注入 VLM 隐藏空间，减少把空间结构强行写成文字的损失。视觉历史和 3D 查询两路融合，冻结主要编码器，只训练投影和 LoRA。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

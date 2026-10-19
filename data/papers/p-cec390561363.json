@@ -1,0 +1,234 @@
+{
+  "id": "p-cec390561363",
+  "title": "ActiveArena: Benchmarking and Understanding Active Perception in Robotic Manipulation",
+  "short": "ActiveArena",
+  "aliases": [
+    "ActiveArena: Benchmarking and Understanding Active Perception in Robotic Manipulation",
+    "ActiveArena"
+  ],
+  "authors": [
+    "Li, Yibo",
+    "Zhou, Enshen",
+    "Chen, Rui",
+    "Ding, Yanjun",
+    "Liu, Mengzhen",
+    "Han, Yi",
+    "Zhan, Jiabo",
+    "Wang, Lipeng",
+    "Zhang, Shanghang",
+    "Sheng, Lu"
+  ],
+  "institutions": [
+    "Beihang University",
+    "Beijing Academy of Artificial Intelligence",
+    "Peking University"
+  ],
+  "firstPublished": "2026-09-21",
+  "updated": "2026-09-23",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "主动感知",
+      "机器人控制"
+    ],
+    "paradigm": [
+      "VLA"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "主动感知",
+      "记忆",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "以可独立控制视角、交互信息获取和记忆标注，系统评测主动感知操作的ID/OOD泛化。",
+  "method": {
+    "explanation": "ActiveArena由主动视角模拟器、35任务的基准和13种VLA配置组成。任务需要多轮改变视角或操作环境获取不可被动看见的信息，再利用历史记忆完成任务；数据提供记忆标注与统一训练资料。ID/OOD控制场景、干扰配置和新背景差异，模型消融比较记忆写入、容量、本体状态、子任务监督与高层计划。它的主要价值是把主动观察与操作合在可诊断协议里，而不是把普通长程任务都称为主动感知。",
+    "input": "任务、可控相机观察、交互/历史信息",
+    "output": "主动视角与操作动作",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "以可独立控制视角、交互信息获取和记忆标注，系统评测主动感知操作的ID/OOD泛化。",
+    "flow": [
+      "ActiveArena-Sim",
+      "35任务与记忆注释",
+      "13配置受控诊断"
+    ],
+    "modules": [
+      {
+        "name": "ActiveArena-Sim",
+        "purpose": "让观察方向本身成为决策变量",
+        "mechanism": "支持独立可控视角和较大工作空间，场景要求机器人主动获取缺失视觉信息。",
+        "sourceUrl": "https://arxiv.org/html/2609.24124",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "35任务与记忆注释",
+        "purpose": "评测多轮证据获取",
+        "mechanism": "按5类组织任务，为记忆和子任务提供监督，设置不重叠场景、未见干扰与背景的OOD协议。",
+        "sourceUrl": "https://arxiv.org/html/2609.24124",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "13配置受控诊断",
+        "purpose": "识别记忆和计划的具体作用",
+        "mechanism": "统一框架比较固定/学习写入、容量、状态输入、子任务监督和planner，用ID/OOD成功率分析。",
+        "sourceUrl": "https://arxiv.org/html/2609.24124",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "基准不适用；ActiveArena-VLA配置需监督训练",
+    "models": "多种VLA基线与ActiveArena-Fixed/OFT/Plan",
+    "trainable": "各配置的策略/记忆相关模块",
+    "frozen": "依配置，不能把整个suite标成无训练",
+    "data": "标准化训练数据、记忆标注与子任务监督",
+    "objective": "动作/子任务目标依13种配置",
+    "stages": "构造主动感知任务 → 标准训练 → ID/OOD与模块消融"
+  },
+  "evaluation": [
+    {
+      "benchmark": "ActiveArena-Bench ID / OOD",
+      "setting": "Table2，类别内任务平均，Avg按全部35任务平均而非五类简单算术均值。",
+      "result": "ActiveArena-OFT ID62.97/OOD47.60%，Plan60.97/45.54%；MemER35.31/23.43%。",
+      "sourceUrl": "https://arxiv.org/html/2609.24124",
+      "locator": "Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "模型",
+          "ID Avg SR (%)",
+          "OOD Avg SR (%)"
+        ],
+        "rows": [
+          [
+            "FAST-WAM",
+            "35.60",
+            "2.06"
+          ],
+          [
+            "MemER",
+            "35.31",
+            "23.43"
+          ],
+          [
+            "ActiveArena-Fixed",
+            "0.34",
+            "0.17"
+          ],
+          [
+            "ActiveArena-OFT",
+            "62.97",
+            "47.60"
+          ],
+          [
+            "ActiveArena-Plan",
+            "60.97",
+            "45.54"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "OOD分数与任务/场景划分相关；仿真主动感知提升不自动证明真实机器人的视角和接触控制可靠。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2609.24124",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "主动交互巡检与故障诊断_相关工作调研.md",
+      "locator": "ActiveArena: Benchmarking and Understanding Active Perception in Robotic Manipulation(2026)",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "调研所引论文或项目（未回查）",
+      "url": "https://arxiv.org/abs/2609.24124",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "调研所引论文或项目（未回查）",
+      "url": "https://leeibo.github.io/ActiveArena/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2609.24124",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2609.24124",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pcec3905613632026,\n title={ActiveArena: Benchmarking and Understanding Active Perception in Robotic Manipulation},\n author={Li, Yibo and Zhou, Enshen and Chen, Rui and Ding, Yanjun and Liu, Mengzhen and Han, Yi and Zhan, Jiabo and Wang, Lipeng and Zhang, Shanghang and Sheng, Lu},\n year={2026},\n url={https://arxiv.org/abs/2609.24124}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "ActiveArena由主动视角模拟器、35任务的基准和13种VLA配置组成。任务需要多轮改变视角或操作环境获取不可被动看见的信息，再利用历史记忆完成任务；数据提供记忆标注与统一训练资料。ID/OOD控制场景、干扰配置和新背景差异，模型消融比较记忆写入、容量、本体状态、子任务监督与高层计划。它的主要价值是把主动观察与操作合在可诊断协议里，而不是把普通长程任务都称为主动感知。",
+  "benchmark": {
+    "motivation": "测试主动获取信息、跨观察记忆与操作的组合。",
+    "task": "35任务、5类别，包含视觉探索与交互信息获取。",
+    "metrics": "任务SR；类别平均与全35任务平均口径分开。",
+    "scale": "标准训练数据与记忆标注；13种VLA受控配置。",
+    "boundary": "本表是仿真基准成绩；真实迁移需单独评估。",
+    "split": "ID/OOD包括不相交场景、新干扰物配置、新背景。"
+  },
+  "verificationLevel": "fulltext"
+}

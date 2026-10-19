@@ -1,0 +1,271 @@
+{
+  "id": "p-5a4e947c6397",
+  "title": "ReEXplore: Improving MLLMs for Embodied Exploration with Contextualized Retrospective Experience Replay",
+  "short": "ReEXplore",
+  "aliases": [
+    "ReEXplore"
+  ],
+  "authors": [
+    "Zhang, Gengyuan",
+    "Ding, Mingcong",
+    "Wu, Jingpei",
+    "Liao, Ruotong",
+    "Tresp, Volker"
+  ],
+  "institutions": [
+    "LMU Munich",
+    "Munich Center for Machine Learning",
+    "TU Munich"
+  ],
+  "firstPublished": "2025-11-24",
+  "updated": "2025-11-24",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "多目标导航"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "以回顾经验回放和由粗到细的frontier选择，改进冻结MLLM的探索决策。",
+  "method": {
+    "explanation": "ReEXplore 先把已完成探索轨迹逐步总结成简洁、可迁移且有结果依据的经验，再在新任务中按图像和文本相似度检索相关经验，把它们注入当前决策上下文。动作选择分两层：先从广视野候选区域选方向，再在选中区域的近景frontier中精细选择。这里“经验学习”主要是非参数经验库的构建和检索，没有因方法部署微调MLLM；同一论文中开放后端与商用后端的增益并不相同。",
+    "input": "目标/问题、当前观察、工作记忆与经验库",
+    "output": "下一frontier与问答/导航结果",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "以回顾经验回放和由粗到细的frontier选择，改进冻结MLLM的探索决策。",
+    "flow": [
+      "回顾式经验抽象",
+      "上下文经验回放",
+      "层次frontier选择"
+    ],
+    "modules": [
+      {
+        "name": "回顾式经验抽象",
+        "purpose": "从成功/失败中提取可复用规律",
+        "mechanism": "对已完成轨迹及任务结果进行逐步压缩，得到超越某一具体坐标或任务的抽象经验。",
+        "sourceUrl": "https://arxiv.org/html/2511.19033",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "上下文经验回放",
+        "purpose": "把旧经验转化为当前决策提示",
+        "mechanism": "按场景图像与任务文本相似度召回经验，与当前工作记忆和观测共同输入MLLM。",
+        "sourceUrl": "https://arxiv.org/html/2511.19033",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "层次frontier选择",
+        "purpose": "降低一次选择大量候选点的难度",
+        "mechanism": "先对Broad-View Frontier做粗选，再在Close-up-View Frontiers中做细选，输出可由导航模块到达的下一观察位置。",
+        "sourceUrl": "https://arxiv.org/html/2511.19033",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "无额外参数训练；推理时非参数经验回放",
+    "models": "Qwen2.5-VL-7B-Instruct/GPT-4o探索后端",
+    "trainable": "经验库和工作记忆更新，不更新MLLM权重",
+    "frozen": "MLLM主干与既有感知模块",
+    "data": "预先完成探索的轨迹及结果；新场景检索历史经验",
+    "objective": "经验抽象与候选frontier评分，无新模型训练损失",
+    "stages": "轨迹回顾 → 建立经验库 → 新环境检索与层次探索"
+  },
+  "evaluation": [
+    {
+      "benchmark": "GOAT-Bench Val Unseen",
+      "setting": "Table 2，GOAT-Bench Val Unseen；†为统一评测，*为引自基准。",
+      "result": "Qwen2.5-VL-7B：SR53.2%/SPL32.6%，3D-Mem49.4%/20.7%；GPT-4o：ReEXplore59.8%/42.5%，3D-Mem65.1%/49.3%。",
+      "sourceUrl": "https://arxiv.org/html/2511.19033",
+      "locator": "原文 Table 2 ",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 2 : Experiments on GOAT-Bench on the “Val Unseen” split. “CG” denotes ConceptGraphs. Methods denoted by * are taken from GOAT-Bench, and those marked with † are evaluated on the subset specified in [ 58 ] .",
+        "columns": [
+          "Method",
+          "Success Rate ( % ) ↑",
+          "SPL ( % ) ↑"
+        ],
+        "rows": [
+          [
+            "Modular GOAT [ 3 ] *",
+            "24.9",
+            "17.2"
+          ],
+          [
+            "Modular CLIP on Wheels [ 10 ] *",
+            "16.1",
+            "10.4"
+          ],
+          [
+            "SenseAct-NN Skill Chain [ 17 ] *",
+            "29.5",
+            "11.3"
+          ],
+          [
+            "SenseAct-NN Monolithic [ 17 ] *",
+            "12.3",
+            "6.8"
+          ],
+          [
+            "3D-Mem [ 58 ] † (Qwen2.5-VL-7B-Instruct)",
+            "49.4",
+            "20.7"
+          ],
+          [
+            "ReEXplore † (Qwen2.5-VL-7B-Instruct)",
+            "53.2",
+            "32.6"
+          ],
+          [
+            "Explore-EQA [ 37 ] † (GPT-4o)",
+            "55.0",
+            "37.9"
+          ],
+          [
+            "CG w/ Frontier Snapshots [ 14 ] † (GPT-4o)",
+            "61.5",
+            "45.3"
+          ],
+          [
+            "3D-Mem w/o memory [ 58 ] † (GPT-4o)",
+            "58.6",
+            "38.5"
+          ],
+          [
+            "3D-Mem [ 58 ] † (GPT-4o)",
+            "65.1",
+            "49.3"
+          ],
+          [
+            "ReEXplore † (GPT-4o)",
+            "59.8",
+            "42.5"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "原表GPT-4o设置并非所有指标优于3D-Mem，因此不能只引用开放后端“最高3倍”结论覆盖全部配置。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2511.19033",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA A-EQA / ReEXplore＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2511.19033v1",
+      "locator": "3D-Mem Table1引用值\n3D-Mem Table1引用值\n3D-Mem Table1引用值\nTable1\nTable1\nTable1\nTable1\nTable1\nTable1\nTableI",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA A-EQA / ReEXplore＋Qwen2.5-VL-7B",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2511.19033v1",
+      "locator": "3D-Mem Table1引用值\n3D-Mem Table1引用值\n3D-Mem Table1引用值\nTable1\nTable1\nTable1\nTable1\nTable1\nTable1\nTableI",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2511.19033",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2511.19033",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p5a4e947c63972025,\n title={ReEXplore: Improving MLLMs for Embodied Exploration with Contextualized Retrospective Experience Replay},\n author={Zhang, Gengyuan and Ding, Mingcong and Wu, Jingpei and Liao, Ruotong and Tresp, Volker},\n year={2025},\n url={https://arxiv.org/abs/2511.19033}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA A-EQA",
+      "variant": "ReEXplore＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA A-EQA",
+      "variant": "ReEXplore＋Qwen2.5-VL-7B"
+    }
+  ],
+  "overview": "ReEXplore 先把已完成探索轨迹逐步总结成简洁、可迁移且有结果依据的经验，再在新任务中按图像和文本相似度检索相关经验，把它们注入当前决策上下文。动作选择分两层：先从广视野候选区域选方向，再在选中区域的近景frontier中精细选择。这里“经验学习”主要是非参数经验库的构建和检索，没有因方法部署微调MLLM；同一论文中开放后端与商用后端的增益并不相同。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,197 @@
+{
+  "id": "p-a072272a4f0b",
+  "title": "RoboNurse-VLA: Robotic Scrub Nurse System based on Vision-Language-Action Model",
+  "short": "RoboNurse-VLA",
+  "aliases": [
+    "RoboNurse-VLA"
+  ],
+  "authors": [
+    "Li, Shunlei",
+    "Wang, Jin",
+    "Dai, Rui",
+    "Ma, Wanyu",
+    "Ng, Wing Yin",
+    "Hu, Yingbai",
+    "Li, Zheng"
+  ],
+  "institutions": [],
+  "firstPublished": "2024-09-29",
+  "updated": "2024-09-29",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "将语音指令、目标检测与SAM 2分割接入OpenVLA/Llama 2动作模型，完成器械抓取与递交。区分未用器械示范的视觉模块测试和器械示范微调后的结果。",
+  "method": {
+    "input": "深度相机图像与术者语音指令",
+    "output": "离散动作token及机械臂控制",
+    "flow": [
+      "语音与目标分割",
+      "视觉语言动作融合",
+      "专域动作适配"
+    ],
+    "explanation": "将语音指令、目标检测与SAM 2分割接入OpenVLA/Llama 2动作模型，完成器械抓取与递交。区分未用器械示范的视觉模块测试和器械示范微调后的结果。",
+    "modules": [
+      {
+        "name": "语音与目标分割",
+        "purpose": "定位指令指向的器械及人手",
+        "mechanism": "Gladia语音转文本，定制YOLOv8给出目标/手框，SAM 2输出视觉特征与掩码。",
+        "input": "深度相机图像与术者语音指令",
+        "output": "语音与目标分割的中间结果"
+      },
+      {
+        "name": "视觉语言动作融合",
+        "purpose": "连接分割表征和动作生成",
+        "mechanism": "两层MLP把视觉特征投影到OpenVLA的Llama 2 7B，连续动作每维离散为256个bin。",
+        "input": "语音与目标分割的结果",
+        "output": "视觉语言动作融合的中间结果"
+      },
+      {
+        "name": "专域动作适配",
+        "purpose": "学习器械姿态与交接方式",
+        "mechanism": "冻结视觉模块，对Llama 2使用LoRA和动作token交叉熵微调；推理反token化后执行。",
+        "input": "视觉语言动作融合的结果",
+        "output": "离散动作token及机械臂控制"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2409.19590",
+      "status": "已核实入口",
+      "note": "已核实arXiv元数据"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / RoboNurse-VLA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2409.19590",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://robonurse-vla.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Healthcare LLM/VLA Robot Prototypes / RoboNurse-VLA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2409.19590",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://robonurse-vla.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv原始元数据",
+      "url": "https://arxiv.org/abs/2409.19590",
+      "locator": "citation_title / citation_author / citation_date / version history",
+      "supports": [
+        "标题",
+        "作者",
+        "首次公开日期",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://arxiv.org/pdf/2409.19590",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**IROS'25**",
+      "section": "Surgical Embodied Intelligence"
+    },
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**IROS'25**",
+      "section": "Healthcare LLM/VLA Robot Prototypes"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "将语音指令、目标检测与SAM 2分割接入OpenVLA/Llama 2动作模型，完成器械抓取与递交。区分未用器械示范的视觉模块测试和器械示范微调后的结果。 "
+}

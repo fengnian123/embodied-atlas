@@ -1,0 +1,206 @@
+{
+  "id": "p-67e172cf580b",
+  "title": "The Future of Intelligent Healthcare: A Systematic Analysis and Discussion on the Integration and Impact of Robots Using Large Language Models for Healthcare",
+  "short": "LLM-HCR",
+  "aliases": [
+    "LLM-HCR"
+  ],
+  "authors": [
+    "Souren Pashangpour",
+    "Goldie Nejat"
+  ],
+  "institutions": [
+    "Autonomous Systems and Biomechatronics Laboratory (ASBLab), Department of Mechanical and Industrial Engineering, University of Toronto, Toronto, ON M5S 3G8, Canada",
+    "KITE, Toronto Rehabilitation Institute, University Health Newtork (UHN), Toronto, ON M5G 2A2, Canada",
+    "Rotman Research Institute, Baycrest Health Sciences, North York, ON M6A 2E1, Canada"
+  ],
+  "firstPublished": "2024-07-23",
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "Robotics",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "作为展望文章，讨论医疗机器人接入LLM所需的多模态交互、语义推理和任务规划，并整理伦理及落地障碍；没有新临床试验。",
+  "method": {
+    "input": "文献中的模型与使用方式",
+    "output": "设计边界与开放问题",
+    "flow": [
+      "基础模型与提示方法盘点",
+      "交互—语义—规划需求",
+      "两类概念应用设计",
+      "责任隐私及证据边界"
+    ],
+    "explanation": "本文分析把LLM嵌入医疗机器人的系统需求，重点是交互、语义推理和计划三个能力层。作者先回顾医疗语言模型和提示方法，再解释机器人如何将用户需求、多模态观测、电子病历或环境描述变成可推理的上下文，进而生成可执行的任务程序。文章讨论责任、隐私和人性化照护，并给失智陪伴及手术器械交接两个概念系统，用示例提示串展示任务分发、工具调用和失败反馈可能怎样组织。这些示例不是已验证的临床机器人实验，也没有新模型训练或多模型同协议排行榜；引用的模型参数表包括当时文献报告值，不应当成今日官方模型规格。",
+    "modules": [
+      {
+        "name": "基础模型与提示方法盘点",
+        "purpose": "界定LLM能力和输入/输出接口",
+        "mechanism": "归纳医疗专用与通用模型、direct/CoT/zero-shot/few-shot/multimodal/task-oriented prompting。",
+        "input": "文献中的模型与使用方式",
+        "output": "LLM能力与提示方法分类"
+      },
+      {
+        "name": "交互—语义—规划需求",
+        "purpose": "把语言理解连接到具身执行",
+        "mechanism": "按多模态交互、知识资源/计算模型/世界表示及任务规划讨论LLM与机器人对接条件。",
+        "input": "用户、医疗知识与环境上下文",
+        "output": "可执行行为或服务设计需求"
+      },
+      {
+        "name": "两类概念应用设计",
+        "purpose": "用具体流程说明整合问题",
+        "mechanism": "给失智照护和手术器械助手概念流程；示例提示指定原子动作、工具API、行为树与失败反馈。",
+        "input": "设计场景和假定接口",
+        "output": "概念架构与提示示例"
+      },
+      {
+        "name": "责任隐私及证据边界",
+        "purpose": "识别临床转化仍需解决的问题",
+        "mechanism": "讨论可追责、数据隐私、偏见与人性照护，提出未来研究而不是报告临床试验。",
+        "input": "技术文献和伦理问题",
+        "output": "设计边界与开放问题"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "综述和概念应用证据",
+      "setting": "原文Sec.8及Tables 3/4；示例为潜在应用设计，没有新患者或机器人性能实验",
+      "result": "失智照护与手术辅助各一类概念流程，保留其性质为设计案例。",
+      "locator": "Sec.8.1/8.2；Tables 3/4；Sec.9",
+      "sourceUrl": "https://www.mdpi.com/2218-6581/13/8/112",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "设计示例",
+          "原文展示",
+          "验证性质"
+        ],
+        "rows": [
+          [
+            "失智照护社交机器人",
+            "需求分发、娱乐API、回忆干预及手势提示",
+            "概念设计，非临床效果试验"
+          ],
+          [
+            "手术器械助手",
+            "任务信息抽取、器械定位、行为树、失败反馈提示",
+            "概念设计，非新机器人成功率"
+          ]
+        ],
+        "locator": "Sec.8.1/8.2；Tables 3/4；Sec.9"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "临床LLM机器人研究有限，系统需求和潜在用途仍需专门的安全、可靠性与用户研究验证。",
+      "可追责、隐私、错误输出和医疗工作流整合是作者列出的开放挑战。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.3390/robotics13080112",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surveys and Scope / LLM-HCR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.mdpi.com/2218-6581/13/8/112/pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.3390/robotics13080112",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.3390/robotics13080112",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://www.mdpi.com/2218-6581/13/8/112",
+      "locator": "Sec.8.1/8.2；Tables 3/4；Sec.9",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Robotics'24**",
+      "section": "Surveys and Scope"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "作为展望文章，讨论医疗机器人接入LLM所需的多模态交互、语义推理和任务规划，并整理伦理及落地障碍；没有新临床试验。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

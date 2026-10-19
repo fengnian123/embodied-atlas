@@ -1,0 +1,268 @@
+{
+  "id": "p-ab1fd5bd54af",
+  "title": "Qwen-RobotNav Technical Report: A Scalable Navigation Model Designed for an Agentic Navigation System",
+  "short": "Qwen-RobotNav",
+  "aliases": [],
+  "authors": [
+    "Jiazhao Zhang",
+    "Gengze Zhou",
+    "Hale Yin",
+    "Yiyang Huang",
+    "Zixing Lei",
+    "Qihang Peng",
+    "Haoqi Yuan",
+    "Jie Zhang",
+    "Xudong Guo",
+    "Xiaoyue Chen",
+    "An Yang",
+    "Fei Huang",
+    "Zhibo Yang",
+    "Junyang Lin",
+    "Dayiheng Liu",
+    "Jingren Zhou",
+    "Zhuoyuan Yu",
+    "Jingyang Fan",
+    "Zhixuan Liang",
+    "Pei Lin",
+    "Ye Wang",
+    "Haoyang Li",
+    "Anzhe Chen",
+    "Kun Yan",
+    "Xiao Xu",
+    "Jiahao Li",
+    "Lulu Hu",
+    "Minying Zhang",
+    "Shurui Li",
+    "Wenhu Xiao",
+    "Shuai Bai",
+    "Xuancheng Ren",
+    "Chenxu Lv",
+    "Chenfei Wu",
+    "Xiong-Hui Chen"
+  ],
+  "institutions": [
+    "Qwen Team（正文团队署名，未逐一映射个人机构）"
+  ],
+  "firstPublished": "2026-06-16",
+  "updated": "2026-06-29",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本；未核实正式发表状态",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN",
+      "ObjectNav",
+      "跟踪",
+      "EQA"
+    ],
+    "paradigm": [
+      "VLM",
+      "VLA",
+      "VLA"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "Qwen-RobotNav 在 Qwen3-VL 上加入轻量轨迹头，并把任务模式、视觉 token 预算、时间偏置和相机权重作为可控接口。",
+  "method": {
+    "input": "多相机视频、任务模式与预算配置",
+    "output": "下一子任务及执行证据",
+    "explanation": "Qwen-RobotNav 在 Qwen3-VL 上加入轻量轨迹头，并把任务模式、视觉 token 预算、时间偏置和相机权重作为可控接口。上层 Agent 能根据子任务切换观察策略，执行器仍用同一个导航模型输出航点。",
+    "flow": [
+      "可配置观测编码",
+      "轨迹预测",
+      "Agent 导航接口"
+    ],
+    "modules": [
+      {
+        "name": "可配置观测编码",
+        "purpose": "本模块解决：可配置观测编码",
+        "input": "多相机视频、任务模式与预算配置",
+        "mechanism": "随机/最近历史采样，依据时间偏置和相机权重分配 token；加入视角与时间标记。",
+        "output": "具有可调历史覆盖的视觉 token",
+        "sourceUrl": "https://arxiv.org/html/2606.18112v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "轨迹预测",
+        "purpose": "本模块解决：轨迹预测",
+        "input": "视觉 token、指令和机体提示",
+        "mechanism": "Qwen3-VL 融合空间语义，4 层 MLP 由最后隐藏状态回归 8 个 (x,y,θ) 航点。",
+        "output": "24 维航点轨迹",
+        "sourceUrl": "https://arxiv.org/html/2606.18112v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "Agent 导航接口",
+        "purpose": "本模块解决：Agent 导航接口",
+        "input": "上层子目标、任务模式与执行反馈",
+        "mechanism": "上层切换 VLN/PointNav/ObjNav/Tracking；轨迹压成 evidence record 写入 notebook，辅助工具校验目标并重规划。",
+        "output": "下一子任务及执行证据",
+        "sourceUrl": "https://arxiv.org/html/2606.18112v3",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "Qwen-RobotNav 在 Qwen3-VL 上加入轻量轨迹头，并把任务模式、视觉 token 预算、时间偏置和相机权重作为可控接口。上层 Agent 能根据子任务切换观察策略，执行器仍用同一个导航模型输出航点。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "Qwen3-VL 融合空间语义，4 层 MLP 由最后隐藏状态回归 8 个 (x,y,θ) 航点。",
+    "trainable": "15.6M 训练样本；85% 轨迹规划与 15% 视觉语言数据混合。轨迹用 MSE，视觉语言用下一 token 损失，权重 λ=1；训练随机化观察配置，避免只学固定历史窗口。冻结范围需结合发布配置逐项核实。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "15.6M 训练样本；85% 轨迹规划与 15% 视觉语言数据混合。轨迹用 MSE，视觉语言用下一 token 损失，权重 λ=1；训练随机化观察配置，避免只学固定历史窗口。冻结范围需结合发布配置逐项核实。",
+    "objective": "15.6M 训练样本；85% 轨迹规划与 15% 视觉语言数据混合。轨迹用 MSE，视觉语言用下一 token 损失，权重 λ=1；训练随机化观察配置，避免只学固定历史窗口。冻结范围需结合发布配置逐项核实。",
+    "stages": "15.6M 训练样本；85% 轨迹规划与 15% 视觉语言数据混合。轨迹用 MSE，视觉语言用下一 token 损失，权重 λ=1；训练随机化观察配置，避免只学固定历史窗口。冻结范围需结合发布配置逐项核实。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE / RxR-CE",
+      "setting": "Val-Unseen；单目/全景严格分行",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2606.18112v3",
+      "table": {
+        "columns": [
+          "变体",
+          "基准",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "4B 单目",
+            "R2R",
+            66.9,
+            60.5
+          ],
+          [
+            "8B 单目",
+            "R2R",
+            65.7,
+            59.6
+          ],
+          [
+            "4B 单目",
+            "RxR",
+            71.3,
+            61.5
+          ],
+          [
+            "8B 单目",
+            "RxR",
+            73.4,
+            63.5
+          ],
+          [
+            "8B 全景",
+            "R2R",
+            72.1,
+            66.6
+          ],
+          [
+            "8B 全景",
+            "RxR",
+            76.5,
+            65.7
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.18112v3",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.18112",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/QwenLM/Qwen-RobotNav",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://qwen.ai/blog?id=qwen-robotnav",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / Qwen-RobotNav",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2606.18112",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2606.18112v3",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pab1fd5bd54af,\n  title={Qwen-RobotNav Technical Report: A Scalable Navigation Model Designed for an Agentic Navigation System},\n  author={Jiazhao Zhang and Gengze Zhou and Hale Yin and Yiyang Huang and Zixing Lei and Qihang Peng and Haoqi Yuan and Jie Zhang and Xudong Guo and Xiaoyue Chen and An Yang and Fei Huang and Zhibo Yang and Junyang Lin and Dayiheng Liu and Jingren Zhou and Zhuoyuan Yu and Jingyang Fan and Zhixuan Liang and Pei Lin and Ye Wang and Haoyang Li and Anzhe Chen and Kun Yan and Xiao Xu and Jiahao Li and Lulu Hu and Minying Zhang and Shurui Li and Wenhu Xiao and Shuai Bai and Xuancheng Ren and Chenxu Lv and Chenfei Wu and Xiong-Hui Chen},\n  year={2026},\n  eprint={2606.18112},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2606.18112}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "正式发表信息尚未在可靠会议/期刊来源确认"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "Qwen-RobotNav 在 Qwen3-VL 上加入轻量轨迹头，并把任务模式、视觉 token 预算、时间偏置和相机权重作为可控接口。上层 Agent 能根据子任务切换观察策略，执行器仍用同一个导航模型输出航点。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

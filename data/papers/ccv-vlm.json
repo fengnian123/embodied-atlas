@@ -1,0 +1,252 @@
+{
+  "id": "ccv-vlm",
+  "title": "Tandem CCV-VLM: Visual construction safety inspection based on Collaborative Cross-Verification VLM",
+  "short": "Tandem CCV-VLM",
+  "aliases": [],
+  "authors": [
+    "Huanyu Wang",
+    "Futian Guo",
+    "Qihao Wang",
+    "Jiajing Liu"
+  ],
+  "institutions": [
+    "Hunan University",
+    "Hunan University of Science and Technology"
+  ],
+  "firstPublished": "2026-05-22",
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "Advanced Engineering Informatics",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "静态图像"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用多模型协同交叉验证处理施工安全视觉检查，作为具身巡检中的可靠视觉判别相关工作。",
+  "method": {
+    "input": "施工安全图像与检查问题",
+    "output": "安全判断及解释",
+    "flow": [
+      "多个视觉推理分支",
+      "交叉检查候选判断",
+      "汇总一致性结论"
+    ],
+    "assumptions": "专业类别与图像分布影响结论",
+    "difference": "通过交叉验证改善视觉判断。",
+    "explanation": "Tandem CCV-VLM在静态工地图像上串联两个VLM。主模型生成描述或检测，次模型借助预置检索库把描述映射到统一领域词汇；CCV过滤器再用交叉一致性约束修正主输出。作者比较硬过滤、软过滤等模式，覆盖描述、安全规则和对象定位。它没有负责机器人移动或主动采集，是可用作巡检视觉后端的离线图像系统。",
+    "modules": [
+      {
+        "name": "主VLM感知",
+        "purpose": "输出原始多任务预测",
+        "mechanism": "GPT-4o或LLaVA-13b根据图像和任务生成描述、违规或对象框",
+        "input": "工地图像和规则",
+        "output": "候选描述/检测"
+      },
+      {
+        "name": "检索与次VLM重映射",
+        "purpose": "统一领域词汇和表达",
+        "mechanism": "利用预置语义检索模块生成re-mapped captions",
+        "input": "候选描述、领域词库",
+        "output": "标准化参考描述"
+      },
+      {
+        "name": "CCV过滤",
+        "purpose": "降低不一致预测",
+        "mechanism": "比较主次模型输出，以硬/软交叉核验模式保留或修正候选",
+        "input": "候选及标准化描述",
+        "output": "经核验输出"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用；原文未描述任务专属参数微调",
+    "models": "GPT-4o API、LLaVA-13B本地推理；主/副模型串联",
+    "trainable": "本文所述CCV过滤和检索不涉及参数训练；未报告微调目标",
+    "frozen": "现成VLM推理；不能据此断言其原始预训练冻结范围",
+    "data": "1000张施工安全图像用于评测，副模型使用检索增强材料",
+    "objective": "无本文下游训练损失；以重映射caption对检测/grounding作硬、软或平衡过滤",
+    "stages": "主模型生成描述/检测→副模型检索重映射描述→CCV过滤"
+  },
+  "evaluation": [
+    {
+      "benchmark": "工地静态图像集",
+      "setting": "1000图像；Mode A硬过滤；描述指标均按原文量纲。",
+      "result": "GPT-4o串联后BERTScore 0.9133、CIDEr 0.4807、SPICE 0.2899；LLaVA-13b为0.8885/0.2446/0.2027。",
+      "locator": "Table 11",
+      "sourceUrl": "https://doi.org/10.1016/j.aei.2026.104841",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "工地静态图像集：Table 11",
+        "columns": [
+          "模型",
+          "样本",
+          "BERTScore",
+          "CLIPScore",
+          "CIDEr",
+          "SPICE"
+        ],
+        "rows": [
+          [
+            "GPT-4o CCV",
+            1000,
+            0.9133,
+            0.3211,
+            0.4807,
+            0.2899
+          ],
+          [
+            "LLaVA-13b CCV",
+            1000,
+            0.8885,
+            0.2991,
+            0.2446,
+            0.2027
+          ]
+        ],
+        "sourceUrl": "https://doi.org/10.1016/j.aei.2026.104841",
+        "locator": "Table 11"
+      }
+    },
+    {
+      "benchmark": "工地对象检测/定位",
+      "setting": "GPT-4o；相同对象、基线与串联比较；全部0–1。",
+      "result": "效果存在取舍：挖掘机F1提高0.9311→0.9419，召回却从0.9548降到0.9153；白衣工人F1由0.8100降到0.8020。",
+      "locator": "Table 15",
+      "sourceUrl": "https://doi.org/10.1016/j.aei.2026.104841",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "工地对象检测/定位：Table 15",
+        "columns": [
+          "对象/方法",
+          "Precision",
+          "Recall",
+          "F1",
+          "mIoU"
+        ],
+        "rows": [
+          [
+            "挖掘机基线",
+            0.9086,
+            0.9548,
+            0.9311,
+            0.3
+          ],
+          [
+            "挖掘机CCV",
+            0.9701,
+            0.9153,
+            0.9419,
+            0.3104
+          ],
+          [
+            "钢筋基线",
+            0.2813,
+            0.8462,
+            0.4223,
+            0.1376
+          ],
+          [
+            "钢筋CCV",
+            0.3135,
+            0.7692,
+            0.4454,
+            0.1365
+          ],
+          [
+            "白衣工人基线",
+            0.8526,
+            0.7714,
+            0.81,
+            0.1364
+          ],
+          [
+            "白衣工人CCV",
+            0.8587,
+            0.7524,
+            0.802,
+            0.1377
+          ]
+        ],
+        "sourceUrl": "https://doi.org/10.1016/j.aei.2026.104841",
+        "locator": "Table 15"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "没有实机动作反馈，不能直接评估主动巡检成本。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1016/j.aei.2026.104841",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：CCV-VLM.pdf",
+      "url": null,
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://doi.org/10.1016/j.aei.2026.104841",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容",
+    "训练冻结配置",
+    "数据划分与逐表量化复核",
+    "论文 DOI 与资源入口",
+    "作者机构",
+    "首次公开日期",
+    "最新版本日期"
+  ],
+  "sourceNotes": [
+    "用户附件首页Available online 2026-05-22；此前是否存在预印本未核实。"
+  ],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "施工安全图像包含专业术语与复杂背景，通用 VLM 可能输出不稳定判断。该工作通过协同交叉验证组织视觉推理，目标是提高多任务检查可靠性。收录它是为了提供安全视觉判断的技术背景，而不把单张图像上的检查效果视为机器人已经具备自主移动、取证和处置能力。",
+  "verificationLevel": "fulltext"
+}

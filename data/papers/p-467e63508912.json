@@ -1,0 +1,204 @@
+{
+  "id": "p-467e63508912",
+  "title": "Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map",
+  "short": "Memory for Attention",
+  "aliases": [
+    "Memory for Attention: Language-Conditioned Re-Perception with a Vision–Language–Motion Map",
+    "Memory for Attention"
+  ],
+  "authors": [
+    "Ghosh, Dibyendu"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-07-26",
+  "updated": "2026-09-12",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "主动感知",
+      "历史检索"
+    ],
+    "paradigm": [
+      "VLM",
+      "3D/4D 表征"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "记忆",
+      "主动感知"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "研究在有限再感知预算下，语言相关性与对象变化历史何时能帮助刷新长期地图。",
+  "method": {
+    "explanation": "论文明确区分“路线怎么走”和“现在应该看什么”。前者将行为地图转为规划代价，离线目标降低较多，但闭环收益很小；后者把对象再观察作为资源分配，在固定感知预算下优先更新重要且易变化的对象。实验通过控制实例变化率与类别先验的偏离程度，研究历史记忆何时优于语义可移动性先验。主要结论是条件性的：实例异质性明显时记忆更有用，而不是任何场景都有同等收益。",
+    "input": "语言目标、对象记忆、再感知预算",
+    "output": "对象观察优先级与调度",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "研究在有限再感知预算下，语言相关性与对象变化历史何时能帮助刷新长期地图。",
+    "flow": [
+      "语言条件行为地图",
+      "有限预算再感知调度",
+      "独立过程评测"
+    ],
+    "modules": [
+      {
+        "name": "语言条件行为地图",
+        "purpose": "给对象关联重要性与时变属性",
+        "mechanism": "将语言目标落到开放词汇对象，用对象历史、最近观察时间和变化信息构成长期地图。",
+        "sourceUrl": "https://arxiv.org/html/2607.23797",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "有限预算再感知调度",
+        "purpose": "用预算刷新最需要的对象",
+        "mechanism": "按对象价值和变化率分配观察频率，比较平方根律与Whittle-index等调度方式，约束总再感知预算。",
+        "sourceUrl": "https://arxiv.org/html/2607.23797",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "独立过程评测",
+        "purpose": "避免在同一历史上拟合并评分",
+        "mechanism": "在一个过程实现上估计变化历史并冻结，用独立实现评估staleness；通过异质性参数检验记忆收益的条件。",
+        "sourceUrl": "https://arxiv.org/html/2607.23797",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "调度与统计估计；非VLM策略训练",
+    "models": "开放词汇/VLM先验、VLMM记忆、调度器",
+    "trainable": "历史变化率估计及非参数调度；不是训练动作VLA",
+    "frozen": "VLM作为先验/按需推理组件",
+    "data": "AI2-THOR场景与独立生成的变化过程；held-out N=951实例",
+    "objective": "最小化价值加权陈旧度；部分实验比较路线代价",
+    "stages": "估计历史 → 冻结率估计 → 独立过程测试预算调度"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Held-out 再感知陈旧度",
+      "setting": "Table I/II，N=951；h控制实例变化率异质性；staleness越低越好。",
+      "result": "h=1：平方根调度prior .263、memory .246（6.5%优势）；Whittle调度prior .254、memory .243（4.5%优势）。h=0时Whittle memory反而较差。",
+      "sourceUrl": "https://arxiv.org/html/2607.23797",
+      "locator": "Table I / II",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "异质性 / 调度",
+          "先验staleness",
+          "记忆staleness",
+          "记忆相对优势 (%)"
+        ],
+        "rows": [
+          [
+            "h=0 / sqrt-law",
+            ".294",
+            ".289",
+            "1.7"
+          ],
+          [
+            "h=1 / sqrt-law",
+            ".263",
+            ".246",
+            "6.5"
+          ],
+          [
+            "h=0 / Whittle",
+            ".282",
+            ".285",
+            "−1.2"
+          ],
+          [
+            "h=1 / Whittle",
+            ".254",
+            ".243",
+            "4.5"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "原文主动报告空间导航负结果：规划目标约降35%，闭环执行仅约4%；不能将预算调度结果宣传为导航成功率提升。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.23797",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Memory for Attention: Language-Conditioned Re-Perception with a Vision–Language–Motion Map",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2607.23797",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2607.23797",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p467e635089122026,\n title={Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map},\n author={Ghosh, Dibyendu},\n year={2026},\n url={https://arxiv.org/abs/2607.23797}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "历史：估计每个物体的变化率。\n何时：按重要性与变化率分配复查频率。\n去哪：每步选择应重看的物体；比较频率分配、Whittle指数与最久未见等策略。",
+      "evaluation": "AI2-THOR：40个场景的物体变化模拟；CLIP先验、语言指定目标和取物任务评测。变化过程/重新观察主要为模拟。",
+      "training": "否。使用现成CLIP计算相关性/可移动性，不微调VLM；调度靠历史统计和优化。",
+      "analysis": "核心实验用独立历史估计，不等于在线跨天实测；调度层未纳入行走、视角共视成本。未验证设备恶化或人形机器人。"
+    }
+  ],
+  "overview": "论文明确区分“路线怎么走”和“现在应该看什么”。前者将行为地图转为规划代价，离线目标降低较多，但闭环收益很小；后者把对象再观察作为资源分配，在固定感知预算下优先更新重要且易变化的对象。实验通过控制实例变化率与类别先验的偏离程度，研究历史记忆何时优于语义可移动性先验。主要结论是条件性的：实例异质性明显时记忆更有用，而不是任何场景都有同等收益。",
+  "verificationLevel": "fulltext"
+}

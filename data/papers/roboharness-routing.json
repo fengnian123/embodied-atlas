@@ -1,0 +1,234 @@
+{
+  "id": "roboharness-routing",
+  "title": "RoboHarness: Memory-Driven Orchestration of Heterogeneous Robot Policies for Long-Horizon Planning",
+  "short": "RoboHarness · 策略编排",
+  "aliases": [],
+  "authors": [
+    "Jinbang Huang",
+    "Zhiyuan Li",
+    "Yuanzhao Hu",
+    "Ran Qi",
+    "Yixin Xiao",
+    "Mark Coates",
+    "Tongtong Cao",
+    "Zhanguang Zhang",
+    "Yingxue Zhang"
+  ],
+  "institutions": [
+    "Huawei Noah’s Ark Lab",
+    "University of British Columbia",
+    "University of Toronto",
+    "McGill University",
+    "Department of Foundation Model, 2012 Labs"
+  ],
+  "firstPublished": "2026-07-20",
+  "updated": "2026-09-29",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作",
+      "移动操作"
+    ],
+    "task": [
+      "长程操作"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "训练细节未核实"
+    ]
+  },
+  "summary": "利用执行记忆识别异构策略的能力边界并路由子任务，Memory Bridge 把机器人状态引向下一策略熟悉的分布，改善策略交接。",
+  "method": {
+    "input": "长程任务、异构策略接口与执行记忆",
+    "output": "子任务路由与跨策略交接",
+    "flow": [
+      "Understanding与能力卡路由：根据现场证据选择适用策略",
+      "策略专属情节记忆：找出与当前子任务和视图相近的成功状态",
+      "Memory Bridge：把上一策略终态移动到下一策略支持的输入分布",
+      "Evolution与执行复核：积累策略适用性并调整编排"
+    ],
+    "assumptions": "需要各策略原生接口、机器人状态、成功轨迹和运动规划器；配置支持不代表已证明任务/视觉兼容，因此桥接后仍重新观察。",
+    "difference": "旧笔记记为3个公开基准，v3摘要改为5个；本库保留版本差异，不沿用旧范围。",
+    "explanation": "RoboHarness把VLA、世界动作模型、RL和TAMP封装成保持原生接口的技能，由coding agent按能力卡和当前证据路由。成功轨迹按策略分别入库，每节点保留子任务、视觉、末端/关节/夹爪状态和冻结编码特征。Memory Bridge检索下一策略的成功锚点，学习局部进度排序，选择处于经验支持区且可运动到达的交接状态，执行桥接轨迹后重新检查场景，减少策略切换时的分布错配。",
+    "modules": [
+      {
+        "name": "Understanding与能力卡路由",
+        "purpose": "根据现场证据选择适用策略",
+        "mechanism": "评估位姿稳定性、图文相似度、图像质量及状态兼容；能力卡记录接口、训练任务、约束和失败统计。",
+        "input": "指令、观测、机器人状态、策略卡",
+        "output": "子任务分解与下一策略"
+      },
+      {
+        "name": "策略专属情节记忆",
+        "purpose": "找出与当前子任务和视图相近的成功状态",
+        "mechanism": "先文本top-K再视觉top-K；每条轨迹由相连节点组成，全日志另记录成功和失败。",
+        "input": "子任务、当前图像、成功轨迹库",
+        "output": "下一策略的锚点与邻域"
+      },
+      {
+        "name": "Memory Bridge",
+        "purpose": "把上一策略终态移动到下一策略支持的输入分布",
+        "mechanism": "用锚点前后时序偏移训练局部pairwise ranking SVM；在经验近邻区和可规划状态交集中权衡进度与运动成本。",
+        "input": "当前关节/末端状态、锚点邻域",
+        "output": "目标交接状态、可行桥接轨迹"
+      },
+      {
+        "name": "Evolution与执行复核",
+        "purpose": "积累策略适用性并调整编排",
+        "mechanism": "执行日志支持TAMP模型/抓取适配、接口和路由参数修订及能力卡更新；通过验证的改变可跨episode保留。",
+        "input": "轨迹、失败诊断、验证结果",
+        "output": "更新能力卡、参数/规则和经验库"
+      }
+    ]
+  },
+  "training": {
+    "regime": "冻结主干并训练模块",
+    "models": "现成π0.5、Faster-WAM、RLinf-OpenVLA、TAMP；冻结图文编码器；coding agent",
+    "trainable": "桥接时训练轻量局部排序SVM；演化可调整TAMP任务模型/参数；无需联合重训底层策略",
+    "frozen": "基础策略保持独立实现；图文检索编码器冻结",
+    "data": "策略成功轨迹形成记忆，失败和成功完整日志供演化",
+    "objective": "SVM以锚点前后时间次序做pairwise ranking；路由/模型适配用执行证据验证",
+    "stages": "现成策略与能力卡→经验检索→局部SVM→桥接执行→验证更新"
+  },
+  "evaluation": [
+    {
+      "benchmark": "LIBERO与LIBERO-Plus",
+      "setting": "采用2026-09-29 v3表1；Overall按7类扰动官方实例数加权；不是v1项目页的93.2。",
+      "result": "RoboHarness Original=98.7%、Plus Overall=91.9%；底层策略可用集按附录D.1固定。",
+      "locator": "§6 表1；附录D.1",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§6 表1；附录D.1",
+        "columns": [
+          "方法",
+          "Original SR(%)",
+          "Plus Overall SR(%)"
+        ],
+        "rows": [
+          [
+            "π0.5",
+            "96.9",
+            "85.7"
+          ],
+          [
+            "Cosmos-Policy",
+            "98.5",
+            "82.2"
+          ],
+          [
+            "RoboHarness",
+            "98.7",
+            "91.9"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.18060v3",
+        "locator": "§6 表1；附录D.1"
+      }
+    },
+    {
+      "benchmark": "LIBERO-LoHo",
+      "setting": "v3附录D.4表6；5任务；每格为进度分/成功率(%)，不是同一指标。",
+      "result": "RoboHarness Overall=98.2/96.0；H-WM-π0.5为84.9/64.8。",
+      "locator": "附录D.4 表6",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "附录D.4 表6",
+        "columns": [
+          "方法",
+          "Overall进度分(%)",
+          "Overall SR(%)"
+        ],
+        "rows": [
+          [
+            "π0.5",
+            "55.3",
+            "6.4"
+          ],
+          [
+            "H-WM-π0.5",
+            "84.9",
+            "64.8"
+          ],
+          [
+            "RoboHarness",
+            "98.2",
+            "96.0"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2607.18060v3",
+        "locator": "附录D.4 表6"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "旧笔记记为3个公开基准，v3摘要改为5个；本库保留版本差异，不沿用旧范围。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.18060",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.18060",
+      "label": "arXiv 原论文元数据与摘要",
+      "locator": "版本历史、方法与评测概述",
+      "supports": [
+        "身份",
+        "日期",
+        "方法",
+        "评测"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2607.18060v3",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§4–8；表1；附录C.2、D.4表6",
+      "supports": [
+        "Memory Bridge细节",
+        "局部模块训练",
+        "最新版实验",
+        "协议与版本"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{roboharnessrouting2026,\n  title = {RoboHarness: Memory-Driven Orchestration of Heterogeneous Robot Policies for Long-Horizon Planning},\n  author = {Jinbang Huang and Zhiyuan Li and Yuanzhao Hu and Ran Qi and Yixin Xiao and Mark Coates and Tongtong Cao and Zhanguang Zhang and Yingxue Zhang},\n  year = {2026},\n  url = {https://arxiv.org/abs/2607.18060}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "利用执行记忆识别异构策略的能力边界并路由子任务，Memory Bridge 把机器人状态引向下一策略熟悉的分布，改善策略交接。 该工作关注系统如何组织观测、推理与行动，阅读时要把运行时机制、底层策略的训练来源和最终任务证据分开。与单一模型的离线准确率相比，更应检查反馈接口、实验预算和失败时的行为。",
+  "verificationLevel": "fulltext"
+}

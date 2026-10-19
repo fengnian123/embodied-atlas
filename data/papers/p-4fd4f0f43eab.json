@@ -1,0 +1,266 @@
+{
+  "id": "p-4fd4f0f43eab",
+  "title": "LiDAR-GS:Real-time LiDAR Re-Simulation using Gaussian Splatting",
+  "short": "LiDAR-GS",
+  "aliases": [
+    "LiDAR-GS: Real-time LiDAR Re-Simulation using Gaussian Splatting"
+  ],
+  "authors": [
+    "Qifeng Chen",
+    "Sheng Yang",
+    "Sicong Du",
+    "Tao Tang",
+    "Rengan Xie",
+    "Peng Chen",
+    "Yuchi Huo"
+  ],
+  "institutions": [
+    "Cainiao, Alibaba Group",
+    "Sun Yat-sen University",
+    "Zhejiang University"
+  ],
+  "firstPublished": "2024-10-07",
+  "updated": "2025-10-13",
+  "publicationYear": null,
+  "venue": "arXiv",
+  "publicationStatus": "预印本",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "为主动激光传感器设计 laser-beam splatting，用高斯和轻量网络重建深度、强度及漏回波，支持动态实例分解后的 LiDAR 重仿真。",
+  "method": {
+    "input": "有位姿的 LiDAR 序列；动态框/跟踪用于实例分解",
+    "output": "新激光雷达视角的点云、强度和 ray-drop",
+    "flow": [
+      "神经高斯表示",
+      "Laser Beam Splatting",
+      "动态实例分解"
+    ],
+    "assumptions": "传感器垂直采样与相机不同，不能直接套针孔高斯投影。",
+    "difference": "目标是激光测距/强度重仿真，不是 RGB 新视图或 LiDAR 融合 RGB 的通用 Mesh 方法。",
+    "explanation": "为主动激光传感器设计 laser-beam splatting，用高斯和轻量网络重建深度、强度及漏回波，支持动态实例分解后的 LiDAR 重仿真。 目标是激光测距/强度重仿真，不是 RGB 新视图或 LiDAR 融合 RGB 的通用 Mesh 方法。 高斯除位置/尺度/旋转外带32维特征，轻量MLP预测强度、ray-drop及其他属性。 基于range-view与Micro Cross-Section Projection处理非均匀垂直束采样，再沿激光束合成深度和强度。 框分离背景与实例；每个对象在本地坐标融合观测，用提供轨迹或Kabsch估计姿态，查询时组合回全局。",
+    "modules": [
+      {
+        "name": "神经高斯表示",
+        "purpose": "表达激光回波属性",
+        "mechanism": "高斯除位置/尺度/旋转外带32维特征，轻量MLP预测强度、ray-drop及其他属性。",
+        "input": "输入点云和位姿",
+        "output": "可优化激光高斯"
+      },
+      {
+        "name": "Laser Beam Splatting",
+        "purpose": "降低主动测距投影畸变",
+        "mechanism": "基于range-view与Micro Cross-Section Projection处理非均匀垂直束采样，再沿激光束合成深度和强度。",
+        "input": "激光束模型、目标位姿和高斯",
+        "output": "范围/强度/漏回波图"
+      },
+      {
+        "name": "动态实例分解",
+        "purpose": "让移动对象共享跨帧形状",
+        "mechanism": "框分离背景与实例；每个对象在本地坐标融合观测，用提供轨迹或Kabsch估计姿态，查询时组合回全局。",
+        "input": "动态框和序列点",
+        "output": "可重仿真的完整点云"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "高斯属性、32维特征与轻量MLP",
+    "trainable": "高斯属性、32维特征与轻量MLP",
+    "frozen": "没有 VLM/VLA",
+    "data": "Waymo 与 KITTI-360 的选定静态/动态序列",
+    "objective": "深度、强度与ray-drop重建",
+    "stages": "逐场景拟合5,000步，单RTX3090，初始500,000高斯锚点；动态实例分解后联合渲染。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Waymo 动态LiDAR重仿真",
+      "setting": "动态序列见表1；点云几何和强度独立计量。原表数值/单位口径，不能将CD当相机PSNR。 作者实现使用RTX3090、5,000训练步。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 3",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Waymo 动态LiDAR重仿真 · Table 3",
+        "columns": [
+          "方法",
+          "CD↓",
+          "F-score↑",
+          "范围RMSE↓",
+          "范围MAE↓",
+          "强度MAE↓",
+          "强度RMSE↓",
+          "强度PSNR↑",
+          "强度SSIM↑"
+        ],
+        "rows": [
+          [
+            "LiDAR4D [34]",
+            "0.106",
+            "0.937",
+            "2.286",
+            "0.306",
+            "0.023",
+            "0.047",
+            "26.632",
+            "0.868"
+          ],
+          [
+            "GS_LiDAR [8]",
+            "0.096",
+            "0.940",
+            "2.150",
+            "0.300",
+            "0.024",
+            "0.050",
+            "25.431",
+            "0.840"
+          ],
+          [
+            "LiDAR-GS",
+            "0.095",
+            "0.945",
+            "2.146",
+            "0.300",
+            "0.019",
+            "0.048",
+            "26.550",
+            "0.868"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2410.05111v3",
+        "locator": "Table 3"
+      }
+    },
+    {
+      "benchmark": "LiDAR重仿真效率",
+      "setting": "原文平均训练与推理；显卡和传感器/扫描维度依原文实现，不跨硬件推广。 作者实现使用RTX3090、5,000训练步。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 4",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "LiDAR重仿真效率 · Table 4",
+        "columns": [
+          "Method",
+          "Train (min)↓",
+          "Inference (fps)↑"
+        ],
+        "rows": [
+          [
+            "LiDAR4D [34]",
+            "426",
+            "1.7"
+          ],
+          [
+            "LiDAR-GS",
+            "18",
+            "15.0"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2410.05111v3",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "框与刚体实例分解依赖检测/跟踪质量；LiDAR点云误差并不直接反映RGB或Mesh表面质量。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2410.05111",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "code": {
+      "url": "https://github.com/cqf7419/LiDAR-GS",
+      "status": "已核实入口",
+      "note": "论文原文链接的官方仓库；未运行"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / LiDAR-GS: Real-time LiDAR Re-Simulation using Gaussian Splatting",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2410.05111",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2410.05111v3",
+      "label": "论文全文 v3",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/cqf7419/LiDAR-GS",
+      "label": "官方代码（论文原文提供）",
+      "locator": "README；dynamic分支和训练/数据说明",
+      "supports": [
+        "资源",
+        "实现"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{241005111,\n  title = {LiDAR-GS:Real-time LiDAR Re-Simulation using Gaussian Splatting},\n  author = {Chen, Qifeng and Yang, Sheng and Du, Sicong and Tang, Tao and Xie, Rengan and Chen, Peng and Huo, Yuchi},\n  year = {2024},\n  eprint = {2410.05111},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2410.05111}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。",
+    "未确认正式会议/期刊发表信息；仅以arXiv预印本标识。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "为主动激光传感器设计 laser-beam splatting，用高斯和轻量网络重建深度、强度及漏回波，支持动态实例分解后的 LiDAR 重仿真。 目标是激光测距/强度重仿真，不是 RGB 新视图或 LiDAR 融合 RGB 的通用 Mesh 方法。 传感器垂直采样与相机不同，不能直接套针孔高斯投影。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

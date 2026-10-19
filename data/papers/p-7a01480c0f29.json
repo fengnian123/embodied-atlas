@@ -1,0 +1,253 @@
+{
+  "id": "p-7a01480c0f29",
+  "title": "Socially assistive robots for people with dementia: Systematic review and meta-analysis of feasibility, acceptability and the effect on cognition, neuropsychiatric symptoms and quality of life",
+  "short": "SAR-Dementia",
+  "aliases": [
+    "SAR-Dementia"
+  ],
+  "authors": [
+    "Clare Yu",
+    "Andrew Sommerlad",
+    "Lena Sakure",
+    "Gill Livingston"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2022,
+  "venue": "Ageing Research Reviews",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "系统综述与Meta分析社会辅助机器人在失智照护中的可行性、接受度及临床效果。明确区分“愿意使用机器人”和“认知、症状或生活质量改善”。",
+  "method": {
+    "input": "初始文献与纳入标准",
+    "output": "按结局分开的合并效应和不确定区间",
+    "flow": [
+      "检索筛选与质量评价",
+      "按机器人与结局分层",
+      "PARO随机效应Meta分析"
+    ],
+    "explanation": "这篇系统综述区分机器人是否可被接受、是否能稳定使用、是否真正改善失智相关结局。作者检索六类医学/工程数据库至2022-02-04，由双评审独立筛选与评价研究质量。机器人按陪伴、远程沟通、居家辅助和多功能分类，先进行质量分层的叙事综合；只有PARO拥有足够同类随机试验，因此对PARO与常规护理/主动对照分别进行随机效应Meta分析。不同量表通过标准化均差SMD合并，短期与长期、不同对照保持分开，并对集群RCT做有效样本调整。主要结果是总体可行且可接受，但认知、精神症状和生活质量未显示清楚获益；不能把“用户喜欢”改写为疗效已证实。",
+    "modules": [
+      {
+        "name": "检索筛选与质量评价",
+        "purpose": "降低单篇积极结果的选择偏差",
+        "mechanism": "检索医学与工程数据库；双人独立资格筛选，以修改MMAT评价异质研究并按质量排序。",
+        "input": "初始文献与纳入标准",
+        "output": "66项合格研究及质量等级"
+      },
+      {
+        "name": "按机器人与结局分层",
+        "purpose": "避免混合不同用途与研究设计",
+        "mechanism": "区分陪伴、远程沟通、居家辅助、多功能机器人，分别归纳可行性、接受度、临床效果。",
+        "input": "纳入研究",
+        "output": "四类机器人的证据谱"
+      },
+      {
+        "name": "PARO随机效应Meta分析",
+        "purpose": "评价是否超越常规护理或主动对照",
+        "mechanism": "用SMD与95%CI合并同类结局，分短期/长期与对照类型；集群试验调整有效样本。",
+        "input": "PARO随机试验终点",
+        "output": "按结局分开的合并效应和不确定区间"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "PARO与常规护理的合并效应",
+      "setting": "Fig.2；随机效应Meta分析；SMD及95%CI；短期和长期独立保留",
+      "result": "所有列出的95%CI均跨0；未观察到清晰的合并效应。",
+      "locator": "Fig.2（PDF第12页）；3.3.1.2",
+      "sourceUrl": "https://discovery.ucl.ac.uk/id/eprint/10147766/1/Livingston_1-s2.0-S1568163722000757-main.pdf",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "结局",
+          "SMD",
+          "95% CI"
+        ],
+        "rows": [
+          [
+            "短期认知",
+            "0.03",
+            "−0.32 to 0.38"
+          ],
+          [
+            "短期精神症状",
+            "−0.01",
+            "−0.32 to 0.29"
+          ],
+          [
+            "短期激越",
+            "−0.25",
+            "−0.57 to 0.06"
+          ],
+          [
+            "长期激越",
+            "−0.24",
+            "−0.94 to 0.46"
+          ],
+          [
+            "短期抑郁",
+            "0.08",
+            "−0.52 to 0.69"
+          ],
+          [
+            "长期抑郁",
+            "0.01",
+            "−0.75 to 0.77"
+          ],
+          [
+            "短期焦虑",
+            "0.24",
+            "−0.85 to 1.33"
+          ],
+          [
+            "短期生活质量",
+            "−0.05",
+            "−0.52 to 0.42"
+          ]
+        ],
+        "locator": "Fig.2（PDF第12页）；3.3.1.2"
+      },
+      "caveat": "摘要把短期激越SMD写作+0.25，但Fig.2为−0.25；本库采用已目视核对的图值。不同结局不能作机器人排行榜。"
+    },
+    {
+      "benchmark": "纳入证据规模",
+      "setting": "66项研究，类别统计是研究项数，不等于独立机器人型号或受试者人数",
+      "result": "44项陪伴、15项多功能、3项远程沟通、4项居家辅助。",
+      "locator": "3.2；Table 1；Fig.1",
+      "sourceUrl": "https://discovery.ucl.ac.uk/id/eprint/10147766/1/Livingston_1-s2.0-S1568163722000757-main.pdf",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "机器人类别",
+          "研究数"
+        ],
+        "rows": [
+          [
+            "陪伴机器人",
+            "44"
+          ],
+          [
+            "多功能机器人",
+            "15"
+          ],
+          [
+            "远程沟通机器人",
+            "3"
+          ],
+          [
+            "居家辅助机器人",
+            "4"
+          ]
+        ],
+        "locator": "3.2；Table 1；Fig.1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "多个机器人类型只有很少效果研究；研究设计、量表和样本异质，缺少高质量长期结局。",
+      "PARO重量、成本和声音可能影响接受度；人形语音识别、远程沟通/多功能机器人的易用性存在问题。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1016/j.arr.2022.101633",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / SAR-Dementia",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1016/j.arr.2022.101633",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1016/j.arr.2022.101633",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://discovery.ucl.ac.uk/id/eprint/10147766/1/Livingston_1-s2.0-S1568163722000757-main.pdf",
+      "locator": "Fig.2（PDF第12页）；3.3.1.2; 3.2；Table 1；Fig.1",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+    "精确首次公开日期未核实，不将年月补写成某一天。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Ageing Research Reviews'22**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "系统综述与Meta分析社会辅助机器人在失智照护中的可行性、接受度及临床效果。明确区分“愿意使用机器人”和“认知、症状或生活质量改善”。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

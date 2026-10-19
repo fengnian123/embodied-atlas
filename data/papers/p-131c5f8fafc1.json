@@ -1,0 +1,308 @@
+{
+  "id": "p-131c5f8fafc1",
+  "title": "3D-Mem: 3D Scene Memory for Embodied Exploration and Reasoning",
+  "short": "3D-Mem",
+  "aliases": [],
+  "authors": [
+    "Yuncong Yang",
+    "Han Yang",
+    "Jiachen Zhou",
+    "Peihao Chen",
+    "Hongxin Zhang",
+    "Yilun Du",
+    "Chuang Gan"
+  ],
+  "institutions": [
+    "UMass Amherst",
+    "CUHK",
+    "Columbia University",
+    "MIT",
+    "MIT-IBM Watson AI Lab"
+  ],
+  "firstPublished": "2024-11-23",
+  "updated": "2025-04-04",
+  "publicationYear": 2025,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "多目标导航"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "3D-Mem 不把场景仅压成物体节点和文字关系，而是保存能共同看清一组物体的 Memory Snapshots。",
+  "method": {
+    "input": "RGB-D、位姿和物体检测",
+    "output": "答案或下一步探索目标",
+    "explanation": "3D-Mem 不把场景仅压成物体节点和文字关系，而是保存能共同看清一组物体的 Memory Snapshots。查询时先按物体类别缩小快照，再让 VLM 在历史快照与 Frontier Snapshots 中选择证据或探索方向。",
+    "flow": [
+      "共可见聚类",
+      "增量构建与检索",
+      "证据或探索决策"
+    ],
+    "modules": [
+      {
+        "name": "共可见聚类",
+        "purpose": "本模块解决：共可见聚类",
+        "input": "RGB-D、位姿和物体检测",
+        "mechanism": "建立物体级 3D 对应，将共可见物体聚成簇，选择覆盖簇内容的图像作为 Memory Snapshot。",
+        "output": "带物体索引的紧凑图像记忆",
+        "sourceUrl": "https://arxiv.org/html/2411.17735v5",
+        "locator": "方法章节"
+      },
+      {
+        "name": "增量构建与检索",
+        "purpose": "本模块解决：增量构建与检索",
+        "input": "新观测、已有快照和用户问题",
+        "mechanism": "新证据增量更新覆盖；VLM 从问题提取相关类别，预筛对应快照，减少无关图像上下文。",
+        "output": "查询相关的候选快照",
+        "sourceUrl": "https://arxiv.org/html/2411.17735v5",
+        "locator": "方法章节"
+      },
+      {
+        "name": "证据或探索决策",
+        "purpose": "本模块解决：证据或探索决策",
+        "input": "Memory Snapshots 与前沿图像",
+        "mechanism": "有证据时回答/选择已知目标；证据不足时在 Frontier Snapshots 中选下一个探索位置，低层导航到达后继续更新。",
+        "output": "答案或下一步探索目标",
+        "sourceUrl": "https://arxiv.org/html/2411.17735v5",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "3D-Mem 不把场景仅压成物体节点和文字关系，而是保存能共同看清一组物体的 Memory Snapshots。查询时先按物体类别缩小快照，再让 VLM 在历史快照与 Frontier Snapshots 中选择证据或探索方向。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "新证据增量更新覆盖；VLM 从问题提取相关类别，预筛对应快照，减少无关图像上下文。",
+    "trainable": "GPT-4o 主结果为推理时使用；另有经微调的开放 VLM GOAT-Bench 实验，不能将整篇统一标成无训练。附录给出数据收集和开放模型训练流程。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "GPT-4o 主结果为推理时使用；另有经微调的开放 VLM GOAT-Bench 实验，不能将整篇统一标成无训练。附录给出数据收集和开放模型训练流程。",
+    "objective": "GPT-4o 主结果为推理时使用；另有经微调的开放 VLM GOAT-Bench 实验，不能将整篇统一标成无训练。附录给出数据收集和开放模型训练流程。",
+    "stages": "GPT-4o 主结果为推理时使用；另有经微调的开放 VLM GOAT-Bench 实验，不能将整篇统一标成无训练。附录给出数据收集和开放模型训练流程。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "OpenEQA A-EQA",
+      "setting": "Table 1 的 184-question subset；GPT-4o；不是完整 OpenEQA",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2411.17735v5",
+      "table": {
+        "columns": [
+          "方法",
+          "LLM-Match",
+          "LLM-Match SPL"
+        ],
+        "rows": [
+          [
+            "Explore-EQA",
+            46.9,
+            23.4
+          ],
+          [
+            "3D-Mem",
+            52.6,
+            42.0
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2411.17735v5",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2411.17735",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/UMass-Embodied-AGI/3D-Mem",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://umass-embodied-agi.github.io/3D-Mem/",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA EM-EQA / 3D-Mem＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2411.17735v2",
+      "locator": "GraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nTable2\nTable2\nTable1\nTable1\nTable1 / Sec4.1\nOpenEQA静态记忆结果表\nOpenEQA静态记忆结果表",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA A-EQA / 3D-Mem＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2411.17735v2",
+      "locator": "3D-Mem Table1引用值\n3D-Mem Table1引用值\n3D-Mem Table1引用值\nTable1\nTable1\nTable1\nTable1\nTable1\nTable1\nTableI",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / 3DMem-Bench EQA / 3D-Mem＋GPT-4o",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2505.22657v1",
+      "locator": "Table2b",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / 3DMem-Bench EQA / 3D-Mem＋Gemini-2.5-Pro",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2505.22657v1",
+      "locator": "Table2b",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2411.17735",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2411.17735v5",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式发表页面",
+      "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Yang_3D-Mem_3D_Scene_Memory_for_Embodied_Exploration_and_Reasoning_CVPR_2025_paper.html",
+      "locator": "会议论文集",
+      "supports": [
+        "正式发表年份",
+        "会议",
+        "版本对应"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p131c5f8fafc1,\n  title={3D-Mem: 3D Scene Memory for Embodied Exploration and Reasoning},\n  author={Yuncong Yang and Han Yang and Jiachen Zhou and Peihao Chen and Hongxin Zhang and Yilun Du and Chuang Gan},\n  year={2024},\n  eprint={2411.17735},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2411.17735}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA EM-EQA",
+      "variant": "3D-Mem＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA A-EQA",
+      "variant": "3D-Mem＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "3DMem-Bench EQA",
+      "variant": "3D-Mem＋GPT-4o"
+    },
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "3DMem-Bench EQA",
+      "variant": "3D-Mem＋Gemini-2.5-Pro"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "3D-Mem 不把场景仅压成物体节点和文字关系，而是保存能共同看清一组物体的 Memory Snapshots。查询时先按物体类别缩小快照，再让 VLM 在历史快照与 Frontier Snapshots 中选择证据或探索方向。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

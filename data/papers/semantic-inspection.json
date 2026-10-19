@@ -1,0 +1,237 @@
+{
+  "id": "semantic-inspection",
+  "title": "Semantically-driven Deep Reinforcement Learning for Inspection Path Planning",
+  "short": "Semantically-driven Inspection",
+  "aliases": [],
+  "authors": [
+    "Grzegorz Malczyk",
+    "Mihir Kulkarni",
+    "Kostas Alexis"
+  ],
+  "institutions": [],
+  "firstPublished": "2025-05-20",
+  "updated": null,
+  "publicationYear": 2025,
+  "venue": "IEEE Robotics and Automation Letters",
+  "publicationStatus": "已录用（所附 PDF 明示）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "强化学习"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "主动感知"
+    ],
+    "environment": [],
+    "training": [
+      "强化学习"
+    ]
+  },
+  "summary": "用语义感知深度强化学习联合规划目标物体检查与无碰撞导航；不是语言 VLM 微调方法。",
+  "method": {
+    "input": "深度、分割、局部占用与历史位置",
+    "output": "巡检导航动作",
+    "flow": [
+      "编码局部观测与历史",
+      "估计语义检查价值",
+      "RL 策略选择动作",
+      "在避障约束下继续检查"
+    ],
+    "assumptions": "需要可靠分割与局部几何",
+    "difference": "目标语义驱动检查，而非均匀覆盖。",
+    "explanation": "这项工作把“有语义目标的表面覆盖”作为强化学习目标。策略同时读取当前深度/分割、局部占据与已访问历史；双地图区分障碍与已经检查过的语义表面，GRU压缩历史后输出运动指令。奖励鼓励新增可检查表面而非无差别探索，训练时随机化几何、障碍和深度噪声，之后迁移到真实飞行机器人。",
+    "modules": [
+      {
+        "name": "局部SVS地图",
+        "purpose": "区分未看区域和已检查表面",
+        "mechanism": "维护占据图mo及语义检查历史mh，用局部表征限制输入规模",
+        "input": "深度、语义图、位姿历史",
+        "output": "局部占据与覆盖状态"
+      },
+      {
+        "name": "多输入编码与GRU",
+        "purpose": "在部分可观测环境利用历史",
+        "mechanism": "图像与地图编码后递归融合，GRU记住先前检查情况",
+        "input": "深度、分割、地图",
+        "output": "时序策略状态"
+      },
+      {
+        "name": "RL运动策略",
+        "purpose": "优化语义覆盖并避障",
+        "mechanism": "以新增语义表面覆盖及碰撞等反馈训练，随机化环境完成sim2real",
+        "input": "递归状态",
+        "output": "下一运动动作"
+      }
+    ]
+  },
+  "training": {
+    "regime": "强化学习",
+    "models": "深度 RL 策略；无语言 VLM",
+    "trainable": "导航与检查策略",
+    "frozen": "不适用",
+    "data": "仿真巡检环境",
+    "objective": "检查收益与导航安全相关奖励",
+    "stages": "仿真训练 → 巡检评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "9障碍室内仿真",
+      "setting": "10×10×4 m；512并行环境的原文消融；Coverage/Crash/Timeout为%。Timeout指无碰撞到回合上限，不应解读为失败率。",
+      "result": "加入语义历史地图后覆盖从52.3%到74.6%；GRU-512较无GRU覆盖59.8%提高到74.6%。",
+      "locator": "Tables II–III",
+      "sourceUrl": "https://arxiv.org/abs/2505.14443",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "9障碍室内仿真：Tables II–III",
+        "columns": [
+          "配置",
+          "覆盖 (%)",
+          "碰撞 (%)",
+          "到时限 (%)"
+        ],
+        "rows": [
+          [
+            "仅mo",
+            52.3,
+            1.0,
+            99.0
+          ],
+          [
+            "mo+mh",
+            74.6,
+            1.2,
+            98.8
+          ],
+          [
+            "无GRU",
+            59.8,
+            3.6,
+            96.4
+          ],
+          [
+            "GRU-128",
+            63.6,
+            1.1,
+            99.1
+          ],
+          [
+            "GRU-512",
+            74.6,
+            1.2,
+            98.8
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2505.14443",
+        "locator": "Tables II–III"
+      }
+    },
+    {
+      "benchmark": "障碍复杂度泛化",
+      "setting": "障碍数0/4/9/14/19；相同仿真房间协议。",
+      "result": "平均语义覆盖依次为92.1/82.6/74.6/64.2/58.1%；碰撞率0.0/0.3/1.2/1.5/1.3%。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/abs/2505.14443",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "障碍复杂度泛化：Table I",
+        "columns": [
+          "障碍数",
+          "覆盖(%)",
+          "碰撞(%)"
+        ],
+        "rows": [
+          [
+            0,
+            92.1,
+            0.0
+          ],
+          [
+            4,
+            82.6,
+            0.3
+          ],
+          [
+            9,
+            74.6,
+            1.2
+          ],
+          [
+            14,
+            64.2,
+            1.5
+          ],
+          [
+            19,
+            58.1,
+            1.3
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2505.14443",
+        "locator": "Table I"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "没有语言 VLM 不等于系统完全无训练；设备根因诊断与长期演化不属于核心目标。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2505.14443",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：Semantically-driven.pdf",
+      "url": "https://arxiv.org/abs/2505.14443",
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2505.14443",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{semanticinspection2025,\n  title = {Semantically-driven Deep Reinforcement Learning for Inspection Path Planning},\n  author = {Grzegorz Malczyk and Mihir Kulkarni and Kostas Alexis},\n  year = {2025},\n  eprint = {2505.14443},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2505.14443}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容",
+    "作者机构",
+    "最新版本日期"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "在未知环境中，并非每个表面都同等重要。论文让巡检策略依据目标语义、深度、局部占用与过去位置，选择能观察感兴趣对象的运动。研究价值在于把检查覆盖与导航约束放入同一个学习策略。它不应被归入“无训练 VLM”：系统没有使用语言 VLM，但确实训练了强化学习策略。",
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

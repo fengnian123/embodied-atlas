@@ -1,0 +1,227 @@
+{
+  "id": "p-d54de00b55ef",
+  "title": "VLingNav: Embodied Navigation with Adaptive Reasoning and Visual-Assisted Linguistic Memory",
+  "short": "VLingNav",
+  "aliases": [],
+  "authors": [
+    "Shaoan Wang",
+    "Yuanfei Luo",
+    "Xingyu Chen",
+    "Aocheng Luo",
+    "Dongyue Li",
+    "Chang Liu",
+    "Sheng Chen",
+    "Yangang Zhang",
+    "Junzhi Yu"
+  ],
+  "institutions": [
+    "ByteDance Seed",
+    "Peking University",
+    "Zhongguancun Academy"
+  ],
+  "firstPublished": "2026-01-13",
+  "updated": "2026-01-13",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本；未核实正式发表状态",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN",
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM",
+      "VLA",
+      "VLA"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调",
+      "强化学习"
+    ]
+  },
+  "summary": "VLingNav 用自适应文字推理和视觉辅助语言记忆增强连续导航 VLA。",
+  "method": {
+    "input": "视频流和任务指令",
+    "output": "连续运动轨迹",
+    "explanation": "VLingNav 用自适应文字推理和视觉辅助语言记忆增强连续导航 VLA。简单状态直接行动，困难状态生成 CoT；历史视觉动态采样与语言摘要共同保留进度，在线专家引导后训练进一步修正执行偏差。",
+    "flow": [
+      "历史视觉编码",
+      "AdaCoT 与 VLingMem",
+      "连续动作模型"
+    ],
+    "modules": [
+      {
+        "name": "历史视觉编码",
+        "purpose": "本模块解决：历史视觉编码",
+        "input": "视频流和任务指令",
+        "mechanism": "近期帧高频、远期帧低频采样，以压缩视觉特征和时间标记建立 visual history cache。",
+        "output": "带时间的视觉上下文",
+        "sourceUrl": "https://arxiv.org/html/2601.08665v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "AdaCoT 与 VLingMem",
+        "purpose": "本模块解决：AdaCoT 与 VLingMem",
+        "input": "当前观测与历史记忆",
+        "mechanism": "生成 think_on/off；按需输出推理及 summary，摘要与关键视觉共同进入记忆，用于长期决策。",
+        "output": "推理结果与环境摘要",
+        "sourceUrl": "https://arxiv.org/html/2601.08665v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "连续动作模型",
+        "purpose": "本模块解决：连续动作模型",
+        "input": "VLM 的输出隐藏表示",
+        "mechanism": "在 LLaVA-Video-7B 上加入动作模型，预测一段 (x,y,θ) 航点轨迹，并在执行中继续更新语言记忆。",
+        "output": "连续运动轨迹",
+        "sourceUrl": "https://arxiv.org/html/2601.08665v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "VLingNav 用自适应文字推理和视觉辅助语言记忆增强连续导航 VLA。简单状态直接行动，困难状态生成 CoT；历史视觉动态采样与语言摘要共同保留进度，在线专家引导后训练进一步修正执行偏差。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "在 LLaVA-Video-7B 上加入动作模型，预测一段 (x,y,θ) 航点轨迹，并在执行中继续更新语言记忆。",
+    "trainable": "包含预训练、监督微调与在线专家引导后训练。Nav-AdaCoT-2.9M 覆盖三类导航任务，2.9M 为步级样本而非独立 episode。在线阶段用混合 rollout 与增强损失；不能归类为纯推理系统。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "包含预训练、监督微调与在线专家引导后训练。Nav-AdaCoT-2.9M 覆盖三类导航任务，2.9M 为步级样本而非独立 episode。在线阶段用混合 rollout 与增强损失；不能归类为纯推理系统。",
+    "objective": "包含预训练、监督微调与在线专家引导后训练。Nav-AdaCoT-2.9M 覆盖三类导航任务，2.9M 为步级样本而非独立 episode。在线阶段用混合 rollout 与增强损失；不能归类为纯推理系统。",
+    "stages": "包含预训练、监督微调与在线专家引导后训练。Nav-AdaCoT-2.9M 覆盖三类导航任务，2.9M 为步级样本而非独立 episode。在线阶段用混合 rollout 与增强损失；不能归类为纯推理系统。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3D / MP3D ObjNav",
+      "setting": "Table 2；区分 SFT 与完整在线后训练模型",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 2",
+      "sourceUrl": "https://arxiv.org/html/2601.08665v1",
+      "table": {
+        "columns": [
+          "变体",
+          "基准",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "VLingNav SFT",
+            "HM3Dv1",
+            70.6,
+            38.2
+          ],
+          [
+            "VLingNav",
+            "HM3Dv1",
+            79.1,
+            42.9
+          ],
+          [
+            "VLingNav",
+            "HM3Dv2",
+            83.0,
+            40.5
+          ],
+          [
+            "VLingNav",
+            "MP3D",
+            58.9,
+            26.5
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2601.08665v1",
+        "locator": "Table 2",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2601.08665",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://wsakobe.github.io/VLingNav-web/",
+      "status": "暂不可用（2026-10-19 GET/HEAD均返回404；保留原文入口供后续回查）",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / VLingNav",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2601.08665",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2601.08665v1",
+      "locator": "方法章节；Table 2",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pd54de00b55ef,\n  title={VLingNav: Embodied Navigation with Adaptive Reasoning and Visual-Assisted Linguistic Memory},\n  author={Shaoan Wang and Yuanfei Luo and Xingyu Chen and Aocheng Luo and Dongyue Li and Chang Liu and Sheng Chen and Yangang Zhang and Junzhi Yu},\n  year={2026},\n  eprint={2601.08665},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2601.08665}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "正式发表信息尚未在可靠会议/期刊来源确认",
+    "project原文入口本轮访问返回404，当前不能确认资源公开可用"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "VLingNav 用自适应文字推理和视觉辅助语言记忆增强连续导航 VLA。简单状态直接行动，困难状态生成 CoT；历史视觉动态采样与语言摘要共同保留进度，在线专家引导后训练进一步修正执行偏差。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

@@ -1,0 +1,213 @@
+{
+  "id": "p-b02ad9650d2c",
+  "title": "Stay on the Path: Instruction Fidelity in Vision-and-Language Navigation",
+  "short": "R4R",
+  "aliases": [
+    "Stay on the Path: Instruction Fidelity in Vision-and-Language Navigation",
+    "R4R"
+  ],
+  "authors": [
+    "Jain, Vihan",
+    "Magalhaes, Gabriel",
+    "Ku, Alexander",
+    "Vaswani, Ashish",
+    "Ie, Eugene",
+    "Baldridge, Jason"
+  ],
+  "institutions": [
+    "Eugene Ie",
+    "Google Research",
+    "{vihan, gamaga, alexku, avaswani, eugeneie, jridge}@google.com"
+  ],
+  "firstPublished": "2019-05-29",
+  "updated": "2019-06-21",
+  "publicationYear": 2019,
+  "venue": "ACL",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "模仿学习"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "空间理解",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "真实采集资产"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "用拼接长路线与CLS指标，检验导航Agent是否真正遵循沿途语言，而不只是到终点。",
+  "method": {
+    "explanation": "R4R 将R2R短路径拼接为更长、可能绕路的指令轨迹，打破“最短路到终点就算理解整段指令”的便利。CLS把参考路线覆盖度与路径长度匹配结合，奖励走过指令要求的中间区域，同时抑制无限绕行。训练实验比较只以终点成功为奖赏和考虑路线保真的策略。原文表中的样本数属于该版本语言路径样本，和后续预处理包的path或instruction计数可能不同，应标注版本而非混用。",
+    "input": "语言路线与MP3D导航图",
+    "output": "导航路径；CLS及终点指标",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用拼接长路线与CLS指标，检验导航Agent是否真正遵循沿途语言，而不只是到终点。",
+    "flow": [
+      "长路线拼接",
+      "CLS评测",
+      "路径保真训练"
+    ],
+    "modules": [
+      {
+        "name": "长路线拼接",
+        "purpose": "区分到终点与跟随过程",
+        "mechanism": "将已有R2R短路径和语言片段连接成更复杂路线，使起终点最短距离明显短于参考轨迹长度。",
+        "sourceUrl": "https://arxiv.org/html/1905.12255",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "CLS评测",
+        "purpose": "度量沿途覆盖与走路效率",
+        "mechanism": "先评估预测轨迹对参考路径的覆盖，再按预测长度和所覆盖参考长度计算长度分数，两者乘合。",
+        "sourceUrl": "https://arxiv.org/html/1905.12255",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "路径保真训练",
+        "purpose": "检验指标能否改变导航行为",
+        "mechanism": "比较以终点目标奖励与路径跟随奖励训练的模型，考察CLS、SR等不同维度而非只排终点成功。",
+        "sourceUrl": "https://arxiv.org/html/1905.12255",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "数据集/指标本身不适用；基线含强化学习训练",
+    "models": "作者VLN基线",
+    "trainable": "用于比较的导航策略",
+    "frozen": "不涉及LLM冻结",
+    "data": "R2R拼接的R4R路线与语言",
+    "objective": "目标完成奖赏或路线保真奖赏",
+    "stages": "构造长路径 → 训练策略 → 分别评测终点和过程"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R4R 原始版本规模与路线长度",
+      "setting": "Table 1原论文版本；#samples为语言路线样本，PL为参考路径平均长度(m)。",
+      "result": "R4R train233,613样本、平均路径20.6m、起终点距离10.5m；R2R train14,039、9.91m/9.91m。",
+      "sourceUrl": "https://arxiv.org/html/1905.12255",
+      "locator": "Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "数据 / split",
+          "#samples",
+          "参考路径均长(m)",
+          "起终点均距(m)"
+        ],
+        "rows": [
+          [
+            "R2R train",
+            "14,039",
+            "9.91",
+            "9.91"
+          ],
+          [
+            "R4R train",
+            "233,613",
+            "20.6",
+            "10.5"
+          ],
+          [
+            "R4R val-seen",
+            "1,035",
+            "20.4",
+            "11.1"
+          ],
+          [
+            "R4R val-unseen",
+            "45,162",
+            "20.2",
+            "10.1"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "仍在静态离散导航图上；CLS主要检查参考路径覆盖，不能单独衡量语言语义理解或连续避障。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/1905.12255",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / R4R",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/1905.12255",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/1905.12255",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pb02ad9650d2c2019,\n title={Stay on the Path: Instruction Fidelity in Vision-and-Language Navigation},\n author={Jain, Vihan and Magalhaes, Gabriel and Ku, Alexander and Vaswani, Ashish and Ie, Eugene and Baldridge, Jason},\n year={2019},\n url={https://arxiv.org/abs/1905.12255}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "R4R 将R2R短路径拼接为更长、可能绕路的指令轨迹，打破“最短路到终点就算理解整段指令”的便利。CLS把参考路线覆盖度与路径长度匹配结合，奖励走过指令要求的中间区域，同时抑制无限绕行。训练实验比较只以终点成功为奖赏和考虑路线保真的策略。原文表中的样本数属于该版本语言路径样本，和后续预处理包的path或instruction计数可能不同，应标注版本而非混用。",
+  "benchmark": {
+    "motivation": "最短路任务上的终点分数不足以证明语言路线理解。",
+    "task": "在MP3D离散viewpoint图上跟随拼接长指令。",
+    "metrics": "CLS、SR、SPL、NE等，过程与终点分别衡量。",
+    "scale": "Table 1样本数来自原论文版本，与后续发布包可能存在预处理差异。",
+    "boundary": "离散导航图和静态资产；不是动态物体导航或真实连续控制。"
+  },
+  "verificationLevel": "fulltext"
+}

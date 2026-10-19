@@ -1,0 +1,169 @@
+{
+  "id": "p-c1ad098b2a22",
+  "title": "Autonomous Laparoscopic Robotic Suturing with a Novel Actuated Suturing Tool and 3D Endoscope",
+  "short": "Lap-Suturing",
+  "aliases": [
+    "Lap-Suturing"
+  ],
+  "authors": [
+    "H. Saeidi",
+    "H. N. D. Le",
+    "J. D. Opfermann",
+    "S. Leonard",
+    "A. Kim",
+    "M. H. Hsieh",
+    "J. U. Kang",
+    "A. Krieger"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2019,
+  "venue": "2019 International Conference on Robotics and Automation (ICRA)",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "组合新型可驱动缝合工具与三维内窥镜，研究监督自主腹腔镜缝合。重点是工具机构、组织三维测量和机器人执行的协同。",
+  "method": {
+    "input": "3D内窥镜组织表面及缝合目标",
+    "output": "缝合计划与工具驱动动作",
+    "flow": [
+      "新型缝合工具",
+      "组织三维重建与规划",
+      "台架组织评价"
+    ],
+    "explanation": "组合新型可驱动缝合工具与三维内窥镜，研究监督自主腹腔镜缝合。重点是工具机构、组织三维测量和机器人执行的协同。",
+    "modules": [
+      {
+        "name": "新型缝合工具",
+        "purpose": "提高腹腔镜条件下可操控性",
+        "mechanism": "将驱动式缝合机构安装到机器人，匹配狭窄通道操作。",
+        "input": "3D内窥镜组织表面及缝合目标",
+        "output": "新型缝合工具的中间结果"
+      },
+      {
+        "name": "组织三维重建与规划",
+        "purpose": "为针刺位置提供几何参考",
+        "mechanism": "通过3D内窥镜获得组织几何并生成缝合位置；执行前保留监督环节。",
+        "input": "新型缝合工具的结果",
+        "output": "组织三维重建与规划的中间结果"
+      },
+      {
+        "name": "台架组织评价",
+        "purpose": "测量缝合一致性与精度",
+        "mechanism": "在论文设置下评估工具及自动缝合表现，不等同人类临床疗效。",
+        "input": "组织三维重建与规划的结果",
+        "output": "缝合计划与工具驱动动作"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/icra.2019.8794306",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / Lap-Suturing",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7901147/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/ICRA.2019.8794306",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/icra.2019.8794306",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7901147/",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "精确首次公开日期未核实（不将年月伪造为某一天）"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICRA'19**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "组合新型可驱动缝合工具与三维内窥镜，研究监督自主腹腔镜缝合。重点是工具机构、组织三维测量和机器人执行的协同。 "
+}

@@ -1,0 +1,290 @@
+{
+  "id": "p-16b1e31b54ec",
+  "title": "Back to the Familiar Future: Failure Recovery for VLA Policies via Pre-Imagined Milestone Selection",
+  "short": "Back to the Familiar Future",
+  "aliases": [
+    "Back to the Familiar Future"
+  ],
+  "authors": [
+    "Shin, Suyeon",
+    "Kim, Juwon",
+    "Park, Hyeonbin",
+    "Kim, Hyunseo",
+    "Lee, Hyundo",
+    "Kim, Hyung-Sin",
+    "Zhang, Byoung-Tak"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-06-08",
+  "updated": "2026-06-08",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "故障恢复",
+      "机器人控制"
+    ],
+    "paradigm": [
+      "VLA",
+      "强化学习"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "执行前生成未来里程碑库，失败时选择可恢复的熟悉视觉目标，保持底层VLA冻结。",
+  "method": {
+    "explanation": "B2FF 先从干净初始状态生成一组未来视觉里程碑。执行出现偏离时，选择器比较当前失败状态到各里程碑的可恢复性，固定选中的视觉目标，让既有VLA把离轨状态拉回熟悉的未来。选择器用反事实恢复标签先监督warm-start，再做RL式微调；不是全系统无训练。主表74.0%使用与注入失败时刻对齐的受控恢复触发，实际在线触发为64.5%，应同时展示。",
+    "input": "初始观察、当前失败观察、任务及milestone bank",
+    "output": "恢复视觉目标与动作",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "执行前生成未来里程碑库，失败时选择可恢复的熟悉视觉目标，保持底层VLA冻结。",
+    "flow": [
+      "预生成里程碑库",
+      "可恢复性选择器",
+      "固定视觉目标恢复"
+    ],
+    "modules": [
+      {
+        "name": "预生成里程碑库",
+        "purpose": "保留未被失败污染的未来目标",
+        "mechanism": "在开始执行前用干净初始观察条件生成多个未来视觉状态，之后发生失败时复用。",
+        "sourceUrl": "https://arxiv.org/html/2606.09258",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "可恢复性选择器",
+        "purpose": "判断从当前失败状态该回到哪里",
+        "mechanism": "用候选级恢复成功标签训练选择器；BCE加组内排序warm-start，再用RL式更新强化可恢复目标。",
+        "sourceUrl": "https://arxiv.org/html/2606.09258",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "固定视觉目标恢复",
+        "purpose": "稳定冻结VLA的离轨行为",
+        "mechanism": "恢复期间把所选milestone作为固定视觉条件，避免直接从失败观测反复生成不一致的未来。",
+        "sourceUrl": "https://arxiv.org/html/2606.09258",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "冻结动作VLA，训练恢复选择模块",
+    "models": "foresight-driven VLA及recoverability selector",
+    "trainable": "milestone selector监督warm-start与RL式微调；在线trigger可校准轻量模型",
+    "frozen": "低层动作生成器",
+    "data": "反事实候选恢复标签；trigger仅用成功示范/回放校准",
+    "objective": "候选BCE、组内排序与RL式选择目标",
+    "stages": "生成bank → 正常执行 → 受控或在线触发 → selector选择 → 冻结VLA恢复"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Failure-injected / Standard LIBERO",
+      "setting": "Table 1，失败注入LIBERO与标准LIBERO分别评测；controlled trigger与online trigger分开。",
+      "result": "失败注入UD-VLA56.3、B2FF74.0、B2FF在线触发64.5%；标准LIBERO分别91.3、93.7、92.0%。",
+      "sourceUrl": "https://arxiv.org/html/2606.09258",
+      "locator": "原文 Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 1: Quantitative results on the failure-injected and standard LIBERO. Values represent final task success rates (%). Failure-injected LIBERO evaluates recovery under controlled conditions, whereas Standard LIBERO involves no external failure injection. For the Standard LIBERO columns, † denotes values reproduced in our implementation. Failure-injected evaluations consist of 150 episodes per suite, balanced across three failure types. In failure-injected evaluation, B2FF uses perturbation-aligned recovery timing to isolate milestone selection; B2FF (online trigger) estimates recovery timing from proprioceptive history.",
+        "columns": [
+          "方法",
+          "失败Avg",
+          "失败Object",
+          "失败Spatial",
+          "失败Goal",
+          "失败Long",
+          "标准Avg",
+          "标准Object",
+          "标准Spatial",
+          "标准Goal",
+          "标准Long"
+        ],
+        "rows": [
+          [
+            "Method",
+            "Avg.",
+            "Object",
+            "Spatial",
+            "Goal",
+            "Long",
+            "Avg.",
+            "Object",
+            "Spatial",
+            "Goal",
+            "Long"
+          ],
+          [
+            "DP † [ 31 ]",
+            "26.9",
+            "37.5",
+            "24.2",
+            "42.5",
+            "3.3",
+            "73.3",
+            "87.2",
+            "72.8",
+            "83.8",
+            "49.2"
+          ],
+          [
+            "DCDP † [ 13 ]",
+            "28.1",
+            "37.5",
+            "20.8",
+            "47.5",
+            "6.7",
+            "74.7",
+            "85.2",
+            "73.4",
+            "85.0",
+            "55.0"
+          ],
+          [
+            "MolmoAct [ 32 ]",
+            "48.3",
+            "43.3",
+            "38.3",
+            "60.8",
+            "50.8",
+            "86.8",
+            "95.4",
+            "87.0",
+            "87.6",
+            "77.2"
+          ],
+          [
+            "SPR-VLA [ 25 ]",
+            "50.6",
+            "44.2",
+            "50.8",
+            "56.7",
+            "50.8",
+            "91.8",
+            "95.4",
+            "93.2",
+            "93.2",
+            "85.4"
+          ],
+          [
+            "UD-VLA † [ 20 ]",
+            "56.3",
+            "52.5",
+            "58.3",
+            "58.3",
+            "55.8",
+            "91.3",
+            "93.2",
+            "94.2",
+            "88.8",
+            "88.8"
+          ],
+          [
+            "B2FF",
+            "74.0",
+            "69.3",
+            "66.0",
+            "73.3",
+            "87.3",
+            "93.7",
+            "94.8",
+            "95.8",
+            "91.6",
+            "92.6"
+          ],
+          [
+            "B2FF (online trigger)",
+            "64.5",
+            "62.0",
+            "60.0",
+            "72.7",
+            "63.3",
+            "92.0",
+            "93.4",
+            "95.0",
+            "89.0",
+            "90.4"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "74.0%依赖对齐注入失败时刻的受控触发，真实在线触发64.5%；选择器需要训练，因此不能写成整个框架零训练。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.09258",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / Back to the Familiar Future",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2606.09258",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2606.09258",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p16b1e31b54ec2026,\n title={Back to the Familiar Future: Failure Recovery for VLA Policies via Pre-Imagined Milestone Selection},\n author={Shin, Suyeon and Kim, Juwon and Park, Hyeonbin and Kim, Hyunseo and Lee, Hyundo and Kim, Hyung-Sin and Zhang, Byoung-Tak},\n year={2026},\n url={https://arxiv.org/abs/2606.09258}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "B2FF 先从干净初始状态生成一组未来视觉里程碑。执行出现偏离时，选择器比较当前失败状态到各里程碑的可恢复性，固定选中的视觉目标，让既有VLA把离轨状态拉回熟悉的未来。选择器用反事实恢复标签先监督warm-start，再做RL式微调；不是全系统无训练。主表74.0%使用与注入失败时刻对齐的受控恢复触发，实际在线触发为64.5%，应同时展示。",
+  "verificationLevel": "fulltext"
+}

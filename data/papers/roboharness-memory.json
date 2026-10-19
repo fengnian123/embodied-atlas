@@ -1,0 +1,232 @@
+{
+  "id": "roboharness-memory",
+  "title": "RoboHarness: A Memory-Augmented Policy Harness for Vision-Language-Action Model Robustness via In-Context Adaptation",
+  "short": "RoboHarness · 冻结策略",
+  "aliases": [],
+  "authors": [
+    "Zhuoran Li",
+    "Zhiyang Li",
+    "Kaijun Zhou",
+    "Jinyu Gu"
+  ],
+  "institutions": [
+    "Shanghai Jiao Tong University",
+    "Shanghai Syslong Information Technology Co., Ltd."
+  ],
+  "firstPublished": "2026-03-25",
+  "updated": "2026-08-12",
+  "publicationYear": 2026,
+  "venue": "IROS",
+  "publicationStatus": "作者在arXiv Comments声明IROS 2026录用；会议正式论文集未另核验",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "长程操作"
+    ],
+    "paradigm": [
+      "VLA"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark"
+    ],
+    "problem": [
+      "记忆",
+      "泛化"
+    ],
+    "environment": [
+      "仿真"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "为冻结的 VLA 配置双记忆 RAG、归因式编排及 MCP 干预，通过上下文适应增强稳健性；与异构策略编排 RoboHarness 不同。",
+  "method": {
+    "input": "任务、视觉观测与双记忆",
+    "output": "VLA 干预与上下文",
+    "flow": [
+      "Dual-Memory RAG：同时检索可模仿经验和应避开的失败",
+      "归因驱动VLM编排：把识别出的差异映射成工具链",
+      "MCP干预与冻结VLA执行：修复策略输入与执行上下文",
+      "离线记忆整合：避免错误经验永久累积"
+    ],
+    "assumptions": "需要工具能准确分割/处理视觉输入，以及可用初始执行经验；本文主要为高保真LIBERO仿真验证，不能称大规模真实部署。",
+    "difference": "修改上下文而非联合训练异构策略。",
+    "explanation": "此RoboHarness面对冻结VLA的OOD脆弱性，用成功/失败双记忆做对照检索，先诊断输入与历史经验的差异，再决定干预。工具可突出目标、去除视觉干扰、改写指令、拆链和回滚重试，改变的是策略看到的输入与控制流程。在线以任务级编排和动作chunk级执行交替；离线整合新轨迹，修正错误归因并写回记忆。它与同名异构策略路由论文是独立工作。",
+    "modules": [
+      {
+        "name": "Dual-Memory RAG",
+        "purpose": "同时检索可模仿经验和应避开的失败",
+        "mechanism": "按多模态任务embedding检索；固定字段保存任务、场景、诊断、干预、结果，附可扩展辅助信息。",
+        "input": "当前图像、指令、成功/失败库",
+        "output": "对照经验与候选失败原因"
+      },
+      {
+        "name": "归因驱动VLM编排",
+        "purpose": "把识别出的差异映射成工具链",
+        "mechanism": "比较外观、布局、指令和执行进度偏差，选择干预工具并估计参数。",
+        "input": "当前状态、检索证据、工具描述",
+        "output": "有序MCP工具与参数"
+      },
+      {
+        "name": "MCP干预与冻结VLA执行",
+        "purpose": "修复策略输入与执行上下文",
+        "mechanism": "Paint突出目标；Eraser处理干扰；Prompt重述指令；Chain拆子事件；Encore恢复/重试；策略权重不更新。",
+        "input": "原观测/指令、干预链",
+        "output": "处理后输入、chunk动作和回执"
+      },
+      {
+        "name": "离线记忆整合",
+        "purpose": "避免错误经验永久累积",
+        "mechanism": "新轨迹先初始化诊断条目，再结合相似条目重审/整合已有经验，异步更新双库。",
+        "input": "执行轨迹、相似记忆",
+        "output": "修订后的成功或失败先验"
+      }
+    ]
+  },
+  "training": {
+    "regime": "无额外训练",
+    "models": "冻结π0、π0.5、SmolVLA；VLM orchestrator；SAM3等工具",
+    "trainable": "无VLA参数微调；非参数记忆随轨迹整合",
+    "frozen": "三种VLA主干冻结",
+    "data": "标准LIBERO-Object/Spatial初步推理冷启动；不使用评测期OOD扰动做梯度训练；每任务199随机rollouts",
+    "objective": "不适用梯度训练目标；检索、诊断、干预与记忆整合",
+    "stages": "冷启动经验→在线双记忆检索/干预→离线整合"
+  },
+  "evaluation": [
+    {
+      "benchmark": "LIBERO-PRO",
+      "setting": "v3表III；π0.5冻结；Pos布局变化、Task语义变化；按原文199随机rollouts/任务。",
+      "result": "Pos均值2.33%→57.2%；Task均值0.86%→55.2%。",
+      "locator": "§IV 表III",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§IV 表III",
+        "columns": [
+          "子协议",
+          "π0.5 baseline SR",
+          "+RoboHarness SR"
+        ],
+        "rows": [
+          [
+            "Pos平均",
+            "2.33%",
+            "57.2%"
+          ],
+          [
+            "Task平均",
+            "0.86%",
+            "55.2%"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2603.24060v3",
+        "locator": "§IV 表III"
+      }
+    },
+    {
+      "benchmark": "RAG消融",
+      "setting": "v3表IV；原文特定视觉干扰任务配置；不是全部25任务平均。",
+      "result": "从No-RAG19.2%到Limited48.8%、Rich60.1%，支持记忆质量对干预决策的作用。",
+      "locator": "§IV 表IV",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§IV 表IV",
+        "columns": [
+          "RAG配置",
+          "SR (%)"
+        ],
+        "rows": [
+          [
+            "No-RAG",
+            "19.2"
+          ],
+          [
+            "Limited-RAG",
+            "48.8"
+          ],
+          [
+            "Rich-RAG",
+            "60.1"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2603.24060v3",
+        "locator": "§IV 表IV"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "上下文适应的收益受骨干和可用干预限制；与另一同名工作不能合并。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2603.24060",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/LZY-1021/RoboHarness",
+      "status": "已核实入口",
+      "note": "原文公开实现入口；未实际运行"
+    },
+    "project": {
+      "url": "https://lzy-1021.github.io/RoboHarness/",
+      "status": "已核实入口",
+      "note": "官方项目页"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://doi.org/10.48550/arXiv.2603.24060",
+      "label": "arXiv v3 摘要与 Comments",
+      "locator": "录用声明和方法概述",
+      "supports": [
+        "身份",
+        "方法",
+        "作者录用声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2603.24060v3",
+      "label": "本轮回查原文/官方资料",
+      "locator": "§III–IV；表III/IV；arXiv v3 Comments",
+      "supports": [
+        "作者机构",
+        "方法和冻结设置",
+        "199次rollout",
+        "关键数值"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.24060",
+      "label": "本轮回查原文/官方资料",
+      "locator": "版本历史与Comments",
+      "supports": [
+        "日期",
+        "作者录用声明"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{roboharnessmemory2026,\n  title = {RoboHarness: A Memory-Augmented Policy Harness for Vision-Language-Action Model Robustness via In-Context Adaptation},\n  author = {Zhuoran Li and Zhiyang Li and Kaijun Zhou and Jinyu Gu},\n  year = {2026},\n  url = {https://arxiv.org/abs/2603.24060}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
+  "overview": "这篇同名工作围绕冻结 VLA 的上下文适应，利用记忆检索、失败归因与干预改变执行行为。论文摘要列出的基线骨干包括 π0、π0.5 与 SmolVLA，评测涉及 LIBERO-PRO 与自建任务。不能将它的实验增益归给使用 Memory Bridge 的另一篇 RoboHarness。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "replace-with-stable-id",
+  "title": "请填写真实论文完整标题",
+  "short": "请填写真实简称",
+  "aliases": [],
+  "authors": [],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": null,
+  "year": null,
+  "venue": null,
+  "publicationStatus": "未核实",
+  "tags": {
+    "direction": [],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "仅建立基础索引；核心内容待原文核验。",
+  "method": null,
+  "training": null,
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": []
+  },
+  "resources": {},
+  "sources": [
+    {
+      "kind": "user",
+      "label": "填写实际来源名称",
+      "url": null,
+      "locator": "填写真实章节、表格或清单位置",
+      "supports": [
+        "基础索引"
+      ]
+    }
+  ],
+  "related": [],
+  "status": "待核实",
+  "checked": null,
+  "gaps": [
+    "待原文核验"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "unresolved",
+  "verification": "仅建立索引；尚未回查原文"
+}

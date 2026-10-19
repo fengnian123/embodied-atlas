@@ -1,0 +1,173 @@
+{
+  "id": "p-707278ba1b65",
+  "title": "An Assessment of an Inpatient Robotic Nurse Assistant: A Mixed-Method Study",
+  "short": "Inpatient-RNA",
+  "aliases": [
+    "Inpatient-RNA"
+  ],
+  "authors": [
+    "Yee Wei Lim",
+    "Shi Wei Tan",
+    "Cherylanne Yan Bing Tan",
+    "Dong Hee Michael Lee",
+    "Wen Ting Siow",
+    "Doreen Gek Noi Heng",
+    "Amartya Mukhopadhyay",
+    "Joo Cheng Lim",
+    "Sunil Sivadas",
+    "Ee Lin Kimberly Teo",
+    "Lawrence Khek Yu Ho",
+    "Jason Phua"
+  ],
+  "institutions": [],
+  "firstPublished": "2024-10-22",
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "Journal of Medical Systems",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "在真实普通病房观察护理助理机器人Florence的生命体征测量、药物及物品递送，结合患者问卷、视频行为和护士焦点访谈评价人机交互。",
+  "method": {
+    "input": "一次机器人互动、视频与患者问卷、护士访谈",
+    "output": "易用性、接受度、用户体验和社会影响",
+    "flow": [
+      "病房实地试用",
+      "多模态体验评价",
+      "护士焦点访谈"
+    ],
+    "explanation": "在真实普通病房观察护理助理机器人Florence的生命体征测量、药物及物品递送，结合患者问卷、视频行为和护士焦点访谈评价人机交互。",
+    "modules": [
+      {
+        "name": "病房实地试用",
+        "purpose": "观察完整护理工作流",
+        "mechanism": "机器人从工作站到床旁执行任务，记录互动；研究为观察性混合方法，不是随机对照。",
+        "input": "一次机器人互动、视频与患者问卷、护士访谈",
+        "output": "病房实地试用的中间结果"
+      },
+      {
+        "name": "多模态体验评价",
+        "purpose": "避免只依赖主观成功描述",
+        "mechanism": "用USUS框架分析视频中的行为、表情和注意力及75题体验问卷。",
+        "input": "病房实地试用的结果",
+        "output": "多模态体验评价的中间结果"
+      },
+      {
+        "name": "护士焦点访谈",
+        "purpose": "检验实际减负与扩展条件",
+        "mechanism": "将护士对时间节省、老人交互和技术故障的看法与患者评价对照。",
+        "input": "多模态体验评价的结果",
+        "output": "易用性、接受度、用户体验和社会影响"
+      }
+    ],
+    "assumptions": "临床/用户研究的结果受纳入标准、样本与评价场景限制。",
+    "difference": "对应真实证据类型：临床/用户研究"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：接受度、教学体验或某项临床终点只说明指定研究条件下的结果，不能替代独立外部验证或直接推为其他场景的结论。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1007/s10916-024-02117-4",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Hospital Service and Nursing Robots / Inpatient-RNA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10916-024-02117-4.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1007/s10916-024-02117-4",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1007/s10916-024-02117-4",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10916-024-02117-4.pdf",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Journal of Medical Systems'24**",
+      "section": "Hospital Service and Nursing Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "在真实普通病房观察护理助理机器人Florence的生命体征测量、药物及物品递送，结合患者问卷、视频行为和护士焦点访谈评价人机交互。 以下按研究设计、组别和评价方式说明，不把临床研究写成可执行机器人策略。"
+}

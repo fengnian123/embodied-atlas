@@ -1,0 +1,196 @@
+{
+  "id": "p-59c1b7374cbc",
+  "title": "Harness Handbook: Making Evolving Agent Harnesses Readable,Navigable, and Editable",
+  "short": "Harness Handbook",
+  "aliases": [
+    "Harness Handbook"
+  ],
+  "authors": [
+    "Wang, Ruhan",
+    "Shi, Yucheng",
+    "Li, Zongxia",
+    "Li, Zhongzhi",
+    "Yu, Yue",
+    "Yang, Junyao",
+    "Panaganti, Kishan",
+    "Mi, Haitao",
+    "Zhou, Dongruo",
+    "Leoweiliang"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-07-14",
+  "updated": "2026-07-14",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "规划"
+    ],
+    "environment": [],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "从静态程序图生成按行为组织的代码手册，帮助编码Agent定位harness修改位置。",
+  "method": {
+    "explanation": "Harness Handbook 针对修改需求以行为描述、代码却按文件与函数组织的错位。先静态分析harness构建程序图，再用LLM把调用、状态和执行阶段组织成行为层次手册；BGPD从高层行为逐步展开到具体实现，并回查当前源码验证候选位置。评测对象是Terminus-2与Codex各30个修改请求，核心指标是行为定位和编辑计划质量，不是机器人任务成功率。",
+    "input": "harness代码库与自然语言修改需求",
+    "output": "代码位置与编辑计划",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "从静态程序图生成按行为组织的代码手册，帮助编码Agent定位harness修改位置。",
+    "flow": [
+      "静态事实程序图",
+      "行为中心手册",
+      "BGPD逐步披露"
+    ],
+    "modules": [
+      {
+        "name": "静态事实程序图",
+        "purpose": "给行为描述提供源码依据",
+        "mechanism": "从文件、函数、调用与边界节点建立程序图，保留能够回到当前源码的定位锚点。",
+        "sourceUrl": "https://arxiv.org/html/2607.13285",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "行为中心手册",
+        "purpose": "把分散实现组织成可导航结构",
+        "mechanism": "LLM辅助按系统阶段、行为和状态组织多层手册，连接自然语言需求与跨文件实现。",
+        "sourceUrl": "https://arxiv.org/html/2607.13285",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "BGPD逐步披露",
+        "purpose": "控制上下文并验证定位",
+        "mechanism": "编码Agent从行为层逐步展开相关实现，对候选修改位置以当前源码检查，避免只信过时摘要。",
+        "sourceUrl": "https://arxiv.org/html/2607.13285",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "静态分析 + LLM推理；未训练新导航或机器人策略",
+    "models": "静态程序分析器与LLM编码规划器",
+    "trainable": "生成手册非参数内容；未登记新基础模型训练",
+    "frozen": "编码模型作为推理后端",
+    "data": "Terminus-2/Codex各30修改请求，共60",
+    "objective": "定位Recall/Precision/F1与计划质量",
+    "stages": "程序图 → 行为手册 → 逐级定位 → 源码验证"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Harness行为定位评测",
+      "setting": "Table1，参考计划分别由Opus4.8/GPT5.5生成；下面取Codex与Terminus的文件级F1，非真实合并代码成功率。",
+      "result": "Codex文件F1参考Opus为46.6→61.8，参考GPT5.5为47.3→52.3；Terminus74.1→84.7与76.5→89.3。",
+      "sourceUrl": "https://arxiv.org/html/2607.13285",
+      "locator": "Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "Harness / 参考计划",
+          "Baseline文件F1",
+          "Handbook文件F1"
+        ],
+        "rows": [
+          [
+            "Codex / Opus4.8",
+            "46.6",
+            "61.8"
+          ],
+          [
+            "Codex / GPT5.5",
+            "47.3",
+            "52.3"
+          ],
+          [
+            "Terminus-2 / Opus4.8",
+            "74.1",
+            "84.7"
+          ],
+          [
+            "Terminus-2 / GPT5.5",
+            "76.5",
+            "89.3"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "指标衡量参考计划定位的一致性，不是机器人策略收益，也不是代码修改后所有测试通过的比例。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.13285",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://ruhan-wang.github.io/Harness-Handbook/",
+      "status": "已核实入口",
+      "note": "原文提供的官方链接；开放内容与许可未逐项验证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / Harness Handbook",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2607.13285",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2607.13285",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p59c1b7374cbc2026,\n title={Harness Handbook: Making Evolving Agent Harnesses Readable,Navigable, and Editable},\n author={Wang, Ruhan and Shi, Yucheng and Li, Zongxia and Li, Zhongzhi and Yu, Yue and Yang, Junyao and Panaganti, Kishan and Mi, Haitao and Zhou, Dongruo and Leoweiliang},\n year={2026},\n url={https://arxiv.org/abs/2607.13285}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [],
+  "overview": "Harness Handbook 针对修改需求以行为描述、代码却按文件与函数组织的错位。先静态分析harness构建程序图，再用LLM把调用、状态和执行阶段组织成行为层次手册；BGPD从高层行为逐步展开到具体实现，并回查当前源码验证候选位置。评测对象是Terminus-2与Codex各30个修改请求，核心指标是行为定位和编辑计划质量，不是机器人任务成功率。",
+  "verificationLevel": "fulltext"
+}

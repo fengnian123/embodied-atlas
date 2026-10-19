@@ -1,0 +1,237 @@
+{
+  "id": "activeinspect",
+  "title": "ActiveInspect: GRPO-Optimized Multi-Sensor Evidence Selection for Industrial Defect Detection",
+  "short": "ActiveInspect",
+  "aliases": [],
+  "authors": [
+    "Jingyuan Wang",
+    "Ming Wu"
+  ],
+  "institutions": [
+    "Wuhan University of Science and Technology",
+    "KU Leuven",
+    "Flanders Make"
+  ],
+  "firstPublished": "2026-08-04",
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "Sensors",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "主动感知"
+    ],
+    "environment": [
+      "预采集观测池"
+    ],
+    "training": [
+      "监督微调",
+      "强化学习"
+    ]
+  },
+  "summary": "从预先采集的多视角、多模态证据池中选择下一条证据，用 PA-SFT 与 GRPO 学习在有限预算内完成工业缺陷判断。",
+  "method": {
+    "input": "初始观测、证据池与剩余预算",
+    "output": "证据获取工具调用或最终异常判定",
+    "flow": [
+      "取得初始观测",
+      "选择视图/模态/局部证据",
+      "更新判断与预算",
+      "终止并输出结论"
+    ],
+    "assumptions": "候选观测预先存在；没有实机闭环采集",
+    "difference": "联合决定证据选择与停止，而非只改最终分类器。",
+    "explanation": "ActiveInspect 的动作是从预采集证据池取新视角、模态或局部裁剪，不是控制实机相机闭环移动。几何数据先转为VLM可读取的渲染图；策略读取结构化历史，决定继续检索还是停止判定。PA-SFT先学习可用的证据选择轨迹，GRPO再以诊断准确性、定位、证据成本和输出合法性联合优化，KL约束限制策略偏离。",
+    "modules": [
+      {
+        "name": "多传感器证据适配",
+        "purpose": "统一RGB、深度和点云输入",
+        "mechanism": "将深度与点云转成几何渲染，并为同一工件维护视角/模态池",
+        "input": "预采集多视角数据",
+        "output": "VLM兼容的证据条目"
+      },
+      {
+        "name": "预算内序贯策略",
+        "purpose": "只补充有价值的观察",
+        "mechanism": "在检索视角/模态、网格放大、正常参考检索和终止判定之间选择",
+        "input": "当前证据和剩余预算",
+        "output": "下一证据操作或判定"
+      },
+      {
+        "name": "PA-SFT与GRPO",
+        "purpose": "优化准确率—观察数权衡",
+        "mechanism": "先监督有效取证再组相对优化；奖励诊断、定位与有效操作并约束成本",
+        "input": "取证轨迹和可验证结果",
+        "output": "训练后的选择策略"
+      },
+      {
+        "name": "结构化证据记忆",
+        "purpose": "避免重复检索及跨步遗漏",
+        "mechanism": "保留已检索模态、局部发现与置信状态，供后续决策复用",
+        "input": "每步工具返回",
+        "output": "累积证据上下文"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调＋强化学习",
+    "models": "Qwen2.5-VL-7B-Instruct",
+    "trainable": "语言层q/k/v/o LoRA，rank64、alpha128；PA-SFT后GRPO优化",
+    "frozen": "视觉编码器冻结；不应标为训练范围完全未知",
+    "data": "Real-IAD D3、Real-IAD、MVTec 3D-AD，约18000 teacher trajectories",
+    "objective": "诊断奖励与感知约束 KL",
+    "stages": "PA-SFT 3epochs(lr峰值2e-4) → GRPO500iterations(lr5e-6,每实例8轨迹)；8×A100 80GB"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Real-IAD D3",
+      "setting": "预采集15观察池；ActiveInspect为3个训练种子均值±标准差；AUROC/F1为0–1，Obs为次数。",
+      "result": "相较D3M，I-AUROC从0.890提高到0.906，平均观察数从3.0降到2.7；15次穷举参考为0.908。",
+      "locator": "Table 5",
+      "sourceUrl": "https://doi.org/10.3390/s26154932",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Real-IAD D3：Table 5",
+        "columns": [
+          "方法",
+          "I-AUROC",
+          "P-AUROC",
+          "F1",
+          "平均Obs"
+        ],
+        "rows": [
+          [
+            "D3M",
+            0.89,
+            0.937,
+            0.834,
+            3.0
+          ],
+          [
+            "ActiveInspect-D3",
+            "0.906±0.003",
+            "0.946±0.002",
+            "0.852±0.004",
+            "2.7±0.1"
+          ],
+          [
+            "15观察穷举",
+            0.908,
+            0.948,
+            0.855,
+            15.0
+          ]
+        ],
+        "sourceUrl": "https://doi.org/10.3390/s26154932",
+        "locator": "Table 5"
+      }
+    },
+    {
+      "benchmark": "Real-IAD",
+      "setting": "五视角证据选择；3种子均值±标准差；数值0–1。",
+      "result": "ActiveInspect-adaptive的S-AUROC=0.962±0.002，P-AUROC=0.961±0.002，F1=0.863±0.003；平均2.6±0.1视角。Multi-Flow分别为0.959/0.959/0.858、5视角。",
+      "locator": "Table 6",
+      "sourceUrl": "https://doi.org/10.3390/s26154932",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Real-IAD：Table 6",
+        "columns": [
+          "方法",
+          "S-AUROC",
+          "P-AUROC",
+          "F1",
+          "平均视角"
+        ],
+        "rows": [
+          [
+            "Multi-Flow",
+            0.959,
+            0.959,
+            0.858,
+            5
+          ],
+          [
+            "ActiveInspect-adaptive",
+            "0.962 ± 0.002",
+            "0.961 ± 0.002",
+            "0.863 ± 0.003",
+            "2.6 ± 0.1"
+          ]
+        ],
+        "sourceUrl": "https://doi.org/10.3390/s26154932",
+        "locator": "Table 6"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "预采集观测池，未包含闭环机器人的运动规划、标定、传感器延迟与采集失败。"
+    ],
+    "analysis": [
+      "证据成本模型迁移到实机时应重新标定，图像工具成本不能直接当作行动成本。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.3390/s26154932",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：ActiveInspect.pdf",
+      "url": null,
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://doi.org/10.3390/s26154932",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容",
+    "作者机构",
+    "首次公开日期",
+    "最新版本日期"
+  ],
+  "sourceNotes": [
+    "用户原论文首页明确期刊上线2026-08-04；此前是否有更早预印本尚未核实。"
+  ],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "ActiveInspect 不把所有观测一次性交给模型，而让策略根据不确定性决定换视角、切换模态、局部放大、取正常参考或停止。它把证据获取成本写入训练目标，适合研究“还需要看什么”。必须注意其观测来自预先采集的池：选取另一视图不等于真实机器人已完成移动、标定和传感器切换。",
+  "verificationLevel": "fulltext"
+}

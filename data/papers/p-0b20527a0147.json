@@ -1,0 +1,184 @@
+{
+  "id": "p-0b20527a0147",
+  "title": "JHU-ISI Gesture and Skill Assessment Working Set (JIGSAWS): A Surgical Activity Dataset for Human Motion Modeling",
+  "short": "JIGSAWS",
+  "aliases": [
+    "JIGSAWS"
+  ],
+  "authors": [
+    "Yixin Gao",
+    "S. Swaroop Vedula",
+    "Carol E. Reiley",
+    "Narges Ahmidi",
+    "Balakrishnan Varadarajan",
+    "Henry C. Lin",
+    "Lingling Tao",
+    "Luca Zappella",
+    "Benjamín Béjar",
+    "David D. Yuh",
+    "Chi Chiung Grace Chen",
+    "René Vidal",
+    "Sanjeev Khudanpur",
+    "Gregory D. Hager"
+  ],
+  "institutions": [
+    "Johns Hopkins University",
+    "Google Inc.",
+    "Intuitive Surgical, Inc.",
+    "Metaio GmbH",
+    "Swiss Federal Institute of Technology in Lausanne",
+    "Yale University School of Medicine",
+    "Johns Hopkins Medical Institutions"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "已取得作者公开技术报告；正式发表信息与首次公开日期未核实",
+  "year": null,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "数据集",
+      "Benchmark",
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "机械臂"
+    ],
+    "training": []
+  },
+  "summary": "提供同步手术视频、机器人运动学、手势分段及技能评分，用于外科手势识别和技能评价。它是台架操作数据集，不是患者手术导航基准。",
+  "method": {
+    "input": "da Vinci双目视频、四组操控器/工具运动学",
+    "output": "手势时间段、技能评分与交叉验证划分",
+    "flow": [
+      "多操作者采集",
+      "手势与技能标注",
+      "标准评测划分"
+    ],
+    "explanation": "提供同步手术视频、机器人运动学、手势分段及技能评分，用于外科手势识别和技能评价。它是台架操作数据集，不是患者手术导航基准。",
+    "modules": [
+      {
+        "name": "多操作者采集",
+        "purpose": "覆盖熟练程度差异",
+        "mechanism": "8名不同水平操作者重复完成缝合、打结和穿针任务，采集同步视频与运动学。",
+        "input": "da Vinci双目视频、四组操控器/工具运动学",
+        "output": "多操作者采集的中间结果"
+      },
+      {
+        "name": "手势与技能标注",
+        "purpose": "把连续操作变成可评价目标",
+        "mechanism": "人工标记原子手势时间边界，并用修改的global rating score评估技能。",
+        "input": "多操作者采集的结果",
+        "output": "手势与技能标注的中间结果"
+      },
+      {
+        "name": "标准评测划分",
+        "purpose": "检验试次和操作者泛化",
+        "mechanism": "提供留一试次与留一操作者等实验设置及HMM/LDS分析工具；划分必须按操作者理解。",
+        "input": "手势与技能标注的结果",
+        "output": "手势时间段、技能评分与交叉验证划分"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：数据或仿真平台"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://cirl.lcsr.jhu.edu/wp-content/uploads/2015/11/JIGSAWS.pdf",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Datasets, Simulators, and Benchmarks / JIGSAWS",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://cirl.lcsr.jhu.edu/wp-content/uploads/2015/11/JIGSAWS.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://cirl.lcsr.jhu.edu/research/hmm/datasets/jigsaws_release/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://cirl.lcsr.jhu.edu/wp-content/uploads/2015/11/JIGSAWS.pdf",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "作者公开PDF首页",
+      "url": "https://cirl.lcsr.jhu.edu/wp-content/uploads/2015/11/JIGSAWS.pdf",
+      "locator": "第1页作者与机构表",
+      "supports": [
+        "完整作者列表",
+        "机构",
+        "论文资源入口"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "精确首次公开日期未核实（不将年月伪造为某一天）"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**M2CAI MICCAI Workshop'14**",
+      "section": "Datasets, Simulators, and Benchmarks"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "提供同步手术视频、机器人运动学、手势分段及技能评分，用于外科手势识别和技能评价。它是台架操作数据集，不是患者手术导航基准。 "
+}

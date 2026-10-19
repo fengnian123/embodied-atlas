@@ -1,0 +1,234 @@
+{
+  "id": "realtwin",
+  "title": "Towards Active Real-to-Twin Inspection: A New Paradigm for Zero-Shot Anomaly Detection",
+  "short": "Real-to-Twin Inspection",
+  "aliases": [],
+  "authors": [
+    "Jiaxuan Liu",
+    "Yunkang Cao",
+    "Yufeng Chen",
+    "Chunyang Li",
+    "Yuhuan Du",
+    "Hui Zhang"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-05-25",
+  "updated": null,
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "数据集"
+    ],
+    "problem": [
+      "主动感知",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "将真实相机视图与同位姿 CAD 渲染参照配对，通过轻量对齐模块和正常样本学习检测异常，主干视觉模型冻结。",
+  "method": {
+    "input": "实拍图像、CAD 及对应相机/物体位姿",
+    "output": "异常图与异常评分",
+    "flow": [
+      "采集/渲染同位姿图像对",
+      "冻结 DINOv2 编码",
+      "跨域特征对齐与重组",
+      "计算异常差异"
+    ],
+    "assumptions": "需要 CAD 与可靠位姿/标定",
+    "difference": "以可匹配数字参照替代无条件通用视觉判别。",
+    "explanation": "Real-to-Twin把真实工件观测与同视角的CAD数字孪生作比较。先按几何视点采样构造真实—渲染配对，再用无缺陷配对学习两域特征投影，避免把正常的材质/照明域差异当作缺陷。前景约束的局部一致性损失保留细粒度差异；推理时将仍无法对齐的偏差转成异常图。零样本指目标异常/类别泛化，不代表整个方法没有训练。",
+    "modules": [
+      {
+        "name": "几何视点配对",
+        "purpose": "使参考图与实物可比较",
+        "mechanism": "按多面体等面积视点采样，以相同观察几何获取实图并渲染CAD",
+        "input": "真实物体、CAD、相机几何",
+        "output": "真实—孪生参考图像对"
+      },
+      {
+        "name": "双域投影器",
+        "purpose": "消除正常Sim2Real差异",
+        "mechanism": "真实域和渲染域分别投影，在无缺陷训练配对上对齐语义",
+        "input": "真实/渲染视觉特征",
+        "output": "统一比较空间"
+      },
+      {
+        "name": "局部一致性与异常图",
+        "purpose": "保留真实局部缺陷",
+        "mechanism": "以前景约束局部损失对齐正常区域，推理中累积不一致",
+        "input": "对齐特征、前景",
+        "output": "像素异常图与图像分数"
+      }
+    ]
+  },
+  "training": {
+    "regime": "冻结主干并训练模块",
+    "models": "DINOv2 ViT-S/14",
+    "trainable": "轻量投影与对齐模块",
+    "frozen": "DINOv2 视觉主干",
+    "data": "216 对正常 flange-bearing seat 训练样本；214 对新类别 J6 测试",
+    "objective": "局部/全局一致性",
+    "stages": "50 epochs；只用正常训练对优化"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2T 主比较",
+      "setting": "类别隔离的Real-to-Twin零样本协议；指标为%；表I。",
+      "result": "AVATAR的I-AUROC=71.15%，P-AP=23.75%、P-F1=33.07%；并非所有像素指标最佳，Bayes-PFL的AUPRO为83.86而AVATAR为46.57。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/abs/2605.25407",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "R2T 主比较：Table I",
+        "columns": [
+          "方法",
+          "I-AUROC (%)",
+          "P-AUROC (%)",
+          "P-AP (%)",
+          "P-F1 (%)",
+          "AUPRO (%)"
+        ],
+        "rows": [
+          [
+            "UniAD",
+            57.29,
+            93.69,
+            15.13,
+            22.57,
+            65.04
+          ],
+          [
+            "AnomalyCLIP",
+            69.72,
+            90.02,
+            6.42,
+            8.47,
+            64.85
+          ],
+          [
+            "Bayes-PFL",
+            64.45,
+            91.51,
+            6.18,
+            8.2,
+            83.86
+          ],
+          [
+            "AVATAR",
+            71.15,
+            90.55,
+            23.75,
+            33.07,
+            46.57
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2605.25407",
+        "locator": "Table I"
+      }
+    },
+    {
+      "benchmark": "R2T 消融（独立口径）",
+      "setting": "原表II列名仅为Image Level / Pixel Level；与表I主表口径对应关系未充分说明，不直接比较。",
+      "result": "保留原值：全模块83.74±0.01 / 48.49±0.07；去局部损失72.68±0.02 / 0.60±0.01。未把这组数误写成主表I-AUROC/P-F1。",
+      "locator": "Table II",
+      "sourceUrl": "https://arxiv.org/abs/2605.25407",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table II：独立消融口径，指标名保持原文",
+        "columns": [
+          "变体",
+          "Image Level",
+          "Pixel Level"
+        ],
+        "rows": [
+          [
+            "全模块",
+            "83.74 ± 0.01",
+            "48.49 ± 0.07"
+          ],
+          [
+            "无局部损失",
+            "72.68 ± 0.02",
+            "0.60 ± 0.01"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2605.25407",
+        "locator": "Table II"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "强 CAD/位姿前提限制无模型家庭物体；类别隔离不消除 CAD 或相机设置层面的偏差。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2605.25407",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：Real-to-Twin Inspection.pdf",
+      "url": "https://arxiv.org/abs/2605.25407",
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2605.25407",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{realtwin2026,\n  title = {Towards Active Real-to-Twin Inspection: A New Paradigm for Zero-Shot Anomaly Detection},\n  author = {Jiaxuan Liu and Yunkang Cao and Yufeng Chen and Chunyang Li and Yuhuan Du and Hui Zhang},\n  year = {2026},\n  eprint = {2605.25407},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2605.25407}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容",
+    "作者机构",
+    "最新版本日期"
+  ],
+  "sourceNotes": [],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "真实工业图像与 CAD 参照有材质、光照和成像差异，直接相减难以定位缺陷。该工作构建同位姿 Real-to-Twin 对，使用冻结视觉特征和可训练对齐模块减少域差异，再从匹配后的特征差异判断异常。“Zero-shot”指类别隔离的测试协议，不代表整套方法没有训练：对齐模块仍使用正常训练对优化。",
+  "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
+  "verificationLevel": "fulltext"
+}

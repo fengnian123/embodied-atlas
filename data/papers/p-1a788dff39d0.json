@@ -1,0 +1,200 @@
+{
+  "id": "p-1a788dff39d0",
+  "title": "Supervised autonomous robotic soft tissue surgery",
+  "short": "STAR",
+  "aliases": [
+    "STAR"
+  ],
+  "authors": [
+    "Azad Shademan",
+    "Ryan S. Decker",
+    "Justin D. Opfermann",
+    "Simon Leonard",
+    "Axel Krieger",
+    "Peter C. W. Kim"
+  ],
+  "institutions": [
+    "Sheikh Zayed Institute for Pediatric Surgical Innovation, Children’s National Health System, 111 Michigan Avenue Northwest, Washington, DC 20010, USA.",
+    "Department of Computer Science, Johns Hopkins University, 3400 North Charles Street, Baltimore, MD 21218, USA."
+  ],
+  "firstPublished": "2016-05-04",
+  "updated": null,
+  "publicationYear": 2016,
+  "venue": "Science Translational Medicine",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2016,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "在监督自主软组织手术中结合近红外视觉、组织跟踪和缝合规划，研究机器人能否在形变组织上保持针距与缝合一致性。",
+  "method": {
+    "input": "组织图像",
+    "output": "缝合一致性、漏压、错误、耗时及腔道指标",
+    "flow": [
+      "组织成像与跟踪",
+      "监督式缝合规划执行",
+      "动物模型比较"
+    ],
+    "explanation": "依据原始摘要，STAR在监督下对可变形软组织完成缝合和肠吻合：plenoptic三维成像与近红外荧光成像提供组织跟踪，程序依据外科经验生成缝合计划，机器人执行并由人监督。论文比较离体猪组织和活猪中的缝合间距、漏压、需退针纠错次数、完成时间及腔道缩小程度，包含人工腹腔镜及临床机器人辅助方法。摘要不提供可核对的表格数值；本库因此不重复引用其他新闻或综述中的成功率，也不将临床前动物实验解读成人类临床疗效。",
+    "modules": [
+      {
+        "name": "组织成像与跟踪",
+        "purpose": "在软组织移动时估计操作目标",
+        "mechanism": "摘要明确plenoptic三维与NIR荧光成像；标定、跟踪精度和标记配置待全文。",
+        "input": "组织图像",
+        "output": "组织位置/几何状态"
+      },
+      {
+        "name": "监督式缝合规划执行",
+        "purpose": "将外科经验变成软组织操作顺序",
+        "mechanism": "程序生成缝合和吻合计划，在人类监督下操作；不据此推断有VLM或神经策略训练。",
+        "input": "组织状态、手术目标",
+        "output": "缝合与吻合操作"
+      },
+      {
+        "name": "动物模型比较",
+        "purpose": "多维度检查临床前性能",
+        "mechanism": "离体猪组织和活猪，与人工腹腔镜/机器人辅助手段比较五类吻合指标。",
+        "input": "组织样本与完成手术",
+        "output": "缝合一致性、漏压、错误、耗时及腔道指标"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [
+    {
+      "benchmark": "软组织吻合临床前研究",
+      "setting": "原文摘要；离体猪组织及活猪；未取得表格数字",
+      "result": "能够核实评测维度，尚不能填入可靠的原始均值、样本量或显著性。",
+      "locator": "PubMed原始摘要；原表未核",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/27147588/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "评测维度",
+          "原摘要定义"
+        ],
+        "rows": [
+          [
+            "缝合一致性",
+            "平均缝合间距"
+          ],
+          [
+            "吻合密封性",
+            "出现渗漏的压力"
+          ],
+          [
+            "错误",
+            "需将针从组织取出的次数"
+          ],
+          [
+            "效率",
+            "完成时间"
+          ],
+          [
+            "结构影响",
+            "肠吻合腔道缩小"
+          ]
+        ],
+        "locator": "PubMed原始摘要；原表未核"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1126/scitranslmed.aad9398",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / STAR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1126/scitranslmed.aad9398",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1126/scitranslmed.aad9398",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始摘要/出版入口（本轮回查）",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27147588/",
+      "locator": "摘要与出版记录；全文细节仍待核",
+      "supports": [
+        "研究范围",
+        "摘要明确的模块及实验覆盖（如有）",
+        "核验边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造",
+    "Science Translational Medicine全文未成功取得；原表数值与完整实验次数未核实。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Sci. Transl. Med.'16**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "metadata",
+  "verification": "本轮回查原始元数据与可取得摘要；全文未成功取得，实验表格和未见训练细节不声称已核实。",
+  "overview": "在监督自主软组织手术中结合近红外视觉、组织跟踪和缝合规划，研究机器人能否在形变组织上保持针距与缝合一致性。 本条详情限已取得的原始摘要，全文图表仍待补齐。"
+}

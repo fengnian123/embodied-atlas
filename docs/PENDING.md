@@ -1,0 +1,184 @@
+# 待核实与待完善清单
+
+生成于 2026-10-19。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。
+
+- **4D Gaussian Splatting for Real-Time Dynamic Scene Rendering** (4dgs-deformation)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Real-time Photorealistic Dynamic Scene Representation and Rendering with 4D Gaussian Splatting** (4dgs-native)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory** (abot-agentos)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；code原文入口本轮访问返回404，当前不能确认资源公开可用；project原文入口本轮访问返回404，当前不能确认资源公开可用。状态：重点详解。
+- **ActiveInspect: GRPO-Optimized Multi-Sensor Evidence Selection for Industrial Defect Detection** (activeinspect)：尚未逐项核实所有资源许可证与下载内容；作者机构；首次公开日期；最新版本日期。状态：重点详解。
+- **AgenticNav: A Hierarchical Multi-Agentic System for LLM-Driven Autonomous Problem-Solving in Robotics** (agenticnav-mas)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；原论文全文和正式DOI/论文集入口；真实作者与机构（官方CITATION仍TBD）；首次公开/最新论文版本日期；完全同分母且全部重新运行的对照实验；作者机构未在已读取原文中完整确认。状态：待核实。
+- **AgenticNav: Zero-Shot Vision-and-Language Navigation as a Tool-Calling Harness** (agenticnav-vln)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **Tandem CCV-VLM: Visual construction safety inspection based on Collaborative Cross-Verification VLM** (ccv-vlm)：尚未逐项核实所有资源许可证与下载内容；训练冻结配置；数据划分与逐表量化复核；论文 DOI 与资源入口；作者机构；首次公开日期；最新版本日期。状态：重点详解。
+- **ETA: A New Agentic Paradigm for Embodied Tasks** (eta)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks** (gap)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **GOAT-Bench: A Benchmark for Multi-Modal Lifelong Navigation** (goat-bench)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；作者机构未在已读取原文中完整确认。状态：重点详解。
+- **Habitat-Matterport 3D Dataset (HM3D): 1000 Large-scale 3D Environments for Embodied AI** (hm3d)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **HoloAgent-0: A Unified Embodied Agent Framework with 3D Spatial Memory** (holoagent-0)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection** (homesafebench)：尚未逐项核实所有资源许可证与下载内容。状态：重点详解。
+- **Harness Robotic OS: A Unified Embodied-Agent Runtime for Closed-Loop Quadruped Inspection** (hros)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
+- **Assessment of a Fine-Tuned Vision-Language-Action Model for Robotic Feature-Following Inspection** (inspection-vla)：尚未逐项核实所有资源许可证与下载内容；首次公开日期；最新版本日期。状态：重点详解。
+- **InspectorGPT: A Comparative Reasoning Enhanced VLM for Comprehensive Industrial Anomaly Detection** (inspectorgpt)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
+- **OpenEQA: Embodied Question Answering in the Era of Foundation Models** (openeqa)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；首次公开日期、最新版本日期未在可靠arXiv记录确认；不以会议年份推造精确日期。。状态：重点详解。
+- **OpenVLA: An Open-Source Vision-Language-Action Model** (openvla)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **Hierarchical Planning for Resource-Constrained Long-Term Monitoring Missions in Time-Varying Environments** (p-001885caf8c9)：首次预印本公开日期未核实；仅确认ECAI2024出版；官方代码、数据许可证与最终下载包未核实。状态：重点详解。
+- **Embodied Question Answering in Photorealistic Environments with Point Cloud Perception** (p-03943f9bbe8f)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **Do As I Can, Not As I Say: Grounding Language in Robotic Affordances** (p-063be20e7ce8)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Monocular Dynamic View Synthesis: A Reality Check** (p-0826bd202c54)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Next-Generation Agentic Reinforcement Learning Systems Enable Self-Evolving Agents** (p-09fe1a9b9c02)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **EvolveNav** (p-0b0fb16f86a3)：用户的EvoNav / History to Future与本候选EvolveNav机制不一致，需确认指代；不可视为已经唯一匹配；未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；正式发表信息尚未在可靠会议/期刊来源确认。状态：待核实。
+- **JHU-ISI Gesture and Skill Assessment Working Set (JIGSAWS): A Surgical Activity Dataset for Human Motion Modeling** (p-0b20527a0147)：尚未逐项核验代码/数据/权重许可证与下载内容；精确首次公开日期未核实（不将年月伪造为某一天）。状态：重点详解。
+- **Toward next-generation autonomous structural health monitoring and inspection with humanoid robots** (p-0b551c73fc5b)：全文与关键实验图表未取得（出版社访问返回403）；作者机构、精确首发日期未核实；仅确认2026年4月卷44文章100007；视觉模型、训练数据/目标与完整评测指标未核实；代码/数据开放与许可未核实。状态：基础索引。
+- **A Review of Intent Detection, Arbitration, and Communication Aspects of Shared Control for Physical Human–Robot Interaction** (p-0b78576d9183)：尚未逐项核验代码/数据/权重许可证与下载内容；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **ProcTHOR: Large-Scale Embodied AI Using Procedural Generation** (p-0c497b2d55bd)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **An advanced medical robotic system augmenting healthcare capabilities - robotic nursing assistant** (p-0e4363f4b115)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造；精确首次公开日期未核实（不将年月伪造为某一天）；IEEE原始入口需交互验证/正文未取得；机械功能、控制实现和实测数据待核，不从标题猜测。。状态：基础索引。
+- **Walk With Me: Long-Horizon Social Navigation for Human-Centric Outdoor Assistance** (p-113f275da6df)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；正式发表信息尚未在可靠会议/期刊来源确认。状态：重点详解。
+- **3D-Mem: 3D Scene Memory for Embodied Exploration and Reasoning** (p-131c5f8fafc1)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **Framework for Integrating Large Language Models with a Robotic Health Attendant for Adaptive Task Execution in Patient Care** (p-1393adf0b03e)：尚未逐项核验代码/数据/权重许可证与下载内容。状态：重点详解。
+- **3D Gaussian Splatting for Real-Time Radiance Field Rendering** (p-14b5531a75e6)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Back to the Familiar Future: Failure Recovery for VLA Policies via Pre-Imagined Milestone Selection** (p-16b1e31b54ec)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **RAVEN: Long-Horizon Reasoning & Navigation with a Visuo-Spatio-Temporal Memory** (p-17049dc973c4)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Acceptability of Using a Robotic Nursing Assistant in Health Care Environments: Experimental Pilot Study** (p-189ee7f3757c)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **Move to Understand a 3D Scene: Bridging Visual Grounding and Exploration for Efficient and Versatile Embodied Navigation** (p-195b161ffdb0)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **Supervised autonomous robotic soft tissue surgery** (p-1a788dff39d0)：尚未逐项核验代码/数据/权重许可证与下载内容；全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造；Science Translational Medicine全文未成功取得；原表数值与完整实验次数未核实。。状态：基础索引。
+- **SRT-H: A Hierarchical Framework for Autonomous Surgery via Language Conditioned Imitation Learning** (p-1ab150890824)：尚未逐项核验代码/数据/权重许可证与下载内容。状态：重点详解。
+- **Explore until Confident: Efficient Exploration for Embodied Question Answering** (p-1bc406357bc2)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **Vision-and-Language Navigation: Interpreting visually-grounded navigation instructions in real environments** (p-245034be53d7)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **A Comprehensive Survey on Embodied Intelligence: Advancements, Challenges, and Future Perspectives** (p-281977beb698)：全文逐页/图表核验；出版社PDF获取失败；首次预印本公开时间；数据和代码不适用性待全文确认。状态：基础索引。
+- **Open X-Embodiment: Robotic Learning Datasets and RT-X Models** (p-2a555cc9b806)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **Boosting the hospital by integrating mobile robotic assistance systems: a comprehensive classification of the risks to be addressed** (p-2b77c6f5a106)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **Enablers and barriers to the implementation of socially assistive humanoid robots in health and social care: a systematic review** (p-2ba17ae070b3)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **WorldLines: Benchmarking and Modeling Long-Horizon Stateful Embodied Agents** (p-2bb5f7842d08)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation** (p-2bfe5df5413c)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **4DSurf: High-Fidelity Dynamic Scene Surface Reconstruction** (p-2ea21918bab7)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **ABot-Claw: A Foundation for Persistent, Cooperative, and Self-Evolving Robotic Agents** (p-2f85fc2530a3)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **2D Gaussian Splatting for Geometrically Accurate Radiance Fields** (p-2ffe439eb1ba)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Mem2Ego: Empowering Vision-Language Models with Global-to-Ego Memory for Long-Horizon Embodied Navigation** (p-30e2beb338d1)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Monocular Dynamic Gaussian Splatting: Fast, Brittle, and Scene Complexity Rules** (p-3209995b40ca)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **StreamSplat: Towards Online Dynamic 3D Reconstruction from Uncalibrated Video Streams** (p-34a5dbdb0d8c)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **FAST-EQA: Efficient Embodied Question Answering with Global and Local Region Relevancy** (p-3669b99e0ece)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Virtual Patient Simulations Using Social Robotics Combined With Large Language Models for Clinical Reasoning Training in Medical Education: Mixed Methods Study** (p-37498cced893)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **Dyna3: VLM-Guided Training-Free 4D Reconstruction via Depth Foundation Models** (p-387292d4cfe1)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。；未确认正式会议/期刊发表信息；仅以arXiv预印本标识。。状态：重点详解。
+- **HiMemVLN: Enhancing Reliability of Open-Source Zero-Shot Vision-and-Language Navigation with Hierarchical Memory System** (p-38c47880c5df)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；正式发表信息尚未在可靠会议/期刊来源确认。状态：重点详解。
+- **ViNT: A Foundation Model for Visual Navigation** (p-399432cc84b3)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **DRIVE-Nav: Directional Reasoning, Inspection, and Verification for Efficient Open-Vocabulary Navigation** (p-3ce25b8b47c9)：正式录用/发表状态未获可靠出版记录，保留预印本；全部episode样本量、资源许可未逐项核实。状态：重点详解。
+- **Mesh4D: 4D Mesh Reconstruction and Tracking from Monocular Video** (p-3da43536d4d1)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **EndoNet: A Deep Architecture for Recognition Tasks on Laparoscopic Videos** (p-3e47ed201a0f)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。；精确首次公开日期未核实，不将年月补写成某一天。。状态：重点详解。
+- **SurRoL: An Open-source Reinforcement Learning Centered and dVRK Compatible Platform for Surgical Robot Learning** (p-41eb2970e1f3)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **Holmes-VAU: Towards Long-term Video Anomaly Understanding at Any Granularity** (p-443fd392a2e5)：原文测试总数约数与分项合计存在差异，已显式注明；数据再分发与源监控数据许可证须分别核验。状态：重点详解。
+- **Creating Virtual Patients using Robots and Large Language Models: A Preliminary Study with Medical Students** (p-450f588def14)：尚未逐项核验代码/数据/权重许可证与下载内容；全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造；ACM全文未成功取得；KTH存档触发反机器人页面；逐题数字和实验流程仍待全文核实。。状态：基础索引。
+- **Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map** (p-467e63508912)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **SG-Nav: Online 3D Scene Graph Prompting for LLM-based Zero-shot Object Navigation** (p-47e661483270)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **MoSca: Dynamic Gaussian Fusion from Casual Videos via 4D Motion Scaffolds** (p-4a1242e127e6)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Socially Assistive Robots in Elderly Care: A Systematic Review into Effects and Effectiveness** (p-4cd69b2528d8)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。；本次使用作者学位论文中的正式文章重印章节；没有把学位论文其他章节结果并入该文章。；精确首次公开日期未核实，不将年月补写成某一天。。状态：重点详解。
+- **MoRe: Motion-aware Feed-forward 4D Reconstruction Transformer** (p-4e9a45d155a1)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **LiDAR-GS:Real-time LiDAR Re-Simulation using Gaussian Splatting** (p-4fd4f0f43eab)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。；未确认正式会议/期刊发表信息；仅以arXiv预印本标识。。状态：重点详解。
+- **Bridging the Indoor-Outdoor Gap: Vision-Centric Instruction-Guided Embodied Navigation for the Last Meters** (p-5087c1b337e5)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；正式发表信息尚未在可靠会议/期刊来源确认。状态：重点详解。
+- **Your Robot Therapist Will See You Now: Ethical Implications of Embodied Artificial Intelligence in Psychiatry, Psychology, and Psychotherapy** (p-50affbc9aa8f)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **Dynamic Gaussians Mesh: Consistent Mesh Reconstruction from Dynamic Scenes** (p-50ec2ef82c5e)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **PaLM-E: An Embodied Multimodal Language Model** (p-51ba944f84ed)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **A Confidence-Based Shared Control Strategy for the Smart Tissue Autonomous Robot (STAR)** (p-558433df414d)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。；精确首次公开日期未核实，不将年月补写成某一天。。状态：重点详解。
+- **SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation** (p-57fca4f321a9)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **Harness Handbook: Making Evolving Agent Harnesses Readable,Navigable, and Editable** (p-59c1b7374cbc)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **ReEXplore: Improving MLLMs for Embodied Exploration with Contextualized Retrospective Experience Replay** (p-5a4e947c6397)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Conversational Affective Social Robots for Ageing and Dementia Support** (p-5b574ed984f6)：尚未逐项核验代码/数据/权重许可证与下载内容；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。；精确首次公开日期未核实，不将年月补写成某一天。。状态：重点详解。
+- **RoomTour3D: Geometry-Aware Video-Instruction Tuning for Embodied Navigation** (p-5e8c6e320f51)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Leveraging Geometric Priors for Unaligned Scene Change Detection** (p-619a6d33c8f9)：ICRA发表信息由作者官方仓库确认，会议出版DOI尚未核实；所有资源许可证未逐项核实。状态：重点详解。
+- **CMMR-VLN: Vision-and-Language Navigation via Continual Multimodal Memory Retrieval** (p-653ff869670f)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；式 (3) 的注意力投影参数训练方式未说明。；Table II 消融完整方法 SR=56，与 Table I 的 52 不同，不能视为同一实验数字。；正式发表信息尚未在可靠会议/期刊来源确认。状态：重点详解。
+- **Adaptive Ergodic Search with Energy-Aware Scheduling for Persistent Multi-Robot Missions** (p-655ea3c2a4f6)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **Beyond the Destination: A Novel Benchmark for Exploration-Aware Embodied Question Answering** (p-666d1f5c285c)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **MoVieS: Motion-Aware 4D Dynamic View Synthesis in One Second** (p-672aaae4a2d7)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **The Future of Intelligent Healthcare: A Systematic Analysis and Discussion on the Integration and Impact of Robots Using Large Language Models for Healthcare** (p-67e172cf580b)：尚未逐项核验代码/数据/权重许可证与下载内容；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **An Assessment of an Inpatient Robotic Nurse Assistant: A Mixed-Method Study** (p-707278ba1b65)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control** (p-718502fca05a)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Autonomous robotic laparoscopic surgery for intestinal anastomosis** (p-7572fd195855)：尚未逐项核验代码/数据/权重许可证与下载内容。状态：重点详解。
+- **3D VSG: Long-term Semantic Scene Change Prediction through 3D Variable Scene Graphs** (p-7615f32ae45a)：模型与源数据许可证未逐项核实。状态：重点详解。
+- **Socially assistive robots for people with dementia: Systematic review and meta-analysis of feasibility, acceptability and the effect on cognition, neuropsychiatric symptoms and quality of life** (p-7a01480c0f29)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。；精确首次公开日期未核实，不将年月补写成某一天。。状态：重点详解。
+- **Object Goal Navigation using Goal-Oriented Semantic Exploration** (p-7a17536245b6)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **TrajRAG: Retrieving Geometric-Semantic Experience for Zero-Shot Object Navigation** (p-7c7dafb2b344)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **A Survey of Embodied AI: From Simulators to Research Tasks** (p-7ca2f30fdde2)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **A Hierarchical Approach with Crisis Mitigation for Multi-Robot Spatio-Temporal Restoration** (p-7f5ff67c08d8)：首次预印本日期未核实，仅确认AAMAS2026出版；Fig5危机增益未取得精确原始数据；未伪造图表精度。状态：重点详解。
+- **Supervised Autonomous Electrosurgery via Biocompatible Near-Infrared Tissue Tracking Techniques** (p-80de6b6e7be7)：尚未逐项核验代码/数据/权重许可证与下载内容；精确首次公开日期未核实（不将年月伪造为某一天）。状态：重点详解。
+- **C3-Bench: A Context-Aware Change Captioning Benchmark** (p-81232111673b)：ECCV状态由作者官方仓库声明，正式出版页面未逐项回查；源图像许可证、全部划分细节待核实。状态：重点详解。
+- **Deformable 3D Gaussians for High-Fidelity Monocular Dynamic Scene Reconstruction** (p-8588e4b96e61)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **MotionCrafter: Dense Geometry and Motion Reconstruction with a 4D VAE** (p-85fa9b6d2cff)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Beyond the Nav-Graph: Vision-and-Language Navigation in Continuous Environments** (p-88eb93ee13bd)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **RoboTHOR: An Open Simulation-to-Real Embodied AI Platform** (p-89a5b8a2d8fb)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **GS-LIVM: Real-Time Photo-Realistic LiDAR-Inertial-Visual Mapping with Gaussian Splatting** (p-8cd89ffbe2d5)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Embodied Intelligence: A Synergy of Morphology, Action, Perception and Learning** (p-8d6162ee79c9)：全文逐节/原图表核验；早期在线与最终出版日期口径；首次公开版本日期。状态：基础索引。
+- **Robot-assisted training compared with an enhanced upper limb therapy programme and with usual care for upper limb functional limitation after stroke: the RATULS three-group RCT** (p-8f064b7d1ce2)：尚未逐项核验代码/数据/权重许可证与下载内容；精确首次公开日期未核实（不将年月伪造为某一天）。状态：重点详解。
+- **Diffusion Policy: Visuomotor Policy Learning via Action Diffusion** (p-8faea6ac20b1)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **SplatReasoner: Enhancing Embodied Reasoning and Grounding by Novel View Synthesis** (p-91f1ecb94809)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **Thinking with Images for Multimodal Reasoning: Foundations, Methods, and Future Frontiers** (p-92fc3b4045b7)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **Embodied Artificial Intelligence in Healthcare: A Systematic Review of Robotic Perception, Decision-Making, and Clinical Impact** (p-94683eaafdcc)：尚未逐项核验代码/数据/权重许可证与下载内容。状态：重点详解。
+- **GraphPad: Inference-Time 3D Scene Graph Updates for Embodied Question Answering** (p-95aeaa24987a)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **History to Future: Evolving Agent with Experience and Thought for Zero-shot Vision-and-Language Navigation** (p-962498b14e89)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **Memory-Centric Embodied Question Answering** (p-9954554b77cf)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **MSGNav: Unleashing the Power of Multi-modal 3D Scene Graph for Zero-Shot Embodied Navigation** (p-9bac8e0e6461)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **IndusAgent: Reinforcing Open-Vocabulary Industrial Anomaly Detection with Agentic Tools** (p-9ec8c2e5f995)：具体冻结范围/训练计算资源需逐项回查；官方代码/权重URL未可靠定位；正式发表信息未核实，保留预印本。状态：重点详解。
+- **RoboNurse-VLA: Robotic Scrub Nurse System based on Vision-Language-Action Model** (p-a072272a4f0b)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **Uni-LaViRA: Language-Vision-Robot Actions Translation for Unified Embodied Navigation** (p-a2ae5d358c9c)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Robotic Control via Embodied Chain-of-Thought Reasoning** (p-aa67a577f682)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Qwen-RobotNav Technical Report: A Scalable Navigation Model Designed for an Agentic Navigation System** (p-ab1fd5bd54af)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；正式发表信息尚未在可靠会议/期刊来源确认。状态：重点详解。
+- **D3D-VLP: Dynamic 3D Vision-Language-Planning Model for Embodied Grounding and Navigation** (p-ab4137ccf421)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **Surgical embodied intelligence for generalized task autonomy in laparoscopic robot-assisted surgery** (p-abb80176560e)：尚未逐项核验代码/数据/权重许可证与下载内容；全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造；Science Robotics正文/补充材料未取得可完整核读版本，成功率、消融、冻结与训练细节仍待核实。。状态：基础索引。
+- **Application management and effectiveness analysis of intelligent logistics robots in hospital drug and specimen delivery scenarios** (p-adc371218d43)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **Habitat Synthetic Scenes Dataset (HSSD-200): An Analysis of 3D Scene Scale and Realism Tradeoffs for ObjectGoal Navigation** (p-af9ba9589496)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **Stay on the Path: Instruction Fidelity in Vision-and-Language Navigation** (p-b02ad9650d2c)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **MOSAIC-GS: Monocular Scene Reconstruction via Advanced Initialization for Complex Dynamic Environments** (p-b3b2d9ca757f)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **CoT-VLA: Visual Chain-of-Thought Reasoning for Vision-Language-Action Models** (p-b5c3179530a0)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Task Decomposition and Self-Evaluation Mechanisms for Home Healthcare Robots Using Large Language Models** (p-b5c70c19c319)：尚未逐项核验代码/数据/权重许可证与下载内容；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。；精确统计口径与正文97.3%/作者版表计数差异需以正式最终版和作者勘误进一步确认。；精确首次公开日期未核实，不将年月补写成某一天。。状态：重点详解。
+- **MapNav: A Novel Memory Representation via Annotated Semantic Maps for Vision-and-Language Navigation** (p-b626bd59e0fb)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **HIMM: Human-Inspired Long-Term Memory Modeling for Embodied Exploration and Question Answering** (p-b7e0eb0ae7a4)：额外参数训练范围；正式会议目录、资源与许可核验。状态：重点详解。
+- **REVERIE: Remote Embodied Visual Referring Expression in Real Indoor Environments** (p-bc635c0cef0e)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **SpaceVLN: A Zero-Shot Vision-and-Language Navigation Agent with Online Spatial Cognitive Memory and Reasoning** (p-bc652274b6b3)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Feeding, grooming, dressing, and body repositioning: categorizing four pillars of learning-based manipulation for robotic caregiving** (p-bfcf1fb0dc66)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **MegaSaM: Accurate, Fast, and Robust Structure and Motion from Casual Dynamic Videos** (p-c0e3911c11b4)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Artificial Intelligence and the Future of Surgical Robotics** (p-c13d7b91e6b4)：尚未逐项核验代码/数据/权重许可证与下载内容；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。；精确首次公开日期未核实，不将年月补写成某一天。。状态：重点详解。
+- **Autonomous Laparoscopic Robotic Suturing with a Novel Actuated Suturing Tool and 3D Endoscope** (p-c1ad098b2a22)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；精确首次公开日期未核实（不将年月伪造为某一天）。状态：重点详解。
+- **A Survey on Vision-Language-Action Models for Embodied AI** (p-c240762f60ca)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation** (p-c9c5dc03e2a3)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；正式发表信息尚未在可靠会议/期刊来源确认。状态：重点详解。
+- **UniGoal: Towards Universal Zero-shot Goal-oriented Navigation** (p-cb5caf94cd61)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **MoDGS: Dynamic Gaussian Splatting from Casually-captured Monocular Videos with Depth Priors** (p-cd878abbdc6e)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Room-Across-Room: Multilingual Vision-and-Language Navigation with Dense Spatiotemporal Grounding** (p-cdc3a13da2fb)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **ActiveArena: Benchmarking and Understanding Active Perception in Robotic Manipulation** (p-cec390561363)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **TANGO: Training-free Embodied AI Agents for Open-world Tasks** (p-d282554905ff)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查。状态：重点详解。
+- **VLingNav: Embodied Navigation with Adaptive Reasoning and Visual-Assisted Linguistic Memory** (p-d54de00b55ef)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；正式发表信息尚未在可靠会议/期刊来源确认；project原文入口本轮访问返回404，当前不能确认资源公开可用。状态：重点详解。
+- **OmniRe: Omni Urban Scene Reconstruction** (p-d683b4b81795)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Embodied large language models enable robots to complete complex tasks in unpredictable environments** (p-d7e5fccd7811)：正式出版与机构的独立交叉核验；资源内容、许可证和复现条件逐项检查。状态：重点详解。
+- **GraphEQA: Using 3D Semantic Scene Graphs for Real-time Embodied Question Answering** (p-d82360cea73f)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Bridging the 2D-3D Gap: A Hierarchical Semantic-Geometric Map for Vision Language Navigation** (p-da862dc60771)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；主表与消融的 Full Model 数值不同，原文没有在表内解释全部差异，分别保留设置，不能替换。。状态：重点详解。
+- **Persistent Monitoring of Large Environments with Robot Deployment Scheduling in between Remote Sensing Cycles** (p-db9cbaf48a92)：首次公开日期与作者代码仓库未核实；图5估读仅约数；精确原始统计未公开/未获取。状态：重点详解。
+- **3DLLM-Mem: Long-Term Spatial-Temporal Memory for Embodied 3D Large Language Model** (p-dd8050bafc94)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Affordances-Oriented Planning using Foundation Models for Continuous Vision-Language Navigation** (p-dde64313836d)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Case studies on the usability, acceptability and functionality of autonomous mobile delivery robots in real-world healthcare settings** (p-dea76964f2d9)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；全文具体实现、训练和原始图表尚未完整核读；未确认数值不补造；出版商只开放摘要与图预览；完整研究方法/统计表尚未取得。；原文Data availability称因伦理要求不能共享数据。。状态：基础索引。
+- **Visual Planning: Let's Think Only with Images** (p-dedfde9d7c99)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **A3VLM: Actionable Articulation-Aware Vision Language Model** (p-e1464426d0ea)：全部训练数据量与下载许可未逐项核实；CoRL会议年2024与论文集出版年2025已分开注明；Table2 A3VLM已见AVG0.91与显示20类别简单均值约0.731不一致；未找到权重说明，保留原值并标明疑点。状态：重点详解。
+- **Changes in Real Time: Online Scene Change Detection with Multi-View Fusion** (p-e3ae85d6e4bd)：资源许可证与完整下载包未逐项核验。状态：重点详解。
+- **Active Perception: Interactive Manipulation for Improving Object Detection** (p-e41916babd5f)：正式出版载体与首次公开日期；检测训练集、资源许可和完整复现环境。状态：重点详解。
+- **DecoVLN: Decoupling Observation, Reasoning, and Correction for Vision-and-Language Navigation** (p-e5c7705b9332)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks** (p-e5e3d322b847)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **VSCD: Video-based Scene Change Detection in Unaligned Scenes** (p-e792ec2c3692)：合成各划分精确规模与源场景资产许可待逐项核实。状态：重点详解。
+- **AHA: A Vision-Language-Model for Detecting and Reasoning Over Failures in Robotic Manipulation** (p-ea5179b8da3b)：会议版与arXiv v1实验数值未逐项对齐；本页明确采用v1；模型权重与数据许可证未逐项核实。状态：重点详解。
+- **A Dataset and Benchmarks for Segmentation and Recognition of Gestures in Robotic Surgery** (p-eb0ae2ffd3a5)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；精确首次公开日期未核实（不将年月伪造为某一天）。状态：重点详解。
+- **IndustryEQA: Pushing the Frontiers of Embodied Question Answering in Industrial Scenarios** (p-eb1ccf5871a6)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Assistive Robots for the Social Management of Health: A Framework for Robot Design and Human–Robot Interaction Research** (p-ef0a96baa464)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实；资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。。状态：重点详解。
+- **Towards Learning a Generalist Model for Embodied Navigation** (p-ef8bc5541e53)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **A survey on robotic devices for upper limb rehabilitation** (p-f1aafe7579f2)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **Assistive Gym: A Physics Simulation Framework for Assistive Robotics** (p-f206a8702d35)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **Matterport3D: Learning from RGB-D Data in Indoor Environments** (p-f5a588433cb2)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models** (p-f5ef0ae35b12)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Code as Policies: Language Model Programs for Embodied Control** (p-f5f3a21f9f89)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Interleave-VLA: Enhancing Robot Manipulation with Interleaved Image-Text Instructions** (p-fa3b62e4c9cb)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **BeliefMapNav: 3D Voxel-Based Belief Map for Zero-Shot Object Navigation** (p-fba57d822a08)：未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现；未摘录的逐层冻结配置、算力与自述局限应继续回查；当前数值来自 arXiv v1，与 NeurIPS 定稿摘要的增益不一致；下一次维护应并列核验最终版本，不能用摘要增益倒推数字。。状态：重点详解。
+- **Street Gaussians: Modeling Dynamic Urban Scenes with Gaussian Splatting** (p-fc7e30888833)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **Chain-of-Visual-Thought: Teaching VLMs to See and Think Better with Continuous Visual Tokens** (p-fd7a47f38ca1)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Active Spatial Inspection for Effective and Efficient Embodied Exploration** (p-fe38d46e48e7)：代码声明可用，但本次未定位到可靠官方仓库URL；正式发表状态和资源许可证未核实。状态：重点详解。
+- **From Screens to Scenes: A Survey of Embodied AI in Healthcare** (p-fee1c4a56d18)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
+- **RT-1: Robotics Transformer for Real-World Control at Scale** (p-ff38a5c7fa4c)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Towards Active Real-to-Twin Inspection: A New Paradigm for Zero-Shot Anomaly Detection** (realtwin)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
+- **ReMEmbR: Building and Reasoning Over Long-Horizon Spatio-Temporal Memory for Robot Navigation** (remembr)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **RoboHarness: A Memory-Augmented Policy Harness for Vision-Language-Action Model Robustness via In-Context Adaptation** (roboharness-memory)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **RoboHarness: Memory-Driven Orchestration of Heterogeneous Robot Policies for Long-Horizon Planning** (roboharness-routing)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **Semantically-driven Deep Reinforcement Learning for Inspection Path Planning** (semantic-inspection)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
+- **Shape of Motion: 4D Reconstruction from a Single Video** (shape-of-motion)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **TypeGo: An OS Runtime for Embodied Agents** (typego)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。

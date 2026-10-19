@@ -1,0 +1,207 @@
+{
+  "id": "p-17049dc973c4",
+  "title": "RAVEN: Long-Horizon Reasoning & Navigation with a Visuo-Spatio-Temporal Memory",
+  "short": "RAVEN",
+  "aliases": [
+    "RAVEN: Long-Horizon Reasoning & Navigation with a Visuo-Spatio-Temporal Memory",
+    "RAVEN"
+  ],
+  "authors": [
+    "Hu, Yixun",
+    "Zheng, Zhicheng",
+    "Zha, Lihan",
+    "Xing, Chunwei",
+    "Singh, Rajdeep",
+    "Hossain, Omar",
+    "Loquercio, Antonio",
+    "Shah, Dhruv"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-06-23",
+  "updated": "2026-06-23",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "历史检索"
+    ],
+    "paradigm": [
+      "VLM",
+      "3D/4D 表征"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "四足机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "把视觉嵌入、位姿与时间联合存入向量记忆，让Agent通过多种检索工具完成长程问答与导航。",
+  "method": {
+    "explanation": "RAVEN 先探索并建立记忆，在查询阶段基于已有记忆推理，不假设可以再探索补证。每条观察保存图像嵌入、时间和位姿，避免先转为caption再检索带来的细节损失。Agent根据证据充分性循环调用文本、图像、时间和位置检索，找到支撑答案或目标位置的图像；导航时再将结果落到空间地图和机器人控制。FindingDory表中的高层检索/推理成功不是完整闭环机器人导航成功率。",
+    "input": "语言查询、带位姿时间的视觉记忆",
+    "output": "答案或目标位置",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "把视觉嵌入、位姿与时间联合存入向量记忆，让Agent通过多种检索工具完成长程问答与导航。",
+    "flow": [
+      "时空视觉记忆写入",
+      "Agent多工具检索",
+      "证据回答与目标导航"
+    ],
+    "modules": [
+      {
+        "name": "时空视觉记忆写入",
+        "purpose": "保留可检索细节与定位依据",
+        "mechanism": "将探索帧编码为视觉嵌入，关联时间戳和位姿写入向量数据库，并与空间地图对齐。",
+        "sourceUrl": "https://arxiv.org/html/2606.25206",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "Agent多工具检索",
+        "purpose": "支持语义、时空与多跳问题",
+        "mechanism": "维护当前工作上下文，按需调用文本相似、图像相似、时间连续和空间近邻工具，逐步补充证据。",
+        "sourceUrl": "https://arxiv.org/html/2606.25206",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "证据回答与目标导航",
+        "purpose": "把检索结果变成可验证输出",
+        "mechanism": "证据充分时回答或选定目标位置，空间地图负责定位与导航接口；部署演示使用Unitree Go1。",
+        "sourceUrl": "https://arxiv.org/html/2606.25206",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "无额外训练；嵌入模型与推理模型组合",
+    "models": "QQMM-v2等嵌入器、闭源/开源VLM、向量数据库",
+    "trainable": "非参数记忆与检索状态更新",
+    "frozen": "嵌入/推理基础模型",
+    "data": "先探索建立记忆，再以记忆回答查询；RAVEN-QA与FindingDory评测",
+    "objective": "工具检索与Agent推理，无新增机器人训练目标",
+    "stages": "探索写入 → 记忆工具循环 → 回答/目标定位 → 下层导航"
+  },
+  "evaluation": [
+    {
+      "benchmark": "FindingDory 高层长程记忆评测",
+      "setting": "Table 2，FindingDory完整100视频/5870查询及长程10视频/596查询；数值为高层记忆推理/目标任务成绩。",
+      "result": "长程子集QQMM-v2 overall32.2%，caption QQMM-v2 25.0%；完整集35.1%对27.2%，但全上下文VLM为38.2%。",
+      "sourceUrl": "https://arxiv.org/html/2606.25206",
+      "locator": "Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "子集 / 指标",
+          "RAVEN QQMM-v2",
+          "Caption QQMM-v2",
+          "全上下文VLM"
+        ],
+        "rows": [
+          [
+            "长程10视频 Overall (%)",
+            "32.2",
+            "25.0",
+            "28.2"
+          ],
+          [
+            "完整100视频 Overall (%)",
+            "35.1",
+            "27.2",
+            "38.2"
+          ],
+          [
+            "长程取回记忆比例 (%)",
+            "7.43",
+            "11.17",
+            "100"
+          ],
+          [
+            "完整取回记忆比例 (%)",
+            "10.0",
+            "16.5",
+            "100.0"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "原文未来方向包括针对机器人任务微调嵌入，以及随环境变化更新和剪枝记忆。"
+    ],
+    "analysis": [
+      "记忆检索主要节省上下文成本；原表完整FindingDory中RAVEN低于VLM Only，不能表述为所有长程设置超越全上下文模型。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.25206",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / RAVEN: Long-Horizon Reasoning & Navigation with a Visuo-Spatio-Temporal Memory",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2606.25206",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2606.25206",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p17049dc973c42026,\n title={RAVEN: Long-Horizon Reasoning & Navigation with a Visuo-Spatio-Temporal Memory},\n author={Hu, Yixun and Zheng, Zhicheng and Zha, Lihan and Xing, Chunwei and Singh, Rajdeep and Hossain, Omar and Loquercio, Antonio and Shah, Dhruv},\n year={2026},\n url={https://arxiv.org/abs/2606.25206}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "RAVEN 先探索并建立记忆，在查询阶段基于已有记忆推理，不假设可以再探索补证。每条观察保存图像嵌入、时间和位姿，避免先转为caption再检索带来的细节损失。Agent根据证据充分性循环调用文本、图像、时间和位置检索，找到支撑答案或目标位置的图像；导航时再将结果落到空间地图和机器人控制。FindingDory表中的高层检索/推理成功不是完整闭环机器人导航成功率。",
+  "verificationLevel": "fulltext"
+}

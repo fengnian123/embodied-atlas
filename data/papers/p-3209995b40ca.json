@@ -1,0 +1,273 @@
+{
+  "id": "p-3209995b40ca",
+  "title": "Monocular Dynamic Gaussian Splatting: Fast, Brittle, and Scene Complexity Rules",
+  "short": "MonoDyGauBench",
+  "aliases": [],
+  "authors": [
+    "Yiqing Liang",
+    "Mikhail Okunev",
+    "Mikaela Angelina Uy",
+    "Runfeng Li",
+    "Leonidas Guibas",
+    "James Tompkin",
+    "Adam W. Harley"
+  ],
+  "institutions": [
+    "Brown University",
+    "Stanford University",
+    "NVIDIA"
+  ],
+  "firstPublished": "2024-12-05",
+  "updated": "2025-06-07",
+  "publicationYear": 2025,
+  "venue": "TMLR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "把不同动态高斯运动表达放进统一代码与多数据集协议，区分算法差异、场景难度和自适应增密带来的不稳定。",
+  "method": {
+    "input": "D-NeRF、Nerfies、HyperNeRF、NeRF-DS、iPhone 及受控合成数据",
+    "output": "质量、速度、训练耗时与稳定性的统一对照",
+    "flow": [
+      "运动表达归类",
+      "统一实验与控制变量",
+      "复杂度与失败分析"
+    ],
+    "assumptions": "这里是方法分析/Benchmark 论文；原实现与统一实现的设置差异需保留。",
+    "difference": "研究各类运动模型的可比性，避免从不同原论文的分数直接推断优劣。",
+    "explanation": "把不同动态高斯运动表达放进统一代码与多数据集协议，区分算法差异、场景难度和自适应增密带来的不稳定。 研究各类运动模型的可比性，避免从不同原论文的分数直接推断优劣。 将方法分成逐帧、原生 4D 和 3D+运动，统一比较多项式/Fourier、RBF、MLP 与 HexPlane。 共享高斯优化组件，保留合成/真实设置；包含静态 3DGS 与 TiNeuVox 对照，报告多个真实/合成数据集。 拆分相机基线、运动强度、相机误差、反光与前景比例；检测自适应增密不稳定和静态背景对全图指标的掩盖。",
+    "modules": [
+      {
+        "name": "运动表达归类",
+        "purpose": "明确比较究竟改变了什么",
+        "mechanism": "将方法分成逐帧、原生 4D 和 3D+运动，统一比较多项式/Fourier、RBF、MLP 与 HexPlane。",
+        "input": "代表方法及官方实现",
+        "output": "同框架运动模型组"
+      },
+      {
+        "name": "统一实验与控制变量",
+        "purpose": "降低非核心实现差异",
+        "mechanism": "共享高斯优化组件，保留合成/真实设置；包含静态 3DGS 与 TiNeuVox 对照，报告多个真实/合成数据集。",
+        "input": "统一实现、训练视图和相机",
+        "output": "同协议质量/效率结果"
+      },
+      {
+        "name": "复杂度与失败分析",
+        "purpose": "解释排名随数据集改变",
+        "mechanism": "拆分相机基线、运动强度、相机误差、反光与前景比例；检测自适应增密不稳定和静态背景对全图指标的掩盖。",
+        "input": "逐场景渲染和消融",
+        "output": "适用边界与失败证据"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "各比较方法对应的高斯和运动模块",
+    "trainable": "各比较方法对应的高斯和运动模块",
+    "frozen": "不适用：不训练 VLM",
+    "data": "五个公开动态数据集与受控合成场景",
+    "objective": "依照统一框架的图像重建目标",
+    "stages": "继承并统一 3DGS 超参数，按原工作区分合成/真实场景；表 2 是跨五数据集汇总"
+  },
+  "evaluation": [
+    {
+      "benchmark": "五数据集统一复评",
+      "setting": "D-NeRF/Nerfies/HyperNeRF/NeRF-DS/iPhone汇总；是本文统一实现，不等于各方法原论文结果；FPS取本文实验设置。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "五数据集统一复评 · Table 2",
+        "columns": [
+          "方法",
+          "PSNR↑",
+          "SSIM↑",
+          "MS-SSIM↑",
+          "LPIPS↓",
+          "FPS↑",
+          "TrainTime (s)↓"
+        ],
+        "rows": [
+          [
+            "TiNeuVox",
+            "24.54",
+            "0.706",
+            "0.804",
+            "0.349",
+            "0.29",
+            "2664.89"
+          ],
+          [
+            "DeformableGS",
+            "24.07",
+            "0.694",
+            "0.755",
+            "0.283",
+            "20.2",
+            "6227.43"
+          ],
+          [
+            "4DGS",
+            "23.55",
+            "0.708",
+            "0.765",
+            "0.277",
+            "62.99",
+            "8628.89"
+          ],
+          [
+            "RTGS",
+            "21.61",
+            "0.663",
+            "0.72",
+            "0.35",
+            "143.37",
+            "7352.52"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2412.04457v2",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "真实场景复杂度常掩盖运动表达本身的差异；反光、相机误差和增密会影响结果。"
+    ],
+    "analysis": [
+      "跨五数据集平均仅复述本文汇总协议，不作为全站跨论文排行榜。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2412.04457",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://brownvc.github.io/MonoDyGauBench.github.io/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/lynl7130/MonoDyGauBench_code",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / Monocular Dynamic Gaussian Splatting: Fast, Brittle, and Scene Complexity Rules",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2412.04457",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2412.04457v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://brownvc.github.io/MonoDyGauBench.github.io/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/lynl7130/MonoDyGauBench_code",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{241204457,\n  title = {Monocular Dynamic Gaussian Splatting: Fast, Brittle, and Scene Complexity Rules},\n  author = {Liang, Yiqing and Okunev, Mikhail and Uy, Mikaela Angelina and Li, Runfeng and Guibas, Leonidas and Tompkin, James and Harley, Adam W.},\n  year = {2024},\n  eprint = {2412.04457},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2412.04457}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "把不同动态高斯运动表达放进统一代码与多数据集协议，区分算法差异、场景难度和自适应增密带来的不稳定。 研究各类运动模型的可比性，避免从不同原论文的分数直接推断优劣。 这里是方法分析/Benchmark 论文；原实现与统一实现的设置差异需保留。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。",
+  "benchmark": {
+    "motivation": "统一动态高斯运动模型实现，分离数据难度和实现细节。",
+    "task": "单目动态新视角质量、优化稳定性与效率复评。",
+    "input": "五个动态数据集的图像/时间/相机，另有受控合成数据。",
+    "output": "渲染结果、速度、训练耗时与消融。",
+    "actions": "不适用：离线重建。",
+    "success": "没有二元成功判据，分别测质量和效率。",
+    "collection": "整合公开D-NeRF/Nerfies/HyperNeRF/NeRF-DS/iPhone，新增受控合成序列隔离运动/相机等因素。",
+    "scale": "主表2汇总五个数据集；具体序列口径见附录，不把数据集数当独立场景数。",
+    "split": "沿数据集原始训练/测试视图，每个场景独立拟合；受控合成实验另分协议。",
+    "metrics": "PSNR、SSIM、MS-SSIM、LPIPS、FPS、训练秒数及稳定性。",
+    "baselines": "3DGS、TiNeuVox和五种动态运动路线：多项式/Fourier、RBF、MLP、HexPlane、原生4D。",
+    "assets": "统一代码、数据与实验配置入口见官方项目/仓库。",
+    "license": "各原始数据与统一代码的授权分别核查，本站未统一声明。",
+    "reproduction": "大量逐场景训练；须固定运动模型外的共享实现与配置。",
+    "coverage": "评估运动表达与重建复杂度，分析自适应增密不稳定。",
+    "boundary": "不是机器人策略基准，也不验证可交互Mesh资产。",
+    "leakage": "相机误差、前景比例、训练采集有效基线均可造成混淆；不同公开协议需单独报告。"
+  }
+}

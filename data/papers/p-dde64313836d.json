@@ -1,0 +1,197 @@
+{
+  "id": "p-dde64313836d",
+  "title": "Affordances-Oriented Planning using Foundation Models for Continuous Vision-Language Navigation",
+  "short": "AO-Planner",
+  "aliases": [
+    "AO-Planner: Affordances-Oriented Planning Using Foundation Models...",
+    "AO-Planner"
+  ],
+  "authors": [
+    "Chen, Jiaqi",
+    "Lin, Bingqian",
+    "Liu, Xinmin",
+    "Ma, Lin",
+    "Liang, Xiaodan",
+    "Wong, Kwan-Yee K."
+  ],
+  "institutions": [
+    "The University of Hong Kong",
+    "Shenzhen Campus of Sun Yat-sen University",
+    "Meituan"
+  ],
+  "firstPublished": "2024-07-08",
+  "updated": "2024-08-20",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM",
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "真实采集资产"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用可通行地面提示生成二维候选路径，再以视觉高层Agent选路并反投影到三维。",
+  "method": {
+    "explanation": "AO-Planner 从SAM分割得到可通行地面，把候选路径和航点标在图像上，让基础模型在可见且几何可执行的空间做选择。高层PathAgent结合指令和场景在标注图中选路线，深度和相机内参负责把二维选择转换为三维控制目标，避免要求LLM直接臆测三维坐标。论文还可把零样本规划器作为教师生成伪标注训练waypoint predictor，因此零样本主系统和蒸馏后的监督配置必须分开。",
+    "input": "导航指令、RGB-D与可通行区域",
+    "output": "2D路径及三维航点",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用可通行地面提示生成二维候选路径，再以视觉高层Agent选路并反投影到三维。",
+    "flow": [
+      "Visual Affordances Prompting",
+      "PathAgent路径选择",
+      "几何执行与教师蒸馏"
+    ],
+    "modules": [
+      {
+        "name": "Visual Affordances Prompting",
+        "purpose": "约束可走区域",
+        "mechanism": "SAM识别可见地面，叠加候选点/可行路径，为视觉语言推理提供可执行性提示。",
+        "sourceUrl": "https://arxiv.org/html/2407.05890",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "PathAgent路径选择",
+        "purpose": "把指令落到当前可见路径",
+        "mechanism": "将候选路径绘制到图像，Agent理解指令进度与环境后选择最可能通向目标的路径。",
+        "sourceUrl": "https://arxiv.org/html/2407.05890",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "几何执行与教师蒸馏",
+        "purpose": "把2D规划接到控制并可生成伪标签",
+        "mechanism": "通过深度和内参反投影路径到3D；可用规划结果标注waypoint训练数据，形成有监督蒸馏变体。",
+        "sourceUrl": "https://arxiv.org/html/2407.05890",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "零样本基础模型推理；另有waypoint蒸馏训练",
+    "models": "SAM、语言/视觉基础模型、PathAgent",
+    "trainable": "主零样本系统不训练；蒸馏变体训练waypoint predictor",
+    "frozen": "基础模型推理参数",
+    "data": "零样本主配置不需导航策略训练；蒸馏用伪标签",
+    "objective": "路径提示选择；变体用伪标注监督",
+    "stages": "可供性提示 → 路径选择 → 2D到3D → 执行；可选离线蒸馏"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE / RxR-CE Val-Unseen",
+      "setting": "Table 1零样本行与监督行分开；R2R/RxR val-unseen。",
+      "result": "零样本R2R SR25.5/SPL16.6、RxR22.4/15.1；监督/蒸馏配置为47/33与43.3/30.5。",
+      "sourceUrl": "https://arxiv.org/html/2407.05890",
+      "locator": "Table 1",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "配置",
+          "R2R SR / SPL (%)",
+          "RxR SR / SPL (%)"
+        ],
+        "rows": [
+          [
+            "AO-Planner零样本",
+            "25.5 / 16.6",
+            "22.4 / 15.1"
+          ],
+          [
+            "AO-Planner监督/蒸馏",
+            "47 / 33",
+            "43.3 / 30.5"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "同一名称在Table 1出现监督与零样本两行；使用47% SR来代表纯零训练配置会产生错误结论。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2407.05890",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / AO-Planner: Affordances-Oriented Planning Using Foundation Models...",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2407.05890",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2407.05890",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pdde64313836d2024,\n title={Affordances-Oriented Planning using Foundation Models for Continuous Vision-Language Navigation},\n author={Chen, Jiaqi and Lin, Bingqian and Liu, Xinmin and Ma, Lin and Liang, Xiaodan and Wong, Kwan-Yee K.},\n year={2024},\n url={https://arxiv.org/abs/2407.05890}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "R2R-CE、RxR-CE",
+      "comparisons": "supervised：SASRA、Seq2Seq、LAW、DC-VLN、NaVid、ETPNav；    Zero-shot：CLIP-Nav、Seq CLIP-Nav、CoW、ZSON、A2Nav",
+      "training": "包含两种版本：主要的Zero-shot AO-Planner为training-free foundation-model方案；另有用LLM伪标签蒸馏得到的监督waypoint predictor版本。",
+      "resourceClaim": "是"
+    }
+  ],
+  "overview": "AO-Planner 从SAM分割得到可通行地面，把候选路径和航点标在图像上，让基础模型在可见且几何可执行的空间做选择。高层PathAgent结合指令和场景在标注图中选路线，深度和相机内参负责把二维选择转换为三维控制目标，避免要求LLM直接臆测三维坐标。论文还可把零样本规划器作为教师生成伪标注训练waypoint predictor，因此零样本主系统和蒸馏后的监督配置必须分开。",
+  "verificationLevel": "fulltext"
+}

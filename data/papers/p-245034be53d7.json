@@ -1,0 +1,253 @@
+{
+  "id": "p-245034be53d7",
+  "title": "Vision-and-Language Navigation: Interpreting visually-grounded navigation instructions in real environments",
+  "short": "R2R",
+  "aliases": [
+    "Vision-and-Language Navigation: Interpreting Visually-Grounded Navigation Instructions in Real Environments"
+  ],
+  "authors": [
+    "Peter Anderson",
+    "Qi Wu",
+    "Damien Teney",
+    "Jake Bruce",
+    "Mark Johnson",
+    "Niko Sünderhauf",
+    "Ian Reid",
+    "Stephen Gould",
+    "Anton van den Hengel"
+  ],
+  "institutions": [
+    "Australian National University",
+    "University of Adelaide",
+    "Queensland University of Technology",
+    "Macquarie University"
+  ],
+  "firstPublished": "2017-11-20",
+  "updated": "2018-04-05",
+  "publicationYear": 2018,
+  "venue": "CVPR",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2017,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "R2R 将真实室内全景与自然语言路线配对，提供可重复的离散视觉语言导航任务。",
+  "method": {
+    "input": "Matterport3D 全景 RGB-D 与连通关系",
+    "output": "下一个移动/转向/停止动作",
+    "explanation": "R2R 将真实室内全景与自然语言路线配对，提供可重复的离散视觉语言导航任务。机器人需要根据当前位置图像、历史和语言，在 viewpoint 图上行动并停在目标附近；seq2seq 基线展示已见环境与新环境之间的明显泛化差距。",
+    "flow": [
+      "真实全景导航图",
+      "路线与语言采集",
+      "序列到序列基线"
+    ],
+    "modules": [
+      {
+        "name": "真实全景导航图",
+        "purpose": "本模块解决：真实全景导航图",
+        "input": "Matterport3D 全景 RGB-D 与连通关系",
+        "mechanism": "把90栋真实建筑的全景采样位置构成可达图，渲染不同朝向和俯仰角的图像，但移动只允许在离散采样点之间进行。",
+        "output": "可重复的部分可观测导航环境",
+        "sourceUrl": "https://arxiv.org/html/1711.07280v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "路线与语言采集",
+        "purpose": "本模块解决：路线与语言采集",
+        "input": "图上的起终点和最短路径",
+        "mechanism": "采集7,189条路径，每条由3个人分别描述；以建筑划分训练和未见测试，降低同楼布局记忆造成的泄漏。",
+        "output": "21,567条自然语言指令",
+        "sourceUrl": "https://arxiv.org/html/1711.07280v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "序列到序列基线",
+        "purpose": "本模块解决：序列到序列基线",
+        "input": "语言编码、当前图像与前一步动作",
+        "mechanism": "LSTM 编码指令，注意力解码器逐步预测动作；teacher-forcing 跟随专家，student-forcing 从模型实际到达状态重新求目标最短路监督。",
+        "output": "下一个移动/转向/停止动作",
+        "sourceUrl": "https://arxiv.org/html/1711.07280v3",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "依赖真实扫描全景构成的已知可达图；观察是真实图像，但行动是在离散图上模拟。",
+    "difference": "R2R 将真实室内全景与自然语言路线配对，提供可重复的离散视觉语言导航任务。机器人需要根据当前位置图像、历史和语言，在 viewpoint 图上行动并停在目标附近；seq2seq 基线展示已见环境与新环境之间的明显泛化差距。"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "LSTM 编码指令，注意力解码器逐步预测动作；teacher-forcing 跟随专家，student-forcing 从模型实际到达状态重新求目标最短路监督。",
+    "trainable": "数据集本身不需要策略训练；论文基线以交叉熵做监督模仿学习，比较 teacher-forcing 与 student-forcing，未训练现代 VLM/VLA。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "数据集本身不需要策略训练；论文基线以交叉熵做监督模仿学习，比较 teacher-forcing 与 student-forcing，未训练现代 VLM/VLA。",
+    "objective": "本条为数据/评测贡献；所附基线训练协议见训练范围。",
+    "stages": "数据集本身不需要策略训练；论文基线以交叉熵做监督模仿学习，比较 teacher-forcing 与 student-forcing，未训练现代 VLM/VLA。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R",
+      "setting": "原文Table 1；成功为停在距目标3米内；历史基线，不是当前SOTA。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/1711.07280v3",
+      "table": {
+        "columns": [
+          "方法",
+          "划分",
+          "NE (m)",
+          "SR (%)",
+          "Oracle SR (%)"
+        ],
+        "rows": [
+          [
+            "Student-forcing",
+            "Val Seen",
+            6.01,
+            38.6,
+            52.9
+          ],
+          [
+            "Student-forcing",
+            "Val Unseen",
+            7.81,
+            21.8,
+            28.4
+          ],
+          [
+            "Student-forcing",
+            "Test Unseen",
+            7.85,
+            20.4,
+            26.6
+          ],
+          [
+            "Human",
+            "Test Unseen",
+            1.61,
+            86.4,
+            90.2
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/1711.07280v3",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依赖真实扫描全景构成的已知可达图；观察是真实图像，但行动是在离散图上模拟。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/1711.07280",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / R2R",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/1711.07280",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/1711.07280v3",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文Benchmark/数据集协议",
+      "url": "https://arxiv.org/html/1711.07280v3",
+      "locator": "数据/实验设置章节；Table 1",
+      "supports": [
+        "任务定义",
+        "动作空间",
+        "数据规模及口径",
+        "成功判据",
+        "协议边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p245034be53d7,\n  title={Vision-and-Language Navigation: Interpreting visually-grounded navigation instructions in real environments},\n  author={Peter Anderson and Qi Wu and Damien Teney and Jake Bruce and Mark Johnson and Niko Sünderhauf and Ian Reid and Stephen Gould and Anton van den Hengel},\n  year={2017},\n  eprint={1711.07280},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/1711.07280}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "R2R 将真实室内全景与自然语言路线配对，提供可重复的离散视觉语言导航任务。机器人需要根据当前位置图像、历史和语言，在 viewpoint 图上行动并停在目标附近；seq2seq 基线展示已见环境与新环境之间的明显泛化差距。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "motivation": "用真实室内视觉和自然语言建立可重复的VLN任务，检验从已见建筑向未见建筑泛化。",
+    "task": "Room-to-Room：根据路线指令从初始viewpoint到达目标。",
+    "input": "原始指令、初始位置/朝向与逐步RGB观测；agent不接收目标坐标。",
+    "output": "离散导航轨迹及STOP。",
+    "actions": "在全景采样viewpoint连通图上移动、调整朝向/俯仰和停止；非连续机体动力学。",
+    "success": "最后停在距目标3m内；Oracle Success允许检查路径曾到达的位置，区别于最终停点。",
+    "collection": "采样多房间路径；AMT众包者为每条路径提供3条独立语言描述。",
+    "scale": "90栋Matterport3D建筑、10,800全景；7,189条路径、21,567条指令；建筑数与路径数分别计量。",
+    "split": "建筑级train / val-seen / val-unseen / test；train约14K指令，未把用户笔记的单个split当全部规模。",
+    "metrics": "NE、SR、Oracle SR、路径长度；原始2018主表尚未以SPL为核心指标。",
+    "baselines": "Random、teacher-forcing与student-forcing seq2seq、人工导航。",
+    "assets": "项目提供Matterport3D Simulator、R2R语言和连通图；图像资产需遵循Matterport许可。",
+    "license": "Matterport场景访问条款与代码/语言数据许可需分别检查；未核实可商业再分发。",
+    "reproduction": "需要Matterport资产授权、旧模拟器构建、图像特征和动作协议一致。",
+    "coverage": "自然语言路线跟随、历史和视觉语言接地、建筑间泛化。",
+    "boundary": "静态全景离散图；不测真实机器人碰撞动力学、动态世界或物理操作。",
+    "leakage": "按建筑划分可减少同楼泄漏；路径偏置和最短路规律仍可被模型利用。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

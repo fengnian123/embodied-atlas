@@ -1,0 +1,181 @@
+{
+  "id": "p-fee1c4a56d18",
+  "title": "From Screens to Scenes: A Survey of Embodied AI in Healthcare",
+  "short": "Screens2Scenes",
+  "aliases": [
+    "Screens2Scenes"
+  ],
+  "authors": [
+    "Liu, Yihao",
+    "Cao, Xu",
+    "Chen, Tingting",
+    "Jiang, Yankai",
+    "You, Junjie",
+    "Wu, Minghua",
+    "Wang, Xiaosong",
+    "Feng, Mengling",
+    "Jin, Yaochu",
+    "Chen, Jintai"
+  ],
+  "institutions": [],
+  "firstPublished": "2025-01-13",
+  "updated": "2025-03-02",
+  "publicationYear": 2025,
+  "venue": "Information Fusion",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "从“感知、动作、规划、记忆”的智能模块出发综述医疗具身AI，连接临床干预、日常陪护、基础设施支持与生物医学研究，并讨论智能水平与转化障碍。",
+  "method": {
+    "input": "医疗具身AI跨学科文献",
+    "output": "模块/应用/智能等级综述框架",
+    "flow": [
+      "智能模块组织",
+      "应用领域映射",
+      "转化与智能等级"
+    ],
+    "explanation": "从“感知、动作、规划、记忆”的智能模块出发综述医疗具身AI，连接临床干预、日常陪护、基础设施支持与生物医学研究，并讨论智能水平与转化障碍。",
+    "modules": [
+      {
+        "name": "智能模块组织",
+        "purpose": "把算法与具身能力对应",
+        "mechanism": "按感知、动作、规划和记忆介绍基础AI技术。",
+        "input": "医疗具身AI跨学科文献",
+        "output": "智能模块组织的中间结果"
+      },
+      {
+        "name": "应用领域映射",
+        "purpose": "避免混同不同部署目标",
+        "mechanism": "分别讨论临床干预、日常照护陪伴、基础设施和生物研究。",
+        "input": "智能模块组织的结果",
+        "output": "应用领域映射的中间结果"
+      },
+      {
+        "name": "转化与智能等级",
+        "purpose": "定位方法成熟度",
+        "mechanism": "用层级框架讨论自主性，指出安全、仿真现实差距及缺少标准评测。",
+        "input": "应用领域映射的结果",
+        "output": "模块/应用/智能等级综述框架"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2501.07468",
+      "status": "已核实入口",
+      "note": "已核实arXiv元数据"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surveys and Scope / Screens2Scenes",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2501.07468",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1016/j.inffus.2025.103033",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1016/j.inffus.2025.103033",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv原始元数据",
+      "url": "https://arxiv.org/abs/2501.07468",
+      "locator": "citation_title / citation_author / citation_date / version history",
+      "supports": [
+        "标题",
+        "作者",
+        "首次公开日期",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://arxiv.org/pdf/2501.07468",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Information Fusion'25**",
+      "section": "Surveys and Scope"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "从“感知、动作、规划、记忆”的智能模块出发综述医疗具身AI，连接临床干预、日常陪护、基础设施支持与生物医学研究，并讨论智能水平与转化障碍。 本文为证据/概念综述，以下“模块”表示文献组织框架；不代表作者训练了同名机器人模型。"
+}

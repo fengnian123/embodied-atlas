@@ -1,0 +1,37 @@
+[
+  {
+    "old": "p-f03badc11d43",
+    "new": "p-a2ae5d358c9c",
+    "reason": "简称与完整标题合并"
+  },
+  {
+    "old": "p-0b071d7156ab",
+    "new": "abot-agentos",
+    "reason": "8/24帧是实验设置，不是独立论文"
+  },
+  {
+    "old": "p-b477fbea5e47",
+    "new": "p-195b161ffdb0",
+    "reason": "官方方法简称 MTU3D 与论文标题统一；原笔记来源保留"
+  },
+  {
+    "old": "p-9976f7a1f0d8",
+    "new": "p-666d1f5c285c",
+    "reason": "Fine-EQA与EXPRESS-Bench由同篇2503.11117提出，合并方法与数据贡献"
+  },
+  {
+    "old": "p-c07af24a5633",
+    "new": "p-9954554b77cf",
+    "reason": "MT-HM3D是MemoryEQA论文2505.13948的数据贡献"
+  },
+  {
+    "old": "p-3a6a8cbcfb6b",
+    "new": "p-dd8050bafc94",
+    "reason": "3DMem-Bench由3DLLM-Mem同篇2505.22657提出"
+  },
+  {
+    "old": "p-5ec1e61e799c",
+    "new": "p-1bc406357bc2",
+    "reason": "HM-EQA由Explore until Confident同篇2403.15941提出；官方发布267场景500题与旧稿312场景版本不同"
+  }
+]

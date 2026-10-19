@@ -1,0 +1,203 @@
+{
+  "id": "p-ef0a96baa464",
+  "title": "Assistive Robots for the Social Management of Health: A Framework for Robot Design and Human–Robot Interaction Research",
+  "short": "Social-Health",
+  "aliases": [
+    "Social-Health"
+  ],
+  "authors": [
+    "Meia Chita-Tegmark",
+    "Matthias Scheutz"
+  ],
+  "institutions": [],
+  "firstPublished": "2020-03-02",
+  "updated": null,
+  "publicationYear": 2020,
+  "venue": "International Journal of Social Robotics",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2020,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "提出面向健康社会管理的辅助机器人设计与人机交互研究框架。关注社会互动如何支撑健康，而非新机器人控制算法或临床疗效试验。",
+  "method": {
+    "input": "健康条件及人际互动文献",
+    "output": "待验证设计方向与边界",
+    "flow": [
+      "社会互动需求分解",
+      "五类中介功能组织",
+      "情境迁移与挑战审查"
+    ],
+    "explanation": "本文将健康辅助机器人的角色从单纯陪伴扩展为促进人与人的社会互动：疾病可能改变外界对患者的看法、患者的沟通能力、他人的回应方式和患者的情绪，机器人可以在这些环节充当中介。作者提出五类功能，分别把相关临床及非临床HRI工作按这些功能组织，说明不同已有案例怎样支持新的健康照护设计。它不是一个拥有五个已实现模块的统一控制器，也没有训练同名医疗机器人；文中框架和例子用于提出设计问题及研究假设，是否能带来临床或社会效果还需要独立验证。",
+    "modules": [
+      {
+        "name": "社会互动需求分解",
+        "purpose": "把健康状态与社交困难连接",
+        "mechanism": "分析病情、污名、沟通与情绪如何影响患者与他人的关系。",
+        "input": "健康条件及人际互动文献",
+        "output": "需被支持的社交环节"
+      },
+      {
+        "name": "五类中介功能组织",
+        "purpose": "明确机器人可以改变什么",
+        "mechanism": "按改变别人对患者的看法、增强患者社交行为、支持他人社交行为、组织互动、改变患者感受分类。",
+        "input": "临床和非临床HRI案例",
+        "output": "功能框架与设计例子"
+      },
+      {
+        "name": "情境迁移与挑战审查",
+        "purpose": "避免把一般互动效果等同健康获益",
+        "mechanism": "解释案例如何借用于照护，逐项讨论自主/尊严、人类接触、文化、机器人形态和实用性限制。",
+        "input": "框架和已有案例",
+        "output": "待验证设计方向与边界"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "社会健康管理框架",
+      "setting": "概念综述及既有HRI证据组织；非作者新增临床试验",
+      "result": "Fig.2归纳五类功能，没有同协议临床效果表。",
+      "locator": "Fig.1/2；Functions of Mediator Robots；Conclusion",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7223628/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "功能类别",
+          "旨在改变的环节"
+        ],
+        "rows": [
+          [
+            "改变患者被如何看待",
+            "他人对患者的知觉"
+          ],
+          [
+            "增强患者社交行为",
+            "患者的互动能力"
+          ],
+          [
+            "支持他人社交行为",
+            "照护者及交流伙伴的反应"
+          ],
+          [
+            "组织社交互动",
+            "参与、轮次与合作结构"
+          ],
+          [
+            "改变患者感受",
+            "在社交场景中的情绪与被接纳感"
+          ]
+        ],
+        "locator": "Fig.1/2；Functions of Mediator Robots；Conclusion"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "需要保护患者自主和尊严，避免把人客体化；社会和文化环境会改变设计作用。",
+      "框架所连接的案例不全部来自临床人群，提出的中介用途需要进一步专门研究。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1007/s12369-020-00634-z",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / Social-Health",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://link.springer.com/content/pdf/10.1007/s12369-020-00634-z.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1007/s12369-020-00634-z",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1007/s12369-020-00634-z",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7223628/",
+      "locator": "Fig.1/2；Functions of Mediator Robots；Conclusion",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Int. J. Social Robotics'20**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "提出面向健康社会管理的辅助机器人设计与人机交互研究框架。关注社会互动如何支撑健康，而非新机器人控制算法或临床疗效试验。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

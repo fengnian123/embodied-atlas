@@ -1,0 +1,236 @@
+{
+  "id": "p-d683b4b81795",
+  "title": "OmniRe: Omni Urban Scene Reconstruction",
+  "short": "OmniRe",
+  "aliases": [],
+  "authors": [
+    "Ziyu Chen",
+    "Jiawei Yang",
+    "Jiahui Huang",
+    "Riccardo de Lutio",
+    "Janick Martinez Esturo",
+    "Boris Ivanovic",
+    "Or Litany",
+    "Zan Gojcic",
+    "Sanja Fidler",
+    "Marco Pavone",
+    "Li Song",
+    "Yue Wang"
+  ],
+  "institutions": [
+    "University of Southern California",
+    "NVIDIA Research",
+    "Technion",
+    "University of Toronto",
+    "Stanford University"
+  ],
+  "firstPublished": "2024-08-29",
+  "updated": "2025-04-19",
+  "publicationYear": 2025,
+  "venue": "ICLR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "以动态神经场景图分别建模背景、车辆、行人和其他非刚体，联合相机与 LiDAR 观测，面向完整城市动态场景重建。",
+  "method": {
+    "input": "车载多相机 RGB、相机标定、LiDAR 及动态对象轨迹/框",
+    "output": "可自由视角渲染并可编辑动态参与体的城市场景",
+    "flow": [
+      "动态场景图",
+      "异构运动建模",
+      "多模态联合优化"
+    ],
+    "assumptions": "驾驶数据采集与多对象先验；不能直接等同单视频未知场景重建。",
+    "difference": "车辆用刚体局部坐标、人用人体参数化、其他对象用非刚性形变，避免一种运动假设覆盖所有参与者。",
+    "explanation": "以动态神经场景图分别建模背景、车辆、行人和其他非刚体，联合相机与 LiDAR 观测，面向完整城市动态场景重建。 车辆用刚体局部坐标、人用人体参数化、其他对象用非刚性形变，避免一种运动假设覆盖所有参与者。 每类实体有规范局部空间和高斯；场景图统一各时间的全局变换及对象生命周期。 刚体车辆随 SE(3) 轨迹变换；行人使用可关节人体表示；其他非刚体引入形变模型。 RGB 重建与 LiDAR 深度监督共同拟合高斯、轨迹/对象参数，并细化初始框。",
+    "modules": [
+      {
+        "name": "动态场景图",
+        "purpose": "分开背景和不同运动实体",
+        "mechanism": "每类实体有规范局部空间和高斯；场景图统一各时间的全局变换及对象生命周期。",
+        "input": "标定传感器日志、动态对象线索",
+        "output": "对象化高斯场景图"
+      },
+      {
+        "name": "异构运动建模",
+        "purpose": "处理车辆与人体运动差异",
+        "mechanism": "刚体车辆随 SE(3) 轨迹变换；行人使用可关节人体表示；其他非刚体引入形变模型。",
+        "input": "对象局部高斯、轨迹/人体参数",
+        "output": "每时刻完整场景"
+      },
+      {
+        "name": "多模态联合优化",
+        "purpose": "提高动态区域与几何一致性",
+        "mechanism": "RGB 重建与 LiDAR 深度监督共同拟合高斯、轨迹/对象参数，并细化初始框。",
+        "input": "RGB、LiDAR、初始动态框",
+        "output": "优化后的数字场景及新视图"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "各类高斯、对象运动与可细化参数",
+    "trainable": "各类高斯、对象运动与可细化参数",
+    "frozen": "预处理模型提供人体/实例先验；本文主体为逐场景拟合",
+    "data": "Waymo Open Dataset 日志",
+    "objective": "RGB 与 LiDAR 几何监督，配合对象建模约束",
+    "stages": "分实体初始化后联合优化；具体脚本随官方 DriveStudio 提供"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Waymo Open Dataset",
+      "setting": "arXiv当前版/ICLR2025；分reconstruction与held-out NVS；Box/SMPL等额外输入条件详见原表，不据全图数字推断所有动态类别领先。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Waymo Open Dataset · Table 1",
+        "columns": [
+          "方法",
+          "重建全图PSNR↑",
+          "重建Human PSNR↑",
+          "NVS全图PSNR↑",
+          "NVS Human PSNR↑",
+          "NVS Vehicle PSNR↑"
+        ],
+        "rows": [
+          [
+            "StreetGS",
+            "29.08",
+            "16.83",
+            "28.54",
+            "16.55",
+            "26.71"
+          ],
+          [
+            "Ours",
+            "34.25",
+            "28.15",
+            "32.57",
+            "24.36",
+            "27.57"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2408.16760v2",
+        "locator": "Table 1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依赖驾驶数据中的多传感器和对象先验；泛化到机器人单目居家数据需重新设计初始化与实例跟踪。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2408.16760",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://ziyc.github.io/omnire/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/ziyc/drivestudio",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / OmniRe: Omni Urban Scene Reconstruction",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2408.16760",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2408.16760v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://ziyc.github.io/omnire/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/ziyc/drivestudio",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{240816760,\n  title = {OmniRe: Omni Urban Scene Reconstruction},\n  author = {Chen, Ziyu and Yang, Jiawei and Huang, Jiahui and de Lutio, Riccardo and Esturo, Janick Martinez and Ivanovic, Boris and Litany, Or and Gojcic, Zan and Fidler, Sanja and Pavone, Marco and Song, Li and Wang, Yue},\n  year = {2024},\n  eprint = {2408.16760},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2408.16760}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "以动态神经场景图分别建模背景、车辆、行人和其他非刚体，联合相机与 LiDAR 观测，面向完整城市动态场景重建。 车辆用刚体局部坐标、人用人体参数化、其他对象用非刚性形变，避免一种运动假设覆盖所有参与者。 驾驶数据采集与多对象先验；不能直接等同单视频未知场景重建。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

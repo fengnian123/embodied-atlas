@@ -1,0 +1,9 @@
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+.env*
+*.zip
+
+# Retrieval caches contain temporary full texts and are not project sources.
+research-batches/

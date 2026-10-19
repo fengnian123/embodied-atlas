@@ -1,0 +1,251 @@
+{
+  "id": "p-c9c5dc03e2a3",
+  "title": "POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation",
+  "short": "POINav",
+  "aliases": [],
+  "authors": [
+    "Ruiyan Gong",
+    "Meisheng Zhang",
+    "Yuxiang Zhao",
+    "Mingchao Sun",
+    "Yanfen Shen",
+    "Zedong Chu",
+    "Zhining Gu",
+    "Wei Guo",
+    "Xiaolong Cheng",
+    "Qiming Li",
+    "Kangning Niu",
+    "Yanqing Zhu",
+    "Xiaolong Wu",
+    "Tianlun Li",
+    "Mu Xu"
+  ],
+  "institutions": [
+    "Amap CV Lab, Alibaba Group",
+    "Peking University"
+  ],
+  "firstPublished": "2026-05-27",
+  "updated": "2026-05-27",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本；未核实正式发表状态",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "真实采集资产",
+      "离线重建"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "POINav 针对到达 POI 物理入口的最后几米：远处通过招牌确认店铺身份，接近时改用入口的几何参考。",
+  "method": {
+    "input": "POI 名称与当前街景",
+    "output": "前往物理入口的轨迹",
+    "explanation": "POINav 针对到达 POI 物理入口的最后几米：远处通过招牌确认店铺身份，接近时改用入口的几何参考。用完整历史的弹性采样判断沿店面行进的进度，并在真实采集的 3DGS 街区基准中闭环评估。",
+    "flow": [
+      "语义到几何 POI 接地",
+      "全局上下文动作查询",
+      "闭环轨迹执行"
+    ],
+    "modules": [
+      {
+        "name": "语义到几何 POI 接地",
+        "purpose": "本模块解决：语义到几何 POI 接地",
+        "input": "POI 名称与当前街景",
+        "mechanism": "推理身份框 b_id 和可进入位置框 b_geo；入口可见时切到几何参考，不可见时使用身份参考。",
+        "output": "动态目标视觉 patch",
+        "sourceUrl": "https://arxiv.org/html/2605.28237v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "全局上下文动作查询",
+        "purpose": "本模块解决：全局上下文动作查询",
+        "input": "当前帧、完整观测历史与目标 patch",
+        "mechanism": "Elastic Temporal Sampling 在历史中均匀抽 K 帧并加入当前帧，通过潜在动作查询保留长程到达进度。",
+        "output": "条件动作表征",
+        "sourceUrl": "https://arxiv.org/html/2605.28237v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "闭环轨迹执行",
+        "purpose": "本模块解决：闭环轨迹执行",
+        "input": "动作表征与导航上下文",
+        "mechanism": "动作模块输出局部轨迹，在真实街区重建的 Isaac Sim 环境内推进，并持续重定位 POI/入口。",
+        "output": "前往物理入口的轨迹",
+        "sourceUrl": "https://arxiv.org/html/2605.28237v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "使用真实街区重建的3DGS/Isaac Sim资产，重点是POI入口最后几米；仿真协议不直接等价于户外实机安全保证。",
+    "difference": "POINav 针对到达 POI 物理入口的最后几米：远处通过招牌确认店铺身份，接近时改用入口的几何参考。用完整历史的弹性采样判断沿店面行进的进度，并在真实采集的 3DGS 街区基准中闭环评估。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "详见原文方法模块；未独立列全基础模型。",
+    "trainable": "POI 接地模型与导航能力需要训练；Table 1 声明比较使用 Qwen2.5-VL-3B，除标星 OmniNav Vanilla 外均在 BridgeNav 数据上训练。不能把本文基准场景当作导航训练集。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "POI 接地模型与导航能力需要训练；Table 1 声明比较使用 Qwen2.5-VL-3B，除标星 OmniNav Vanilla 外均在 BridgeNav 数据上训练。不能把本文基准场景当作导航训练集。",
+    "objective": "POI 接地模型与导航能力需要训练；Table 1 声明比较使用 Qwen2.5-VL-3B，除标星 OmniNav Vanilla 外均在 BridgeNav 数据上训练。不能把本文基准场景当作导航训练集。",
+    "stages": "POI 接地模型与导航能力需要训练；Table 1 声明比较使用 Qwen2.5-VL-3B，除标星 OmniNav Vanilla 外均在 BridgeNav 数据上训练。不能把本文基准场景当作导航训练集。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "POINav-Bench",
+      "setting": "Table 1；成功阈值 2m；原表共同 backbone 声明应结合具体实现理解，不以此推断所有原始 ViNT 架构相同",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2605.28237v1",
+      "table": {
+        "columns": [
+          "方法",
+          "SR@2m (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "ViNT",
+            19.01,
+            18.24
+          ],
+          [
+            "OmniNav Vanilla（未用 BridgeNav）",
+            23.92,
+            22.44
+          ],
+          [
+            "OmniNav",
+            34.36,
+            31.52
+          ],
+          [
+            "POINav",
+            42.33,
+            40.29
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2605.28237v1",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "使用真实街区重建的3DGS/Isaac Sim资产，重点是POI入口最后几米；仿真协议不直接等价于户外实机安全保证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2605.28237",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / POINav",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2605.28237",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2605.28237v1",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文Benchmark/数据集协议",
+      "url": "https://arxiv.org/html/2605.28237v1",
+      "locator": "数据/实验设置章节；Table 1",
+      "supports": [
+        "任务定义",
+        "动作空间",
+        "数据规模及口径",
+        "成功判据",
+        "协议边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pc9c5dc03e2a3,\n  title={POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation},\n  author={Ruiyan Gong and Meisheng Zhang and Yuxiang Zhao and Mingchao Sun and Yanfen Shen and Zedong Chu and Zhining Gu and Wei Guo and Xiaolong Cheng and Qiming Li and Kangning Niu and Yanqing Zhu and Xiaolong Wu and Tianlun Li and Mu Xu},\n  year={2026},\n  eprint={2605.28237},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2605.28237}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "正式发表信息尚未在可靠会议/期刊来源确认"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "POINav 针对到达 POI 物理入口的最后几米：远处通过招牌确认店铺身份，接近时改用入口的几何参考。用完整历史的弹性采样判断沿店面行进的进度，并在真实采集的 3DGS 街区基准中闭环评估。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "motivation": "用真实采集重建的商业街区，评测POI终点从招牌身份到物理入口的精确到达。",
+    "task": "从距目标10m之外导航到指定POI入口。",
+    "input": "自我视角图像、POI指令与历史；同协议下测试不同模型。",
+    "output": "连续waypoints和停止位置。",
+    "actions": "在Isaac Sim内可连续移动的导航空间，不是稀疏viewpoint跳转。",
+    "success": "主表SR@2m；另讨论精确到达，需与阈值分别理解。",
+    "collection": "高精度LiDAR+图像采集，联合优化位姿/点云，以密集点云初始化3DGS；人工标注POI和可行走区域，验证起点可见部分招牌。",
+    "scale": "11商业区、163个POI、126,398平方米；另有70K招牌—入口对用于训练POI接地，不与评测场景数相加。",
+    "split": "主比较导航模型在BridgeNav数据训练后到POINav-Bench评测；70K接地数据的划分/交叉区域隔离需进一步核实。",
+    "metrics": "SR@2m与SPL；主表不与BridgeNav的0.1m SR直接比较。",
+    "baselines": "ViNT、OmniNav Vanilla、BridgeNav训练的OmniNav、POINav。",
+    "assets": "原文声明将开放完整3DGS资产；此次尚未确认具体下载、许可与评测脚本状态。",
+    "license": "未核实；商业街区的场景、纹理和标牌资源再分发条款应单独检查。",
+    "reproduction": "Isaac Sim、3DGS渲染、几何/碰撞及可行走区域配置需要一致。",
+    "coverage": "真实采集外观、连续局部导航、POI入口与招牌歧义。",
+    "boundary": "原文为隐私移除行人；主要量化在重建仿真，不覆盖真实动态人群交互。",
+    "leakage": "部分招牌从起点可见；起点/可行走区域人工筛选可能降低一般城市开放寻店难度。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

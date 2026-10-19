@@ -1,0 +1,198 @@
+{
+  "id": "inspection-vla",
+  "title": "Assessment of a Fine-Tuned Vision-Language-Action Model for Robotic Feature-Following Inspection",
+  "short": "Feature-Following VLA",
+  "aliases": [],
+  "authors": [
+    "Martin Krüger",
+    "Mahmoud Salem",
+    "Markus Reischl"
+  ],
+  "institutions": [
+    "Karlsruhe Institute of Technology"
+  ],
+  "firstPublished": "2026-05-29",
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "Neural Processing Letters",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "将操作预训练 OpenVLA 微调用于二维特征跟随巡检，比较单视图和双相机融合，并用动作级与轨迹级指标评估。",
+  "method": {
+    "input": "相机图像与巡检指令",
+    "output": "末端运动增量",
+    "flow": [
+      "半自动采集特征跟随示范",
+      "构建单/双相机输入",
+      "微调 OpenVLA",
+      "机器人 rollout 与轨迹评价"
+    ],
+    "assumptions": "二维任务和受控硬件设置",
+    "difference": "把操作预训练 VLA 迁移到不改变对象的传感器运动。",
+    "explanation": "作者把桌面操作预训练的OpenVLA迁移到二维绳线跟随：图像和语言指定从黄色方块沿红绳移动到绿色圆点，模型输出末端位姿增量。用传统视觉自动提取绳中心线，以2 cm步长采集示教并形成轨迹真值。比较静态相机、逐像素平均叠加、水平拼接三种输入；用动作相似度早停，测试时以包含姿态的配置空间DTW距离评价路径，而不是给复杂连续误差任意设成功阈值。",
+    "modules": [
+      {
+        "name": "半自动示教",
+        "purpose": "减少遥操作轨迹噪声",
+        "mechanism": "视觉提取绳形与端点，保持相机距平面200 mm，以2 cm增量沿绳运动",
+        "input": "腕相机图像",
+        "output": "100训练轨迹、10验证轨迹"
+      },
+      {
+        "name": "多相机输入适配",
+        "purpose": "不改OpenVLA架构利用局部视图",
+        "mechanism": "静态图、静态+腕图平均叠加、水平拼接后缩放分别微调",
+        "input": "静态/腕部RGB、固定指令",
+        "output": "单幅模型输入图"
+      },
+      {
+        "name": "OpenVLA控制与早停",
+        "purpose": "学习跟随几何特征",
+        "mechanism": "预测7D动作后舍弃夹爪维；每20步用30验证动作评估，相似度600步不升即停",
+        "input": "图像、语言",
+        "output": "6D末端增量"
+      },
+      {
+        "name": "轨迹级评价",
+        "purpose": "计量路径对齐与平滑",
+        "mechanism": "配置空间DTW对齐轨迹，另报TCP-PI和执行时间",
+        "input": "真值与执行轨迹",
+        "output": "DTW、平滑度、时长"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "OpenVLA",
+    "trainable": "面向特征跟随的适配参数；具体冻结层待核实",
+    "frozen": "未核实",
+    "data": "100训练轨迹、10验证轨迹",
+    "objective": "动作学习与动作级评价早停",
+    "stages": "示范 → 微调 → 新形状 rollout"
+  },
+  "evaluation": [
+    {
+      "benchmark": "真实二维feature-following",
+      "setting": "3种绳形×每形3次=每方法9次；4方法含一名人类操作者；非大规模多操作者研究。",
+      "result": "精确实验规模为100条训练、10条验证轨迹；每模型9次实机测试。Fig.6–7仅提供箱线图，未列精确均值表。静态/叠加的DTW低于人类；叠加与人类的TCP-PI差异不显著。",
+      "locator": "§2.4.3–2.4.5; Figs.6–8",
+      "sourceUrl": "https://doi.org/10.1007/s11063-026-11860-3",
+      "attribution": "作者报告"
+    },
+    {
+      "benchmark": "Fig.6箱线图读数（约值）",
+      "setting": "从图估读约值，非作者表格精确值；每组9次；仅辅助理解误差量级，不用于重算统计显著性。",
+      "result": "Fig6中位数按纵轴估读约为：人类0.05、静态相机0.03、叠加0.02、拼接0.16；仅表示误差量级，非作者公布的精确统计。",
+      "locator": "Fig.6，原文第14页",
+      "sourceUrl": "https://doi.org/10.1007/s11063-026-11860-3",
+      "attribution": "网站整理者图表估读（原图来自作者）",
+      "table": {
+        "caption": "Figure 6 中位数视觉估读（约值）",
+        "columns": [
+          "方法",
+          "DDTW中位数（约）"
+        ],
+        "rows": [
+          [
+            "Human",
+            "≈0.05"
+          ],
+          [
+            "Static Camera",
+            "≈0.03"
+          ],
+          [
+            "Overlay",
+            "≈0.02"
+          ],
+          [
+            "Concatenation",
+            "≈0.16"
+          ]
+        ],
+        "sourceUrl": "https://doi.org/10.1007/s11063-026-11860-3",
+        "locator": "Fig.6，原文第14页"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "研究规模有限；人类 Benchmark 基于单个操作者。"
+    ],
+    "analysis": [
+      "二维特征跟随不包含自由导航、设备诊断和多轮故障演化。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1007/s11063-026-11860-3",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "用户所附原论文：VLA for Feature-Following Inspection.pdf",
+      "url": null,
+      "locator": "摘要、方法、实验与局限；本次已读取全文文字",
+      "supports": [
+        "方法",
+        "训练",
+        "实验",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文核验（2026-10-19）",
+      "url": "https://doi.org/10.1007/s11063-026-11860-3",
+      "locator": "方法章节与下列实验表/图",
+      "supports": [
+        "标题",
+        "方法",
+        "实验"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核实所有资源许可证与下载内容",
+    "首次公开日期",
+    "最新版本日期"
+  ],
+  "sourceNotes": [
+    "2026-10-19再次渲染并核对原PDF第14页Figure6。约值按纵轴刻度估读，禁止用于重算显著性。"
+  ],
+  "verification": "已回查原文方法与关键实验；未公开项仍标待核实",
+  "overview": "巡检常要求传感器沿着某条特征移动，同时不改变被检查物。论文用桌面二维特征跟随任务检验操作预训练 VLA 能否适配这种运动目标，提出训练时动作级评价与完整轨迹对齐评价。研究给出了真实机器人可行性证据，但场景、任务与人类基线规模有限，不能由此推断复杂三维设备巡检已经解决。",
+  "verificationLevel": "fulltext"
+}

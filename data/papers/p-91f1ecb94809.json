@@ -1,0 +1,231 @@
+{
+  "id": "p-91f1ecb94809",
+  "title": "SplatReasoner: Enhancing Embodied Reasoning and Grounding by Novel View Synthesis",
+  "short": "SplatReasoner",
+  "aliases": [],
+  "authors": [
+    "Kim Yu-Ji",
+    "Dahye Lee",
+    "Kim Jun-Seong",
+    "Nam Hyeon-Woo",
+    "GeonU Kim",
+    "Yongjin Kwon",
+    "Yu-Chiang Frank Wang",
+    "Jaesung Choe",
+    "Tae-Hyun Oh"
+  ],
+  "institutions": [
+    "POSTECH",
+    "KAIST",
+    "ETRI",
+    "NVIDIA"
+  ],
+  "firstPublished": "2026-01-19",
+  "updated": "2026-07-13",
+  "publicationYear": 2026,
+  "venue": "ECCV",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "EQA",
+      "场景理解"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "空间理解"
+    ],
+    "environment": [
+      "预采集观测池"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "SplatReasoner 从具有语义的 3D 高斯中找问题相关区域，选择原始视角并合成更有利的新视角，再让 VLM 判断哪些证据最足以回答或接地。",
+  "method": {
+    "input": "带位姿的图像与问题",
+    "output": "答案或接地目标",
+    "explanation": "SplatReasoner 从具有语义的 3D 高斯中找问题相关区域，选择原始视角并合成更有利的新视角，再让 VLM 判断哪些证据最足以回答或接地。它扩充的是离线场景记忆中的可见证据，不是让机器人实际移动采集新帧。",
+    "flow": [
+      "语言嵌入 3D 高斯",
+      "可见性选图与新视角合成",
+      "最终证据筛选"
+    ],
+    "modules": [
+      {
+        "name": "语言嵌入 3D 高斯",
+        "purpose": "本模块解决：语言嵌入 3D 高斯",
+        "input": "带位姿的图像与问题",
+        "mechanism": "重建 3DGS，关联类别或 SAM/CLIP 语义；LLM 提取证据类别，在 3D 中激活并聚类相关高斯。",
+        "output": "查询相关的 3D 区域",
+        "sourceUrl": "https://arxiv.org/html/2601.13132v2",
+        "locator": "方法章节"
+      },
+      {
+        "name": "可见性选图与新视角合成",
+        "purpose": "本模块解决：可见性选图与新视角合成",
+        "input": "相关区域、历史视图和场景表示",
+        "mechanism": "按 3D 可见性选择初始图，搜索并渲染可减少遮挡的新视点。",
+        "output": "原始与合成候选证据图",
+        "sourceUrl": "https://arxiv.org/html/2601.13132v2",
+        "locator": "方法章节"
+      },
+      {
+        "name": "最终证据筛选",
+        "purpose": "本模块解决：最终证据筛选",
+        "input": "候选视图和问题",
+        "mechanism": "VLM-as-Judge 比较候选是否足够，选择最有用的少量视图，执行 EQA 或 3D grounding。",
+        "output": "答案或接地目标",
+        "sourceUrl": "https://arxiv.org/html/2601.13132v2",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要有位姿的已采集图像来优化逐场景3DGS；合成新视角不等同机器人实际获取新的隐藏世界状态。",
+    "difference": "SplatReasoner 从具有语义的 3D 高斯中找问题相关区域，选择原始视角并合成更有利的新视角，再让 VLM 判断哪些证据最足以回答或接地。它扩充的是离线场景记忆中的可见证据，不是让机器人实际移动采集新帧。"
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "重建 3DGS，关联类别或 SAM/CLIP 语义；LLM 提取证据类别，在 3D 中激活并聚类相关高斯。；VLM-as-Judge 比较候选是否足够，选择最有用的少量视图，执行 EQA 或 3D grounding。",
+    "trainable": "需要逐场景优化 3DGS；语义关联与 VLM 推理本身不等于 VLM 微调。应区分重建训练成本与下游问答推理成本。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "需要逐场景优化 3DGS；语义关联与 VLM 推理本身不等于 VLM 微调。应区分重建训练成本与下游问答推理成本。",
+    "objective": "需要逐场景优化 3DGS；语义关联与 VLM 推理本身不等于 VLM 微调。应区分重建训练成本与下游问答推理成本。",
+    "stages": "需要逐场景优化 3DGS；语义关联与 VLM 推理本身不等于 VLM 微调。应区分重建训练成本与下游问答推理成本。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "OpenEQA EM-EQA",
+      "setting": "作者复现比较；平均帧数只指最终回答视图，未含 judge 全部候选视图成本",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2601.13132v2",
+      "table": {
+        "columns": [
+          "方法",
+          "闭源 GPT-4o LLM-Match",
+          "开放 Qwen3-VL-8B LLM-Match",
+          "最终平均帧数"
+        ],
+        "rows": [
+          [
+            "3D-Mem 复现",
+            54.6,
+            50.8,
+            2.7
+          ],
+          [
+            "SplatReasoner",
+            57.8,
+            51.6,
+            2.6
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2601.13132v2",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要有位姿的已采集图像来优化逐场景3DGS；合成新视角不等同机器人实际获取新的隐藏世界状态。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2601.13132",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/kaist-ami/SplatReasoner",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://splatreasoner.github.io/",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "EQA_Benchmark.xlsx",
+      "locator": "01_方法与结果 / OpenEQA EM-EQA / SplatReasoner",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "原表引用来源（不一定是本方法原论文）",
+      "url": "https://arxiv.org/html/2601.13132v1",
+      "locator": "GraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nGraphPad Table1引用OpenEQA原始值\nTable2\nTable2\nTable1\nTable1\nTable1 / Sec4.1\nOpenEQA静态记忆结果表\nOpenEQA静态记忆结果表",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2601.13132",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2601.13132v2",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p91f1ecb94809,\n  title={SplatReasoner: Enhancing Embodied Reasoning and Grounding by Novel View Synthesis},\n  author={Kim Yu-Ji and Dahye Lee and Kim Jun-Seong and Nam Hyeon-Woo and GeonU Kim and Yongjin Kwon and Yu-Chiang Frank Wang and Jaesung Choe and Tae-Hyun Oh},\n  year={2026},\n  eprint={2601.13132},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2601.13132}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；分数与协议未复核，故未导入排行榜",
+      "setting": "OpenEQA EM-EQA",
+      "variant": "SplatReasoner"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "SplatReasoner 从具有语义的 3D 高斯中找问题相关区域，选择原始视角并合成更有利的新视角，再让 VLM 判断哪些证据最足以回答或接地。它扩充的是离线场景记忆中的可见证据，不是让机器人实际移动采集新帧。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

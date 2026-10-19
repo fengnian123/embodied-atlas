@@ -1,0 +1,164 @@
+{
+  "id": "p-0b551c73fc5b",
+  "title": "Toward next-generation autonomous structural health monitoring and inspection with humanoid robots",
+  "short": "RoboInspect",
+  "aliases": [],
+  "authors": [
+    "Zhen Wang",
+    "Yuqing Gao",
+    "Ying Zhou",
+    "Jialong He",
+    "Jiaxin Peng",
+    "Wensheng Lu"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "Computer-Aided Civil and Infrastructure Engineering",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "强化学习"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "安全"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "人形机器人"
+    ],
+    "training": [
+      "强化学习"
+    ]
+  },
+  "summary": "人形机器人室内结构巡检系统，融合强化学习行走、先验地图导航和裂缝视觉检测；全文表格尚未取得。",
+  "method": {
+    "input": "先验地图与机载感知（官方摘要）",
+    "output": "自主巡检路线执行和裂缝识别（官方摘要）",
+    "assumptions": "受控建筑内路线；详细传感器/定位假设待全文核实。",
+    "difference": "面向人形机器人整合行走、导航与结构视觉检测。",
+    "explanation": "以下仅为官方摘要确认的三个模块，算法内部、训练数据与损失尚未核实。",
+    "flow": [
+      "RL行走",
+      "导航与路径规划",
+      "视觉裂缝检测"
+    ],
+    "modules": [
+      {
+        "name": "RL行走",
+        "purpose": "支撑硬件移动",
+        "mechanism": "摘要确认训练并部署RL controller；架构/奖励待全文",
+        "input": "机器人状态",
+        "output": "行走控制"
+      },
+      {
+        "name": "导航与路径规划",
+        "purpose": "到达预定检查位置",
+        "mechanism": "结合先验地图与机载感知；算法细节未核实",
+        "input": "地图与观测",
+        "output": "巡检路径"
+      },
+      {
+        "name": "视觉裂缝检测",
+        "purpose": "识别结构表面损伤",
+        "mechanism": "视觉感知模块；网络与评价设置未核实",
+        "input": "巡检图像",
+        "output": "裂缝结果"
+      }
+    ]
+  },
+  "training": {
+    "regime": "训练细节未核实；摘要确认RL行走控制",
+    "models": "行走RL与视觉感知模块，具体模型未核实",
+    "trainable": "RL控制器训练；视觉模块训练范围未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [
+    {
+      "benchmark": "大学建筑受控案例",
+      "setting": "官方摘要：一层公共区域；楼梯平台及相邻走廊，共两个案例。",
+      "result": "摘要报告最小可可靠检测裂缝宽度约0.2mm；这是检测尺度描述，不能替代P/R或成功率。全文图表尚待核验。",
+      "locator": "官方摘要（非表格核验）",
+      "sourceUrl": "https://doi.org/10.1016/j.cacaie.2026.100007",
+      "attribution": "作者摘要报告"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "两处受控路线验证不能外推至任意楼梯、未知建筑或真实灾后环境。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1016/j.cacaie.2026.100007",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / Toward next-generation autonomous structural health monitoring and inspection with humanoid robots（RoboInspect）",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://doi.org/10.1016/j.cacaie.2026.100007",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "发表信息",
+        "摘要"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p0b551c73fc5b2026,\n  title = {Toward next-generation autonomous structural health monitoring and inspection with humanoid robots},\n  author = {Zhen Wang and Yuqing Gao and Ying Zhou and Jialong He and Jiaxin Peng and Wensheng Lu},\n  year = {2026},\n  url = {https://doi.org/10.1016/j.cacaie.2026.100007}\n}",
+  "status": "基础索引",
+  "checked": "2026-10-19",
+  "gaps": [
+    "全文与关键实验图表未取得（出版社访问返回403）",
+    "作者机构、精确首发日期未核实；仅确认2026年4月卷44文章100007",
+    "视觉模型、训练数据/目标与完整评测指标未核实",
+    "代码/数据开放与许可未核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "Crack-YOLO裂缝检测＋RL行走＋激光/IMU和先验点云导航。\n历史：使用先验地图，未建立多轮设备健康记录。\n复查：按目标巡检，未验证基于历史风险的复查时间/目标调度。",
+      "evaluation": "公开Roboflow裂缝图像集；G1-EDU在大学建筑内两类受控案例：首层公共区域、楼梯平台及相邻走廊。非长期异常演化Benchmark。",
+      "training": "否。训练行走策略和裂缝视觉检测模型，不使用VLM。",
+      "analysis": "直接验证人形室内巡检，但未建立正常→异常→恶化的多轮状态轨迹；未利用历史异常自主决定复查间隔和优先目标。"
+    }
+  ],
+  "verificationLevel": "metadata",
+  "verification": "已核验官方摘要与元数据，全文实验尚待核实",
+  "overview": "官方摘要确认，RoboInspect 将行走、导航和裂缝检测整合到人形平台，在大学建筑两处路线做受控验证。本页尚未取得可阅读的完整实验表，因此不把摘要中的约0.2mm可检裂缝宽度解释为通用检测精度，也不补造成功率。",
+  "citationNote": "根据已核验作者、题名和出版年整理；完整正式卷页引用请以链接中的出版方BibTeX为准。"
+}

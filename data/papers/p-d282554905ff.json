@@ -1,0 +1,213 @@
+{
+  "id": "p-d282554905ff",
+  "title": "TANGO: Training-free Embodied AI Agents for Open-world Tasks",
+  "short": "TANGO",
+  "aliases": [],
+  "authors": [
+    "Filippo Ziliotto",
+    "Tommaso Campari",
+    "Luciano Serafini",
+    "Lamberto Ballan"
+  ],
+  "institutions": [
+    "University of Padova",
+    "Fondazione Bruno Kessler"
+  ],
+  "firstPublished": "2024-12-05",
+  "updated": "2024-12-05",
+  "publicationYear": 2025,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav",
+      "EQA",
+      "ImageNav"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "TANGO 把 LLM 当作机器人程序编排器：少量指令—程序示例教它组合探索、检测、图像匹配、导航和回答等原语，依靠空间记忆复用已探索内容，在不同目标模态间切换。",
+  "method": {
+    "input": "自然语言任务与少量程序示例",
+    "output": "执行动作或问题答案",
+    "explanation": "TANGO 把 LLM 当作机器人程序编排器：少量指令—程序示例教它组合探索、检测、图像匹配、导航和回答等原语，依靠空间记忆复用已探索内容，在不同目标模态间切换。",
+    "flow": [
+      "程序生成",
+      "感知与目标定位",
+      "记忆、探索与问答"
+    ],
+    "modules": [
+      {
+        "name": "程序生成",
+        "purpose": "本模块解决：程序生成",
+        "input": "自然语言任务与少量程序示例",
+        "mechanism": "LLM 从提供的原语库组合可执行程序，用控制流处理多阶段任务。",
+        "output": "任务程序",
+        "sourceUrl": "https://arxiv.org/html/2412.10402v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "感知与目标定位",
+        "purpose": "本模块解决：感知与目标定位",
+        "input": "RGB-D 与文本/图像目标",
+        "mechanism": "Owlv2 或 DETR 检测物体，SuperGlue 匹配实例图；由检测框中心与深度计算目标航点。",
+        "output": "目标候选与空间位置",
+        "sourceUrl": "https://arxiv.org/html/2412.10402v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "记忆、探索与问答",
+        "purpose": "本模块解决：记忆、探索与问答",
+        "input": "程序及已探索地图",
+        "mechanism": "调用预训练 PointGoal 模型和基于记忆的探索策略；回答模块使用 BLIP2，在达到观测需求后给出回答。",
+        "output": "执行动作或问题答案",
+        "sourceUrl": "https://arxiv.org/html/2412.10402v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "TANGO 把 LLM 当作机器人程序编排器：少量指令—程序示例教它组合探索、检测、图像匹配、导航和回答等原语，依靠空间记忆复用已探索内容，在不同目标模态间切换。"
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "LLM 从提供的原语库组合可执行程序，用控制流处理多阶段任务。",
+    "trainable": "无任务专属额外微调；复用预训练 PointGoal、感知和语言/视觉模型。training-free 指组合系统无新增训练，不代表各原语从未训练。",
+    "frozen": "现成模型仅推理使用，不新增任务训练。",
+    "data": "无任务专属额外微调；复用预训练 PointGoal、感知和语言/视觉模型。training-free 指组合系统无新增训练，不代表各原语从未训练。",
+    "objective": "无任务专属额外微调；复用预训练 PointGoal、感知和语言/视觉模型。training-free 指组合系统无新增训练，不代表各原语从未训练。",
+    "stages": "无任务专属额外微调；复用预训练 PointGoal、感知和语言/视觉模型。training-free 指组合系统无新增训练，不代表各原语从未训练。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HM3D-OVON",
+      "setting": "Val Unseen；原文均值±标准差",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2412.10402v1",
+      "table": {
+        "columns": [
+          "方法",
+          "SR (%)",
+          "SR 标准差",
+          "SPL (%)",
+          "SPL 标准差"
+        ],
+        "rows": [
+          [
+            "TANGO",
+            35.5,
+            0.3,
+            19.5,
+            0.3
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2412.10402v1",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2412.10402",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / TANGO: Training-free Embodied AI Agents for Open-world Tasks",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2412.10402",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2412.10402v1",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式发表页面",
+      "url": "https://openaccess.thecvf.com/content/CVPR2025/html/Ziliotto_TANGO_Training-free_Embodied_AI_Agents_for_Open-world_Tasks_CVPR_2025_paper.html",
+      "locator": "会议论文集",
+      "supports": [
+        "正式发表年份",
+        "会议",
+        "版本对应"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pd282554905ff,\n  title={TANGO: Training-free Embodied AI Agents for Open-world Tasks},\n  author={Filippo Ziliotto and Tommaso Campari and Luciano Serafini and Lamberto Ballan},\n  year={2024},\n  eprint={2412.10402},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2412.10402}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "HM3D-OVON、OpenEQA、GOAT-Bench",
+      "comparisons": "HM3D-OVON：RL、BCRL、DAgRL、VLFM、DAgRL+OD；       OpenEQA：Human Agent、Blind LLM、Socratic LLM w/ Frame Captions、Socratic LLM w/ Scene-Graph Captions；                                                 GOAT-Bench：SenseAct-NN Skill Chain、SenseAct-NN Monolitic、Modular GOAT、Modular Clip on Wheels",
+      "training": "Training-free Zero-shot。现成PointGoal policy+memory exploration+LLM组合，仅使用few-shot in-context examples，不针对任务fine-tune。",
+      "resourceClaim": "是"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "TANGO 把 LLM 当作机器人程序编排器：少量指令—程序示例教它组合探索、检测、图像匹配、导航和回答等原语，依靠空间记忆复用已探索内容，在不同目标模态间切换。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

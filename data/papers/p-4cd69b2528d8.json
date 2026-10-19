@@ -1,0 +1,203 @@
+{
+  "id": "p-4cd69b2528d8",
+  "title": "Socially Assistive Robots in Elderly Care: A Systematic Review into Effects and Effectiveness",
+  "short": "SAR-Elderly",
+  "aliases": [
+    "SAR-Elderly"
+  ],
+  "authors": [
+    "Roger Bemelmans",
+    "Gert Jan Gelderblom",
+    "Pieter Jonker",
+    "Luc de Witte"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2012,
+  "venue": "Journal of the American Medical Directors Association",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2012,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "系统梳理老年照护社会辅助机器人的效果与有效性，研究对象是既有照护干预证据，不是新机器人策略。",
+  "method": {
+    "input": "候选记录",
+    "output": "机器人用途、效果与证据边界",
+    "flow": [
+      "多库初检",
+      "分阶段筛选与补查",
+      "按机器人归纳结果"
+    ],
+    "explanation": "本库通过作者大学存档博士论文中明确重印的第2章核读这篇JAMDA文章。综述先在医学、护理和IEEE等数据库用老年人及机器人相关词检索；三位评审独立按标题和摘要筛选，随后一位评审通读，并补查Google Scholar、会议和参考文献。最后41篇出版物对应17项研究，机器人包括Bandit、AIBO、PARO、NeCoRo及未指明型号；出版物数、独立研究数、型号数应分开。作者主要叙事整理情绪、孤独、社交和压力等结局，指出结果多为积极，但研究规模小、设计薄弱，不能推成有充分临床效果证据的机器人技术。",
+    "modules": [
+      {
+        "name": "多库初检",
+        "purpose": "扩大老年照护机器人相关证据覆盖",
+        "mechanism": "以老年人/失智与机器人主题词检索医学、护理、心理及IEEE来源，日期不设下限、限英语。",
+        "input": "候选记录",
+        "output": "2891条初检出版物"
+      },
+      {
+        "name": "分阶段筛选与补查",
+        "purpose": "降低标题判断导致的漏纳",
+        "mechanism": "三评审独立筛标题/摘要，之后单评审读全文；补查会议、互联网和参考文献。",
+        "input": "标题、摘要和全文",
+        "output": "41篇出版物、17项研究"
+      },
+      {
+        "name": "按机器人归纳结果",
+        "purpose": "区分可接受性与效果证据",
+        "mechanism": "分Bandit/AIBO/PARO/NeCoRo整理心理、生理与社交结局；没有统一成功率或新的策略训练。",
+        "input": "研究设计及结局",
+        "output": "机器人用途、效果与证据边界"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "文献筛选与证据规模",
+      "setting": "作者存档论文第2章为正式文章重印；不是整本博士论文的全部实验",
+      "result": "41篇出版物对应17项研究；多数证据质量低。",
+      "locator": "重印章2：Results；Fig.1；Table 2/3（论文内页16–18）",
+      "sourceUrl": "https://cris.maastrichtuniversity.nl/ws/portalfiles/portal/1436743/guid-5b44c835-d2ac-4f18-96e5-8b8c3aeea6ae-ASSET1.0.pdf",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "统计口径",
+          "数量"
+        ],
+        "rows": [
+          [
+            "初检出版物",
+            "2,891"
+          ],
+          [
+            "按标题进入下一步",
+            "123"
+          ],
+          [
+            "按摘要选择",
+            "37"
+          ],
+          [
+            "最终纳入出版物",
+            "41"
+          ],
+          [
+            "对应独立研究",
+            "17"
+          ],
+          [
+            "明确命名机器人系统",
+            "4，另有未指明机器人"
+          ]
+        ],
+        "locator": "重印章2：Results；Fig.1；Table 2/3（论文内页16–18）"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "作者指出大多数研究方法质量低；正面结果的科学证据价值有限。",
+      "同一研究可有多篇会议/期刊报告，不能将41篇文献当作41项独立干预试验。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1016/j.jamda.2010.10.002",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / SAR-Elderly",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1016/j.jamda.2010.10.002",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1016/j.jamda.2010.10.002",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://cris.maastrichtuniversity.nl/ws/portalfiles/portal/1436743/guid-5b44c835-d2ac-4f18-96e5-8b8c3aeea6ae-ASSET1.0.pdf",
+      "locator": "重印章2：Results；Fig.1；Table 2/3（论文内页16–18）",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。",
+    "本次使用作者学位论文中的正式文章重印章节；没有把学位论文其他章节结果并入该文章。",
+    "精确首次公开日期未核实，不将年月补写成某一天。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**JAMDA'10**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "系统梳理老年照护社会辅助机器人的效果与有效性，研究对象是既有照护干预证据，不是新机器人策略。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

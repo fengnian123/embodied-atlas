@@ -1,0 +1,206 @@
+{
+  "id": "p-0b78576d9183",
+  "title": "A Review of Intent Detection, Arbitration, and Communication Aspects of Shared Control for Physical Human–Robot Interaction",
+  "short": "Shared-pHRI",
+  "aliases": [
+    "Shared-pHRI"
+  ],
+  "authors": [
+    "Dylan P. Losey",
+    "Craig G. McDonald",
+    "Edoardo Battaglia",
+    "Marcia K. O'Malley"
+  ],
+  "institutions": [
+    "Department of Mechanical Engineering, Rice University, Houston, TX 77251 e-mail:",
+    "Centro di Ricerca “E. Piaggio”, University of Pisa, Pisa 56126, Italy e-mail:",
+    "Professor Fellow ASME Mechatronics and Haptic Interfaces Laboratory, Department of Mechanical Engineering, Rice University, Houston, TX 77251 e-mail:"
+  ],
+  "firstPublished": "2018-02-14",
+  "updated": null,
+  "publicationYear": 2018,
+  "venue": "Applied Mechanics Reviews",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2018,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "以意图识别、控制权仲裁与反馈沟通三个环节组织物理人机共享控制研究，并用康复和假肢案例串联设计选择。",
+  "method": {
+    "input": "人机运动、生理或交互传感",
+    "output": "可感知反馈及设计分析",
+    "flow": [
+      "意图检测",
+      "控制权仲裁",
+      "信息反馈与案例映射"
+    ],
+    "explanation": "这篇综述将身体耦合的人机共享控制拆成三个相互影响的问题：推断人的意图、仲裁双方控制权、把系统/环境状态反馈给人。意图检测不仅是分类手势，也包括由运动、力、肌电或任务模型推断目标；仲裁讨论共同行动、主从、教师-学生和协作等角色，以及如何按技能、表现或学习调整角色；反馈则讨论通过视觉、听觉和尤其触觉传回环境及控制状态。作者用RiceWrist-S上肢康复与上肢假肢两个案例说明这一设计框架。本文价值是分析不同领域共享控制的共同结构，不提出统一机器人策略，也没有跨任务成功率总榜。",
+    "modules": [
+      {
+        "name": "意图检测",
+        "purpose": "推断身体耦合系统中人的目标或运动",
+        "mechanism": "对比运动/力信号、肌电与任务模型等信息；关注耦合如何提供隐含意图线索。",
+        "input": "人机运动、生理或交互传感",
+        "output": "意图估计"
+      },
+      {
+        "name": "控制权仲裁",
+        "purpose": "决定不同任务阶段双方承担的角色",
+        "mechanism": "区分co-activity、master-slave、teacher-student、collaboration，并讨论性能驱动或学习式角色调节。",
+        "input": "意图、能力、任务表现",
+        "output": "人机控制权与角色分配"
+      },
+      {
+        "name": "信息反馈与案例映射",
+        "purpose": "使操作者理解环境、机器人和仲裁状态",
+        "mechanism": "比较感觉通道与触觉架构；将三主题映射到RiceWrist-S康复和上肢假肢案例。",
+        "input": "系统与环境状态",
+        "output": "可感知反馈及设计分析"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [
+    {
+      "benchmark": "共享控制框架的证据形式",
+      "setting": "综述；两案例来自既有研究，不是本文新增统一控制试验",
+      "result": "方法章节给三主题框架，案例展示其如何映射到具体康复和假肢系统。",
+      "locator": "Sec.2–6；Fig.1",
+      "sourceUrl": "https://repository.rice.edu/server/api/core/bitstreams/65907f6c-0eee-4b88-b9c8-9b44eb069e67/content",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "组织层次",
+          "原文内容"
+        ],
+        "rows": [
+          [
+            "三个主题",
+            "Intent detection / Arbitration / Feedback"
+          ],
+          [
+            "案例1",
+            "Upper-limb rehabilitation / RiceWrist-S"
+          ],
+          [
+            "案例2",
+            "Upper-limb robotic prosthesis"
+          ],
+          [
+            "新策略统一成功率",
+            "不适用；综述不提供该指标"
+          ]
+        ],
+        "locator": "Sec.2–6；Fig.1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "作者明确这不是穷尽性综述；侧重身体耦合共享控制的组织框架。",
+      "案例是对具体系统的说明，不构成不同机器人应用的统一比较协议。"
+    ],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1115/1.4039145",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Rehabilitation and Physical Assistance / Shared-pHRI",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://asmedigitalcollection.asme.org/appliedmechanicsreviews/article-pdf/70/1/010804/5964415/amr_070_01_010804.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1115/1.4039145",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1115/1.4039145",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://repository.rice.edu/server/api/core/bitstreams/65907f6c-0eee-4b88-b9c8-9b44eb069e67/content",
+      "locator": "Sec.2–6；Fig.1",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Applied Mechanics Reviews'18**",
+      "section": "Rehabilitation and Physical Assistance"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "以意图识别、控制权仲裁与反馈沟通三个环节组织物理人机共享控制研究，并用康复和假肢案例串联设计选择。 本文为综述或框架分析，下列模块表示证据组织结构，不是新训练的机器人策略。"
+}

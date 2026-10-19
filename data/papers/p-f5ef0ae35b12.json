@@ -1,0 +1,247 @@
+{
+  "id": "p-f5ef0ae35b12",
+  "title": "VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models",
+  "short": "VoxPoser",
+  "aliases": [
+    "VoxPoser",
+    "VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models"
+  ],
+  "authors": [
+    "Huang, Wenlong",
+    "Wang, Chen",
+    "Zhang, Ruohan",
+    "Li, Yunzhu",
+    "Wu, Jiajun",
+    "Fei-Fei, Li"
+  ],
+  "institutions": [
+    "Stanford University",
+    "University of Illinois Urbana-Champaign"
+  ],
+  "firstPublished": "2023-07-12",
+  "updated": "2023-11-02",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "LLM",
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "通过 LLM 生成代码，把语言约束与视觉定位组合成三维价值图，再规划末端轨迹。",
+  "method": {
+    "explanation": "VoxPoser 将“把物体推到哪里、沿途避开什么、末端如何朝向”显式表示为三维空间价值图。LLM 解析任务并编写调用视觉语言感知的代码，得到目标、避障、速度和姿态等地图；模型式规划器寻找高价值且满足约束的末端轨迹。新观测到来后更新地图并重规划，从而应对扰动。零样本主设置不需要为每条指令训练新策略；论文另有利用在线交互学习接触动力学的扩展。",
+    "input": "自然语言及RGB-D观测",
+    "output": "闭环6-DoF末端轨迹",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "通过 LLM 生成代码，把语言约束与视觉定位组合成三维价值图，再规划末端轨迹。",
+    "flow": [
+      "语言约束编译",
+      "组合三维价值图",
+      "模型式闭环规划"
+    ],
+    "modules": [
+      {
+        "name": "语言约束编译",
+        "purpose": "提取开放词汇任务中的可供性和约束",
+        "mechanism": "LLM根据指令选择感知对象与空间关系，生成调用视觉定位和地图构造函数的代码。",
+        "sourceUrl": "https://arxiv.org/html/2307.05973",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "组合三维价值图",
+        "purpose": "将语义落到机器人坐标空间",
+        "mechanism": "把分割/定位结果反投影为3D点，建立目标、避障、速度和旋转等价值场并组合，形成轨迹优化的统一目标。",
+        "sourceUrl": "https://arxiv.org/html/2307.05973",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "模型式闭环规划",
+        "purpose": "避免依赖固定语义动作库",
+        "mechanism": "在组合价值图上搜索/优化6-DoF末端航点，执行后刷新感知；接触丰富扩展可用在线经验学习局部动力学。",
+        "sourceUrl": "https://arxiv.org/html/2307.05973",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "基础模型仅推理；接触动力学扩展含在线学习",
+    "models": "LLM代码生成、开放词汇视觉感知、模型式规划器",
+    "trainable": "主零样本设置不训练任务策略；扩展学习接触动力学模型",
+    "frozen": "语言/视觉基础模型",
+    "data": "主设置无下游示范；扩展使用在线交互经验",
+    "objective": "轨迹价值优化；扩展使用动力学预测损失",
+    "stages": "语义编译 → 空间图生成 → 规划执行 → 观测更新"
+  },
+  "evaluation": [
+    {
+      "benchmark": "VoxPoser 仿真已见/未见任务",
+      "setting": "Table 4：仿真，已见/未见属性任务；各条成功率平均口径见原表，不合并为真实机器人总成功率。",
+      "result": "例如沿线推动：VoxPoser SA 65% / UA 30%，两个基线均0%；带速度条件移动：100% / 95%。",
+      "sourceUrl": "https://arxiv.org/html/2307.05973",
+      "locator": "原文 Table 4",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 4: Full experimental results in simulation on seen tasks and unseen tasks . “SA” indicates seen attributes and “UA” indicates unseen attributes. Each entry represents success rate averaged across 20 episodes.",
+        "columns": [
+          "任务",
+          "U-Net+MP SA",
+          "U-Net+MP UA",
+          "LLM+Prim SA",
+          "LLM+Prim UA",
+          "VoxPoser SA",
+          "VoxPoser UA"
+        ],
+        "rows": [
+          [
+            "Tasks",
+            "SA",
+            "UA",
+            "SA",
+            "UA",
+            "SA",
+            "UA"
+          ],
+          [
+            "move to the [pos] while moving at [velocity] when within [dist]cm from the obj",
+            "80.0%",
+            "0.0%",
+            "10.0%",
+            "0.0%",
+            "100.0%",
+            "95.0%"
+          ],
+          [
+            "close the [deixis] drawer by pushing",
+            "0.0%",
+            "0.0%",
+            "60.0%",
+            "60.0%",
+            "80.0%",
+            "80.0%"
+          ],
+          [
+            "push the [obj] while letting it stay on [region]",
+            "0.0%",
+            "5.0%",
+            "10.0%",
+            "0.0%",
+            "50.0%",
+            "50.0%"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "价值图规划仍依赖3D感知和可行的动力学/接触模型；开放词汇任务不等于任意接触技能零样本可解。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2307.05973",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://voxposer.github.io/",
+      "status": "已核实入口",
+      "note": "原文明确提供的官方链接；未逐文件检查下载与许可证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / VoxPoser",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2307.05973",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://voxposer.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2307.05973",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2307.05973",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pf5ef0ae35b122023,\n title={VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models},\n author={Huang, Wenlong and Wang, Chen and Zhang, Ruohan and Li, Yunzhu and Wu, Jiajun and Fei-Fei, Li},\n year={2023},\n url={https://arxiv.org/abs/2307.05973}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**CoRL'23**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "VoxPoser 将“把物体推到哪里、沿途避开什么、末端如何朝向”显式表示为三维空间价值图。LLM 解析任务并编写调用视觉语言感知的代码，得到目标、避障、速度和姿态等地图；模型式规划器寻找高价值且满足约束的末端轨迹。新观测到来后更新地图并重规划，从而应对扰动。零样本主设置不需要为每条指令训练新策略；论文另有利用在线交互学习接触动力学的扩展。",
+  "verificationLevel": "fulltext"
+}

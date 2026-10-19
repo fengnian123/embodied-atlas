@@ -1,0 +1,292 @@
+{
+  "id": "p-e792ec2c3692",
+  "title": "VSCD: Video-based Scene Change Detection in Unaligned Scenes",
+  "short": "VSCD / VSCDNet",
+  "aliases": [],
+  "authors": [
+    "Jiae Yoon",
+    "Ue-Hwan Kim"
+  ],
+  "institutions": [
+    "Gwangju Institute of Science and Technology"
+  ],
+  "firstPublished": "2026-05-20",
+  "updated": "2026-05-20",
+  "publicationYear": 2026,
+  "venue": "ICML",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "场景理解",
+      "巡检"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "模块化系统",
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "泛化",
+      "空间理解"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "轮式机器人"
+    ],
+    "training": [
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "未对齐前后视频的稠密变化检测：1090合成视频对＋8真实视频对，跨帧候选和置信度融合补偿视角差。",
+  "method": {
+    "input": "不同时间、不同路线的参考与查询RGB视频",
+    "output": "查询视频每帧像素级变化掩码",
+    "assumptions": "不提供位姿/标定或同步；每段视频内场景固定。",
+    "difference": "从图像对变化检测扩展为自由运动、跨路线的视频对；多参考融合而非单帧最近邻。",
+    "explanation": "冻结SAM ViT-B提取两视频各32关键帧的64×64 patch特征。可学习对齐token与残差相似度网格给出帧级软匹配，再以近对角时序片段和全局高分帧组装最多6候选。对每候选计算5×5局部相关并用期望偏移可微warp，得到候选变化特征。融合权重同时考虑帧级匹配和patch分布峰值/熵；每查询帧只解码一次，并注入RGB恢复细边界。训练只用变化掩码，无位姿监督。",
+    "flow": [
+      "帧级候选对齐",
+      "局部patch对应",
+      "置信融合",
+      "查询引导解码"
+    ],
+    "modules": [
+      {
+        "name": "帧级候选对齐",
+        "purpose": "应对不同路线与时间不同步",
+        "mechanism": "alignment token＋相似度残差头，结合时序片段与全局top候选",
+        "input": "32参考/查询关键帧",
+        "output": "每帧多个参考及置信度"
+      },
+      {
+        "name": "局部patch对应",
+        "purpose": "补偿局部视角偏移",
+        "mechanism": "5×5相关softmax得到期望位移，双线性warp参考特征",
+        "input": "候选特征对",
+        "output": "局部对齐变化特征"
+      },
+      {
+        "name": "置信融合",
+        "purpose": "降低模糊匹配噪声",
+        "mechanism": "帧级概率乘patch峰值/熵权重，加权融合",
+        "input": "多候选变化特征",
+        "output": "单个查询变化表示"
+      },
+      {
+        "name": "查询引导解码",
+        "purpose": "恢复全分辨率边界",
+        "mechanism": "逐级上采样并在256/1024尺度注入RGB",
+        "input": "融合特征与当前图",
+        "output": "查询变化掩码"
+      }
+    ]
+  },
+  "training": {
+    "regime": "冻结主干并训练模块",
+    "models": "SAM ViT-B",
+    "trainable": "对齐token/注意聚合、残差匹配头、变化头及解码器",
+    "frozen": "预训练SAM图像编码器",
+    "data": "VSCD-Syn；真实8视频对仅评测；218合成环境、1090对、约113万标注帧",
+    "objective": "BCE-with-logits＋soft Dice变化监督，无显式位姿监督",
+    "stages": "合成监督训练→合成测试→不在真实集微调的迁移评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "VSCD-Syn / VSCD-Real",
+      "setting": "arXiv v1；frame-wise F1先逐帧后平均；Syn1090对总规模不等于测试对数；Real8对(3机器人、5手持)，17k标注帧只评测。",
+      "result": "VSCDNet合成F136.6%、真实25.4%；真实机器人32.0%、手持21.5%，数据分布不同不解释为硬件本身优势。",
+      "locator": "Table 3",
+      "sourceUrl": "https://arxiv.org/abs/2605.20821",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 3",
+        "columns": [
+          "方法",
+          "合成F1(%)",
+          "机器人真实F1(%)",
+          "手持真实F1(%)",
+          "真实总F1(%)"
+        ],
+        "rows": [
+          [
+            "PBCD-MC",
+            26.8,
+            16.8,
+            15.7,
+            16.1
+          ],
+          [
+            "C-3PO",
+            24.1,
+            8.0,
+            13.9,
+            11.7
+          ],
+          [
+            "GeSCF",
+            29.5,
+            25.1,
+            12.6,
+            17.3
+          ],
+          [
+            "VSCDNet",
+            36.6,
+            32.0,
+            21.5,
+            25.4
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2605.20821",
+        "locator": "Table 3"
+      }
+    },
+    {
+      "benchmark": "合成组件消融",
+      "setting": "Table4；固定其余模块，frame-wise F1%。",
+      "result": "去掉两种置信度时34.8%，完整36.6%。",
+      "locator": "Table 4",
+      "sourceUrl": "https://arxiv.org/abs/2605.20821",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 4",
+        "columns": [
+          "变体",
+          "F1(%)"
+        ],
+        "rows": [
+          [
+            "完整",
+            36.6
+          ],
+          [
+            "无alignment token",
+            35.5
+          ],
+          [
+            "无patch置信度",
+            35.9
+          ],
+          [
+            "无frame置信度",
+            35.1
+          ],
+          [
+            "两种置信度都无",
+            34.8
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2605.20821",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "合成到真实仍有36.6→25.4的性能差距；小变化区域真实F1仅13.3%(Table8)。",
+      "无重叠/极大视角差导致参考匹配模糊，局部5×5对应能力有限。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2605.20821",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/AutoCompSysLab/VSCD",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://github.com/AutoCompSysLab/VSCD",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / VSCD: Video-based Scene Change Detection in Unaligned Scenes",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2605.20821",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://proceedings.mlr.press/v306/yoon26e.html",
+      "label": "ICML正式出版记录",
+      "locator": "PMLR306 pp.149696–149713",
+      "supports": [
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pe792ec2c36922026,\n  title = {VSCD: Video-based Scene Change Detection in Unaligned Scenes},\n  author = {Jiae Yoon and Ue-Hwan Kim},\n  year = {2026},\n  url = {https://arxiv.org/abs/2605.20821}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "合成各划分精确规模与源场景资产许可待逐项核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "从历史视频检索多张参考帧，学习对应关系/置信度，再融合当前帧的变化掩码。未规划下次复查。",
+      "evaluation": "VSCD：室内参考/查询视频变化数据；另有真实场景迁移实验。仓库说明数据将发布，复现前需检查。",
+      "training": "否。训练视觉变化检测网络；没有语言VLM的巡检微调。",
+      "analysis": "检测的是物体增减/位置变化，未建立设备正常→异常→恶化的状态轨迹，也未决定复查时间与地点；无人形长期验证。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "两个时刻对同一室内空间拍摄视频，路线、朝向和时间都可能不同。VSCD 要求对查询视频逐帧标出物体增删与移动的位置，模型先寻找多个参考帧，再局部对齐特征并按置信度融合。合成数据提供大规模像素监督，真实手持/机器人视频检验迁移。每段录制中场景状态固定，变化发生在两次录制之间；不应将其理解为单次视频内持续运动物体的4D重建。",
+  "benchmark": {
+    "motivation": "评测自由运动摄像头下大视角差、多物体变化。",
+    "task": "两次录制之间的物体增删/移动变化分割。",
+    "input": "参考与查询RGB视频；无相机标定、位姿、同步。",
+    "output": "查询逐帧变化掩码。",
+    "actions": "离线视频比较；机器人演示另展示应用。",
+    "success": "逐帧F1平均，不是全像素池化F1。",
+    "collection": "AI2-THOR/Unreal生成多状态与不同轨迹，重放查询轨迹渲染精确掩码；真实8环境人工标注。",
+    "scale": "Syn218环境、1090视频对、约1.13M标注帧；Real8环境/8对/17k帧。",
+    "split": "合成训练/验证/测试；真实集只测试，不微调。",
+    "metrics": "frame-wise F1；长度、渲染、变化数量分层。",
+    "baselines": "图像SCD及视频AOD，不直接纳入需外部3D位姿/重建的方法。",
+    "assets": "官方实现与数据入口已确认；完整场景资产开放情况未逐项核实。",
+    "license": "未核实。",
+    "reproduction": "SAM编码器、合成数据与固定关键帧/阈值协议。",
+    "coverage": "物体出现、消失；搬移视为原位消失＋新位出现。",
+    "boundary": "单次录制内不变；不含连续运动、动作闭环导航成功评测。",
+    "leakage": "需按环境划分，不能把同场景不同状态或循环配对随机拆行。"
+  },
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

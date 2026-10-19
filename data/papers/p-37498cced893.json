@@ -1,0 +1,269 @@
+{
+  "id": "p-37498cced893",
+  "title": "Virtual Patient Simulations Using Social Robotics Combined With Large Language Models for Clinical Reasoning Training in Medical Education: Mixed Methods Study",
+  "short": "VP-Robot-JMIR",
+  "aliases": [
+    "VP-Robot-JMIR"
+  ],
+  "authors": [
+    "Alexander Borg",
+    "Carina Georg",
+    "Benjamin Jobs",
+    "Viking Huss",
+    "Kristin Waldenlind",
+    "Mini Ruiz",
+    "Samuel Edelbring",
+    "Gabriel Skantze",
+    "Ioannis Parodis"
+  ],
+  "institutions": [],
+  "firstPublished": "2025-03-03",
+  "updated": null,
+  "publicationYear": 2025,
+  "venue": "Journal of Medical Internet Research",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "将LLM与社交机器人结合为虚拟患者，和电脑式虚拟患者比较医学学生的学习体验。是教学概念验证，不能作为机器人诊疗有效性证据。",
+  "method": {
+    "input": "学生语音、病例、历史",
+    "output": "真实性、学习感受及程序局限证据",
+    "flow": [
+      "病例与语音对话",
+      "语言与非语言同步",
+      "配对混合方法评价"
+    ],
+    "explanation": "该研究将Furhat社交机器人用作虚拟患者，训练医学生的问诊与临床推理，而非执行医疗操作。学生语音经转写后，将虚构风湿病病例与最近10轮对话发送给GPT-3.5-turbo生成患者回答；第二次独立模型调用在句内锚点上选择表情，文本转语音时再同步投影。视线转移和底座LED提示发言轮次，以减轻模型等待延迟。15位学生分别使用机器人和传统半线性VIC病例平台，随后填写5分量表，以配对比较减少个体差异；8人参加访谈进行主题分析。主要终点是体验、真实性和自感学习帮助，问卷并未直接测量临床推理能力增益。",
+    "modules": [
+      {
+        "name": "病例与语音对话",
+        "purpose": "产生可追问的病人角色回答",
+        "mechanism": "虚构polymyalgia rheumatica病例、最近10轮历史和回答指令构成单条用户消息，调用GPT-3.5-turbo。",
+        "input": "学生语音、病例、历史",
+        "output": "患者角色回答"
+      },
+      {
+        "name": "语言与非语言同步",
+        "purpose": "使回答带有情境匹配的面部表现",
+        "mechanism": "对话生成和表情选择分两次LLM调用；在短语锚点绑定FurhatSDK表情，TTS发声时同步。",
+        "input": "回答文本与句内锚点",
+        "output": "语音、表情、视线和轮次提示"
+      },
+      {
+        "name": "配对混合方法评价",
+        "purpose": "比较相同学生对两种平台的感受",
+        "mechanism": "15位医学生分别完成机器人和VIC病例，填写5点量表；8人再访谈，用主题分析解释体验。",
+        "input": "问卷与访谈",
+        "output": "真实性、学习感受及程序局限证据"
+      }
+    ],
+    "assumptions": "临床/用户研究的结果受纳入标准、样本与评价场景限制。",
+    "difference": "对应真实证据类型：临床/用户研究"
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "GPT-3.5-turbo、FurhatSDK、语音识别与TTS。",
+    "trainable": "本研究未报告微调LLM或训练机器人策略。",
+    "frozen": "以现成GPT-3.5-turbo API生成对话和表情，无权重更新。",
+    "data": "虚构病例与最近10轮交互供上下文推理；学生问卷/访谈用于评价。",
+    "objective": "不适用损失函数；目标是虚拟患者对话及教学体验。",
+    "stages": "病例设计→提示词/API对话→表情同步→配对用户研究。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "虚拟患者平台体验",
+      "setting": "N=15；5分量表；同一学生对机器人与VIC配对比较；Table 2主题汇总",
+      "result": "机器人真实性及自感学习效果更高；整体病例评价相同。",
+      "locator": "Table 2；Results",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11914843/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "主题",
+          "社交机器人 mean (SD)",
+          "VIC mean (SD)",
+          "P值"
+        ],
+        "rows": [
+          [
+            "真实性",
+            "4.5 (0.7)",
+            "3.9 (0.5)",
+            ".04"
+          ],
+          [
+            "专业问诊方式",
+            "4.3 (0.5)",
+            "4.2 (0.5)",
+            ".16"
+          ],
+          [
+            "问诊辅导",
+            "4.6 (0.4)",
+            "4.4 (0.6)",
+            ".21"
+          ],
+          [
+            "自感学习效果",
+            "4.4 (0.6)",
+            "4.1 (0.6)",
+            ".01"
+          ],
+          [
+            "病例整体评价",
+            "4.7 (0.8)",
+            "4.7 (0.5)",
+            ".75"
+          ]
+        ],
+        "locator": "Table 2；Results"
+      },
+      "caveat": "辅导主题部分题项n=12；保留原始Table 2值。Table 1与正文个别单题均值不一致，且原文标作OR的数值及置信区间存在解释疑问，本库不据此推算效应。"
+    },
+    {
+      "benchmark": "研究设计与质性样本",
+      "setting": "单中心医学生可用性研究，不是临床疗效或技能随机试验",
+      "result": "问卷15人，深入访谈8人。",
+      "locator": "Methods Participants；Results Interviews",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11914843/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "项目",
+          "原文值"
+        ],
+        "rows": [
+          [
+            "问卷样本",
+            "15位医学生"
+          ],
+          [
+            "访谈样本",
+            "8位医学生"
+          ],
+          [
+            "问卷内容",
+            "12个5分量化问题+2个开放问题"
+          ],
+          [
+            "LLM历史窗口",
+            "最近10轮对话"
+          ]
+        ],
+        "locator": "Methods Participants；Results Interviews"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "样本小、单中心，不能代表其他医学生群体。",
+      "问卷衡量平台设计与感受，没有直接评价临床推理技能习得；需要与纯LLM平台比较才能分离实体机器人的贡献。",
+      "语音停顿容易被判为结束而遭机器人打断；机器人不具备体检与实验室结果交互。"
+    ],
+    "analysis": [
+      "网站分析：接受度、教学体验或某项临床终点只说明指定研究条件下的结果，不能替代独立外部验证或直接推为其他场景的结论。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.2196/63312",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Caregiving, Elderly Care, and Social Robots / VP-Robot-JMIR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.2196/63312",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Healthcare LLM/VLA Robot Prototypes / VP-Robot-JMIR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.2196/63312",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11914843/",
+      "locator": "Table 2；Results; Methods Participants；Results Interviews",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "p-450f588def14",
+      "reason": "同一Furhat虚拟患者研究线的HRI 2024初步报告；本条为后续混合方法论文，保留为独立出版物。"
+    }
+  ],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**JMIR'25**",
+      "section": "Caregiving, Elderly Care, and Social Robots"
+    },
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**JMIR'25**",
+      "section": "Healthcare LLM/VLA Robot Prototypes"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "将LLM与社交机器人结合为虚拟患者，和电脑式虚拟患者比较医学学生的学习体验。是教学概念验证，不能作为机器人诊疗有效性证据。 "
+}

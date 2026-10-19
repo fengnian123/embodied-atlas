@@ -1,0 +1,264 @@
+{
+  "id": "p-7f5ff67c08d8",
+  "title": "A Hierarchical Approach with Crisis Mitigation for Multi-Robot Spatio-Temporal Restoration",
+  "short": "H-BFVG-CM",
+  "aliases": [],
+  "authors": [
+    "Amel Nestor Docena",
+    "Alberto Quattrini Li"
+  ],
+  "institutions": [
+    "Dartmouth College"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "AAMAS",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检",
+      "长程任务"
+    ],
+    "paradigm": [],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "动态环境"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "室外",
+      "轮式机器人"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "多机器人先划分长期维护辖区，再在大范围环境属性加速恶化时临时组队支援，完成后回归原辖区。",
+  "method": {
+    "input": "已知地图、区域属性及衰减率、机器人电量、恢复能力",
+    "output": "机器人访问/恢复/充电日程和临时支援分配",
+    "assumptions": "同构机器人；每区只需1机器人恢复；中央通信无限制，衰减率oracle已知。",
+    "difference": "不仅固定划分辖区，还检测局部负荷高峰并动态组队，支援结束可返回。",
+    "explanation": "中心按位置和衰减率聚类为与机器人数量相同的辖区，并分配home robot。每机器人用Best-forecasted Visit Greedy局部决策，在电量可行条件下选择最有价值的恢复访问。中心持续比较home负荷和外部支援可行性；预计多区高峰超过本地能力时，把紧急区域构成surge clusters，选择可支援的机器人，按折扣未来损失改派。支援目标完成后重新比较收益与成本，释放机器人回到原辖区。",
+    "flow": [
+      "home辖区聚类",
+      "局部贪心预测",
+      "危机检测",
+      "支援编组与释放"
+    ],
+    "modules": [
+      {
+        "name": "home辖区聚类",
+        "purpose": "降低多机器人全局组合复杂度",
+        "mechanism": "按位置、衰减率等属性聚类后分配机器人",
+        "input": "区域与机器人",
+        "output": "辖区分配"
+      },
+      {
+        "name": "局部贪心预测",
+        "purpose": "持续处理常态维护",
+        "mechanism": "BFVG预测折扣损失，兼顾旅行/恢复/电量",
+        "input": "本辖区状态",
+        "output": "下一恢复或充电"
+      },
+      {
+        "name": "危机检测",
+        "purpose": "发现本地能力不足",
+        "mechanism": "检查内部过载与外部支援可行性",
+        "input": "预计衰减与负荷",
+        "output": "需支援辖区"
+      },
+      {
+        "name": "支援编组与释放",
+        "purpose": "应对大范围同步恶化",
+        "mechanism": "组紧急cluster、分配surge机器人，完成后返home",
+        "input": "紧急区、可用机器人",
+        "output": "临时支援日程"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用：基于模型的分层启发式规划",
+    "models": "K-means、BFVG、中心重分配",
+    "trainable": "不训练VLM/VLA/神经策略；衰减模型当前oracle给定",
+    "frozen": "不适用",
+    "data": "自定义模拟器与Stage2D",
+    "objective": "最小化区域损失与低于阈值持续时间",
+    "stages": "辖区分配→本地贪心→危机支援→返回"
+  },
+  "evaluation": [
+    {
+      "benchmark": "MR-STAR 仿真",
+      "setting": "AAMAS正式PDF Table1；有空间相关性，1000 trials；列为4机器人×24区/8×64/10×100。这里比较H-BFVG基础分层，不是危机增强CM。原表p=0.00为舍入，不代表严格为零。",
+      "result": "相对Global greedy，低于关键阈值的平均持续时间改善42%/39%/35%。CM额外效果在Fig5，未把它冒作Table1数值。",
+      "locator": "Table 1 / §6.1",
+      "sourceUrl": "https://doi.org/10.65109/UYQK9511",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 1 / §6.1",
+        "columns": [
+          "基线",
+          "4×24 改善",
+          "8×64 改善",
+          "10×100 改善"
+        ],
+        "rows": [
+          [
+            "Mixed portfolio",
+            "42%",
+            "38%",
+            "34%"
+          ],
+          [
+            "Solo distributed",
+            "19%",
+            "17%",
+            "20%"
+          ],
+          [
+            "Global greedy",
+            "42%",
+            "39%",
+            "35%"
+          ],
+          [
+            "Job scheduling",
+            "20%",
+            "16%",
+            "20%"
+          ],
+          [
+            "MDP近似",
+            "49%",
+            "39%",
+            "38%"
+          ]
+        ],
+        "sourceUrl": "https://doi.org/10.65109/UYQK9511",
+        "locator": "Table 1 / §6.1"
+      }
+    },
+    {
+      "benchmark": "CM消融协议",
+      "setting": "§6.1.2/Fig5：Q1/Q2衰减比Q3/Q4快100%；tilde-k=3、k=1、γ=.75。",
+      "result": "作者Fig5显示CM优于不做危机支援；图中未给可可靠直接抄录的逐柱数字，本页仅记录明示协议，不制造精确性能值。",
+      "locator": "§6.1.2 / Figure 5",
+      "sourceUrl": "https://doi.org/10.65109/UYQK9511",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "§6.1.2 / Figure 5",
+        "columns": [
+          "协议参数",
+          "数值"
+        ],
+        "rows": [
+          [
+            "Q1/Q2相对衰减加速",
+            "100%"
+          ],
+          [
+            "中心前瞻步数",
+            "3"
+          ],
+          [
+            "本地前瞻步数",
+            "1"
+          ],
+          [
+            "折扣γ",
+            0.75
+          ]
+        ],
+        "sourceUrl": "https://doi.org/10.65109/UYQK9511",
+        "locator": "§6.1.2 / Figure 5"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "假设精确衰减知识和不受限通信；在线学习环境不确定性、通信约束下去中心化是后续方向。"
+    ],
+    "analysis": [
+      "仿真维护属性不是视觉语义故障诊断；恢复机制和真实维护能力需另行实现。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://www.ifaamas.org/Proceedings/aamas2026/pdfs/UYQK9511.pdf",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/greenguy13/intermittent_preservation",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / A Hierarchical Approach with Crisis Mitigation for Multi-Robot Spatio-Temporal Restoration",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://doi.org/10.65109/UYQK9511",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://www.ifaamas.org/Proceedings/aamas2026/pdfs/UYQK9511.pdf",
+      "label": "AAMAS2026正式全文",
+      "locator": "pp.2699–2707，§4–7、Table1、Fig5",
+      "supports": [
+        "方法",
+        "实验",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p7f5ff67c08d82026,\n  title = {A Hierarchical Approach with Crisis Mitigation for Multi-Robot Spatio-Temporal Restoration},\n  author = {Amel Nestor Docena and Alberto Quattrini Li},\n  year = {2026},\n  url = {https://doi.org/10.65109/UYQK9511}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "首次预印本日期未核实，仅确认AAMAS2026出版",
+    "Fig5危机增益未取得精确原始数据；未伪造图表精度"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "按位置/衰减属性分区；机器人用预测损失选访问顺序，中央层处理紧急服务和支援。衰减率已知，未从巡检历史学习。",
+      "evaluation": "自建MR-STAR模拟；Stage 2D：Radish的sdr-b室内地图、MRESim的cluttered地图；有衰减与危机期实验。",
+      "training": "否。不使用VLM；核心是预测损失与多机器人规划。",
+      "analysis": "假设衰减率已知、通信不受限；机器人主动恢复指标而非只检查。未从视觉历史学习设备恶化率，未部署人形机器人。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "一些监测任务不仅要看，还要定期恢复会衰减的区域属性，例如维护或环境修复。该工作将单机器人恢复拓展到多机器人：常态下各自负责聚类得到的辖区，危机时重新组织紧急区域和支援机器人。中央规划器比较折扣损失决定何时支援及何时返回，降低多个区域同时低于安全阈值的时间。实验是已知衰减规律的仿真，不是VLM异常诊断。",
+  "citationNote": "根据已核验作者、题名和出版年整理；完整正式卷页引用请以链接中的出版方BibTeX为准。"
+}

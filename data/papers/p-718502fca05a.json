@@ -1,0 +1,268 @@
+{
+  "id": "p-718502fca05a",
+  "title": "RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control",
+  "short": "RT-2",
+  "aliases": [
+    "RT-2",
+    "RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control"
+  ],
+  "authors": [
+    "Brohan, Anthony",
+    "Brown, Noah",
+    "Carbajal, Justice",
+    "Chebotar, Yevgen",
+    "Chen, Xi",
+    "Choromanski, Krzysztof",
+    "Ding, Tianli",
+    "Driess, Danny",
+    "Dubey, Avinava",
+    "Finn, Chelsea",
+    "Florence, Pete",
+    "Fu, Chuyuan",
+    "Arenas, Montse Gonzalez",
+    "Gopalakrishnan, Keerthana",
+    "Han, Kehang",
+    "Hausman, Karol",
+    "Herzog, Alexander",
+    "Hsu, Jasmine",
+    "Ichter, Brian",
+    "Irpan, Alex",
+    "Joshi, Nikhil",
+    "Julian, Ryan",
+    "Kalashnikov, Dmitry",
+    "Kuang, Yuheng",
+    "Leal, Isabel",
+    "Lee, Lisa",
+    "Lee, Tsang-Wei Edward",
+    "Levine, Sergey",
+    "Lu, Yao",
+    "Michalewski, Henryk",
+    "Mordatch, Igor",
+    "Pertsch, Karl",
+    "Rao, Kanishka",
+    "Reymann, Krista",
+    "Ryoo, Michael",
+    "Salazar, Grecia",
+    "Sanketi, Pannag",
+    "Sermanet, Pierre",
+    "Singh, Jaspiar",
+    "Singh, Anikait",
+    "Soricut, Radu",
+    "Tran, Huong",
+    "Vanhoucke, Vincent",
+    "Vuong, Quan",
+    "Wahid, Ayzaan",
+    "Welker, Stefan",
+    "Wohlhart, Paul",
+    "Wu, Jialin",
+    "Xia, Fei",
+    "Xiao, Ted",
+    "Xu, Peng",
+    "Xu, Sichun",
+    "Yu, Tianhe",
+    "Zitkovich, Brianna"
+  ],
+  "institutions": [
+    "Google DeepMind. Authors listed in alphabetical order, with contributions listed in Appendix A ."
+  ],
+  "firstPublished": "2023-07-28",
+  "updated": "2023-07-28",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "将机器人动作离散成文本token，与互联网图文任务共同微调VLM，迁移语义知识到控制。",
+  "method": {
+    "explanation": "RT-2 将末端位姿、夹爪和终止等动作离散为token，放入与自然语言答案相同的输出接口。模型在机器人轨迹与互联网视觉语言任务上co-fine-tune，既保持图文知识，又学习直接控制。作者比较PaLI-X-55B和PaLM-E-12B两种基座，并用超过6000次评测检查新物体、背景与环境。它是经过动作训练的端到端VLA，不能与仅用冻结LLM选技能的SayCan混为同类。",
+    "input": "图像与自然语言指令",
+    "output": "文本格式的离散机器人动作token",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "将机器人动作离散成文本token，与互联网图文任务共同微调VLM，迁移语义知识到控制。",
+    "flow": [
+      "动作token化",
+      "互联网—机器人共同微调",
+      "动作执行与语义泛化"
+    ],
+    "modules": [
+      {
+        "name": "动作token化",
+        "purpose": "统一机器人控制与语言生成格式",
+        "mechanism": "把机器人动作维度量化为离散符号，再编码成模型输出词表中的文本token。",
+        "sourceUrl": "https://arxiv.org/html/2307.15818",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "互联网—机器人共同微调",
+        "purpose": "迁移语义而减少遗忘",
+        "mechanism": "在图文/问答与机器人动作混合数据上训练同一模型，机器人样本要求输出动作序列。",
+        "sourceUrl": "https://arxiv.org/html/2307.15818",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "动作执行与语义泛化",
+        "purpose": "检验语义知识是否能影响物理行为",
+        "mechanism": "解码动作token为控制量，在未见物体、背景、环境及数字/符号语义任务评测；CoT变体先输出语义推理。",
+        "sourceUrl": "https://arxiv.org/html/2307.15818",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "视觉语言与机器人动作共同监督微调",
+    "models": "PaLI-X-55B与PaLM-E-12B两种RT-2变体",
+    "trainable": "VLM动作模型共同微调",
+    "frozen": "不是冻结主干系统；个别编码部件配置依变体",
+    "data": "互联网视觉语言任务和机器人轨迹",
+    "objective": "统一自回归token预测，包含文本与离散动作",
+    "stages": "视觉语言预训练 → 图文/机器人共同微调 → 端到端闭环"
+  },
+  "evaluation": [
+    {
+      "benchmark": "RT-2 真实机器人泛化",
+      "setting": "Table6，Seen与Unseen Average成功率(%)；Unseen包含新物体/背景/环境Easy/Hard，不是新任务任意泛化。",
+      "result": "RT-1 Seen92/Unseen Avg32；RT-2 PaLI-X91/62、PaLM-E93/62。",
+      "sourceUrl": "https://arxiv.org/html/2307.15818",
+      "locator": "Table 6",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "模型",
+          "Seen Tasks (%)",
+          "Unseen Average (%)"
+        ],
+        "rows": [
+          [
+            "RT-1",
+            "92",
+            "32"
+          ],
+          [
+            "MOO",
+            "75",
+            "35"
+          ],
+          [
+            "RT-2-PaLI-X-55B",
+            "91",
+            "62"
+          ],
+          [
+            "RT-2-PaLM-E-12B",
+            "93",
+            "62"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依据本条列出的任务与协议，结果只支持相应数据和实验条件；跨机器人、环境与预算的结论需要匹配协议后重测。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2307.15818",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / RT-2",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://proceedings.mlr.press/v229/zitkovich23a/zitkovich23a.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://robotics-transformer2.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2307.15818",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2307.15818",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p718502fca05a2023,\n title={RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control},\n author={Brohan, Anthony and Brown, Noah and Carbajal, Justice and Chebotar, Yevgen and Chen, Xi and Choromanski, Krzysztof and Ding, Tianli and Driess, Danny and Dubey, Avinava and Finn, Chelsea and Florence, Pete and Fu, Chuyuan and Arenas, Montse Gonzalez and Gopalakrishnan, Keerthana and Han, Kehang and Hausman, Karol and Herzog, Alexander and Hsu, Jasmine and Ichter, Brian and Irpan, Alex and Joshi, Nikhil and Julian, Ryan and Kalashnikov, Dmitry and Kuang, Yuheng and Leal, Isabel and Lee, Lisa and Lee, Tsang-Wei Edward and Levine, Sergey and Lu, Yao and Michalewski, Henryk and Mordatch, Igor and Pertsch, Karl and Rao, Kanishka and Reymann, Krista and Ryoo, Michael and Salazar, Grecia and Sanketi, Pannag and Sermanet, Pierre and Singh, Jaspiar and Singh, Anikait and Soricut, Radu and Tran, Huong and Vanhoucke, Vincent and Vuong, Quan and Wahid, Ayzaan and Welker, Stefan and Wohlhart, Paul and Wu, Jialin and Xia, Fei and Xiao, Ted and Xu, Peng and Xu, Sichun and Yu, Tianhe and Zitkovich, Brianna},\n year={2023},\n url={https://arxiv.org/abs/2307.15818}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**CoRL'23**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "RT-2 将末端位姿、夹爪和终止等动作离散为token，放入与自然语言答案相同的输出接口。模型在机器人轨迹与互联网视觉语言任务上co-fine-tune，既保持图文知识，又学习直接控制。作者比较PaLI-X-55B和PaLM-E-12B两种基座，并用超过6000次评测检查新物体、背景与环境。它是经过动作训练的端到端VLA，不能与仅用冻结LLM选技能的SayCan混为同类。",
+  "verificationLevel": "fulltext"
+}

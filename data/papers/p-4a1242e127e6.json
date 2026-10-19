@@ -1,0 +1,241 @@
+{
+  "id": "p-4a1242e127e6",
+  "title": "MoSca: Dynamic Gaussian Fusion from Casual Videos via 4D Motion Scaffolds",
+  "short": "MoSca",
+  "aliases": [],
+  "authors": [
+    "Jiahui Lei",
+    "Yijia Weng",
+    "Adam Harley",
+    "Leonidas Guibas",
+    "Kostas Daniilidis"
+  ],
+  "institutions": [
+    "University of Pennsylvania",
+    "Stanford University",
+    "Archimedes, Athena RC"
+  ],
+  "firstPublished": "2024-05-27",
+  "updated": "2024-11-29",
+  "publicationYear": 2025,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "用稀疏 6DoF 运动节点图表达全局形变，将深度和长程跟踪先验融合为动态高斯，支持从随手视频自动估计相机和自由视角。",
+  "method": {
+    "input": "单目视频、预训练深度/长程跟踪/光流；相机可未知",
+    "output": "动态高斯、相机和稠密跨时间对应",
+    "flow": [
+      "2D 先验和相机初始化",
+      "4D Motion Scaffold",
+      "跨时间高斯融合"
+    ],
+    "assumptions": "依赖可见部分的可靠深度和轨迹；无观测表面不自动补全。",
+    "difference": "用稀疏运动图平滑插值稠密高斯运动，在所有时间融合观测，而非局部逐帧拼接。",
+    "explanation": "用稀疏 6DoF 运动节点图表达全局形变，将深度和长程跟踪先验融合为动态高斯，支持从随手视频自动估计相机和自由视角。 用稀疏运动图平滑插值稠密高斯运动，在所有时间融合观测，而非局部逐帧拼接。 深度、长期轨迹、RAFT 极线误差区分静动态；对可信背景轨迹做 bundle adjustment 联合求位姿、焦距和深度修正。 节点存每时刻6DoF变换与影响半径，多层拓扑及刚性/平滑约束优化稀疏图，以双四元数等方式插值。 各帧反投影高斯锚定到节点并学习 skinning 修正；把全部高斯变形到查询时间共同渲染，继续光度优化。",
+    "modules": [
+      {
+        "name": "2D 先验和相机初始化",
+        "purpose": "从未知相机视频提取可靠几何线索",
+        "mechanism": "深度、长期轨迹、RAFT 极线误差区分静动态；对可信背景轨迹做 bundle adjustment 联合求位姿、焦距和深度修正。",
+        "input": "视频、预训练模型",
+        "output": "相机与初始三维轨迹"
+      },
+      {
+        "name": "4D Motion Scaffold",
+        "purpose": "用低维运动图填充稠密形变",
+        "mechanism": "节点存每时刻6DoF变换与影响半径，多层拓扑及刚性/平滑约束优化稀疏图，以双四元数等方式插值。",
+        "input": "三维前景轨迹",
+        "output": "全局一致运动图"
+      },
+      {
+        "name": "跨时间高斯融合",
+        "purpose": "累积不同时间可见表面",
+        "mechanism": "各帧反投影高斯锚定到节点并学习 skinning 修正；把全部高斯变形到查询时间共同渲染，继续光度优化。",
+        "input": "运动图、深度、RGB",
+        "output": "完整度更高的动态高斯与对应"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "运动图节点/半径、相机、深度修正、高斯及skinning权重",
+    "trainable": "运动图节点/半径、相机、深度修正、高斯及skinning权重",
+    "frozen": "预训练深度/跟踪器作为先验，不额外微调",
+    "data": "单段目标视频",
+    "objective": "几何轨迹/刚性/平滑约束与渲染重建",
+    "stages": "几何初始化与 scaffold 优化 → 全帧高斯光度融合"
+  },
+  "evaluation": [
+    {
+      "benchmark": "DyCheck 共可见新视角",
+      "setting": "CVPR2025/arXiv当前版；7场景、标准2x降采样、相机已知，LiDAR深度先验。后两行是无位姿协议，明确分组。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "DyCheck 共可见新视角 · Table 1",
+        "columns": [
+          "设置",
+          "方法",
+          "mPSNR↑",
+          "mSSIM↑",
+          "mLPIPS↓"
+        ],
+        "rows": [
+          [
+            "w-pose 7场景",
+            "Shape of Motion",
+            "17.32",
+            "0.598",
+            "0.296"
+          ],
+          [
+            "w-pose 7场景",
+            "MoSca",
+            "19.32",
+            "0.706",
+            "0.264"
+          ],
+          [
+            "w/o-pose 7场景",
+            "MoSca",
+            "18.84",
+            "0.676",
+            "0.289"
+          ],
+          [
+            "w/o-pose + focal",
+            "MoSca",
+            "19.02",
+            "0.683",
+            "0.279"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2405.17421v2",
+        "locator": "Table 1"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "依赖深度和长程二维轨迹；只能恢复视频某时刻可见的区域。",
+      "阴影、反射、液体与曝光变化不能仅由形变解释。"
+    ],
+    "analysis": [
+      "iPhone 主结果用传感器 LiDAR 深度；纯 RGB 深度版本须查看相应消融，不能混写输入。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2405.17421",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://jiahuilei.com/projects/mosca/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/JiahuiLei/MoSca",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / MoSca: Dynamic Gaussian Fusion from Casual Videos via 4D Motion Scaffolds",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2405.17421",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2405.17421v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://jiahuilei.com/projects/mosca/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/JiahuiLei/MoSca",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{240517421,\n  title = {MoSca: Dynamic Gaussian Fusion from Casual Videos via 4D Motion Scaffolds},\n  author = {Lei, Jiahui and Weng, Yijia and Harley, Adam and Guibas, Leonidas and Daniilidis, Kostas},\n  year = {2024},\n  eprint = {2405.17421},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2405.17421}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "用稀疏 6DoF 运动节点图表达全局形变，将深度和长程跟踪先验融合为动态高斯，支持从随手视频自动估计相机和自由视角。 用稀疏运动图平滑插值稠密高斯运动，在所有时间融合观测，而非局部逐帧拼接。 依赖可见部分的可靠深度和轨迹；无观测表面不自动补全。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

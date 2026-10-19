@@ -1,0 +1,273 @@
+{
+  "id": "p-adc371218d43",
+  "title": "Application management and effectiveness analysis of intelligent logistics robots in hospital drug and specimen delivery scenarios",
+  "short": "Hospital-Logistics",
+  "aliases": [
+    "Hospital-Logistics"
+  ],
+  "authors": [
+    "Mengwen Li",
+    "Xiaomei Liu",
+    "Yu Gao",
+    "Yuan Sun",
+    "Puyi Li",
+    "Lilin Zhou",
+    "Mengyao Wei",
+    "Linjing Li"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-04-24",
+  "updated": null,
+  "publicationYear": 2026,
+  "venue": "Scientific Reports",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "考察医院药物与标本物流机器人应用管理及有效性。已核实Scientific Reports出版记录，具体样本与效果指标尚需核读全文，不能根据标题推算效率提升。",
+  "method": {
+    "input": "配送请求、物品标识",
+    "output": "成本预测与敏感性范围",
+    "flow": [
+      "闭环配送与身份核验",
+      "分层导航与多机调度",
+      "六个月单中心对照",
+      "全生命周期经济分析"
+    ],
+    "explanation": "这是一项医院物流部署和效果研究，不是学习型导航新算法。系统将10台AMR、调度软件、门禁/电梯联动和身份核验组成配送闭环：按急诊、常规、定时任务排优先级，Dijkstra规划全局路线，A*配合DWA处理局部避障，交叉口和电梯厅预约通行时隙。调度按最近可用机器人分配，M/M/c模型用于队列与利用率分析。作者在单家三级医院比较六个月人工与机器人药品/标本配送，自动日志和人工手持记录产生时间与质量数据，另调查满意度，并在假设参数下估算十年成本。结果反映整套系统及流程改变，不能单独归因到某一个路径规划模块。",
+    "modules": [
+      {
+        "name": "闭环配送与身份核验",
+        "purpose": "避免错拿、错投与缺乏追溯",
+        "mechanism": "RFID/二维码标识物品，刷卡或指纹核验取放；PAD派单、语音通知和站点录像支持交接追踪。",
+        "input": "配送请求、物品标识",
+        "output": "可追溯配送任务"
+      },
+      {
+        "name": "分层导航与多机调度",
+        "purpose": "协调走廊、电梯和充电等共享资源",
+        "mechanism": "Dijkstra全局路径，A*局部重规划、DWA避障；最近可用派单与路口时隙预约；M/M/c描述10机队列。",
+        "input": "任务优先级、地图、障碍和机器人状态",
+        "output": "路线、通行与充电计划"
+      },
+      {
+        "name": "六个月单中心对照",
+        "purpose": "比较真实运营时间、错误和满意度",
+        "mechanism": "机器人平台自动日志与人工手持设备记录相同类型路线；采用组间统计检验、报告效应量。",
+        "input": "人工与机器人配送记录、问卷",
+        "output": "按路线和质量指标的比较"
+      },
+      {
+        "name": "全生命周期经济分析",
+        "purpose": "区分初始投入与长期模型预测",
+        "mechanism": "计入机器人、充电/物联网投入和维护，改变工资增长、维护费用、停机假设进行敏感性分析。",
+        "input": "成本及10年假设",
+        "output": "成本预测与敏感性范围"
+      }
+    ],
+    "assumptions": "临床/用户研究的结果受纳入标准、样本与评价场景限制。",
+    "difference": "对应真实证据类型：临床/用户研究"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "传统路径规划、局部避障、队列模型与调度系统；非LLM/VLA。",
+    "trainable": "未报告训练机器人学习策略。",
+    "frozen": "不适用",
+    "data": "医院实际运营日志、人工配送记录与满意度调查，不是策略训练集。",
+    "objective": "运营效率、配送质量、满意度及成本效果比较。",
+    "stages": "系统部署→六个月记录→统计比较→十年成本情景分析。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "医院配送运营效果",
+      "setting": "单中心六个月；10机器人与19人工人员；药房→病房、病房→实验室分别记录",
+      "result": "配送时长与质量按Table 2填入。",
+      "locator": "Table 2；Results",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13276296/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "指标",
+          "人工组",
+          "机器人组",
+          "P值"
+        ],
+        "rows": [
+          [
+            "药房→病房时间 (min)",
+            "31±6.2",
+            "21±4.2",
+            "<0.001"
+          ],
+          [
+            "病房→实验室时间 (min)",
+            "38±7.2",
+            "23±4.6",
+            "<0.001"
+          ],
+          [
+            "遗漏率",
+            "0.056%",
+            "0.004%",
+            "0.011"
+          ],
+          [
+            "核验准确率",
+            "97%",
+            "100%",
+            "<0.001"
+          ],
+          [
+            "物品完整率",
+            "99%",
+            "100%",
+            "<0.001"
+          ],
+          [
+            "护士满意度",
+            "94%",
+            "97%",
+            "0.002"
+          ],
+          [
+            "患者满意度",
+            "90%",
+            "93%",
+            "0.037"
+          ]
+        ],
+        "locator": "Table 2；Results"
+      },
+      "caveat": "表中31→21约32%，38→23约39%；摘要称32%–36%，存在表述差异，本库保留表中原值，不统一改写。"
+    },
+    {
+      "benchmark": "运营规模与成本",
+      "setting": "规模取Methods原文日志；成本为十年预测，非十年实际随访",
+      "result": "机器人记录总78,790次、人工10,756次；基准净节省6.928百万元。",
+      "locator": "Methods：Full-time equivalence and data collection；Table 4",
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13276296/",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "项目",
+          "原文值"
+        ],
+        "rows": [
+          [
+            "药房→病房次数（人工/机器人）",
+            "5,792 / 42,430"
+          ],
+          [
+            "病房→实验室次数（人工/机器人）",
+            "4,964 / 36,360"
+          ],
+          [
+            "十年基准机器人成本",
+            "5.705 million CNY"
+          ],
+          [
+            "十年基准净节省",
+            "6.928 million CNY"
+          ],
+          [
+            "保守/乐观净节省",
+            "5.36 / 8.61 million CNY"
+          ]
+        ],
+        "locator": "Methods：Full-time equivalence and data collection；Table 4"
+      },
+      "caveat": "未随机化；时段、拥挤、工作量和基础设施可能混杂。"
+    }
+  ],
+  "limitations": {
+    "author": [
+      "单中心布局和管理流程影响外推；电梯实时拥挤与瞬时工作量等混杂因素未系统记录。",
+      "未用离散事件仿真进行部署前优化；M/M/c的泊松到达与指数服务假设可能不满足真实需求。"
+    ],
+    "analysis": [
+      "网站分析：接受度、教学体验或某项临床终点只说明指定研究条件下的结果，不能替代独立外部验证或直接推为其他场景的结论。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1038/s41598-026-49800-9",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Hospital Service and Nursing Robots / Hospital-Logistics",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1038/s41598-026-49800-9",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1038/s41598-026-49800-9",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13276296/",
+      "locator": "Table 2；Results; Methods：Full-time equivalence and data collection；Table 4",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Scientific Reports'26**",
+      "section": "Hospital Service and Nursing Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "考察医院药物与标本物流机器人应用管理及有效性。已核实Scientific Reports出版记录，具体样本与效果指标尚需核读全文，不能根据标题推算效率提升。 "
+}

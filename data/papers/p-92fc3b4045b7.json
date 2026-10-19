@@ -1,0 +1,167 @@
+{
+  "id": "p-92fc3b4045b7",
+  "title": "Thinking with Images for Multimodal Reasoning: Foundations, Methods, and Future Frontiers",
+  "short": "Thinking with Images for Multimodal Reasoning",
+  "aliases": [
+    "Thinking with Images for Multimodal Reasoning: Foundations, Methods, and Future Frontiers",
+    "Thinking with Images for Multimodal Reasoning"
+  ],
+  "authors": [
+    "Su, Zhaochen",
+    "Xia, Peng",
+    "Guo, Hangyu",
+    "Liu, Zhenhua",
+    "Ma, Yan",
+    "Qu, Xiaoye",
+    "Liu, Jiaqi",
+    "Li, Yanshu",
+    "Zeng, Kaide",
+    "Yang, Zhengyuan",
+    "Li, Linjie",
+    "Cheng, Yu",
+    "Ji, Heng",
+    "He, Junxian",
+    "Fung, Yi R."
+  ],
+  "institutions": [
+    "The Hong Kong University of Science and Technology",
+    "UNC-Chapel Hill",
+    "Microsoft",
+    "The Chinese University of Hong Kong"
+  ],
+  "firstPublished": "2025-06-30",
+  "updated": "2025-07-03",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "以工具探索、程序化视觉操作、内在想象三个阶段梳理“用图像思考”的方法演进。",
+  "method": {
+    "explanation": "这是一篇综述，关注图像是否作为推理过程中可变化的中间工作区，而非只在输入端出现。分类从调用外部视觉工具获取信息，到以程序裁剪/标记/绘制，再到模型内部生成图像或潜在视觉表征。对每类方法比较基座、数据与操作形式，并整理视觉推理评测和应用。其分类适合连接CoT-VLA、CoVT与Visual Planning，但综述本身不训练新机器人策略，也没有自己的导航成功率实验。",
+    "input": "既有多模态推理文献",
+    "output": "分类、对照与研究问题",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "以工具探索、程序化视觉操作、内在想象三个阶段梳理“用图像思考”的方法演进。",
+    "flow": [
+      "工具驱动视觉探索",
+      "程序化视觉操作",
+      "内在视觉想象"
+    ],
+    "modules": [
+      {
+        "name": "工具驱动视觉探索",
+        "purpose": "按需获得额外视觉证据",
+        "mechanism": "梳理检测、分割、裁剪和交互工具如何在推理途中被调用，区分提示式与需训练的方法。",
+        "sourceUrl": "https://arxiv.org/html/2506.23918",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "程序化视觉操作",
+        "purpose": "让视觉工作区可被编辑",
+        "mechanism": "整理生成程序进行标记、绘图、几何处理等路线，关注视觉/逻辑/组合操作。",
+        "sourceUrl": "https://arxiv.org/html/2506.23918",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "内在视觉想象",
+        "purpose": "解释生成式/潜空间思考",
+        "mechanism": "梳理模型直接生成中间图像或连续表征的方式，并讨论其训练与评测边界。",
+        "sourceUrl": "https://arxiv.org/html/2506.23918",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用：综述论文",
+    "models": "综述多种VLM/生成模型/工具",
+    "trainable": "无本文新训练策略",
+    "frozen": "不适用",
+    "data": "文献、公开数据与评测整理",
+    "objective": "不适用",
+    "stages": "文献分类 → 方法/评测比较 → 未来方向"
+  },
+  "evaluation": [
+    {
+      "benchmark": "综述证据（非原创性能实验）",
+      "setting": "综述分类表，不是作者新增控制实验。",
+      "result": "Table1/2/3分别整理工具探索、程序化视觉操作与内在想象；未报告本综述新训练模型的SR。",
+      "sourceUrl": "https://arxiv.org/html/2506.23918",
+      "locator": "正文",
+      "attribution": "作者原文报告；非本站复现"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "“使用图像输入”与“图像作为中间推理状态”是不同范式；具体性能应回到被综述原论文的协议验证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2506.23918",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "url": "https://arxiv.org/abs/2506.23918",
+      "label": "用户给定论文链接（待全文核实）",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2506.23918",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2506.23918",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p92fc3b4045b72025,\n title={Thinking with Images for Multimodal Reasoning: Foundations, Methods, and Future Frontiers},\n author={Su, Zhaochen and Xia, Peng and Guo, Hangyu and Liu, Zhenhua and Ma, Yan and Qu, Xiaoye and Liu, Jiaqi and Li, Yanshu and Zeng, Kaide and Yang, Zhengyuan and Li, Linjie and Cheng, Yu and Ji, Heng and He, Junxian and Fung, Yi R.},\n year={2025},\n url={https://arxiv.org/abs/2506.23918}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [],
+  "overview": "这是一篇综述，关注图像是否作为推理过程中可变化的中间工作区，而非只在输入端出现。分类从调用外部视觉工具获取信息，到以程序裁剪/标记/绘制，再到模型内部生成图像或潜在视觉表征。对每类方法比较基座、数据与操作形式，并整理视觉推理评测和应用。其分类适合连接CoT-VLA、CoVT与Visual Planning，但综述本身不训练新机器人策略，也没有自己的导航成功率实验。",
+  "verificationLevel": "fulltext"
+}

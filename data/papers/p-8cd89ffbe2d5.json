@@ -1,0 +1,282 @@
+{
+  "id": "p-8cd89ffbe2d5",
+  "title": "GS-LIVM: Real-Time Photo-Realistic LiDAR-Inertial-Visual Mapping with Gaussian Splatting",
+  "short": "GS-LIVM",
+  "aliases": [],
+  "authors": [
+    "Yusen Xie",
+    "Zhenmin Huang",
+    "Jin Wu",
+    "Jun Ma"
+  ],
+  "institutions": [
+    "Hong Kong University of Science and Technology (Guangzhou)",
+    "Hong Kong University of Science and Technology"
+  ],
+  "firstPublished": "2024-10-18",
+  "updated": "2024-10-18",
+  "publicationYear": 2025,
+  "venue": "ICCV",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "静态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "把 LiDAR–惯性–视觉位姿估计与 voxel-GPR 结合，在稀疏点云上生成分布更均匀的高斯并实时增量优化户外地图。",
+  "method": {
+    "input": "同步 LiDAR、IMU、相机及在线融合SLAM状态",
+    "output": "增量高斯地图与逼真新视图",
+    "flow": [
+      "Voxel-GPR",
+      "协方差中心初始化",
+      "增量光度优化"
+    ],
+    "assumptions": "依赖融合SLAM和点云覆盖；强调在线建图，不以动态对象时空建模为核心。",
+    "difference": "用体素高斯过程回归和协方差指导高斯初始化，降低稀疏/不均匀LiDAR对在线优化的影响。",
+    "explanation": "把 LiDAR–惯性–视觉位姿估计与 voxel-GPR 结合，在稀疏点云上生成分布更均匀的高斯并实时增量优化户外地图。 用体素高斯过程回归和协方差指导高斯初始化，降低稀疏/不均匀LiDAR对在线优化的影响。 在体素内做局部高斯过程回归，估计更均匀表面采样与不确定度；只处理新激活或未收敛体素。 用估计协方差设定高斯尺度/旋转，同时更新GPR参数，使几何先验与辐射场共享局部结构。 按体素收敛状态选择更新，CUDA加速地图处理，RGB重建配合Delta-depth相似性损失稳定几何。",
+    "modules": [
+      {
+        "name": "Voxel-GPR",
+        "purpose": "补足稀疏且非均匀点云",
+        "mechanism": "在体素内做局部高斯过程回归，估计更均匀表面采样与不确定度；只处理新激活或未收敛体素。",
+        "input": "融合点云",
+        "output": "均匀局部点与协方差"
+      },
+      {
+        "name": "协方差中心初始化",
+        "purpose": "减少在线高斯收敛时间",
+        "mechanism": "用估计协方差设定高斯尺度/旋转，同时更新GPR参数，使几何先验与辐射场共享局部结构。",
+        "input": "体素几何统计与相机",
+        "output": "新增高斯基元"
+      },
+      {
+        "name": "增量光度优化",
+        "purpose": "在真实采集速度下扩展地图",
+        "mechanism": "按体素收敛状态选择更新，CUDA加速地图处理，RGB重建配合Delta-depth相似性损失稳定几何。",
+        "input": "新观测与历史地图",
+        "output": "持续更新的高斯场景"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "增量高斯几何/颜色与局部地图参数",
+    "trainable": "增量高斯几何/颜色与局部地图参数",
+    "frozen": "SLAM负责状态估计，无VLM",
+    "data": "R3LIVE、FAST-LIVO、NTU及自采户外序列",
+    "objective": "RGB L1/D-SSIM与Delta-depth相似性",
+    "stages": "在线体素扩展和局部优化，点云未覆盖区域无法初始化"
+  },
+  "evaluation": [
+    {
+      "benchmark": "实时户外建图",
+      "setting": "ICCV2025/arXiv当前版；不同传感器分列；PSNR/SSIM/LPIPS均为渲染质量；不与轨迹误差等同。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "实时户外建图 · Table 1",
+        "columns": [
+          "序列",
+          "LiDAR",
+          "GS-LIVM PSNR↑",
+          "SSIM↑",
+          "LPIPS↓"
+        ],
+        "rows": [
+          [
+            "hku_campus_seq_00",
+            "Livox Avia",
+            "22.430",
+            "0.719",
+            "0.247"
+          ],
+          [
+            "Visual_Challenge",
+            "Livox Avia",
+            "21.806",
+            "0.717",
+            "0.289"
+          ],
+          [
+            "eee_02",
+            "Ouster-16",
+            "20.718",
+            "0.700",
+            "0.319"
+          ],
+          [
+            "1005_00",
+            "Livox Avia",
+            "21.123",
+            "0.679",
+            "0.258"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2410.17084v1",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "GS-LIVM 建图时间/内存",
+      "setting": "DT为序列时长，MT为建图耗时；不是新视图FPS；Count为高斯数量，Mem为原文Mb口径。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "GS-LIVM 建图时间/内存 · Table 2",
+        "columns": [
+          "Sequence",
+          "DT (s)",
+          "MT (s)",
+          "Count",
+          "Mem (Mb)"
+        ],
+        "rows": [
+          [
+            "hku_campus_seq_00",
+            "202",
+            "202",
+            "1,209,666",
+            "2495"
+          ],
+          [
+            "Visual_Challenge",
+            "162",
+            "162",
+            "353,334",
+            "1353"
+          ],
+          [
+            "eee_02",
+            "321",
+            "321",
+            "758,213",
+            "1523"
+          ],
+          [
+            "1005_00",
+            "611",
+            "612",
+            "2,177,464",
+            "3492"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2410.17084v1",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "仅依赖点云初始化会在缺乏LiDAR覆盖处留下空洞；实时约束会限制画质。"
+    ],
+    "analysis": [
+      "标题中的实时建图不代表显式动态场景重建；移动拍摄本身不是动态对象建模证据。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2410.17084",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "code": {
+      "url": "https://github.com/xieyuser/GS-LIVM",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / GS-LIVM: Real-Time Photo-Realistic LiDAR-Inertial-Visual Mapping with Gaussian Splatting",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2410.17084",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2410.17084v1",
+      "label": "论文全文 v1",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/xieyuser/GS-LIVM",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/ICCV2025/html/Xie_GS-LIVM_Real-Time_Photo-Realistic_LiDAR-Inertial-Visual_Mapping_with_Gaussian_Splatting_ICCV_2025_paper.html",
+      "label": "正式会议论文集",
+      "locator": "标题、作者顺序与会议年份",
+      "supports": [
+        "发表",
+        "作者",
+        "身份"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{241017084,\n  title = {GS-LIVM: Real-Time Photo-Realistic LiDAR-Inertial-Visual Mapping with Gaussian Splatting},\n  author = {Xie, Yusen and Huang, Zhenmin and Wu, Jin and Ma, Jun},\n  year = {2024},\n  eprint = {2410.17084},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2410.17084}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "把 LiDAR–惯性–视觉位姿估计与 voxel-GPR 结合，在稀疏点云上生成分布更均匀的高斯并实时增量优化户外地图。 用体素高斯过程回归和协方差指导高斯初始化，降低稀疏/不均匀LiDAR对在线优化的影响。 依赖融合SLAM和点云覆盖；强调在线建图，不以动态对象时空建模为核心。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

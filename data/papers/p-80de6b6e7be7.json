@@ -1,0 +1,172 @@
+{
+  "id": "p-80de6b6e7be7",
+  "title": "Supervised Autonomous Electrosurgery via Biocompatible Near-Infrared Tissue Tracking Techniques",
+  "short": "Auto-Electrosurgery",
+  "aliases": [
+    "Auto-Electrosurgery"
+  ],
+  "authors": [
+    "H. Saeidi",
+    "J. Ge",
+    "M. Kam",
+    "J. D. Opfermann",
+    "S. Leonard",
+    "A. S. Joshi",
+    "A. Krieger"
+  ],
+  "institutions": [
+    "Mechanical Engineering Department, University of Maryland at College Park, College Park, MD, USA",
+    "Childrens National Health System, Sheikh Zayed Institute for Pediatric Surgical Innovation, Washington, DC, USA",
+    "Electrical and Computer Science Engineering Department, Johns Hopkins University, Baltimore, MD, USA",
+    "Division of Otolaryngology—Head & Neck Surgery, George Washington University Medical Faculty Associates, Washington, DC, USA"
+  ],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2019,
+  "venue": "IEEE Transactions on Medical Robotics and Bionics",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "通过近红外标记与RGB-D表面重建，在人类确认切割范围后自动生成并执行三维电切路径。重点是软组织表面的定位和深度控制，不是端到端手术大模型。",
+  "method": {
+    "input": "RGB-D点云、NIR标记、人工确认的边界",
+    "output": "三维切割路径与机器人电切控制",
+    "flow": [
+      "双相机标定与标记跟踪",
+      "三维曲面路径与滤波",
+      "监督自主执行"
+    ],
+    "explanation": "通过近红外标记与RGB-D表面重建，在人类确认切割范围后自动生成并执行三维电切路径。重点是软组织表面的定位和深度控制，不是端到端手术大模型。",
+    "modules": [
+      {
+        "name": "双相机标定与标记跟踪",
+        "purpose": "在遮挡下定位组织边界",
+        "mechanism": "联合NIR标记成像与RGB-D点云，经相机及手眼标定得到机器人坐标中的标记位置。",
+        "input": "RGB-D点云、NIR标记、人工确认的边界",
+        "output": "双相机标定与标记跟踪的中间结果"
+      },
+      {
+        "name": "三维曲面路径与滤波",
+        "purpose": "减少线性插值造成的深度误差",
+        "mechanism": "利用组织表面几何规划带边距的轨迹，多次测量与滤波形成平滑路径。",
+        "input": "双相机标定与标记跟踪的结果",
+        "output": "三维曲面路径与滤波的中间结果"
+      },
+      {
+        "name": "监督自主执行",
+        "purpose": "保留术者对计划的确认",
+        "mechanism": "用户选定标记并核准路径后机器人执行；比较da Vinci遥操作和STAR线性插值。",
+        "input": "三维曲面路径与滤波的结果",
+        "output": "三维切割路径与机器人电切控制"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1109/tmrb.2019.2949870",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / Auto-Electrosurgery",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7810241/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1109/TMRB.2019.2949870",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1109/tmrb.2019.2949870",
+      "locator": "title / author / published-online / published / container-title",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7810241/",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "精确首次公开日期未核实（不将年月伪造为某一天）"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**TMRB'19**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "通过近红外标记与RGB-D表面重建，在人类确认切割范围后自动生成并执行三维电切路径。重点是软组织表面的定位和深度控制，不是端到端手术大模型。 "
+}

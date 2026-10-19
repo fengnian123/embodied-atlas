@@ -1,0 +1,601 @@
+[
+  {
+    "id": "p-ff38a5c7fa4c",
+    "short": "RT-1",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-fd7a47f38ca1",
+    "short": "Chain-of-Visual-Thought",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-fa3b62e4c9cb",
+    "short": "INTERLEAVE-VLA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-d7e5fccd7811",
+    "short": "ELLMER",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-281977beb698",
+    "short": "EmbodiedIntelligence-AIR",
+    "verificationLevel": "metadata",
+    "detailedMethod": true,
+    "quantitativeTable": false,
+    "gaps": [
+      "全文逐页/图表核验；出版社PDF获取失败",
+      "首次预印本公开时间",
+      "数据和代码不适用性待全文确认"
+    ]
+  },
+  {
+    "id": "p-063be20e7ce8",
+    "short": "SayCan",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-e41916babd5f",
+    "short": "Active Perception",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版载体与首次公开日期",
+      "检测训练集、资源许可和完整复现环境"
+    ]
+  },
+  {
+    "id": "p-92fc3b4045b7",
+    "short": "Thinking with Images for Multimodal Reasoning",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": false,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-f5f3a21f9f89",
+    "short": "Code-as-Policies",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-09fe1a9b9c02",
+    "short": "AREAL2.0",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": false,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-7ca2f30fdde2",
+    "short": "EmbodiedAI-Survey",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-59c1b7374cbc",
+    "short": "Harness Handbook",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-f5ef0ae35b12",
+    "short": "VoxPoser",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-dedfde9d7c99",
+    "short": "Visual Planning",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-51ba944f84ed",
+    "short": "PaLM-E",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-8d6162ee79c9",
+    "short": "EmbodiedIntelligence-CSUR",
+    "verificationLevel": "metadata",
+    "detailedMethod": true,
+    "quantitativeTable": false,
+    "gaps": [
+      "全文逐节/原图表核验",
+      "早期在线与最终出版日期口径",
+      "首次公开版本日期"
+    ]
+  },
+  {
+    "id": "p-8faea6ac20b1",
+    "short": "DiffusionPolicy",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-aa67a577f682",
+    "short": "Robotic Control via Embodied Chain-of-Thought Reasoning",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-cec390561363",
+    "short": "ActiveArena",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-2f85fc2530a3",
+    "short": "ABot-Claw",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": false,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-c240762f60ca",
+    "short": "A Survey on Vision-Language-Action Models for Embodied AI",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": false,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-718502fca05a",
+    "short": "RT-2",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-b5c3179530a0",
+    "short": "CoT-VLA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-3a6a8cbcfb6b",
+    "short": "3DMem-Bench EQA",
+    "verificationLevel": "metadata",
+    "detailedMethod": false,
+    "quantitativeTable": false,
+    "gaps": [
+      "待合并同篇论文身份，避免把数据协议重复当成论文"
+    ],
+    "mergeRecommendation": "合并3DLLM-Mem p-dd8050bafc94，原文同文数据贡献。"
+  },
+  {
+    "id": "p-a2ae5d358c9c",
+    "short": "Uni-LaViRA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-03943f9bbe8f",
+    "short": "MP3D-EQA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-b7e0eb0ae7a4",
+    "short": "Human-Inspired Memory",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "额外参数训练范围",
+      "正式会议目录、资源与许可核验"
+    ]
+  },
+  {
+    "id": "p-30e2beb338d1",
+    "short": "Mem2Ego",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-d82360cea73f",
+    "short": "GraphEQA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-467e63508912",
+    "short": "Memory for Attention",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-88eb93ee13bd",
+    "short": "VLN-CE",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-5ec1e61e799c",
+    "short": "HM-EQA",
+    "verificationLevel": "metadata",
+    "detailedMethod": false,
+    "quantitativeTable": false,
+    "gaps": [
+      "待合并同篇论文身份，避免把数据协议重复当成论文"
+    ],
+    "mergeRecommendation": "合并Explore until Confident (2403.15941)；作者官方发布500题267场景，旧稿312场景是版本口径差异。"
+  },
+  {
+    "id": "p-eb1ccf5871a6",
+    "short": "IndustryEQA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-962498b14e89",
+    "short": "EvoNav",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-dde64313836d",
+    "short": "AO-Planner",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-666d1f5c285c",
+    "short": "EXPRESS-Bench",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ],
+    "mergeRecommendation": "两者同篇2503.11117，保留论文一个身份与两个别名。"
+  },
+  {
+    "id": "p-5e8c6e320f51",
+    "short": "RoomTour3D",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-b02ad9650d2c",
+    "short": "R4R",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-2bb5f7842d08",
+    "short": "WorldLines",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  },
+  {
+    "id": "p-89a5b8a2d8fb",
+    "short": "RoboTHOR",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-2bfe5df5413c",
+    "short": "AECNav",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-5a4e947c6397",
+    "short": "ReEXplore",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-ef8bc5541e53",
+    "short": "NaviLLM",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-f5a588433cb2",
+    "short": "MP3D",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-3669b99e0ece",
+    "short": "FAST-EQA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-16b1e31b54ec",
+    "short": "Back to the Familiar Future",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-bc652274b6b3",
+    "short": "SpaceVLN",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-e5c7705b9332",
+    "short": "DecoVLN",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-9976f7a1f0d8",
+    "short": "Fine-EQA",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ],
+    "mergeRecommendation": "两者同篇2503.11117，保留论文一个身份与两个别名。"
+  },
+  {
+    "id": "p-17049dc973c4",
+    "short": "RAVEN",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-c07af24a5633",
+    "short": "MemoryEQA / MT-HM3D",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ],
+    "mergeRecommendation": "同文2505.13948 MemoryEQA方法与MT-HM3D数据；若已有memoryeqa身份需合并。"
+  },
+  {
+    "id": "p-dd8050bafc94",
+    "short": "3DLLM-Mem",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-7a17536245b6",
+    "short": "SemExp",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "机构与正式出版目录的独立交叉核验",
+      "代码、权重与数据许可的逐项核验"
+    ]
+  },
+  {
+    "id": "p-655ea3c2a4f6",
+    "short": "mEclares",
+    "verificationLevel": "fulltext",
+    "detailedMethod": true,
+    "quantitativeTable": true,
+    "gaps": [
+      "正式出版与机构的独立交叉核验",
+      "资源内容、许可证和复现条件逐项检查"
+    ]
+  }
+]

@@ -1,0 +1,218 @@
+{
+  "id": "p-9bac8e0e6461",
+  "title": "MSGNav: Unleashing the Power of Multi-modal 3D Scene Graph for Zero-Shot Embodied Navigation",
+  "short": "MSGNav",
+  "aliases": [],
+  "authors": [
+    "Xun Huang",
+    "Shijia Zhao",
+    "Yunxiang Wang",
+    "Xin Lu",
+    "Wanfa Zhang",
+    "Rongsheng Qu",
+    "Weixin Li",
+    "Yunhong Wang",
+    "Chenglu Wen"
+  ],
+  "institutions": [
+    "Xiamen University",
+    "Zhongguancun Academy",
+    "Nanyang Technological University",
+    "University of Chinese Academy of Sciences",
+    "Beihang University"
+  ],
+  "firstPublished": "2025-11-13",
+  "updated": "2026-03-17",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav",
+      "多目标导航"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "MSGNav 把图像证据保留在多模态 3D 场景图中，避免仅靠物体标签丢失细节。",
+  "method": {
+    "input": "RGB-D、位姿和基础视觉模型",
+    "output": "下一视点或探索动作",
+    "explanation": "MSGNav 把图像证据保留在多模态 3D 场景图中，避免仅靠物体标签丢失细节。导航时检索关键子图，推理后更新词汇和决策记忆，再根据目标可见性选末段观察点或继续前沿探索。",
+    "flow": [
+      "M3DSG 在线构建",
+      "关键子图与闭环推理",
+      "可见性决策"
+    ],
+    "modules": [
+      {
+        "name": "M3DSG 在线构建",
+        "purpose": "本模块解决：M3DSG 在线构建",
+        "input": "RGB-D、位姿和基础视觉模型",
+        "mechanism": "YOLO-World 检测/房间识别，SAM 分割，CLIP 提取外观；把物体、空间关系及图像证据组织进 3D 图。",
+        "output": "多模态场景图",
+        "sourceUrl": "https://arxiv.org/html/2511.10376v5",
+        "locator": "方法章节"
+      },
+      {
+        "name": "关键子图与闭环推理",
+        "purpose": "本模块解决：关键子图与闭环推理",
+        "input": "目标查询、图和历史记忆",
+        "mechanism": "Key Subgraph Selection 缩小上下文；Adaptive Vocabulary Update 补充原词汇缺失语义，推理结果反写记忆。",
+        "output": "目标相关子图与更新状态",
+        "sourceUrl": "https://arxiv.org/html/2511.10376v5",
+        "locator": "方法章节"
+      },
+      {
+        "name": "可见性决策",
+        "purpose": "本模块解决：可见性决策",
+        "input": "目标候选、几何与可见性",
+        "mechanism": "找到目标后选择便于确认/接近的视角；未确认则选择有价值的前沿继续探索。",
+        "output": "下一视点或探索动作",
+        "sourceUrl": "https://arxiv.org/html/2511.10376v5",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "MSGNav 把图像证据保留在多模态 3D 场景图中，避免仅靠物体标签丢失细节。导航时检索关键子图，推理后更新词汇和决策记忆，再根据目标可见性选末段观察点或继续前沿探索。"
+  },
+  "training": {
+    "regime": "仅推理使用",
+    "models": "YOLO-World 检测/房间识别，SAM 分割，CLIP 提取外观；把物体、空间关系及图像证据组织进 3D 图。",
+    "trainable": "训练自由的导航系统，推理调用现有视觉/语言基础模型；图、词汇和决策记忆更新不是梯度训练。",
+    "frozen": "现成模型仅推理使用，不新增任务训练。",
+    "data": "训练自由的导航系统，推理调用现有视觉/语言基础模型；图、词汇和决策记忆更新不是梯度训练。",
+    "objective": "训练自由的导航系统，推理调用现有视觉/语言基础模型；图、词汇和决策记忆更新不是梯度训练。",
+    "stages": "训练自由的导航系统，推理调用现有视觉/语言基础模型；图、词汇和决策记忆更新不是梯度训练。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "GOAT-Bench / HM3D-ObjNav",
+      "setting": "arXiv v5 Table 1/2；GOAT-Bench 的 3D-Mem 为作者复现、设置不同",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1 / Table 2",
+      "sourceUrl": "https://arxiv.org/html/2511.10376v5",
+      "table": {
+        "columns": [
+          "方法",
+          "基准",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "MSGNav",
+            "GOAT-Bench Val Unseen",
+            52.0,
+            29.6
+          ],
+          [
+            "MSGNav",
+            "HM3D-ObjNav",
+            74.1,
+            33.4
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2511.10376v5",
+        "locator": "Table 1 / Table 2",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2511.10376",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/ylwhxht/MSGNav",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / MSGNav: Unleashing the Power of Multi-modal 3D Scene Graph for Zero-Shot Embodied Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2511.10376",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2511.10376v5",
+      "locator": "方法章节；Table 1 / Table 2",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p9bac8e0e6461,\n  title={MSGNav: Unleashing the Power of Multi-modal 3D Scene Graph for Zero-Shot Embodied Navigation},\n  author={Xun Huang and Shijia Zhao and Yunxiang Wang and Xin Lu and Wanfa Zhang and Rongsheng Qu and Weixin Li and Yunhong Wang and Chenglu Wen},\n  year={2025},\n  eprint={2511.10376},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2511.10376}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "GOAT-Bench、HM3D-ObjNav",
+      "comparisons": "HM3D-ObjNav：L3MVN、SG-Nav、InstructNav、CompassNav、Schrodinger’sNav、VLFM、DORAEMON、WMNav                              GOAT-Bench：SenseAct-NN Monolitic、Modular CLIP on Wheels、Modular GOAT、SenseAct-NN Skill Chain、VLMnav、DyNaVLM、TANGO、3D-Mem、MTU3D",
+      "training": "Training-free Zero-shot。冻结基础模型，不做导航任务训练；主实验GPT-4o，补充实验还测试Qwen-VL-Max。",
+      "resourceClaim": "是"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "overview": "MSGNav 把图像证据保留在多模态 3D 场景图中，避免仅靠物体标签丢失细节。导航时检索关键子图，推理后更新词汇和决策记忆，再根据目标可见性选末段观察点或继续前沿探索。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

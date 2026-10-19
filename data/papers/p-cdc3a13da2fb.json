@@ -1,0 +1,268 @@
+{
+  "id": "p-cdc3a13da2fb",
+  "title": "Room-Across-Room: Multilingual Vision-and-Language Navigation with Dense Spatiotemporal Grounding",
+  "short": "RxR",
+  "aliases": [],
+  "authors": [
+    "Alexander Ku",
+    "Peter Anderson",
+    "Roma Patel",
+    "Eugene Ie",
+    "Jason Baldridge"
+  ],
+  "institutions": [
+    "Google Research",
+    "Brown University"
+  ],
+  "firstPublished": "2020-10-15",
+  "updated": "2020-10-15",
+  "publicationYear": 2020,
+  "venue": "EMNLP",
+  "publicationStatus": "会议收录（arXiv Comments声明）",
+  "year": 2020,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "RxR 扩展R2R，使导航语言更长、跨语言且与观察过程密集对齐。",
+  "method": {
+    "input": "Matterport3D路线和人类讲解",
+    "output": "预测路径与多指标结果",
+    "explanation": "RxR 扩展R2R，使导航语言更长、跨语言且与观察过程密集对齐。引导者边走边录音说明，跟随者按说明再走一遍，词级时间信息与位姿轨迹关联；基线区分单语言、多语言、引导与跟随监督，分析长程对齐的困难。",
+    "flow": [
+      "多语言引导演示",
+      "独立跟随演示",
+      "基线与协议"
+    ],
+    "modules": [
+      {
+        "name": "多语言引导演示",
+        "purpose": "本模块解决：多语言引导演示",
+        "input": "Matterport3D路线和人类讲解",
+        "mechanism": "在英语、印地语和泰卢固语中采集语音/文字导航说明；记录引导者头部姿态及语音时间，形成细粒度词—视图关联。",
+        "output": "Guide指令及时间对齐轨迹",
+        "sourceUrl": "https://arxiv.org/html/2010.07954v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "独立跟随演示",
+        "purpose": "本模块解决：独立跟随演示",
+        "input": "同一条指令和新的跟随者",
+        "mechanism": "跟随者根据语音导航，独立执行而非复制最短路；保存实际跟随轨迹，为语言的真实理解过程提供另一监督源。",
+        "output": "Follower路径与轨迹差异",
+        "sourceUrl": "https://arxiv.org/html/2010.07954v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "基线与协议",
+        "purpose": "本模块解决：基线与协议",
+        "input": "语言、视觉、Guide/Follower监督",
+        "mechanism": "训练跨模态agent，分别评估单语言和多语言设置，并用nDTW/SDTW量化整条路线与参考路径的对齐。",
+        "output": "预测路径与多指标结果",
+        "sourceUrl": "https://arxiv.org/html/2010.07954v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "沿Matterport3D离散可达图观察和行动；多语言与长路径任务不等于连续机器人控制。",
+    "difference": "RxR 扩展R2R，使导航语言更长、跨语言且与观察过程密集对齐。引导者边走边录音说明，跟随者按说明再走一遍，词级时间信息与位姿轨迹关联；基线区分单语言、多语言、引导与跟随监督，分析长程对齐的困难。"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "详见原文方法模块；未独立列全基础模型。",
+    "trainable": "基准数据不等同训练模型；论文训练单/多语言导航基线，比较Guide和Follower监督、翻译扩增及视觉注意监督。原文总计126,069条指令，不是用户笔记里单独train划分的79,467条。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "基准数据不等同训练模型；论文训练单/多语言导航基线，比较Guide和Follower监督、翻译扩增及视觉注意监督。原文总计126,069条指令，不是用户笔记里单独train划分的79,467条。",
+    "objective": "本条为数据/评测贡献；所附基线训练协议见训练范围。",
+    "stages": "基准数据不等同训练模型；论文训练单/多语言导航基线，比较Guide和Follower监督、翻译扩增及视觉注意监督。原文总计126,069条指令，不是用户笔记里单独train划分的79,467条。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "RxR Val-Unseen",
+      "setting": "Table 5；Monolingual为G+F设置，英语en合并en-IN/en-US；不把Val Unseen与Test Std结果混合。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 5",
+      "sourceUrl": "https://arxiv.org/html/2010.07954v1",
+      "table": {
+        "columns": [
+          "模型",
+          "语言",
+          "NE (m)",
+          "SR (%)",
+          "SDTW",
+          "nDTW"
+        ],
+        "rows": [
+          [
+            "Monolingual",
+            "en",
+            9.8,
+            26.1,
+            21.0,
+            42.4
+          ],
+          [
+            "Monolingual",
+            "hi",
+            9.2,
+            29.6,
+            24.0,
+            45.5
+          ],
+          [
+            "Monolingual",
+            "te",
+            9.1,
+            29.8,
+            24.2,
+            45.6
+          ],
+          [
+            "Multilingual",
+            "en",
+            11.0,
+            22.2,
+            17.8,
+            38.6
+          ],
+          [
+            "Human",
+            "en",
+            1.32,
+            90.4,
+            74.3,
+            77.7
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2010.07954v1",
+        "locator": "Table 5",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "沿Matterport3D离散可达图观察和行动；多语言与长路径任务不等于连续机器人控制。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2010.07954",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/google-research-datasets/RxR",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://github.com/google-research-datasets/RxR",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / RxR",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2010.07954",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2010.07954v1",
+      "locator": "方法章节；Table 5",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文Benchmark/数据集协议",
+      "url": "https://arxiv.org/html/2010.07954v1",
+      "locator": "数据/实验设置章节；Table 5",
+      "supports": [
+        "任务定义",
+        "动作空间",
+        "数据规模及口径",
+        "成功判据",
+        "协议边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pcdc3a13da2fb,\n  title={Room-Across-Room: Multilingual Vision-and-Language Navigation with Dense Spatiotemporal Grounding},\n  author={Alexander Ku and Peter Anderson and Roma Patel and Eugene Ie and Jason Baldridge},\n  year={2020},\n  eprint={2010.07954},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2010.07954}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "RxR 扩展R2R，使导航语言更长、跨语言且与观察过程密集对齐。引导者边走边录音说明，跟随者按说明再走一遍，词级时间信息与位姿轨迹关联；基线区分单语言、多语言、引导与跟随监督，分析长程对齐的困难。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "motivation": "降低R2R的短路径/直行偏置，提供跨语言和密集时空接地监督。",
+    "task": "根据英语、印地语或泰卢固语导航说明跟随长程室内路线。",
+    "input": "自然语言/语音、逐步视觉；数据还含带时间的词、姿态和演示。",
+    "output": "导航viewpoint轨迹及停止。",
+    "actions": "Matterport3D离散全景导航图；转成RxR-Habitat需要额外连续轨迹转换。",
+    "success": "终点到达与路径匹配分别评价；SR不能完整反映是否沿正确路线行进。",
+    "collection": "Guide边走边讲并记录时间/姿态；Follower独立按指令执行，保存不同于原路线的合理理解轨迹。",
+    "scale": "126,069条指令、16,522条guide路径，平均78词；包括3语言、英语2变体，不是126K独立环境。",
+    "split": "路径：train 11,089 / val-seen 1,232 / val-unseen 1,517 / test 2,684；沿用Matterport3D/R2R建筑划分。",
+    "metrics": "NE、SR、SPL、SDTW、nDTW；词级时空监督另用于注意力实验。",
+    "baselines": "随机/直行、单语言和多语言agent；比较Guide/Follower、跨语言翻译扩增及视觉注意监督。",
+    "assets": "官方RxR仓库提供指令、时间对齐与演示；Matterport图像另受资产许可约束。",
+    "license": "需要分别核对RxR数据和Matterport视觉资产的许可与访问要求。",
+    "reproduction": "语言分词、Guide/Follower统计口径、建筑划分和原始/连续动作协议必须一致。",
+    "coverage": "长程指令、多语言、跨语言迁移、密集语言—观察对齐。",
+    "boundary": "静态建筑图，不验证真实连续避障；nDTW评测依赖指定参考路线。",
+    "leakage": "沿用建筑划分，但R2R与RxR共享底层环境；联合训练/跨任务实验须说明是否看过同楼视觉。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

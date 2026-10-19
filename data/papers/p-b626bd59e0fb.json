@@ -1,0 +1,236 @@
+{
+  "id": "p-b626bd59e0fb",
+  "title": "MapNav: A Novel Memory Representation via Annotated Semantic Maps for Vision-and-Language Navigation",
+  "short": "MapNav",
+  "aliases": [],
+  "authors": [
+    "Lingfeng Zhang",
+    "Xiaoshuai Hao",
+    "Qinwen Xu",
+    "Qiang Zhang",
+    "Xinyao Zhang",
+    "Pengwei Wang",
+    "Jing Zhang",
+    "Zhongyuan Wang",
+    "Shanghang Zhang",
+    "Renjing Xu"
+  ],
+  "institutions": [
+    "HKUST (Guangzhou)",
+    "Beijing Academy of Artificial Intelligence",
+    "Tsinghua University",
+    "Wuhan University",
+    "Peking University",
+    "Beijing Innovation Center of Humanoid Robotics"
+  ],
+  "firstPublished": "2025-02-19",
+  "updated": "2026-05-09",
+  "publicationYear": 2025,
+  "venue": "ACL",
+  "publicationStatus": "已发表",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "MapNav 用带文字标注的俯视语义图替代不断增长的历史视频。",
+  "method": {
+    "input": "RGB-D、位姿、分割掩码",
+    "output": "低层导航命令",
+    "explanation": "MapNav 用带文字标注的俯视语义图替代不断增长的历史视频。当前帧提供局部视觉，ASM 提供已探索布局和物体名称；双路编码后让 VLM 直接输出可解析的导航动作。",
+    "flow": [
+      "ASM 建图",
+      "双路视觉编码",
+      "动作解码"
+    ],
+    "modules": [
+      {
+        "name": "ASM 建图",
+        "purpose": "本模块解决：ASM 建图",
+        "input": "RGB-D、位姿、分割掩码",
+        "mechanism": "反投影后生成障碍、探索区域、当前/历史位置及物体通道；连通分量求中心，加物体文字标签。",
+        "output": "Annotated Semantic Map",
+        "sourceUrl": "https://arxiv.org/html/2502.13451v5",
+        "locator": "方法章节"
+      },
+      {
+        "name": "双路视觉编码",
+        "purpose": "本模块解决：双路视觉编码",
+        "input": "当前帧、ASM 和少量历史帧",
+        "mechanism": "SigLIP 编码共享视觉特征，用专属两层 MLP 投影对齐语言空间，拼接指令 token。",
+        "output": "联合多模态表示",
+        "sourceUrl": "https://arxiv.org/html/2502.13451v5",
+        "locator": "方法章节"
+      },
+      {
+        "name": "动作解码",
+        "purpose": "本模块解决：动作解码",
+        "input": "融合后的视觉语言表示",
+        "mechanism": "LLaVA-OneVision 输出导航指令文本，通过规则解析到离散动作，执行后更新地图。",
+        "output": "低层导航命令",
+        "sourceUrl": "https://arxiv.org/html/2502.13451v5",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。",
+    "difference": "MapNav 用带文字标注的俯视语义图替代不断增长的历史视频。当前帧提供局部视觉，ASM 提供已探索布局和物体名称；双路编码后让 VLM 直接输出可解析的导航动作。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "SigLIP 编码共享视觉特征，用专属两层 MLP 投影对齐语言空间，拼接指令 token。；LLaVA-OneVision 输出导航指令文本，通过规则解析到离散动作，执行后更新地图。",
+    "trainable": "基于 LLaVA-OneVision 做导航微调；非 training-free。论文附录给出数据构建和训练，逐层冻结范围/算力仍应按发布配置核验。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "基于 LLaVA-OneVision 做导航微调；非 training-free。论文附录给出数据构建和训练，逐层冻结范围/算力仍应按发布配置核验。",
+    "objective": "基于 LLaVA-OneVision 做导航微调；非 training-free。论文附录给出数据构建和训练，逐层冻结范围/算力仍应按发布配置核验。",
+    "stages": "基于 LLaVA-OneVision 做导航微调；非 training-free。论文附录给出数据构建和训练，逐层冻结范围/算力仍应按发布配置核验。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE / RxR-CE",
+      "setting": "Val-Unseen；以 Table 1 的 NE=5.43 的最终行对应 39.7 SR，不采用他文转引的 NE=4.93",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 1",
+      "sourceUrl": "https://arxiv.org/html/2502.13451v5",
+      "table": {
+        "columns": [
+          "变体",
+          "基准",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "ASM + 当前帧",
+            "R2R",
+            36.5,
+            34.3
+          ],
+          [
+            "ASM + 当前帧 + 2 历史帧",
+            "R2R",
+            39.7,
+            37.2
+          ],
+          [
+            "ASM + 当前帧",
+            "RxR",
+            22.1,
+            20.2
+          ],
+          [
+            "ASM + 当前帧 + 2 历史帧",
+            "RxR",
+            32.6,
+            27.7
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2502.13451v5",
+        "locator": "Table 1",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要论文规定的视觉观测、位姿/候选动作或历史输入；原文各基准相机、动作空间、最大步数与停止条件分别生效，不能把不同设置视为可直接互换。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2502.13451",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/linglingxiansen/MapNav",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / MapNav",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2502.13451",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2502.13451v5",
+      "locator": "方法章节；Table 1",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式发表页面",
+      "url": "https://aclanthology.org/2025.acl-long.638/",
+      "locator": "会议论文集",
+      "supports": [
+        "正式发表年份",
+        "会议",
+        "版本对应"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pb626bd59e0fb,\n  title={MapNav: A Novel Memory Representation via Annotated Semantic Maps for Vision-and-Language Navigation},\n  author={Lingfeng Zhang and Xiaoshuai Hao and Qinwen Xu and Qiang Zhang and Xinyao Zhang and Pengwei Wang and Jing Zhang and Zhongyuan Wang and Shanghang Zhang and Renjing Xu},\n  year={2025},\n  eprint={2502.13451},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2502.13451}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "MapNav 用带文字标注的俯视语义图替代不断增长的历史视频。当前帧提供局部视觉，ASM 提供已探索布局和物体名称；双路编码后让 VLM 直接输出可解析的导航动作。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

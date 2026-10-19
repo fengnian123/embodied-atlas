@@ -1,0 +1,297 @@
+{
+  "id": "shape-of-motion",
+  "title": "Shape of Motion: 4D Reconstruction from a Single Video",
+  "short": "Shape of Motion",
+  "aliases": [],
+  "authors": [
+    "Qianqian Wang",
+    "Vickie Ye",
+    "Hang Gao",
+    "Weijia Zeng",
+    "Jake Austin",
+    "Zhengqi Li",
+    "Angjoo Kanazawa"
+  ],
+  "institutions": [
+    "UC Berkeley",
+    "Google DeepMind",
+    "UC San Diego",
+    "Adobe Research"
+  ],
+  "firstPublished": "2024-07-18",
+  "updated": "2025-10-16",
+  "publicationYear": 2025,
+  "venue": "ICCV",
+  "publicationStatus": "已发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建",
+      "跟踪"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "动态环境",
+      "空间理解"
+    ],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "将单视频的深度和二维轨迹融合为共享 SE(3) 运动基与持久高斯，联合恢复动态场景几何、外观以及长程三维轨迹。",
+  "method": {
+    "input": "RGB 视频、相机参数、前景掩码、单目深度和 TAPIR 长程二维轨迹",
+    "output": "世界坐标下的动态高斯、长程 3D 点轨迹和新视图",
+    "flow": [
+      "带几何先验的初始化",
+      "共享 SE(3) 运动基",
+      "联合渲染与轨迹监督"
+    ],
+    "assumptions": "预处理先验有噪声；野外视频初始相机来自 MegaSaM，公开基准使用对应相机标注。",
+    "difference": "相比独立逐帧点云，共享少量刚体运动基与每点系数，可在遮挡前后保持运动关联。",
+    "explanation": "将单视频的深度和二维轨迹融合为共享 SE(3) 运动基与持久高斯，联合恢复动态场景几何、外观以及长程三维轨迹。 相比独立逐帧点云，共享少量刚体运动基与每点系数，可在遮挡前后保持运动关联。 对齐相对深度，提升二维轨迹为有噪声三维轨迹；速度聚类与加权 Procrustes 初始化共享运动基。 全局 10 个旋转/平移基轨迹由所有高斯共享；各高斯用自己的归一化系数组合得到时变变换，静态背景另用静态高斯。 渲染 RGB、深度、掩码与跨帧坐标，联合重建、2D 轨迹、重投影深度和近邻距离保持损失；真实视频可联合微调相机。",
+    "modules": [
+      {
+        "name": "带几何先验的初始化",
+        "purpose": "为严重欠约束的单目优化提供起点",
+        "mechanism": "对齐相对深度，提升二维轨迹为有噪声三维轨迹；速度聚类与加权 Procrustes 初始化共享运动基。",
+        "input": "深度、TAPIR、相机和掩码",
+        "output": "规范帧高斯与运动基"
+      },
+      {
+        "name": "共享 SE(3) 运动基",
+        "purpose": "用低维结构约束大量高斯运动",
+        "mechanism": "全局 10 个旋转/平移基轨迹由所有高斯共享；各高斯用自己的归一化系数组合得到时变变换，静态背景另用静态高斯。",
+        "input": "规范高斯、运动基、系数",
+        "output": "每个时刻的高斯姿态与世界轨迹"
+      },
+      {
+        "name": "联合渲染与轨迹监督",
+        "purpose": "同时约束外观、几何和时序对应",
+        "mechanism": "渲染 RGB、深度、掩码与跨帧坐标，联合重建、2D 轨迹、重投影深度和近邻距离保持损失；真实视频可联合微调相机。",
+        "input": "图像与几何/对应先验",
+        "output": "一致动态场景与长程对应"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "规范高斯、全局运动基、每高斯系数；野外视频可优化相机",
+    "trainable": "规范高斯、全局运动基、每高斯系数；野外视频可优化相机",
+    "frozen": "预训练深度/跟踪器只提供先验，未在本文逐场景训练中更新",
+    "data": "单段目标视频及预计算几何/跟踪",
+    "objective": "颜色/深度/掩码重建 + 轨迹对应 + 局部距离保持",
+    "stages": "初始化 1,000 步、训练 500 epochs；40k 动态+100k 静态初始高斯；300 帧 960×720 约 2h/A100"
+  },
+  "evaluation": [
+    {
+      "benchmark": "iPhone/DyCheck",
+      "setting": "arXiv v2/ICCV2025；原分辨率，排除Space-out/Wheel；仅7段有同步验证视角。EPE为米，mPSNR/mSSIM/mLPIPS为共可见掩码指标。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "iPhone/DyCheck · Table 1",
+        "columns": [
+          "方法",
+          "3D EPE↓ (m)",
+          "5cm内比例↑ (%)",
+          "2D AJ↑",
+          "mPSNR↑",
+          "mSSIM↑",
+          "mLPIPS↓"
+        ],
+        "rows": [
+          [
+            "HyperNeRF",
+            "0.182",
+            "28.4",
+            "10.1",
+            "15.99",
+            "0.59",
+            "0.51"
+          ],
+          [
+            "Deformable-3D-GS",
+            "0.151",
+            "33.4",
+            "14.0",
+            "11.92",
+            "0.49",
+            "0.66"
+          ],
+          [
+            "Ours",
+            "0.082",
+            "43.0",
+            "34.4",
+            "16.72",
+            "0.63",
+            "0.45"
+          ],
+          [
+            "Ours+2DGS",
+            "0.097",
+            "47.3",
+            "35.8",
+            "16.75",
+            "0.65",
+            "0.40"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2407.13764v2",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "iPhone 3D跟踪消融",
+      "setting": "同一iPhone协议；10个SE(3)基；300帧960×720作者配置约2h/A100，渲染约140FPS，未作为所有序列均值。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 4",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "iPhone 3D跟踪消融 · Table 4",
+        "columns": [
+          "变体",
+          "EPE↓ (m)",
+          "5cm内↑ (%)",
+          "10cm内↑ (%)"
+        ],
+        "rows": [
+          [
+            "Full",
+            "0.082",
+            "43.0",
+            "73.3"
+          ],
+          [
+            "Translation Bases",
+            "0.093",
+            "42.3",
+            "69.9"
+          ],
+          [
+            "No SE(3) Init",
+            "0.111",
+            "39.3",
+            "65.7"
+          ],
+          [
+            "No 2D Tracks",
+            "0.141",
+            "30.4",
+            "57.8"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2407.13764v2",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "对深度、相机与二维轨迹先验的错误敏感；复杂遮挡和未见区域仍有歧义。"
+    ],
+    "analysis": [
+      "目标为观察视频中的重建/跟踪，不是长期物体活动预测，也不自动生成导航任务或碰撞资产。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2407.13764",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://shape-of-motion.github.io/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/vye16/shape-of-motion",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2407.13764",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2407.13764v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://shape-of-motion.github.io/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/vye16/shape-of-motion",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "4dgs-native",
+      "reason": "比较原生时空分布与显式轨迹"
+    }
+  ],
+  "bibtex": "@misc{240713764,\n  title = {Shape of Motion: 4D Reconstruction from a Single Video},\n  author = {Wang, Qianqian and Ye, Vickie and Gao, Hang and Zeng, Weijia and Austin, Jake and Li, Zhengqi and Kanazawa, Angjoo},\n  year = {2024},\n  eprint = {2407.13764},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2407.13764}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "overview": "将单视频的深度和二维轨迹融合为共享 SE(3) 运动基与持久高斯，联合恢复动态场景几何、外观以及长程三维轨迹。 相比独立逐帧点云，共享少量刚体运动基与每点系数，可在遮挡前后保持运动关联。 预处理先验有噪声；野外视频初始相机来自 MegaSaM，公开基准使用对应相机标注。",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。",
+  "verificationLevel": "fulltext"
+}

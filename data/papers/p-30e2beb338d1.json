@@ -1,0 +1,260 @@
+{
+  "id": "p-30e2beb338d1",
+  "title": "Mem2Ego: Empowering Vision-Language Models with Global-to-Ego Memory for Long-Horizon Embodied Navigation",
+  "short": "Mem2Ego",
+  "aliases": [
+    "Mem2Ego"
+  ],
+  "authors": [
+    "Zhang, Lingfeng",
+    "Liu, Yuecheng",
+    "Zhang, Zhanguang",
+    "Aghaei, Matin",
+    "Xiao, Yixin",
+    "Hu, Yaochen",
+    "Alomrani, Mohammad Ali",
+    "Bravo, David Gamaliel Arcos",
+    "Gu, Hongjian",
+    "Li, Zhiyuan",
+    "Wu, Yangzheng",
+    "Zhang, Zhanpeng",
+    "Karimi, Raika",
+    "Hamidizadeh, Atia",
+    "Huang, Guowei",
+    "Xu, Haoping",
+    "Cao, Tongtong",
+    "Qiu, Weichao",
+    "Quan, Xingyue",
+    "Hao, Jianye",
+    "Zhuang, Yuzheng",
+    "Zhang, Yingxue"
+  ],
+  "institutions": [
+    "Huawei Noah’s Ark Lab , ,"
+  ],
+  "firstPublished": "2025-02-20",
+  "updated": "2026-09-16",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划",
+      "空间理解"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "从全局记忆检索相关线索，再对齐到当前第一人称观察，支持长程目标导航。",
+  "method": {
+    "explanation": "Mem2Ego 针对两种失配：纯文本全局地图丢失几何细节，纯第一视角又难以知道已经探索过哪里。它维护全局记忆，并按任务动态选出相关空间线索，与当前ego视角结合后交给VLM决策。重点在全局信息如何进入局部动作判断，而非把全图无差别塞入上下文。论文既报告GPT-4o推理配置，也收集导航决策数据微调Llama3.2-11B；因此训练性质必须随变体说明。",
+    "input": "目标、当前RGB及全局记忆",
+    "output": "导航探索方向",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "从全局记忆检索相关线索，再对齐到当前第一人称观察，支持长程目标导航。",
+    "flow": [
+      "全局记忆构建",
+      "任务条件Global-to-Ego检索",
+      "VLM导航决策与数据收集"
+    ],
+    "modules": [
+      {
+        "name": "全局记忆构建",
+        "purpose": "减少长程探索中的局部视野限制",
+        "mechanism": "累计探索得到的环境和历史信息，记录可供后续空间推理检索的全局上下文。",
+        "sourceUrl": "https://arxiv.org/html/2502.14254",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "任务条件Global-to-Ego检索",
+        "purpose": "为当前观察补充相关上下文",
+        "mechanism": "根据任务选择记忆中的有用线索，将全局几何和语义信息与当前第一人称观察动态对齐。",
+        "sourceUrl": "https://arxiv.org/html/2502.14254",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "VLM导航决策与数据收集",
+        "purpose": "将记忆线索转为可执行方向",
+        "mechanism": "模型联合当前图像与检索信息选择探索方向；另有收集决策示范并监督微调开源VLM的配置。",
+        "sourceUrl": "https://arxiv.org/html/2502.14254",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "GPT-4o推理配置；另有Llama3.2-11B监督微调",
+    "models": "GPT-4o、Llama3.2-11B用于视觉空间推理",
+    "trainable": "SFT Llama3.2-11B变体训练参数；GPT-4o配置不训练",
+    "frozen": "GPT-4o作为API推理后端",
+    "data": "作者收集的导航决策训练数据；详尽规模待独立摘录",
+    "objective": "监督导航决策目标；无训练变体使用提示推理",
+    "stages": "构建全局记忆 → 检索/对齐 → VLM动作决策；SFT变体事先训练"
+  },
+  "evaluation": [
+    {
+      "benchmark": "HSSD / HM3D-v2 ObjectNav",
+      "setting": "Table I，HSSD/HSSD-Hard/HM3D-v2 ObjectNav，SR与SPL均为0–1比例。",
+      "result": "Mem2Ego在HM3D-v2 SR0.766/SPL0.441；VLFM0.636/0.325；HSSD为0.8685/0.5788。",
+      "sourceUrl": "https://arxiv.org/html/2502.14254",
+      "locator": "原文 TABLE I",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "TABLE I: Main results. Our proposed method is compared to the baselines on HSSD, HSSD-Hard and HM3D datasets. SR: Success Rate. SPL: Success Weighted by Path Length. Experiments are conducted using GPT-4o. The HM3D baseline results are sourced from the original papers, with the exception of the PIVOT results, which are from our implementation.",
+        "columns": [
+          "方法",
+          "HSSD SR",
+          "HSSD SPL",
+          "HSSD-Hard SR",
+          "HSSD-Hard SPL",
+          "HM3D-v2 SR",
+          "HM3D-v2 SPL"
+        ],
+        "rows": [
+          [
+            "",
+            "SR ↑",
+            "SPL ↑",
+            "SR ↑",
+            "SPL ↑",
+            "SR ↑",
+            "SPL ↑"
+          ],
+          [
+            "LFG",
+            "0.6244",
+            "0.3371",
+            "0.6176",
+            "0.3454",
+            "0.689",
+            "0.36"
+          ],
+          [
+            "VLMNav",
+            "0.6526",
+            "0.3620",
+            "0.5294",
+            "0.1973",
+            "0.504",
+            "0.21"
+          ],
+          [
+            "InstructNav",
+            "0.7605",
+            "0.3722",
+            "0.6372",
+            "0.4187",
+            "0.58",
+            "0.209"
+          ],
+          [
+            "VLFM",
+            "0.7652",
+            "0.5574",
+            "0.6078",
+            "0.4270",
+            "0.636",
+            "0.325"
+          ],
+          [
+            "PIVOT",
+            "0.7840",
+            "0.5658",
+            "0.6372",
+            "0.4744",
+            "0.531",
+            "0.324"
+          ],
+          [
+            "Ours",
+            "0.8685",
+            "0.5788",
+            "0.7647",
+            "0.4790",
+            "0.766",
+            "0.441"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "GPT-4o推理和开源SFT变体训练条件不同；全局记忆构建仍依赖可靠的空间对齐与感知。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2502.14254",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / Mem2Ego",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2502.14254",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2502.14254",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p30e2beb338d12025,\n title={Mem2Ego: Empowering Vision-Language Models with Global-to-Ego Memory for Long-Horizon Embodied Navigation},\n author={Zhang, Lingfeng and Liu, Yuecheng and Zhang, Zhanguang and Aghaei, Matin and Xiao, Yixin and Hu, Yaochen and Alomrani, Mohammad Ali and Bravo, David Gamaliel Arcos and Gu, Hongjian and Li, Zhiyuan and Wu, Yangzheng and Zhang, Zhanpeng and Karimi, Raika and Hamidizadeh, Atia and Huang, Guowei and Xu, Haoping and Cao, Tongtong and Qiu, Weichao and Quan, Xingyue and Hao, Jianye and Zhuang, Yuzheng and Zhang, Yingxue},\n year={2025},\n url={https://arxiv.org/abs/2502.14254}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "Mem2Ego 针对两种失配：纯文本全局地图丢失几何细节，纯第一视角又难以知道已经探索过哪里。它维护全局记忆，并按任务动态选出相关空间线索，与当前ego视角结合后交给VLM决策。重点在全局信息如何进入局部动作判断，而非把全图无差别塞入上下文。论文既报告GPT-4o推理配置，也收集导航决策数据微调Llama3.2-11B；因此训练性质必须随变体说明。",
+  "verificationLevel": "fulltext"
+}

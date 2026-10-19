@@ -1,0 +1,205 @@
+{
+  "id": "p-2bfe5df5413c",
+  "title": "AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation",
+  "short": "AECNav",
+  "aliases": [
+    "AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation",
+    "AECNav"
+  ],
+  "authors": [
+    "Liu, Guanlin",
+    "Ling, Shaobin",
+    "Liu, Renyuan",
+    "Gong, Zeying",
+    "Hu, Junjie"
+  ],
+  "institutions": [
+    "1 The Chinese University of Hong Kong, Shenzhen 2 The Hong Kong University of Science and Technology (Guangzhou)"
+  ],
+  "firstPublished": "2026-08-11",
+  "updated": "2026-08-22",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "主动感知",
+      "实时性",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "四足机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "共享视觉编码、聚合目标正负证据，并主动选择信息增益高的frontier进行开放词汇ObjectNav。",
+  "method": {
+    "explanation": "AECNav 将导航描述为证据驱动的感知—决策循环。共享编码减少检测、语义推理和确认阶段重复计算；对象检测聚合到空间簇的log-odds信念，并同时处理类似干扰物和预期可见却未检测到的负证据。语义线索弱时，frontier选择兼顾信息增益和移动代价。其95%实机结果对应40次物理四足试验；仿真效率表则是HM3D-v2前100个episode，两个口径不可混用。",
+    "input": "开放词汇目标与RGB-D/地图",
+    "output": "探索目标与可靠目标确认",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "共享视觉编码、聚合目标正负证据，并主动选择信息增益高的frontier进行开放词汇ObjectNav。",
+    "flow": [
+      "证据门控共享感知",
+      "簇级正负证据聚合",
+      "主动证据探索"
+    ],
+    "modules": [
+      {
+        "name": "证据门控共享感知",
+        "purpose": "降低重复模型计算",
+        "mechanism": "多个推理阶段共享同一视觉编码，根据证据需求决定进一步感知与确认，而不是各阶段单独编码整图。",
+        "sourceUrl": "https://arxiv.org/html/2608.10817",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "簇级正负证据聚合",
+        "purpose": "减少外观相似物造成的虚假确认",
+        "mechanism": "把空间一致的检测累计到cluster级log-odds；结合支持/干扰以及预期检测缺失，持续修正目标信念。",
+        "sourceUrl": "https://arxiv.org/html/2608.10817",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "主动证据探索",
+        "purpose": "在弱语义条件下继续有效搜索",
+        "mechanism": "为frontier估计信息收益与遍历代价，选取低成本、可增加可靠目标证据的观察位置。",
+        "sourceUrl": "https://arxiv.org/html/2608.10817",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "无任务专属额外训练；复用基础感知",
+    "models": "共享编码的视觉语言/检测组件，log-odds聚合与frontier规划",
+    "trainable": "在线证据和地图状态；不更新基础模型参数",
+    "frozen": "预训练感知/语义组件",
+    "data": "HM3D-v2、HM3D-OVON、MP3D与40次物理四足试验用于评测",
+    "objective": "信念聚合与信息增益选点，不是梯度训练",
+    "stages": "共享感知 → 聚合证据 → 选点/确认 → 导航"
+  },
+  "evaluation": [
+    {
+      "benchmark": "AECNav 多ObjectNav基准",
+      "setting": "Table I主性能；Table II耗时为HM3D-v2前100episode；物理95%为40trial作者报告。",
+      "result": "HM3D-v2 SR84.7/SPL45.3，MP3D51.3/25.9，HM3D-OVON57.3/30.5；前100episode runtime24.39秒。",
+      "sourceUrl": "https://arxiv.org/html/2608.10817",
+      "locator": "Table I / Table II / Abstract",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "基准 / 协议",
+          "SR (%)",
+          "SPL (%)"
+        ],
+        "rows": [
+          [
+            "HM3D-v2",
+            "84.7",
+            "45.3"
+          ],
+          [
+            "MP3D",
+            "51.3",
+            "25.9"
+          ],
+          [
+            "HM3D-OVON",
+            "57.3",
+            "30.5"
+          ],
+          [
+            "物理四足 / 40trials",
+            "95",
+            "未在本条摘录"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "效率表与主性能表使用不同episode范围，24.39秒不可直接当成所有基准统一耗时；物理试验只支持作者具体场地和40trial。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2608.10817",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "具身导航近期论文Benchmark对比汇总.xlsx",
+      "locator": "近期论文汇总 / AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2608.10817",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2608.10817",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p2bfe5df5413c2026,\n title={AECNav: Active Evidence Consolidation for Efficient Zero-Shot Open-Vocabulary Object Navigation},\n author={Liu, Guanlin and Ling, Shaobin and Liu, Renyuan and Gong, Zeying and Hu, Junjie},\n year={2026},\n url={https://arxiv.org/abs/2608.10817}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；发表、训练及开放状态未核实",
+      "evaluation": "HM3D-v2、HM3D-OVON、MP3D",
+      "comparisons": "Uni-NaVid 、MTU3D、CompassNav、OVSegDT、TrajRAG、CoW、BeliefMapNav、ASCENT、L3MVN、SG-Nav、 InstructNav、VLFM 、WMNav 、MSGNav 、ApexNav",
+      "training": "Training-free Zero-shot，使用已有视觉/语言基础模型，通过evidence consolidation和frontier exploration导航",
+      "resourceClaim": "否"
+    }
+  ],
+  "overview": "AECNav 将导航描述为证据驱动的感知—决策循环。共享编码减少检测、语义推理和确认阶段重复计算；对象检测聚合到空间簇的log-odds信念，并同时处理类似干扰物和预期可见却未检测到的负证据。语义线索弱时，frontier选择兼顾信息增益和移动代价。其95%实机结果对应40次物理四足试验；仿真效率表则是HM3D-v2前100个episode，两个口径不可混用。",
+  "verificationLevel": "fulltext"
+}

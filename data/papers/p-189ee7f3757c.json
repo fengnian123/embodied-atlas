@@ -1,0 +1,169 @@
+{
+  "id": "p-189ee7f3757c",
+  "title": "Acceptability of Using a Robotic Nursing Assistant in Health Care Environments: Experimental Pilot Study",
+  "short": "ARNA",
+  "aliases": [
+    "ARNA"
+  ],
+  "authors": [
+    "Mohammad Nasser Saadatzi",
+    "M Cynthia Logsdon",
+    "Shamsudeen Abubakar",
+    "Sumit Das",
+    "Penelope Jankoski",
+    "Heather Mitchell",
+    "Diane Chlebowy",
+    "Dan O Popa"
+  ],
+  "institutions": [],
+  "firstPublished": "2020-11-12",
+  "updated": null,
+  "publicationYear": 2020,
+  "venue": "Journal of Medical Internet Research",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2020,
+  "tags": {
+    "direction": [
+      "导航",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "在模拟医院中用护理学生成对扮演护士和患者，检验ARNA步行辅助的感知有用性和易用性。研究测量的是可接受性，不是患者恢复效果。",
+  "method": {
+    "input": "模拟护理互动与TAM问卷",
+    "output": "有用性/易用性得分及内部一致性",
+    "flow": [
+      "双人角色实验",
+      "TAM量表",
+      "量表可靠性分析"
+    ],
+    "explanation": "在模拟医院中用护理学生成对扮演护士和患者，检验ARNA步行辅助的感知有用性和易用性。研究测量的是可接受性，不是患者恢复效果。",
+    "modules": [
+      {
+        "name": "双人角色实验",
+        "purpose": "在可控环境测试辅助使用",
+        "mechanism": "24名护理学生两两分组，一人扮护士一人扮患者，完成步行辅助场景。",
+        "input": "模拟护理互动与TAM问卷",
+        "output": "双人角色实验的中间结果"
+      },
+      {
+        "name": "TAM量表",
+        "purpose": "量化接受度构成",
+        "mechanism": "分别测量perceived usefulness与perceived ease of use。",
+        "input": "双人角色实验的结果",
+        "output": "TAM量表的中间结果"
+      },
+      {
+        "name": "量表可靠性分析",
+        "purpose": "检查问卷而非宣称临床有效",
+        "mechanism": "计算Cronbach α并分析问项关联；得分反映这一小样本中的接受度。",
+        "input": "TAM量表的结果",
+        "output": "有用性/易用性得分及内部一致性"
+      }
+    ],
+    "assumptions": "临床/用户研究的结果受纳入标准、样本与评价场景限制。",
+    "difference": "对应真实证据类型：临床/用户研究"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：接受度、教学体验或某项临床终点只说明指定研究条件下的结果，不能替代独立外部验证或直接推为其他场景的结论。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.2196/17509",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Hospital Service and Nursing Robots / ARNA",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.jmir.org/2020/11/e17509/PDF",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.2196/17509",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.2196/17509",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://www.jmir.org/2020/11/e17509/PDF",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**JMIR'20**",
+      "section": "Hospital Service and Nursing Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "在模拟医院中用护理学生成对扮演护士和患者，检验ARNA步行辅助的感知有用性和易用性。研究测量的是可接受性，不是患者恢复效果。 以下按研究设计、组别和评价方式说明，不把临床研究写成可执行机器人策略。"
+}

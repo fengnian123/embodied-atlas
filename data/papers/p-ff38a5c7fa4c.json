@@ -1,0 +1,277 @@
+{
+  "id": "p-ff38a5c7fa4c",
+  "title": "RT-1: Robotics Transformer for Real-World Control at Scale",
+  "short": "RT-1",
+  "aliases": [
+    "RT-1",
+    "RT-1: Robotics Transformer for Real-World Control at Scale"
+  ],
+  "authors": [
+    "Brohan, Anthony",
+    "Brown, Noah",
+    "Carbajal, Justice",
+    "Chebotar, Yevgen",
+    "Dabis, Joseph",
+    "Finn, Chelsea",
+    "Gopalakrishnan, Keerthana",
+    "Hausman, Karol",
+    "Herzog, Alex",
+    "Hsu, Jasmine",
+    "Ibarz, Julian",
+    "Ichter, Brian",
+    "Irpan, Alex",
+    "Jackson, Tomas",
+    "Jesmonth, Sally",
+    "Joshi, Nikhil J",
+    "Julian, Ryan",
+    "Kalashnikov, Dmitry",
+    "Kuang, Yuheng",
+    "Leal, Isabel",
+    "Lee, Kuang-Huei",
+    "Levine, Sergey",
+    "Lu, Yao",
+    "Malla, Utsav",
+    "Manjunath, Deeksha",
+    "Mordatch, Igor",
+    "Nachum, Ofir",
+    "Parada, Carolina",
+    "Peralta, Jodilyn",
+    "Perez, Emily",
+    "Pertsch, Karl",
+    "Quiambao, Jornell",
+    "Rao, Kanishka",
+    "Ryoo, Michael",
+    "Salazar, Grecia",
+    "Sanketi, Pannag",
+    "Sayed, Kevin",
+    "Singh, Jaspiar",
+    "Sontakke, Sumedh",
+    "Stone, Austin",
+    "Tan, Clayton",
+    "Tran, Huong",
+    "Vanhoucke, Vincent",
+    "Vega, Steve",
+    "Vuong, Quan",
+    "Xia, Fei",
+    "Xiao, Ted",
+    "Xu, Peng",
+    "Xu, Sichun",
+    "Yu, Tianhe",
+    "Zitkovich, Brianna"
+  ],
+  "institutions": [
+    "Robotics at Google",
+    "Everyday Robots"
+  ],
+  "firstPublished": "2022-12-13",
+  "updated": "2023-08-11",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "移动操作"
+    ],
+    "task": [
+      "长程操作",
+      "机器人控制"
+    ],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "用语言条件的高效 Transformer，在多任务真实示范上统一学习机械臂和移动底座控制。",
+  "method": {
+    "explanation": "RT-1 将相机短历史、自然语言指令和机器人动作统一为序列建模问题。语言嵌入通过 FiLM 调制 EfficientNet 视觉特征，TokenLearner 把大量空间特征压缩成少量 token，Transformer 再按时间汇聚并预测离散化动作。动作不是抽象技能名，而是可还原为末端位移、旋转、夹爪、底座和终止信号的控制量。其关键在于多任务数据多样性与紧凑推理架构共同提高泛化；不是把未经训练的 LLM 直接接到机器人。",
+    "input": "自然语言指令与短窗口RGB历史",
+    "output": "机械臂、夹爪、底座及终止的离散动作",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用语言条件的高效 Transformer，在多任务真实示范上统一学习机械臂和移动底座控制。",
+    "flow": [
+      "语言条件视觉编码",
+      "TokenLearner 与时序 Transformer",
+      "离散动作解码"
+    ],
+    "modules": [
+      {
+        "name": "语言条件视觉编码",
+        "purpose": "让指令影响观察内容",
+        "mechanism": "用预训练语言嵌入生成 FiLM 条件，调制每幅图像的 EfficientNet 中间特征，使同一画面在不同指令下产生不同任务特征。",
+        "sourceUrl": "https://arxiv.org/html/2212.06817",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "TokenLearner 与时序 Transformer",
+        "purpose": "降低延迟并利用短历史",
+        "mechanism": "将图像空间特征压缩为紧凑 token，再把多帧 token 输入 Transformer，避免直接处理高分辨率全部 patch。",
+        "sourceUrl": "https://arxiv.org/html/2212.06817",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "离散动作解码",
+        "purpose": "把预测落到机器人动作",
+        "mechanism": "各动作维度量化为离散类别，用分类头产生动作 token；反量化后执行当前动作并重新观察。",
+        "sourceUrl": "https://arxiv.org/html/2212.06817",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督学习机器人策略（行为克隆）",
+    "models": "FiLM-EfficientNet、TokenLearner、Transformer；预训练语言编码器",
+    "trainable": "视觉动作策略网络",
+    "frozen": "预训练语言表示作为条件；不把整个系统归为冻结 VLM",
+    "data": "约13万条真实示范，13台机器人、17个月、744类任务",
+    "objective": "给定图像与语言条件最小化示范动作负对数似然",
+    "stages": "视觉/语言预训练初始化 → 多任务动作训练 → 闭环控制"
+  },
+  "evaluation": [
+    {
+      "benchmark": "RT-1 真实机器人多任务评测",
+      "setting": "Table 2：作者真实机器人评测，各列分别为已见任务、新任务、干扰物和背景泛化的成功率（%）。",
+      "result": "RT-1 在四组测试中为97、76、83、59；BC-Z为72、19、47、41。",
+      "sourceUrl": "https://arxiv.org/html/2212.06817",
+      "locator": "原文 Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 2: Overall performance of RT-1 and baselines across seen tasks, generalization to unseen tasks, and robustness to distractors and backgrounds.",
+        "columns": [
+          "Model",
+          "Seen Tasks",
+          "Unseen Tasks",
+          "Distractors",
+          "Backgrounds"
+        ],
+        "rows": [
+          [
+            "Gato ( Reed et al., 2022 )",
+            "65",
+            "52",
+            "43",
+            "35"
+          ],
+          [
+            "BC-Z ( Jang et al., 2021 )",
+            "72",
+            "19",
+            "47",
+            "41"
+          ],
+          [
+            "BC-Z XL",
+            "56",
+            "43",
+            "23",
+            "35"
+          ],
+          [
+            "RT-1 (ours)",
+            "97",
+            "76",
+            "83",
+            "59"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "主要训练与测试围绕特定移动操作平台及厨房；多任务泛化不自动证明跨本体或触觉精细控制能力。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2212.06817",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / RT-1",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.15607/RSS.2023.XIX.025",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://robotics-transformer1.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2212.06817",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2212.06817",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pff38a5c7fa4c2022,\n title={RT-1: Robotics Transformer for Real-World Control at Scale},\n author={Brohan, Anthony and Brown, Noah and Carbajal, Justice and Chebotar, Yevgen and Dabis, Joseph and Finn, Chelsea and Gopalakrishnan, Keerthana and Hausman, Karol and Herzog, Alex and Hsu, Jasmine and Ibarz, Julian and Ichter, Brian and Irpan, Alex and Jackson, Tomas and Jesmonth, Sally and Joshi, Nikhil J and Julian, Ryan and Kalashnikov, Dmitry and Kuang, Yuheng and Leal, Isabel and Lee, Kuang-Huei and Levine, Sergey and Lu, Yao and Malla, Utsav and Manjunath, Deeksha and Mordatch, Igor and Nachum, Ofir and Parada, Carolina and Peralta, Jodilyn and Perez, Emily and Pertsch, Karl and Quiambao, Jornell and Rao, Kanishka and Ryoo, Michael and Salazar, Grecia and Sanketi, Pannag and Sayed, Kevin and Singh, Jaspiar and Sontakke, Sumedh and Stone, Austin and Tan, Clayton and Tran, Huong and Vanhoucke, Vincent and Vega, Steve and Vuong, Quan and Xia, Fei and Xiao, Ted and Xu, Peng and Xu, Sichun and Yu, Tianhe and Zitkovich, Brianna},\n year={2022},\n url={https://arxiv.org/abs/2212.06817}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**RSS'23**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "overview": "RT-1 将相机短历史、自然语言指令和机器人动作统一为序列建模问题。语言嵌入通过 FiLM 调制 EfficientNet 视觉特征，TokenLearner 把大量空间特征压缩成少量 token，Transformer 再按时间汇聚并预测离散化动作。动作不是抽象技能名，而是可还原为末端位移、旋转、夹爪、底座和终止信号的控制量。其关键在于多任务数据多样性与紧凑推理架构共同提高泛化；不是把未经训练的 LLM 直接接到机器人。",
+  "verificationLevel": "fulltext"
+}

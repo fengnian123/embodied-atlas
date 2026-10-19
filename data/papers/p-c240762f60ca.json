@@ -1,0 +1,156 @@
+{
+  "id": "p-c240762f60ca",
+  "title": "A Survey on Vision-Language-Action Models for Embodied AI",
+  "short": "A Survey on Vision-Language-Action Models for Embodied AI",
+  "aliases": [
+    "A Survey on Vision-Language-Action Models for Embodied AI"
+  ],
+  "authors": [
+    "Ma, Yueen",
+    "Song, Zixing",
+    "Zhuang, Yuzheng",
+    "Hao, Jianye",
+    "King, Irwin"
+  ],
+  "institutions": [],
+  "firstPublished": "2024-05-23",
+  "updated": "2026-05-01",
+  "publicationYear": 2026,
+  "venue": "IEEE Transactions on Neural Networks and Learning Systems (Early Access), 2026",
+  "publicationStatus": "作者 arXiv journal reference 报告发表",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [
+      "VLA"
+    ],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "按VLA组件、低层控制策略与高层任务规划三条线索整理模型、数据、模拟器和评测。",
+  "method": {
+    "explanation": "综述将VLA研究拆成组件设计、预测低层动作的控制策略、以及分解长任务的高层规划器。组件层覆盖视觉表征和动力学，策略层关注如何把感知与语言转成动作，规划层则讨论语义子任务如何与控制衔接。使用它可以区分VLM理解、VLA控制和Agent规划的不同层级。表中的训练目标与机器人任务属于被综述方法，本综述没有一个统一训练方案或原创控制成功率。",
+    "input": "VLA文献与开放资源",
+    "output": "模型/训练/资源分类框架",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "按VLA组件、低层控制策略与高层任务规划三条线索整理模型、数据、模拟器和评测。",
+    "flow": [
+      "组件层分类",
+      "策略层分类",
+      "规划层与资源索引"
+    ],
+    "modules": [
+      {
+        "name": "组件层分类",
+        "purpose": "解释感知与动力学能力来源",
+        "mechanism": "对比预训练视觉表征、跨模态表示和前向/逆向动力学目标。",
+        "sourceUrl": "https://arxiv.org/html/2405.14093",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "策略层分类",
+        "purpose": "区分低层动作建模路线",
+        "mechanism": "整理语言条件动作生成模型的架构与训练，不能将所有方法都视为自回归token策略。",
+        "sourceUrl": "https://arxiv.org/html/2405.14093",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "规划层与资源索引",
+        "purpose": "连接长程语义和执行接口",
+        "mechanism": "整理高层子任务规划及数据/模拟器/benchmark，强调不同层级的贡献。",
+        "sourceUrl": "https://arxiv.org/html/2405.14093",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用：综述",
+    "models": "多种预训练视觉/语言/动作模型",
+    "trainable": "无本文新策略训练",
+    "frozen": "不适用",
+    "data": "文献与公开资源汇总",
+    "objective": "不适用",
+    "stages": "按组件/控制/规划组织证据"
+  },
+  "evaluation": [
+    {
+      "benchmark": "综述证据（非原创控制实验）",
+      "setting": "综述Table I/II等汇总被引方法的训练目标；不属于统一协议下重跑的实验。",
+      "result": "论文原文明确三条研究线：components、low-level control policies、high-level task planners；暂无本综述新增SR结果。",
+      "sourceUrl": "https://arxiv.org/html/2405.14093",
+      "locator": "正文",
+      "attribution": "作者原文报告；非本站复现"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "阅读时应检查每篇被引方法所用的机器人/数据和训练条件；综述中的不同任务数字不可作统一排行榜。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2405.14093",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "code": {
+      "url": "https://github.com/yueen-ma/Awesome-VLA",
+      "status": "已核实入口",
+      "note": "原文提供的官方链接；开放内容与许可未逐项验证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "url": "https://arxiv.org/abs/2405.14093",
+      "label": "用户给定论文链接（待全文核实）",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2405.14093",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2405.14093",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pc240762f60ca2026,\n title={A Survey on Vision-Language-Action Models for Embodied AI},\n author={Ma, Yueen and Song, Zixing and Zhuang, Yuzheng and Hao, Jianye and King, Irwin},\n year={2026},\n url={https://arxiv.org/abs/2405.14093}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [],
+  "overview": "综述将VLA研究拆成组件设计、预测低层动作的控制策略、以及分解长任务的高层规划器。组件层覆盖视觉表征和动力学，策略层关注如何把感知与语言转成动作，规划层则讨论语义子任务如何与控制衔接。使用它可以区分VLM理解、VLA控制和Agent规划的不同层级。表中的训练目标与机器人任务属于被综述方法，本综述没有一个统一训练方案或原创控制成功率。",
+  "verificationLevel": "fulltext"
+}

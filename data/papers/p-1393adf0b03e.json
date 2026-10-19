@@ -1,0 +1,172 @@
+{
+  "id": "p-1393adf0b03e",
+  "title": "Framework for Integrating Large Language Models with a Robotic Health Attendant for Adaptive Task Execution in Patient Care",
+  "short": "RHA-LLM",
+  "aliases": [
+    "RHA-LLM"
+  ],
+  "authors": [
+    "Kyungki Kim",
+    "John Windle",
+    "Melissa Christian",
+    "Tom Windle",
+    "Erica Ryherd",
+    "Pei-Chi Huang",
+    "Anthony Robinson",
+    "Reid Chapman"
+  ],
+  "institutions": [
+    "Durham School of Architectural Engineering and Construction, University of Nebraska-Lincoln, Omaha, NE 68182, USA",
+    "Department of Internal Medicine/Cardiovascular Medicine, University of Nebraska Medical Center, Omaha, NE 68198, USA",
+    "Center for Intelligent Healthcare, University of Nebraska Medical Center, Omaha, NE 68198, USA",
+    "Department of Computer Science, University of Nebraska-Omaha, Omaha, NE 68182, USA"
+  ],
+  "firstPublished": "2024-10-30",
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "Applied Sciences",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "将ChatGPT接入机器人健康助理的结构化知识与技能接口，通过连续对话选择动作。验证主要在简化Gazebo病房中进行，物体抓取采用插件附着可视化。",
+  "method": {
+    "input": "患者照护规则、环境/技能描述与自然语言请求",
+    "output": "结构化技能调用及状态反馈",
+    "flow": [
+      "知识和任务规格",
+      "对话动作接口",
+      "仿真技能串联"
+    ],
+    "explanation": "将ChatGPT接入机器人健康助理的结构化知识与技能接口，通过连续对话选择动作。验证主要在简化Gazebo病房中进行，物体抓取采用插件附着可视化。",
+    "modules": [
+      {
+        "name": "知识和任务规格",
+        "purpose": "约束语言模型的可执行选择",
+        "mechanism": "把患者照护、环境、技能和任务规格组织成上下文，提供可用技能与参数。",
+        "input": "患者照护规则、环境/技能描述与自然语言请求",
+        "output": "知识和任务规格的中间结果"
+      },
+      {
+        "name": "对话动作接口",
+        "purpose": "在执行与等待间保持状态一致",
+        "mechanism": "模型返回自然语言和JSON；执行型响应触发下一动作，等待型响应避免运动中重复派发。",
+        "input": "知识和任务规格的结果",
+        "output": "对话动作接口的中间结果"
+      },
+      {
+        "name": "仿真技能串联",
+        "purpose": "验证多步任务组织",
+        "mechanism": "以取水等任务串联导航、拾取和交付；论文明确未研究精确真实抓取。",
+        "input": "对话动作接口的结果",
+        "output": "结构化技能调用及状态反馈"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.3390/app14219922",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Healthcare LLM/VLA Robot Prototypes / RHA-LLM",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://www.mdpi.com/2076-3417/14/21/9922/pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.3390/app14219922",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.3390/app14219922",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://www.mdpi.com/2076-3417/14/21/9922/pdf",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Applied Sciences'24**",
+      "section": "Healthcare LLM/VLA Robot Prototypes"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "将ChatGPT接入机器人健康助理的结构化知识与技能接口，通过连续对话选择动作。验证主要在简化Gazebo病房中进行，物体抓取采用插件附着可视化。 "
+}

@@ -1,0 +1,217 @@
+[
+  {
+    "id": "eta",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 3,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2608.03924",
+      "https://arxiv.org/html/2608.03924v1",
+      "https://arxiv.org/html/2608.03924v1"
+    ]
+  },
+  {
+    "id": "remembr",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 3,
+    "evidenceTables": 1,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2409.13682",
+      "https://nvidia-ai-iot.github.io/remembr/",
+      "https://arxiv.org/html/2409.13682v1"
+    ]
+  },
+  {
+    "id": "abot-agentos",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 2,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2607.10350",
+      "https://github.com/amap-cvlab/ABot-AgentOS/blob/main/README.md",
+      "https://arxiv.org/html/2607.10350v3"
+    ]
+  },
+  {
+    "id": "gap",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 2,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2607.05369",
+      "https://graph-robots.github.io/graph-as-policy/getting-started/overview.html",
+      "https://arxiv.org/html/2607.05369v1"
+    ]
+  },
+  {
+    "id": "openvla",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 2,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2406.09246",
+      "https://openvla.github.io/",
+      "https://arxiv.org/html/2406.09246v3"
+    ]
+  },
+  {
+    "id": "roboharness-memory",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 2,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://doi.org/10.48550/arXiv.2603.24060",
+      "https://arxiv.org/html/2603.24060v3",
+      "https://arxiv.org/abs/2603.24060"
+    ]
+  },
+  {
+    "id": "hm3d",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 2,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://github.com/matterport/habitat-matterport-3dresearch",
+      "https://github.com/facebookresearch/habitat-matterport3d-dataset",
+      "https://arxiv.org/html/2109.08238v1"
+    ]
+  },
+  {
+    "id": "goat-bench",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 1,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。",
+      "作者机构未在已读取原文中完整确认"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2404.06609",
+      "https://mukulkhanna.github.io/goat-bench/",
+      "https://github.com/Ram81/goat-bench/blob/main/README.md",
+      "https://arxiv.org/html/2404.06609v1"
+    ]
+  },
+  {
+    "id": "roboharness-routing",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 2,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2607.18060",
+      "https://arxiv.org/html/2607.18060v3"
+    ]
+  },
+  {
+    "id": "holoagent-0",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 2,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2606.23565",
+      "https://arxiv.org/html/2606.23565v1"
+    ]
+  },
+  {
+    "id": "agenticnav-vln",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 3,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2606.10577",
+      "https://arxiv.org/html/2606.10577v3"
+    ]
+  },
+  {
+    "id": "openeqa",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 1,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。",
+      "首次公开日期、最新版本日期未在可靠arXiv记录确认；不以会议年份推造精确日期。"
+    ],
+    "sourceUrls": [
+      "https://open-eqa.github.io/",
+      "https://github.com/facebookresearch/open-eqa",
+      "https://openaccess.thecvf.com/content/CVPR2024/html/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.html",
+      "https://openaccess.thecvf.com/content/CVPR2024/papers/Majumdar_OpenEQA_Embodied_Question_Answering_in_the_Era_of_Foundation_Models_CVPR_2024_paper.pdf"
+    ]
+  },
+  {
+    "id": "agenticnav-mas",
+    "verificationLevel": "metadata",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 1,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。",
+      "原论文全文和正式DOI/论文集入口",
+      "真实作者与机构（官方CITATION仍TBD）",
+      "首次公开/最新论文版本日期",
+      "完全同分母且全部重新运行的对照实验",
+      "作者机构未在已读取原文中完整确认"
+    ],
+    "sourceUrls": [
+      "https://github.com/AgenticNav/mas-llm-robotics",
+      "https://github.com/AgenticNav/mas-llm-robotics",
+      "https://github.com/AgenticNav/mas-llm-robotics-eval/blob/master/docs/comparative_evaluation.md"
+    ]
+  },
+  {
+    "id": "typego",
+    "verificationLevel": "fulltext",
+    "checked": "2026-10-19",
+    "methodModules": 4,
+    "evidenceTables": 1,
+    "gaps": [
+      "资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。"
+    ],
+    "sourceUrls": [
+      "https://arxiv.org/abs/2607.05482",
+      "https://arxiv.org/html/2607.05482v1"
+    ]
+  }
+]

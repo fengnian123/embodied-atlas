@@ -1,0 +1,256 @@
+{
+  "id": "p-0826bd202c54",
+  "title": "Monocular Dynamic View Synthesis: A Reality Check",
+  "short": "DyCheck",
+  "aliases": [
+    "Monocular Dynamic View Synthesis: A Reality Check（DyCheck）"
+  ],
+  "authors": [
+    "Hang Gao",
+    "Ruilong Li",
+    "Shubham Tulsiani",
+    "Bryan Russell",
+    "Angjoo Kanazawa"
+  ],
+  "institutions": [
+    "UC Berkeley",
+    "Carnegie Mellon University",
+    "Adobe Research"
+  ],
+  "firstPublished": "2022-10-24",
+  "updated": "2022-10-24",
+  "publicationYear": 2022,
+  "venue": "NeurIPS",
+  "publicationStatus": "已发表",
+  "year": 2022,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "场景表示优化"
+    ]
+  },
+  "summary": "指出动态单目基准可能因相机与物体相对运动带入有效多视角信号，提出 EMF、共可见掩码指标与真实 iPhone 数据重新评估。",
+  "method": {
+    "input": "单目动态序列、同步验证相机、深度/相机与点对应标注",
+    "output": "可复核动态新视角质量与二维对应准确性的协议",
+    "flow": [
+      "有效多视角因子 EMF",
+      "共可见掩码指标",
+      "真实 iPhone 数据与重评估"
+    ],
+    "assumptions": "验证视图须与训练帧同步；未知遮挡区域需单独处理。",
+    "difference": "重点是修正评测与采集条件，不是新建一个更强动态渲染模型。",
+    "explanation": "指出动态单目基准可能因相机与物体相对运动带入有效多视角信号，提出 EMF、共可见掩码指标与真实 iPhone 数据重新评估。 重点是修正评测与采集条件，不是新建一个更强动态渲染模型。 分析相机和目标运动的比例与角度变化，使不同采集设置的难度可解释。 仅在训练与验证共同可见的表面上计算 mPSNR/mSSIM/mLPIPS，并补充时序对应指标。 移动手机采集，部分序列另用同步静态相机验证；统一重实现/评估动态 NeRF 基线。",
+    "modules": [
+      {
+        "name": "有效多视角因子 EMF",
+        "purpose": "量化相机相对场景运动提供的几何线索",
+        "mechanism": "分析相机和目标运动的比例与角度变化，使不同采集设置的难度可解释。",
+        "input": "相机/场景运动",
+        "output": "EMF 及受控实验条件"
+      },
+      {
+        "name": "共可见掩码指标",
+        "purpose": "避免奖励无观测支撑区域",
+        "mechanism": "仅在训练与验证共同可见的表面上计算 mPSNR/mSSIM/mLPIPS，并补充时序对应指标。",
+        "input": "同步图像、深度和可见性",
+        "output": "掩码质量与对应结果"
+      },
+      {
+        "name": "真实 iPhone 数据与重评估",
+        "purpose": "覆盖非刚体和随手拍摄",
+        "mechanism": "移动手机采集，部分序列另用同步静态相机验证；统一重实现/评估动态 NeRF 基线。",
+        "input": "RGB-D 视频与校准信息",
+        "output": "公开数据、代码及基线证据"
+      }
+    ]
+  },
+  "training": {
+    "regime": "场景表示优化",
+    "models": "被评测的动态 NeRF 模型；评测协议自身无可训练策略",
+    "trainable": "被评测的动态 NeRF 模型；评测协议自身无可训练策略",
+    "frozen": "不适用：无 VLM 主干",
+    "data": "公开动态序列及新增 iPhone 数据",
+    "objective": "各基线按图像重建训练；本站仅整理其结果",
+    "stages": "统一基线评测与不同 EMF 的控制实验"
+  },
+  "evaluation": [
+    {
+      "benchmark": "基线实现核验（Broom）",
+      "setting": "附录Table5；teleporting采集设置、Broom的EMF Ω=3.40/ω=128.54。用于证明重实现未明显退化，不能替代真实单目iPhone结果。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 5",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "基线实现核验（Broom） · Table 5",
+        "columns": [
+          "实现",
+          "PSNR↑",
+          "SSIM↑",
+          "LPIPS↓"
+        ],
+        "rows": [
+          [
+            "Nerfies repo",
+            "19.40",
+            "未报告",
+            "0.325"
+          ],
+          [
+            "Nerfies reimpl.",
+            "19.70",
+            "0.216",
+            "0.296"
+          ],
+          [
+            "HyperNeRF repo",
+            "19.30",
+            "未报告",
+            "0.308"
+          ],
+          [
+            "HyperNeRF reimpl.",
+            "19.36",
+            "0.210",
+            "0.314"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2210.13445v1",
+        "locator": "Table 5"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "真实扫描或传感器深度存在噪声；新视角质量与机器人任务成功率是不同评测对象。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2210.13445",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://kair-bair.github.io/dycheck/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/KAIR-BAIR/dycheck",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / Monocular Dynamic View Synthesis: A Reality Check（DyCheck）",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2210.13445",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2210.13445v1",
+      "label": "论文全文 v1",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://kair-bair.github.io/dycheck/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/KAIR-BAIR/dycheck",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{221013445,\n  title = {Monocular Dynamic View Synthesis: A Reality Check},\n  author = {Gao, Hang and Li, Ruilong and Tulsiani, Shubham and Russell, Bryan and Kanazawa, Angjoo},\n  year = {2022},\n  eprint = {2210.13445},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2210.13445}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "指出动态单目基准可能因相机与物体相对运动带入有效多视角信号，提出 EMF、共可见掩码指标与真实 iPhone 数据重新评估。 重点是修正评测与采集条件，不是新建一个更强动态渲染模型。 验证视图须与训练帧同步；未知遮挡区域需单独处理。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。",
+  "benchmark": {
+    "motivation": "避免动态视频中的有效多视角信号和不可共见区域误导单目评测。",
+    "task": "动态新视角合成与时序对应；不是机器人动作评测。",
+    "input": "单目训练视频、相机/深度；验证视图来自同步相机。",
+    "output": "验证视图RGB与点对应。",
+    "actions": "不适用：没有机器人动作空间。",
+    "success": "连续质量/对应指标，无统一任务成功阈值。",
+    "collection": "iPhone手持RGB-D采集；部分序列设同步静态验证相机，另外分析经典数据的采集运动。",
+    "scale": "14段真实iPhone序列；7段含同步验证视角。帧数、运动和EMF逐序列见Table4，不等于14个独立建筑。",
+    "split": "按训练移动相机与同步静态验证相机划分；每段场景单独拟合。",
+    "metrics": "共可见掩码mPSNR/mSSIM/mLPIPS、对应准确度与EMF。",
+    "baselines": "Nerfies、HyperNeRF、NSFF等统一重实现及官方实现校验。",
+    "assets": "公开代码、数据处理、评测和可视化；部分底层数据需按各原始许可下载。",
+    "license": "代码与数据许可证须在对应官方资源逐项检查，未统一为同一许可。",
+    "reproduction": "需要动态重建训练环境、同步验证数据与GPU；本站未运行。",
+    "coverage": "真实单目动态渲染、非刚体、可见性与采集运动分析。",
+    "boundary": "不评估接触物理、导航碰撞、长期行为预测。",
+    "leakage": "经典动态数据可能包含有效多视角线索；本文正对此做量化，不能把它等同普通训练/测试同帧泄漏。"
+  }
+}

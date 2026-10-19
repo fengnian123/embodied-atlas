@@ -1,0 +1,253 @@
+{
+  "id": "p-5087c1b337e5",
+  "title": "Bridging the Indoor-Outdoor Gap: Vision-Centric Instruction-Guided Embodied Navigation for the Last Meters",
+  "short": "BridgeNav",
+  "aliases": [],
+  "authors": [
+    "Yuxiang Zhao",
+    "Yirong Yang",
+    "Yanqing Zhu",
+    "Yanfen Shen",
+    "Chiyu Wang",
+    "Zhining Gu",
+    "Pei Shi",
+    "Wei Guo",
+    "Mu Xu"
+  ],
+  "institutions": [
+    "AMAP CV Lab, Alibaba Group"
+  ],
+  "firstPublished": "2026-02-06",
+  "updated": "2026-02-06",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本；未核实正式发表状态",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "记忆"
+    ],
+    "environment": [
+      "真实采集资产"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "BridgeNav 研究机器人已经到达目的地附近后，如何只凭图像与简短指令找到正确入口。",
+  "method": {
+    "input": "当前 RGB 与简短目标指令",
+    "output": "局部轨迹和视觉—指令对齐判断",
+    "explanation": "BridgeNav 研究机器人已经到达目的地附近后，如何只凭图像与简短指令找到正确入口。意图分支随着接近过程从招牌转向入口，光流监督的动态感知 token 提前编码运动造成的视觉变化；融合后预测下一段轨迹。",
+    "flow": [
+      "阶段相关意图",
+      "光流引导动态感知",
+      "视觉语言融合与轨迹"
+    ],
+    "modules": [
+      {
+        "name": "阶段相关意图",
+        "purpose": "本模块解决：阶段相关意图",
+        "input": "当前 RGB 与简短目标指令",
+        "mechanism": "ViT 视觉编码与文字 embedding 送入潜在意图分支，识别与当前阶段有关的招牌、指示牌或入口，避免始终追随已离开视野的招牌。",
+        "output": "当前目标区域与意图 token",
+        "sourceUrl": "https://arxiv.org/html/2602.06427v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "光流引导动态感知",
+        "purpose": "本模块解决：光流引导动态感知",
+        "input": "相邻训练帧与可学习初始 token",
+        "mechanism": "RAFT 定位大光流核心区域，训练轻量解码器重建下一帧该区域；推理时无需解码未来图像，动态 token 直接参与决策。",
+        "output": "包含运动变化线索的 token",
+        "sourceUrl": "https://arxiv.org/html/2602.06427v1",
+        "locator": "方法章节"
+      },
+      {
+        "name": "视觉语言融合与轨迹",
+        "purpose": "本模块解决：视觉语言融合与轨迹",
+        "input": "意图、动态 token、RGB 历史和指令",
+        "mechanism": "Qwen2.5-VL-3B 融合多模态信息，轨迹解码器输出 waypoints；另用打乱图文的负例训练对齐标志。",
+        "output": "局部轨迹和视觉—指令对齐判断",
+        "sourceUrl": "https://arxiv.org/html/2602.06427v1",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "假定上游点到点模块已把机器人送到目标附近；生成街景视频与少量实机可视化不能当作全程真实闭环大规模验证。",
+    "difference": "BridgeNav 研究机器人已经到达目的地附近后，如何只凭图像与简短指令找到正确入口。意图分支随着接近过程从招牌转向入口，光流监督的动态感知 token 提前编码运动造成的视觉变化；融合后预测下一段轨迹。"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "Qwen2.5-VL-3B 融合多模态信息，轨迹解码器输出 waypoints；另用打乱图文的负例训练对齐标志。",
+    "trainable": "两阶段监督训练：第一阶段训练意图推断；第二阶段冻结意图分支，联合训练轨迹、动态感知和图文对齐。附录：第一阶段8张H20约5小时，第二阶段128张H20约48小时；具体骨干逐层冻结范围未完整摘录。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "两阶段监督训练：第一阶段训练意图推断；第二阶段冻结意图分支，联合训练轨迹、动态感知和图文对齐。附录：第一阶段8张H20约5小时，第二阶段128张H20约48小时；具体骨干逐层冻结范围未完整摘录。",
+    "objective": "两阶段监督训练：第一阶段训练意图推断；第二阶段冻结意图分支，联合训练轨迹、动态感知和图文对齐。附录：第一阶段8张H20约5小时，第二阶段128张H20约48小时；具体骨干逐层冻结范围未完整摘录。",
+    "stages": "两阶段监督训练：第一阶段训练意图推断；第二阶段冻结意图分支，联合训练轨迹、动态感知和图文对齐。附录：第一阶段8张H20约5小时，第二阶段128张H20约48小时；具体骨干逐层冻结范围未完整摘录。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "BridgeNav out-to-in",
+      "setting": "原文Table 2，作者统一重训基线；TR 是论文定义的轨迹效率比值，不是秒数或 SPL。55K 街景是数据源规模，不是55K真实机器人闭环实验。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 2",
+      "sourceUrl": "https://arxiv.org/html/2602.06427v1",
+      "table": {
+        "columns": [
+          "方法",
+          "SR@0.1m (%)",
+          "SR@0.2m (%)",
+          "SR@0.3m (%)",
+          "TR mean ↓"
+        ],
+        "rows": [
+          [
+            "NoMaD",
+            4.13,
+            15.07,
+            29.2,
+            31.35
+          ],
+          [
+            "Citywalker",
+            13.79,
+            41.02,
+            65.96,
+            15.58
+          ],
+          [
+            "OmniNav",
+            18.78,
+            46.99,
+            72.39,
+            14.16
+          ],
+          [
+            "BridgeNav",
+            33.82,
+            70.11,
+            89.55,
+            9.77
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2602.06427v1",
+        "locator": "Table 2",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "假定上游点到点模块已把机器人送到目标附近；生成街景视频与少量实机可视化不能当作全程真实闭环大规模验证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2602.06427",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / BridgeNav",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2602.06427",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2602.06427v1",
+      "locator": "方法章节；Table 2",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文Benchmark/数据集协议",
+      "url": "https://arxiv.org/html/2602.06427v1",
+      "locator": "数据/实验设置章节；Table 2",
+      "supports": [
+        "任务定义",
+        "动作空间",
+        "数据规模及口径",
+        "成功判据",
+        "协议边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p5087c1b337e5,\n  title={Bridging the Indoor-Outdoor Gap: Vision-Centric Instruction-Guided Embodied Navigation for the Last Meters},\n  author={Yuxiang Zhao and Yirong Yang and Yanqing Zhu and Yanfen Shen and Chiyu Wang and Zhining Gu and Pei Shi and Wei Guo and Mu Xu},\n  year={2026},\n  eprint={2602.06427},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2602.06427}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查",
+    "正式发表信息尚未在可靠会议/期刊来源确认"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "BridgeNav 研究机器人已经到达目的地附近后，如何只凭图像与简短指令找到正确入口。意图分支随着接近过程从招牌转向入口，光流监督的动态感知 token 提前编码运动造成的视觉变化；融合后预测下一段轨迹。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "motivation": "评测室外到建筑入口的最后几米，减少对精确外部坐标先验的依赖。",
+    "task": "上游已到附近，agent根据简短指令和视觉找到正确入口。",
+    "input": "自我视角RGB历史与简短目标描述；不输入目标精确坐标/语义地图。",
+    "output": "局部连续waypoints与图文对齐标志。",
+    "actions": "局部航点轨迹，具体机体控制依赖下游执行器。",
+    "success": "原文分别报告距目标0.1m、0.2m、0.3m的SR，另报TR轨迹效率比。",
+    "collection": "55K街景图→OCR目标/单目几何→轨迹规划→Wan2.1-I2V轨迹条件视频；20K图手工将招牌锚点改到入口。",
+    "scale": "55K图像/轨迹—指令对，生成视频100+小时、10M+帧；不是55K真实建筑扫描或真机试验。",
+    "split": "训练使用简短标准化指令，测试用更模糊语言；完整场景级划分与地理去重细节此次未核实。",
+    "metrics": "SR@0.1/0.2/0.3m、TR mean/best/worst；本库保留mean。",
+    "baselines": "NoMaD、Citywalker、OmniNav在本任务统一重训；原文声明共同Qwen2.5-VL-3B骨干。",
+    "assets": "原文声明将开放数据；此次未核实专属公开下载、模型与完整评测脚本，故不补猜测入口。",
+    "license": "未核实；街景来源、生成内容、模型和再分发权限需分别确认。",
+    "reproduction": "需要街景/生成数据、轨迹生成与训练管线，128张H20第二阶段训练成本较高。",
+    "coverage": "入口接地、动态视觉注意、室外到室内过渡。",
+    "boundary": "真实街景来源但主要视频为生成；不证明大规模真实闭环或动态人群避障。",
+    "leakage": "未核实地理场景/商店级隔离，近似街景重复与生成一致性可能影响泛化。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

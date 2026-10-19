@@ -1,0 +1,288 @@
+{
+  "id": "p-4e9a45d155a1",
+  "title": "MoRe: Motion-aware Feed-forward 4D Reconstruction Transformer",
+  "short": "MoRe",
+  "aliases": [],
+  "authors": [
+    "Juntong Fang",
+    "Zequn Chen",
+    "Weiqi Zhang",
+    "Donglin Di",
+    "Xuancheng Zhang",
+    "Chengmin Yang",
+    "Yu-Shen Liu"
+  ],
+  "institutions": [
+    "Tsinghua University",
+    "Li Auto"
+  ],
+  "firstPublished": "2026-03-05",
+  "updated": "2026-03-06",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "场景表征"
+    ],
+    "task": [
+      "动态重建"
+    ],
+    "paradigm": [
+      "3D/4D 表征"
+    ],
+    "system": [
+      "场景表示"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "离线重建"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "基于静态几何主干，用 Attention-Forcing 分离运动与背景，再以分组因果 attention 和 BA-like 对齐实现动态视频流式重建。",
+  "method": {
+    "input": "单目动态 RGB 视频",
+    "output": "深度、相机参数、点图与运动掩码",
+    "flow": [
+      "Attention-Forcing",
+      "Grouped Causal Attention",
+      "BA-like 全局对齐"
+    ],
+    "assumptions": "FA 全注意力版与 streaming 版的协议不同；运动监督的质量影响结果。",
+    "difference": "既监督动态分离，又修改跨帧注意力与缓存方式；不是单纯对静态网络逐帧调用。",
+    "explanation": "基于静态几何主干，用 Attention-Forcing 分离运动与背景，再以分组因果 attention 和 BA-like 对齐实现动态视频流式重建。 既监督动态分离，又修改跨帧注意力与缓存方式；不是单纯对静态网络逐帧调用。 结合隐式/显式运动监督，引导跨帧注意力区分动态线索与稳定背景，并输出运动掩码。 以帧为单位施加分组因果注意力，复用图像级 KV cache 并滑窗控制历史长度，避免每帧重算全部视频。 学习式对齐/细化模块联合校正相机与几何，配合深度、相机和运动目标监督。",
+    "modules": [
+      {
+        "name": "Attention-Forcing",
+        "purpose": "降低移动物体对相机估计的污染",
+        "mechanism": "结合隐式/显式运动监督，引导跨帧注意力区分动态线索与稳定背景，并输出运动掩码。",
+        "input": "帧 tokens 与运动监督",
+        "output": "可分离的时空表征"
+      },
+      {
+        "name": "Grouped Causal Attention",
+        "purpose": "处理变长帧与流式时间依赖",
+        "mechanism": "以帧为单位施加分组因果注意力，复用图像级 KV cache 并滑窗控制历史长度，避免每帧重算全部视频。",
+        "input": "当前帧及历史缓存",
+        "output": "持续更新的深度、点图与相机"
+      },
+      {
+        "name": "BA-like 全局对齐",
+        "purpose": "改善跨帧结构一致性",
+        "mechanism": "学习式对齐/细化模块联合校正相机与几何，配合深度、相机和运动目标监督。",
+        "input": "多帧几何与相机预测",
+        "output": "对齐的动态重建"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "静态几何主干与新增运动/attention/对齐模块",
+    "trainable": "静态几何主干与新增运动/attention/对齐模块",
+    "frozen": "未将 VLM 用作控制器",
+    "data": "多来源动静视频及运动标注",
+    "objective": "相机、深度、点图/运动相关目标",
+    "stages": "AdamW100k，随机2–24帧；长边518；64×A800约2天，bf16+checkpointing"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Sintel/TUM/Bonn/ScanNet 相机",
+      "setting": "arXiv v1/CVPR2026；只摘ATE。FA与Streaming配置不同，输入长边518，不能把FA精度与Streaming延迟拼成单配置。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 1",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "Sintel/TUM/Bonn/ScanNet 相机 · Table 1",
+        "columns": [
+          "方法/模式",
+          "Sintel ATE↓",
+          "Bonn ATE↓",
+          "TUM ATE↓",
+          "ScanNet ATE↓"
+        ],
+        "rows": [
+          [
+            "VGGT / FA",
+            "0.1715",
+            "0.0141",
+            "0.0109",
+            "0.0347"
+          ],
+          [
+            "MoRe / FA",
+            "0.0877",
+            "0.0138",
+            "0.0115",
+            "0.0375"
+          ],
+          [
+            "MoRe / Streaming",
+            "0.1474",
+            "0.0211",
+            "0.0260",
+            "0.0605"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2603.05078v2",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "视频深度",
+      "setting": "同原文FA/Streaming设置；AbsRel无量纲。",
+      "result": "关键数值按原文表格摘录，详见下表；均为作者报告，并非本站重新运行。",
+      "locator": "Table 2",
+      "attribution": "作者报告（原文图表）",
+      "table": {
+        "caption": "视频深度 · Table 2",
+        "columns": [
+          "方法/模式",
+          "Sintel AbsRel↓",
+          "Bonn AbsRel↓",
+          "TUM AbsRel↓",
+          "KITTI AbsRel↓"
+        ],
+        "rows": [
+          [
+            "VGGT/FA",
+            "0.387",
+            "0.055",
+            "0.132",
+            "0.073"
+          ],
+          [
+            "MoRe/FA",
+            "0.335",
+            "0.055",
+            "0.120",
+            "0.066"
+          ],
+          [
+            "MoRe/Streaming",
+            "0.254",
+            "0.068",
+            "0.173",
+            "0.072"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2603.05078v2",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "依赖运动掩码监督；长程依赖超出时间窗时可能退化。",
+      "极快/非刚体运动、模糊、遮挡及严重外观变化仍可能产生不稳定几何。"
+    ],
+    "analysis": [
+      "流式深度的提升不保证所有数据集相机误差都优于 FA 或原始静态模型，须按表中配置读数。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2603.05078",
+      "status": "已核实入口",
+      "note": "已核实原文入口"
+    },
+    "project": {
+      "url": "https://hellexf.github.io/MoRe/",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    },
+    "code": {
+      "url": "https://github.com/HellexF/MoRe",
+      "status": "已核实入口",
+      "note": "官方公开入口；本站未运行复现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (1)(20261019-003816).txt",
+      "locator": "动态场景学习清单 / MoRe: Motion-aware Feed-forward 4D Reconstruction Transformer",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.05078",
+      "label": "arXiv 元数据与版本历史",
+      "locator": "标题、作者、首次/最新公开日期；日期以arXiv记录为口径",
+      "supports": [
+        "身份",
+        "作者",
+        "日期",
+        "版本"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://arxiv.org/html/2603.05078v2",
+      "label": "论文全文 v2",
+      "locator": "方法、训练设置及上列实验表格；逐表保留协议",
+      "supports": [
+        "方法",
+        "训练",
+        "实验结果",
+        "局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://hellexf.github.io/MoRe/",
+      "label": "官方项目页",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/HellexF/MoRe",
+      "label": "官方代码仓库",
+      "locator": "论文链接/发表信息/资源入口；未运行",
+      "supports": [
+        "资源",
+        "发表信息"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Fang_MoRe_Motion-aware_Feed-forward_4D_Reconstruction_Transformer_CVPR_2026_paper.html",
+      "label": "正式会议论文集",
+      "locator": "标题、作者顺序与会议年份",
+      "supports": [
+        "发表",
+        "作者",
+        "身份"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{260305078,\n  title = {MoRe: Motion-aware Feed-forward 4D Reconstruction Transformer},\n  author = {Fang, Juntong and Chen, Zequn and Zhang, Weiqi and Di, Donglin and Zhang, Xuancheng and Yang, Chengmin and Liu, Yu-Shen},\n  year = {2026},\n  eprint = {2603.05078},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2603.05078}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "资源许可证与依赖下载尚未逐项验证；本站未运行复现。"
+  ],
+  "sourceNotes": [
+    "首次公开日期和最新版本日期采用arXiv记录；正式发表年份单独保存。",
+    "实验数值为原文摘录；各数据集、分辨率、坐标系和硬件按独立实验协议展示，未经本站复现。"
+  ],
+  "overview": "基于静态几何主干，用 Attention-Forcing 分离运动与背景，再以分组因果 attention 和 BA-like 对齐实现动态视频流式重建。 既监督动态分离，又修改跨帧注意力与缓存方式；不是单纯对静态网络逐帧调用。 FA 全注意力版与 streaming 版的协议不同；运动监督的质量影响结果。",
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文元数据、方法与关键实验表；不等同本站复现",
+  "citationNote": "根据arXiv元数据生成预印本BibTeX；会议/期刊版如有单独链接，请以正式出版页为准。"
+}

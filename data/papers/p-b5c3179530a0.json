@@ -1,0 +1,229 @@
+{
+  "id": "p-b5c3179530a0",
+  "title": "CoT-VLA: Visual Chain-of-Thought Reasoning for Vision-Language-Action Models",
+  "short": "CoT-VLA",
+  "aliases": [
+    "CoT-VLA: Visual Chain-of-Thought Reasoning for Vision-Language-Action Models",
+    "CoT-VLA"
+  ],
+  "authors": [
+    "Zhao, Qingqing",
+    "Lu, Yao",
+    "Kim, Moo Jin",
+    "Fu, Zipeng",
+    "Zhang, Zhuoyang",
+    "Wu, Yecheng",
+    "Li, Zhaoshuo",
+    "Ma, Qianli",
+    "Han, Song",
+    "Finn, Chelsea",
+    "Handa, Ankur",
+    "Liu, Ming-Yu",
+    "Xiang, Donglai",
+    "Wetzstein, Gordon",
+    "Lin, Tsung-Yi"
+  ],
+  "institutions": [
+    "NVIDIA",
+    "Stanford University"
+  ],
+  "firstPublished": "2025-03-27",
+  "updated": "2025-03-27",
+  "publicationYear": 2025,
+  "venue": "CVPR",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "先生成未来子目标图像，再条件化生成动作短序列，把视觉未来作为中间推理状态。",
+  "method": {
+    "explanation": "CoT-VLA 在当前观察与动作之间加入可生成的未来图像。统一多模态模型先自回归预测子目标视觉token，再结合当前图像和子目标生成一段动作，执行后重新观察并重复。训练既使用有动作的机器人数据，也使用无动作人类视频学习视觉未来，随后在下游机器人示范上微调。未来图不是检索到的旧记忆；其误差会影响下游控制，原文用GT子目标替代生成图的实验直接揭示这一瓶颈。",
+    "input": "当前图像与语言任务",
+    "output": "未来子目标图像及短动作序列",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "先生成未来子目标图像，再条件化生成动作短序列，把视觉未来作为中间推理状态。",
+    "flow": [
+      "子目标视觉生成",
+      "视觉条件动作生成",
+      "视频与动作联合训练"
+    ],
+    "modules": [
+      {
+        "name": "子目标视觉生成",
+        "purpose": "给动作显式的未来状态条件",
+        "mechanism": "以当前图像和任务为条件预测未来帧的视觉token，形成可解释的中间目标。",
+        "sourceUrl": "https://arxiv.org/html/2503.22020",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "视觉条件动作生成",
+        "purpose": "把想象目标转为短控制序列",
+        "mechanism": "动作预测同时读取当前观察和生成子目标；只执行短段后再重新生成目标，构成闭环。",
+        "sourceUrl": "https://arxiv.org/html/2503.22020",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "视频与动作联合训练",
+        "purpose": "利用没有动作标注的视频",
+        "mechanism": "视觉预测可从EPIC-KITCHEN等action-less视频学习；机器人数据再监督动作，之后做下游任务微调。",
+        "sourceUrl": "https://arxiv.org/html/2503.22020",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "视觉未来与动作联合训练；视觉塔冻结",
+    "models": "7B统一视觉/语言/动作模型、vision tower、projector、depth transformer",
+    "trainable": "LLM主干、projector、depth transformer",
+    "frozen": "vision tower冻结",
+    "data": "Open X-Embodiment、无动作视频如EPIC-KITCHEN-100、下游机器人示范",
+    "objective": "未来图像视觉token和机器人动作token目标",
+    "stages": "混合预训练 → 下游微调 → 子目标/动作交替闭环"
+  },
+  "evaluation": [
+    {
+      "benchmark": "LIBERO 四任务套件",
+      "setting": "Table1，LIBERO每suite 3seed、每seed500episode，数值为均值±标准误。",
+      "result": "CoT-VLA平均81.13±0.6%，OpenVLA76.5±0.6%；Long69.0±0.8%对53.7±1.3%。",
+      "sourceUrl": "https://arxiv.org/html/2503.22020",
+      "locator": "原文 Table 1 ",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 1 : LIBERO benchmark experimental results. For each task suite (Spatial, Object, Goal, Long), we report the average success rate and standard error across 3 seeds with 500 episodes each. CoT-VLA achieves the best or competitive performance across all LIBERO benchmarks suites compared to baseline approaches. The bolded entries correspond to highest success rates while underlined entries correspond to second-highest.",
+        "columns": [
+          "",
+          "Average ( ↑ )",
+          "Spatial ( ↑ )",
+          "Object ( ↑ )",
+          "Goal ( ↑ )",
+          "Long ( ↑ )"
+        ],
+        "rows": [
+          [
+            "Diffusion Policy",
+            "72.4 ± 0.7%",
+            "78.3 ± 1.1%",
+            "92.5 ± 0.7%",
+            "68.3 ± 1.2%",
+            "50.5 ± 1.3%"
+          ],
+          [
+            "Octo fine-tuned",
+            "75.1 ± 0.6%",
+            "78.9 ± 1.0%",
+            "85.7 ± 0.9%",
+            "84.6 ± 0.9%",
+            "51.1 ± 1.3%"
+          ],
+          [
+            "OpenVLA fine-tuned",
+            "76.5 ± 0.6%",
+            "84.7 ± 0.9%",
+            "88.4 ± 0.8%",
+            "79.2 ± 1.0%",
+            "53.7 ± 1.3%"
+          ],
+          [
+            "CoT-VLA-7B (ours)",
+            "81.13 ± 0.6 %",
+            "87.5 ± 1.4%",
+            "91.6 ± 0.5%",
+            "87.6 ± 0.6%",
+            "69.0 ± 0.8%"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "Table3中OOD任务的GT子目标优于生成图，表明未来图误差限制控制；不能把可生成视觉目标等同已经可靠的长期世界模拟。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2503.22020",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "project": {
+      "url": "https://cot-vla.github.io/",
+      "status": "已核实入口",
+      "note": "原文明确提供的官方链接；未逐文件检查下载与许可证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "url": "https://arxiv.org/abs/2503.22020",
+      "label": "用户给定论文链接（待全文核实）",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2503.22020",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2503.22020",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pb5c3179530a02025,\n title={CoT-VLA: Visual Chain-of-Thought Reasoning for Vision-Language-Action Models},\n author={Zhao, Qingqing and Lu, Yao and Kim, Moo Jin and Fu, Zipeng and Zhang, Zhuoyang and Wu, Yecheng and Li, Zhaoshuo and Ma, Qianli and Han, Song and Finn, Chelsea and Handa, Ankur and Liu, Ming-Yu and Xiang, Donglai and Wetzstein, Gordon and Lin, Tsung-Yi},\n year={2025},\n url={https://arxiv.org/abs/2503.22020}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "CoT-VLA 在当前观察与动作之间加入可生成的未来图像。统一多模态模型先自回归预测子目标视觉token，再结合当前图像和子目标生成一段动作，执行后重新观察并重复。训练既使用有动作的机器人数据，也使用无动作人类视频学习视觉未来，随后在下游机器人示范上微调。未来图不是检索到的旧记忆；其误差会影响下游控制，原文用GT子目标替代生成图的实验直接揭示这一瓶颈。",
+  "verificationLevel": "fulltext"
+}

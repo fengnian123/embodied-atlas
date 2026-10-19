@@ -1,0 +1,585 @@
+{
+  "id": "p-2a555cc9b806",
+  "title": "Open X-Embodiment: Robotic Learning Datasets and RT-X Models",
+  "short": "Open-X",
+  "aliases": [
+    "Open-X"
+  ],
+  "authors": [
+    "Embodiment Collaboration",
+    "O'Neill, Abby",
+    "Rehman, Abdul",
+    "Gupta, Abhinav",
+    "Maddukuri, Abhiram",
+    "Gupta, Abhishek",
+    "Padalkar, Abhishek",
+    "Lee, Abraham",
+    "Pooley, Acorn",
+    "Gupta, Agrim",
+    "Mandlekar, Ajay",
+    "Jain, Ajinkya",
+    "Tung, Albert",
+    "Bewley, Alex",
+    "Herzog, Alex",
+    "Irpan, Alex",
+    "Khazatsky, Alexander",
+    "Rai, Anant",
+    "Gupta, Anchit",
+    "Wang, Andrew",
+    "Kolobov, Andrey",
+    "Singh, Anikait",
+    "Garg, Animesh",
+    "Kembhavi, Aniruddha",
+    "Xie, Annie",
+    "Brohan, Anthony",
+    "Raffin, Antonin",
+    "Sharma, Archit",
+    "Yavary, Arefeh",
+    "Jain, Arhan",
+    "Balakrishna, Ashwin",
+    "Wahid, Ayzaan",
+    "Burgess-Limerick, Ben",
+    "Kim, Beomjoon",
+    "Schölkopf, Bernhard",
+    "Wulfe, Blake",
+    "Ichter, Brian",
+    "Lu, Cewu",
+    "Xu, Charles",
+    "Le, Charlotte",
+    "Finn, Chelsea",
+    "Wang, Chen",
+    "Xu, Chenfeng",
+    "Chi, Cheng",
+    "Huang, Chenguang",
+    "Chan, Christine",
+    "Agia, Christopher",
+    "Pan, Chuer",
+    "Fu, Chuyuan",
+    "Devin, Coline",
+    "Xu, Danfei",
+    "Morton, Daniel",
+    "Driess, Danny",
+    "Chen, Daphne",
+    "Pathak, Deepak",
+    "Shah, Dhruv",
+    "Büchler, Dieter",
+    "Jayaraman, Dinesh",
+    "Kalashnikov, Dmitry",
+    "Sadigh, Dorsa",
+    "Johns, Edward",
+    "Foster, Ethan",
+    "Liu, Fangchen",
+    "Ceola, Federico",
+    "Xia, Fei",
+    "Zhao, Feiyu",
+    "Frujeri, Felipe Vieira",
+    "Stulp, Freek",
+    "Zhou, Gaoyue",
+    "Sukhatme, Gaurav S.",
+    "Salhotra, Gautam",
+    "Yan, Ge",
+    "Feng, Gilbert",
+    "Schiavi, Giulio",
+    "Berseth, Glen",
+    "Kahn, Gregory",
+    "Yang, Guangwen",
+    "Wang, Guanzhi",
+    "Su, Hao",
+    "Fang, Hao-Shu",
+    "Shi, Haochen",
+    "Bao, Henghui",
+    "Amor, Heni Ben",
+    "Christensen, Henrik I",
+    "Furuta, Hiroki",
+    "Bharadhwaj, Homanga",
+    "Walke, Homer",
+    "Fang, Hongjie",
+    "Ha, Huy",
+    "Mordatch, Igor",
+    "Radosavovic, Ilija",
+    "Leal, Isabel",
+    "Liang, Jacky",
+    "Abou-Chakra, Jad",
+    "Kim, Jaehyung",
+    "Drake, Jaimyn",
+    "Peters, Jan",
+    "Schneider, Jan",
+    "Hsu, Jasmine",
+    "Vakil, Jay",
+    "Bohg, Jeannette",
+    "Bingham, Jeffrey",
+    "Wu, Jeffrey",
+    "Gao, Jensen",
+    "Hu, Jiaheng",
+    "Wu, Jiajun",
+    "Wu, Jialin",
+    "Sun, Jiankai",
+    "Luo, Jianlan",
+    "Gu, Jiayuan",
+    "Tan, Jie",
+    "Oh, Jihoon",
+    "Wu, Jimmy",
+    "Lu, Jingpei",
+    "Yang, Jingyun",
+    "Malik, Jitendra",
+    "Silvério, João",
+    "Hejna, Joey",
+    "Booher, Jonathan",
+    "Tompson, Jonathan",
+    "Yang, Jonathan",
+    "Salvador, Jordi",
+    "Lim, Joseph J.",
+    "Han, Junhyek",
+    "Wang, Kaiyuan",
+    "Rao, Kanishka",
+    "Pertsch, Karl",
+    "Hausman, Karol",
+    "Go, Keegan",
+    "Gopalakrishnan, Keerthana",
+    "Goldberg, Ken",
+    "Byrne, Kendra",
+    "Oslund, Kenneth",
+    "Kawaharazuka, Kento",
+    "Black, Kevin",
+    "Lin, Kevin",
+    "Zhang, Kevin",
+    "Ehsani, Kiana",
+    "Lekkala, Kiran",
+    "Ellis, Kirsty",
+    "Rana, Krishan",
+    "Srinivasan, Krishnan",
+    "Fang, Kuan",
+    "Singh, Kunal Pratap",
+    "Zeng, Kuo-Hao",
+    "Hatch, Kyle",
+    "Hsu, Kyle",
+    "Itti, Laurent",
+    "Chen, Lawrence Yunliang",
+    "Pinto, Lerrel",
+    "Fei-Fei, Li",
+    "Tan, Liam",
+    "Fan, Linxi \"Jim\"",
+    "Ott, Lionel",
+    "Lee, Lisa",
+    "Weihs, Luca",
+    "Chen, Magnum",
+    "Lepert, Marion",
+    "Memmel, Marius",
+    "Tomizuka, Masayoshi",
+    "Itkina, Masha",
+    "Castro, Mateo Guaman",
+    "Spero, Max",
+    "Du, Maximilian",
+    "Ahn, Michael",
+    "Yip, Michael C.",
+    "Zhang, Mingtong",
+    "Ding, Mingyu",
+    "Heo, Minho",
+    "Srirama, Mohan Kumar",
+    "Sharma, Mohit",
+    "Kim, Moo Jin",
+    "Irshad, Muhammad Zubair",
+    "Kanazawa, Naoaki",
+    "Hansen, Nicklas",
+    "Heess, Nicolas",
+    "Joshi, Nikhil J",
+    "Suenderhauf, Niko",
+    "Liu, Ning",
+    "Di Palo, Norman",
+    "Shafiullah, Nur Muhammad Mahi",
+    "Mees, Oier",
+    "Kroemer, Oliver",
+    "Bastani, Osbert",
+    "Sanketi, Pannag R",
+    "Miller, Patrick \"Tree\"",
+    "Yin, Patrick",
+    "Wohlhart, Paul",
+    "Xu, Peng",
+    "Fagan, Peter David",
+    "Mitrano, Peter",
+    "Sermanet, Pierre",
+    "Abbeel, Pieter",
+    "Sundaresan, Priya",
+    "Chen, Qiuyu",
+    "Vuong, Quan",
+    "Rafailov, Rafael",
+    "Tian, Ran",
+    "Doshi, Ria",
+    "Martín-Martín, Roberto",
+    "Baijal, Rohan",
+    "Scalise, Rosario",
+    "Hendrix, Rose",
+    "Lin, Roy",
+    "Qian, Runjia",
+    "Zhang, Ruohan",
+    "Mendonca, Russell",
+    "Shah, Rutav",
+    "Hoque, Ryan",
+    "Julian, Ryan",
+    "Bustamante, Samuel",
+    "Kirmani, Sean",
+    "Levine, Sergey",
+    "Lin, Shan",
+    "Moore, Sherry",
+    "Bahl, Shikhar",
+    "Dass, Shivin",
+    "Sonawani, Shubham",
+    "Tulsiani, Shubham",
+    "Song, Shuran",
+    "Xu, Sichun",
+    "Haldar, Siddhant",
+    "Karamcheti, Siddharth",
+    "Adebola, Simeon",
+    "Guist, Simon",
+    "Nasiriany, Soroush",
+    "Schaal, Stefan",
+    "Welker, Stefan",
+    "Tian, Stephen",
+    "Ramamoorthy, Subramanian",
+    "Dasari, Sudeep",
+    "Belkhale, Suneel",
+    "Park, Sungjae",
+    "Nair, Suraj",
+    "Mirchandani, Suvir",
+    "Osa, Takayuki",
+    "Gupta, Tanmay",
+    "Harada, Tatsuya",
+    "Matsushima, Tatsuya",
+    "Xiao, Ted",
+    "Kollar, Thomas",
+    "Yu, Tianhe",
+    "Ding, Tianli",
+    "Davchev, Todor",
+    "Zhao, Tony Z.",
+    "Armstrong, Travis",
+    "Darrell, Trevor",
+    "Chung, Trinity",
+    "Jain, Vidhi",
+    "Kumar, Vikash",
+    "Vanhoucke, Vincent",
+    "Guizilini, Vitor",
+    "Zhan, Wei",
+    "Zhou, Wenxuan",
+    "Burgard, Wolfram",
+    "Chen, Xi",
+    "Chen, Xiangyu",
+    "Wang, Xiaolong",
+    "Zhu, Xinghao",
+    "Geng, Xinyang",
+    "Liu, Xiyuan",
+    "Liangwei, Xu",
+    "Li, Xuanlin",
+    "Pang, Yansong",
+    "Lu, Yao",
+    "Ma, Yecheng Jason",
+    "Kim, Yejin",
+    "Chebotar, Yevgen",
+    "Zhou, Yifan",
+    "Zhu, Yifeng",
+    "Wu, Yilin",
+    "Xu, Ying",
+    "Wang, Yixuan",
+    "Bisk, Yonatan",
+    "Dou, Yongqiang",
+    "Cho, Yoonyoung",
+    "Lee, Youngwoon",
+    "Cui, Yuchen",
+    "Cao, Yue",
+    "Wu, Yueh-Hua",
+    "Tang, Yujin",
+    "Zhu, Yuke",
+    "Zhang, Yunchu",
+    "Jiang, Yunfan",
+    "Li, Yunshuang",
+    "Li, Yunzhu",
+    "Iwasawa, Yusuke",
+    "Matsuo, Yutaka",
+    "Ma, Zehan",
+    "Xu, Zhuo",
+    "Cui, Zichen Jeff",
+    "Zhang, Zichen",
+    "Fu, Zipeng",
+    "Lin, Zipeng"
+  ],
+  "institutions": [],
+  "firstPublished": "2023-10-13",
+  "updated": "2025-05-14",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "预印本（正式发表状态未核实）",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "操作",
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [],
+    "contribution": [
+      "数据集",
+      "方法"
+    ],
+    "problem": [],
+    "environment": [
+      "真实世界",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "将多个机构的真实机器人示范标准化为可共同训练的数据集合，并以RT-1-X与RT-2-X检验跨机器人数据是否带来正迁移。该数据是通用操作基础资源，并非医疗专用。",
+  "method": {
+    "input": "不同机构相机、语言和动作轨迹",
+    "output": "按协议分开的成功率",
+    "flow": [
+      "跨机构数据规范化",
+      "RT-1-X策略",
+      "RT-2-X共同微调",
+      "跨域与消融验证"
+    ],
+    "explanation": "Open X-Embodiment首先解决数据接口不一致的问题：不同机器人数据统一为RLDS格式，选一个相机视角，保留语言指令，并将动作粗略映射到末端位姿变化及夹爪状态。统一的是数据格式和7维动作语义，不代表各机器人坐标系、控制频率和绝对/相对动作完全一致。随后作者分别训练RT-1-X与RT-2-X：前者用图像历史和语言条件预测离散动作，后者把动作编码为文本token，利用视觉语言预训练再进行机器人数据共同微调。最后用真实机器人测试同分布性能、未见物体/背景/环境与跨机器人涌现技能，并用移除Bridge、缩小模型、取消历史和取消预训练进行消融。",
+    "modules": [
+      {
+        "name": "跨机构数据规范化",
+        "purpose": "让异构机器人经验可以共同采样",
+        "mechanism": "统一RLDS接口，选择标准相机，动作映射为x/y/z/roll/pitch/yaw/夹爪7维，并按数据集归一化。",
+        "input": "不同机构相机、语言和动作轨迹",
+        "output": "可共同训练的机器人数据混合"
+      },
+      {
+        "name": "RT-1-X策略",
+        "purpose": "检验机器人数据规模的正迁移",
+        "mechanism": "35M RT-1基于EfficientNet视觉特征、语言FiLM调制和Transformer预测离散动作；以同架构单域RT-1作控制比较。",
+        "input": "图像历史与指令",
+        "output": "离散动作token"
+      },
+      {
+        "name": "RT-2-X共同微调",
+        "purpose": "利用大容量VLM吸收跨机器人技能",
+        "mechanism": "基于PaLI-X的VLA将控制量离散化为文本token；机器人混合数据与原始VLM数据约1:1共同微调。",
+        "input": "Web视觉语言预训练模型、机器人示范",
+        "output": "跨机器人VLA控制策略"
+      },
+      {
+        "name": "跨域与消融验证",
+        "purpose": "分辨容量、数据来源和预训练的贡献",
+        "mechanism": "分别测试涌现技能与RT-2泛化协议；移除Bridge等消融保持对比条件明确。",
+        "input": "训练策略与真实机器人测试任务",
+        "output": "按协议分开的成功率"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：数据或仿真平台"
+  },
+  "training": {
+    "regime": "监督微调",
+    "models": "RT-1 (35M)、RT-2-PaLI-X (5B / 55B)。",
+    "trainable": "RT-1-X机器人策略；RT-2-X基于预训练VLM共同微调为VLA。",
+    "frozen": "不是冻结VLM仅推理的系统；模型细节以原文IV为准。",
+    "data": "数据集合22种机器人、21机构、527技能；本文训练混合来自9种机械臂。",
+    "objective": "离散动作token的分类交叉熵；RT-2-X同时使用视觉语言与机器人数据。",
+    "stages": "多源格式统一→预训练初始化→机器人训练或VLM共同微调→实机评估。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "跨机器人涌现技能与泛化",
+      "setting": "Table II；Google Robot；RT-2泛化指未见物体/背景/环境，与涌现技能为不同测试",
+      "result": "RT-2-X 55B的涌现技能成功率75.8%，RT-2为27.3%；普通泛化61%与62%，不能说所有测试均约3倍。",
+      "locator": "Table II；V-B/C",
+      "sourceUrl": "https://arxiv.org/pdf/2310.08864",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "模型 / 条件",
+          "涌现技能成功率",
+          "RT-2泛化成功率"
+        ],
+        "rows": [
+          [
+            "RT-2 55B",
+            "27.3%",
+            "62%"
+          ],
+          [
+            "RT-2-X 55B",
+            "75.8%",
+            "61%"
+          ],
+          [
+            "RT-2-X 55B，去掉Bridge",
+            "42.8%",
+            "54%"
+          ],
+          [
+            "RT-2-X 5B，历史2帧",
+            "44.4%",
+            "52%"
+          ],
+          [
+            "RT-2-X 5B，无历史",
+            "14.5%",
+            "30%"
+          ],
+          [
+            "RT-2-X 5B，从零训练，历史2帧",
+            "0%",
+            "1%"
+          ],
+          [
+            "RT-2-X 5B，仅机器人微调，历史2帧",
+            "48.7%",
+            "47%"
+          ]
+        ],
+        "locator": "Table II；V-B/C"
+      }
+    },
+    {
+      "benchmark": "大数据域容量实验",
+      "setting": "Table I；Bridge / RT-1数据对应的IRIS、RAIL、Google三个真实评测点",
+      "result": "小容量RT-1-X在这三个大数据域低于对应RT-1；扩大容量不能省略数据域条件。",
+      "locator": "Table I",
+      "sourceUrl": "https://arxiv.org/pdf/2310.08864",
+      "attribution": "作者原文报告",
+      "table": {
+        "columns": [
+          "模型",
+          "IRIS",
+          "RAIL",
+          "Google"
+        ],
+        "rows": [
+          [
+            "RT-1",
+            "40%",
+            "30%",
+            "92%"
+          ],
+          [
+            "RT-1-X",
+            "27%",
+            "27%",
+            "73%"
+          ],
+          [
+            "RT-2-X (55B)",
+            "50%",
+            "30%",
+            "91%"
+          ]
+        ],
+        "locator": "Table I"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "研究没有覆盖传感与驱动方式差异很大的所有机器人类型；统一动作只是粗对齐。",
+      "论文的跨机器人策略实验使用9种机械臂，不等于发布集合的22种机器人均参加策略训练。"
+    ],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2310.08864",
+      "status": "已核实入口",
+      "note": "已核实arXiv元数据"
+    },
+    "project": {
+      "url": "https://robotics-transformer-x.github.io/",
+      "status": "已核实入口",
+      "note": "原文项目入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Datasets, Simulators, and Benchmarks / Open-X",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2310.08864",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://robotics-transformer-x.github.io/",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Embodied Intelligence Foundations / Open-X",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv原始元数据",
+      "url": "https://arxiv.org/abs/2310.08864",
+      "locator": "citation_title / citation_author / citation_date / version history",
+      "supports": [
+        "标题",
+        "作者",
+        "首次公开日期",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文全文（本轮重新核读）",
+      "url": "https://arxiv.org/pdf/2310.08864",
+      "locator": "Table II；V-B/C; Table I",
+      "supports": [
+        "方法解析",
+        "实验/证据综合",
+        "研究设计",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实",
+    "资源下载内容和许可证未逐项运行核验；本库未据此声明已经复现。"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICRA'24**",
+      "section": "Datasets, Simulators, and Benchmarks"
+    },
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**ICRA'24**",
+      "section": "Embodied Intelligence Foundations"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已取得并核读原始全文的方法与关键结果；表格和研究设计按原文保留，仍未核实事项单独列出。",
+  "overview": "将多个机构的真实机器人示范标准化为可共同训练的数据集合，并以RT-1-X与RT-2-X检验跨机器人数据是否带来正迁移。该数据是通用操作基础资源，并非医疗专用。 "
+}

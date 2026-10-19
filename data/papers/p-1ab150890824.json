@@ -1,0 +1,201 @@
+{
+  "id": "p-1ab150890824",
+  "title": "SRT-H: A Hierarchical Framework for Autonomous Surgery via Language Conditioned Imitation Learning",
+  "short": "SRT-H",
+  "aliases": [
+    "SRT-H"
+  ],
+  "authors": [
+    "Kim, Ji Woong",
+    "Chen, Juo-Tung",
+    "Hansen, Pascal",
+    "Shi, Lucy X.",
+    "Goldenberg, Antony",
+    "Schmidgall, Samuel",
+    "Scheikl, Paul Maria",
+    "Deguet, Anton",
+    "White, Brandon M.",
+    "Tsai, De Ru",
+    "Cha, Richard",
+    "Jopling, Jeffrey",
+    "Finn, Chelsea",
+    "Krieger, Axel"
+  ],
+  "institutions": [
+    "Laboratory for Computational Sensing and Robotics, Johns Hopkins University, Baltimore, MD 21218, USA.",
+    "Department of Computer Science, Stanford University, Stanford, CA 94305, USA.",
+    "Department of Surgery, Johns Hopkins University, Baltimore, MD 21218, USA.",
+    "Optosurgical, Columbia, MD 21046, USA.",
+    "Sheikh Zayed Institute for Pediatric Surgical Innovation, Children’s National Hospital, Washington, DC 20010, USA.",
+    "Department of Pediatrics, George Washington University School of Medicine and Health Sciences, Washington, DC 20052, USA."
+  ],
+  "firstPublished": "2025-05-15",
+  "updated": "2025-07-08",
+  "publicationYear": 2025,
+  "venue": "Science Robotics",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "操作",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "通过可纠错的语言层连接高层任务判断与低层动作策略，完成离体胆囊夹闭和切断步骤。高层判断阶段、发出任务或纠错语言，低层按语言执行相对动作。",
+  "method": {
+    "input": "内窥镜历史、腕部图像与语言子指令",
+    "output": "高层任务/纠错指令及双臂动作序列",
+    "flow": [
+      "高层语言策略",
+      "语言条件低层策略",
+      "纠错数据聚合"
+    ],
+    "explanation": "通过可纠错的语言层连接高层任务判断与低层动作策略，完成离体胆囊夹闭和切断步骤。高层判断阶段、发出任务或纠错语言，低层按语言执行相对动作。",
+    "modules": [
+      {
+        "name": "高层语言策略",
+        "purpose": "识别阶段并决定是否纠错",
+        "mechanism": "Swin-T编码观测，Transformer decoder输出任务指令、纠错指令和纠错标志。",
+        "input": "内窥镜历史、腕部图像与语言子指令",
+        "output": "高层语言策略的中间结果"
+      },
+      {
+        "name": "语言条件低层策略",
+        "purpose": "将指令落到精细双臂动作",
+        "mechanism": "冻结的DistilBERT编码语言，EfficientNet经FiLM融合视觉与语言，动作Transformer预测混合相对位姿序列。",
+        "input": "高层语言策略的结果",
+        "output": "语言条件低层策略的中间结果"
+      },
+      {
+        "name": "纠错数据聚合",
+        "purpose": "覆盖成功示范外的失败状态",
+        "mechanism": "采集纠错示范并通过DAgger式语言干预扩展高层训练，使策略能从偏离状态恢复。",
+        "input": "语言条件低层策略的结果",
+        "output": "高层任务/纠错指令及双臂动作序列"
+      }
+    ],
+    "assumptions": "仅适用于论文给定硬件、感知接口和评测条件；未核实的实现细节不作保证。",
+    "difference": "对应真实证据类型：方法/系统"
+  },
+  "training": {
+    "regime": "训练细节未公开/未完整核实",
+    "models": "见方法模块；具体预训练与冻结设置未确认部分不作推断。",
+    "trainable": "未核实",
+    "frozen": "未核实",
+    "data": "未核实",
+    "objective": "未核实",
+    "stages": "未核实"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：该结果依赖指定硬件、感知和任务协议；实验规模及外推范围需与论文原设定一起阅读。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2505.10251",
+      "status": "已核实入口",
+      "note": "已核实arXiv元数据"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Surgical Embodied Intelligence / SRT-H",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://arxiv.org/pdf/2505.10251",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1126/scirobotics.adt5254",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.5281/zenodo.15637074",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1126/scirobotics.adt5254",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv原始元数据",
+      "url": "https://arxiv.org/abs/2505.10251",
+      "locator": "citation_title / citation_author / citation_date / version history",
+      "supports": [
+        "标题",
+        "作者",
+        "首次公开日期",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://arxiv.org/pdf/2505.10251",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Science Robotics'25**",
+      "section": "Surgical Embodied Intelligence"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "通过可纠错的语言层连接高层任务判断与低层动作策略，完成离体胆囊夹闭和切断步骤。高层判断阶段、发出任务或纠错语言，低层按语言执行相对动作。 "
+}

@@ -1,0 +1,183 @@
+{
+  "id": "p-09fe1a9b9c02",
+  "title": "Next-Generation Agentic Reinforcement Learning Systems Enable Self-Evolving Agents",
+  "short": "AREAL2.0",
+  "aliases": [
+    "AREAL2.0"
+  ],
+  "authors": [
+    "Yan, Ran",
+    "Fu, Wei",
+    "Li, Jiale",
+    "Xu, Shusheng",
+    "Mei, Zhiyu",
+    "Gao, Jiaxuan",
+    "Zhang, Jiarui",
+    "Zhang, Wentai",
+    "Dai, Hao",
+    "Shen, Xujie",
+    "He, Chuyi",
+    "Pu, Zhen",
+    "Mei, Jun",
+    "Lin, Zhiyao",
+    "Wang, Haitao",
+    "Ding, Zhiqiang",
+    "Zhang, Jiawei",
+    "Wang, Huaijie",
+    "Xu, Ruida",
+    "Dong, Honghua",
+    "Jiang, Youhe",
+    "Wu, Yi",
+    "Yang, Tongkai",
+    "Yuan, Binhang"
+  ],
+  "institutions": [
+    "1 Ant Group, 2 HKUST, 3 Tsinghua University"
+  ],
+  "firstPublished": "2026-07-01",
+  "updated": "2026-07-02",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "具身 Agent"
+    ],
+    "contribution": [
+      "系统",
+      "方法"
+    ],
+    "problem": [
+      "规划"
+    ],
+    "environment": [],
+    "training": [
+      "强化学习"
+    ]
+  },
+  "summary": "提出企业级在线Agent强化学习基础设施，并以AReaL2.0实现部分在线权重更新原型。",
+  "method": {
+    "explanation": "该论文是通用软件Agent系统立场与架构论文，提出轨迹数据协议、数据代理、演化控制平面三支柱。轨迹需要携带逐步反馈和版本信息，代理把真实服务交互变为可学习的数据，控制平面决定更新权重、记忆或harness等哪一层。AReaL2.0原型只覆盖部署Agent的在线LLM权重更新一条分支；论文未证明完整自动多层自演化系统，也不是机器人导航benchmark。",
+    "input": "线上软件Agent轨迹与反馈",
+    "output": "在线学习数据及策略更新服务",
+    "assumptions": "见各模块与实验设置；结论限于原文适用传感和执行接口。",
+    "difference": "提出企业级在线Agent强化学习基础设施，并以AReaL2.0实现部分在线权重更新原型。",
+    "flow": [
+      "ATDP轨迹协议",
+      "服务数据代理",
+      "演化控制平面与原型"
+    ],
+    "modules": [
+      {
+        "name": "ATDP轨迹协议",
+        "purpose": "让异构Agent经历可回放并可分配学习信号",
+        "mechanism": "保存逐步模型/工具动作、反馈、版本与来源，使线上交互可进入RL数据管线。",
+        "sourceUrl": "https://arxiv.org/html/2607.01120",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "服务数据代理",
+        "purpose": "把部署交互接入学习基础设施",
+        "mechanism": "在模型与工具稳定接口捕获交互，整理可学习轨迹和延迟反馈。",
+        "sourceUrl": "https://arxiv.org/html/2607.01120",
+        "locator": "Method / Approach；机制为本库中文整理"
+      },
+      {
+        "name": "演化控制平面与原型",
+        "purpose": "选择何时及哪层更新",
+        "mechanism": "架构讨论多种演化表面；AReaL2.0具体实例是在线策略LLM权重更新，不应扩大成全部分支已完成。",
+        "sourceUrl": "https://arxiv.org/html/2607.01120",
+        "locator": "Method / Approach；机制为本库中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "原型在线强化学习；架构论文不提供统一机器人训练",
+    "models": "AReaL RL基础设施与部署LLM Agent",
+    "trainable": "原型更新policy LLM权重",
+    "frozen": "harness/记忆等多表面更新作为完整愿景，非全部已实现",
+    "data": "线上Agent交互轨迹",
+    "objective": "RL更新依系统配置；本文重点基础设施而非新机器人奖励",
+    "stages": "部署服务 → 轨迹捕获 → RL训练 → 策略更新"
+  },
+  "evaluation": [
+    {
+      "benchmark": "AReaL2.0 系统原型范围",
+      "setting": "原文无标准机器人/导航Agent benchmark主表；实例化范围限在线LLM权重更新。",
+      "result": "未报告可与LIBERO、ObjectNav或VLN成绩比较的标准结果；不补造数值。",
+      "sourceUrl": "https://arxiv.org/html/2607.01120",
+      "locator": "正文",
+      "attribution": "作者原文报告；非本站复现"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "这是实际论文但研究范围主要为通用Agent服务基础设施；可作为相邻系统阅读，不能当作实机具身控制方法的量化验证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.01120",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    },
+    "code": {
+      "url": "https://github.com/areal-project/AReaL",
+      "status": "已核实入口",
+      "note": "原文提供的官方链接；开放内容与许可未逐项验证"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / AREAL2.0",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2607.01120",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2607.01120",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p09fe1a9b9c022026,\n title={Next-Generation Agentic Reinforcement Learning Systems Enable Self-Evolving Agents},\n author={Yan, Ran and Fu, Wei and Li, Jiale and Xu, Shusheng and Mei, Zhiyu and Gao, Jiaxuan and Zhang, Jiarui and Zhang, Wentai and Dai, Hao and Shen, Xujie and He, Chuyi and Pu, Zhen and Mei, Jun and Lin, Zhiyao and Wang, Haitao and Ding, Zhiqiang and Zhang, Jiawei and Wang, Huaijie and Xu, Ruida and Dong, Honghua and Jiang, Youhe and Wu, Yi and Yang, Tongkai and Yuan, Binhang},\n year={2026},\n url={https://arxiv.org/abs/2607.01120}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "正式出版与机构的独立交叉核验",
+    "资源内容、许可证和复现条件逐项检查"
+  ],
+  "sourceNotes": [],
+  "overview": "该论文是通用软件Agent系统立场与架构论文，提出轨迹数据协议、数据代理、演化控制平面三支柱。轨迹需要携带逐步反馈和版本信息，代理把真实服务交互变为可学习的数据，控制平面决定更新权重、记忆或harness等哪一层。AReaL2.0原型只覆盖部署Agent的在线LLM权重更新一条分支；论文未证明完整自动多层自演化系统，也不是机器人导航benchmark。",
+  "verificationLevel": "fulltext"
+}

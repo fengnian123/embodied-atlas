@@ -1,0 +1,166 @@
+{
+  "id": "p-2b77c6f5a106",
+  "title": "Boosting the hospital by integrating mobile robotic assistance systems: a comprehensive classification of the risks to be addressed",
+  "short": "Hospital-Risk",
+  "aliases": [
+    "Hospital-Risk"
+  ],
+  "authors": [
+    "Lukas Bernhard",
+    "Patrik Schwingenschlögl",
+    "Jörg Hofmann",
+    "Dirk Wilhelm",
+    "Alois Knoll"
+  ],
+  "institutions": [],
+  "firstPublished": "2024-01-24",
+  "updated": null,
+  "publicationYear": 2024,
+  "venue": "Autonomous Robots",
+  "publicationStatus": "已发表（出版记录核实）",
+  "year": 2024,
+  "tags": {
+    "direction": [
+      "导航",
+      "具身医疗"
+    ],
+    "task": [],
+    "paradigm": [],
+    "system": [],
+    "contribution": [
+      "综述"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "提出医院移动服务机器人的多维风险分类，把环境、卫生、人/物交互、流程和自主性要求转成设计与审查时可比较的风险等级。",
+  "method": {
+    "input": "医院机器人使用场景及要求",
+    "output": "风险类别、等级与系统分类",
+    "flow": [
+      "场景风险拆解",
+      "风险等级定义",
+      "设计和认证映射"
+    ],
+    "explanation": "提出医院移动服务机器人的多维风险分类，把环境、卫生、人/物交互、流程和自主性要求转成设计与审查时可比较的风险等级。",
+    "modules": [
+      {
+        "name": "场景风险拆解",
+        "purpose": "识别医院特有要求",
+        "mechanism": "分别梳理环境复杂度、卫生要求、与人交互、与物交互、流程灵活性和自主性六类风险。",
+        "input": "医院机器人使用场景及要求",
+        "output": "场景风险拆解的中间结果"
+      },
+      {
+        "name": "风险等级定义",
+        "purpose": "使不同系统可以对照讨论",
+        "mechanism": "为每类建立离散风险等级，记录场景所需的能力与约束。",
+        "input": "场景风险拆解的结果",
+        "output": "风险等级定义的中间结果"
+      },
+      {
+        "name": "设计和认证映射",
+        "purpose": "把分类用于工程决策",
+        "mechanism": "用于讨论架构、安全要求和准入流程；分类本身不等于完成设备认证。",
+        "input": "风险等级定义的结果",
+        "output": "风险类别、等级与系统分类"
+      }
+    ],
+    "assumptions": "综述的结论范围受检索时点、纳入研究与证据质量限制。",
+    "difference": "对应真实证据类型：综述或框架论述"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "不适用：本研究未提出待训练机器人策略。",
+    "trainable": "不适用",
+    "frozen": "不适用",
+    "data": "纳入文献/参与者与实验记录，不是策略训练数据。",
+    "objective": "研究设计/证据综合，不涉及机器人策略损失函数。",
+    "stages": "不适用"
+  },
+  "evaluation": [],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "网站分析：综述汇总的异质性研究不能合成为机器人统一排名；具体原始结论应回到被引用研究的实验协议。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://doi.org/10.1007/s10514-023-10154-0",
+      "status": "已核实入口",
+      "note": "已核实出版入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "粘贴的文本 (3).txt",
+      "locator": "Hospital Service and Nursing Robots / Hospital-Risk",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10514-023-10154-0.pdf",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "reference",
+      "label": "用户清单链接（未回查）",
+      "url": "https://doi.org/10.1007/s10514-023-10154-0",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "出版商登记的Crossref元数据",
+      "url": "https://api.crossref.org/works/10.1007/s10514-023-10154-0",
+      "locator": "title / author / published-online / published / container-title / abstract",
+      "supports": [
+        "标题",
+        "作者",
+        "正式出版日期/年份",
+        "发表状态",
+        "摘要所述设计与结论"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原论文全文（本次核读）",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10514-023-10154-0.pdf",
+      "locator": "正文方法与结果，具体数字见下方实验定位",
+      "supports": [
+        "方法说明",
+        "研究设计",
+        "实验条件",
+        "局限"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": null,
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "尚未逐项核验代码/数据/权重许可证与下载内容",
+    "作者机构未完整核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户清单；出版信息与链接尚未回查",
+      "venueClaim": "**Autonomous Robots'24**",
+      "section": "Hospital Service and Nursing Robots"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核读原文主要方法与关键结果；缺口仍明列。",
+  "overview": "提出医院移动服务机器人的多维风险分类，把环境、卫生、人/物交互、流程和自主性要求转成设计与审查时可比较的风险等级。 本文为证据/概念综述，以下“模块”表示文献组织框架；不代表作者训练了同名机器人模型。"
+}

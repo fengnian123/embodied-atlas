@@ -1,0 +1,212 @@
+{
+  "id": "p-88eb93ee13bd",
+  "title": "Beyond the Nav-Graph: Vision-and-Language Navigation in Continuous Environments",
+  "short": "VLN-CE",
+  "aliases": [
+    "Beyond the Nav-Graph: Vision-and-Language Navigation in Continuous Environments",
+    "VLN-CE"
+  ],
+  "authors": [
+    "Krantz, Jacob",
+    "Wijmans, Erik",
+    "Majumdar, Arjun",
+    "Batra, Dhruv",
+    "Lee, Stefan"
+  ],
+  "institutions": [
+    "Oregon State University",
+    "Georgia Institute of Technology",
+    "Facebook AI Research jacobkrantz.github.io/vlnce"
+  ],
+  "firstPublished": "2020-04-06",
+  "updated": "2020-05-01",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2020,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "模仿学习"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集",
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "空间理解",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "室内",
+      "真实采集资产"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "把离散导航图上的语言导航转为连续三维环境中的低层动作执行任务。",
+  "method": {
+    "explanation": "VLN-CE 将语言指令对应路线放入连续环境，让Agent根据RGB-D和指令逐步输出前进、转向和停止。与R2R离散viewpoint导航不同，系统不能把预定义图节点之间的移动当成免费oracle导航，必须处理控制误差、碰撞与局部可达性。作者构建Seq2Seq与cross-modal模型并使用DAgger聚合偏离轨迹上的专家动作。它使用真实扫描场景资产进行仿真，不能因为资产来自真实建筑就等同于真实机器人实验。",
+    "input": "语言指令、RGB-D及动作历史",
+    "output": "前进/转向/停止原语",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "把离散导航图上的语言导航转为连续三维环境中的低层动作执行任务。",
+    "flow": [
+      "路线连续化",
+      "视觉语言序列策略",
+      "DAgger数据聚合"
+    ],
+    "modules": [
+      {
+        "name": "路线连续化",
+        "purpose": "移除预给导航图的便利条件",
+        "mechanism": "将已有语言路线在Habitat连续三维场景中执行，保留指令、起点与目标而使用低层运动。",
+        "sourceUrl": "https://arxiv.org/html/2004.02857",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "视觉语言序列策略",
+        "purpose": "从当前可见信息预测动作",
+        "mechanism": "编码RGB-D、指令及历史，用Seq2Seq/跨模态注意预测离散控制原语。",
+        "sourceUrl": "https://arxiv.org/html/2004.02857",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "DAgger数据聚合",
+        "purpose": "缓解训练专家路线与执行偏离的分布差异",
+        "mechanism": "让当前策略rollout，再用专家为所到状态标注动作，累积训练数据重新学习，而不是只在理想专家路径模仿。",
+        "sourceUrl": "https://arxiv.org/html/2004.02857",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督模仿学习与DAgger；基准本身不适用训练分类",
+    "models": "Seq2Seq/CMA视觉语言策略",
+    "trainable": "导航策略网络",
+    "frozen": "不涉及冻结LLM主干",
+    "data": "R2R连续化轨迹与合成指令增强；DAgger迭代收集状态动作",
+    "objective": "专家动作交叉熵与聚合数据监督",
+    "stages": "转换任务 → 模仿初始化 → DAgger → 连续动作评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "VLN-CE Val-Unseen 输入消融",
+      "setting": "Table 2，原始Seq2Seq输入消融；val-unseen，SR/SPL原表为0–1比例。",
+      "result": "RGB-D完整Seq2Seq SR0.20/SPL0.18；去Depth仅0.04/0.04；随机0.03/0.02。",
+      "sourceUrl": "https://arxiv.org/html/2004.02857",
+      "locator": "Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "模型",
+          "SR",
+          "SPL",
+          "NE(m)"
+        ],
+        "rows": [
+          [
+            "Random",
+            ".03",
+            ".02",
+            "9.51"
+          ],
+          [
+            "Seq2Seq RGB-D",
+            ".20",
+            ".18",
+            "8.94"
+          ],
+          [
+            "Seq2Seq无Depth",
+            ".04",
+            ".04",
+            "9.89"
+          ],
+          [
+            "Seq2Seq无语言",
+            ".17",
+            ".16",
+            "9.03"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "静态扫描场景中的连续动作仍与真实机器人传感/碰撞有差距，原始监督模型分数不能代表当前最优。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2004.02857",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / VLN-CE",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2004.02857",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2004.02857",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{p88eb93ee13bd2020,\n title={Beyond the Nav-Graph: Vision-and-Language Navigation in Continuous Environments},\n author={Krantz, Jacob and Wijmans, Erik and Majumdar, Arjun and Batra, Dhruv and Lee, Stefan},\n year={2020},\n url={https://arxiv.org/abs/2004.02857}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "VLN-CE 将语言指令对应路线放入连续环境，让Agent根据RGB-D和指令逐步输出前进、转向和停止。与R2R离散viewpoint导航不同，系统不能把预定义图节点之间的移动当成免费oracle导航，必须处理控制误差、碰撞与局部可达性。作者构建Seq2Seq与cross-modal模型并使用DAgger聚合偏离轨迹上的专家动作。它使用真实扫描场景资产进行仿真，不能因为资产来自真实建筑就等同于真实机器人实验。",
+  "benchmark": {
+    "motivation": "评测不依赖预定义稀疏导航图和oracle节点移动的语言导航。",
+    "task": "连续场景中的自然语言路线跟随；输出低层运动原语并显式停止。",
+    "environment": "Habitat中真实扫描MP3D资产；属于仿真评测。",
+    "metrics": "NE、SR、SPL、OS、nDTW；控制与终止均影响结果。",
+    "boundary": "真实扫描资产不等于真实闭环部署；资产许可与模拟器版本须匹配。"
+  },
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,205 @@
+{
+  "id": "p-fa3b62e4c9cb",
+  "title": "Interleave-VLA: Enhancing Robot Manipulation with Interleaved Image-Text Instructions",
+  "short": "INTERLEAVE-VLA",
+  "aliases": [
+    "INTERLEAVE-VLA: Enhancing Robot Manipulation with Interleaved Image-Text Instructions",
+    "INTERLEAVE-VLA"
+  ],
+  "authors": [
+    "Fan, Cunxin",
+    "Jia, Xiaosong",
+    "Sun, Yihang",
+    "Wang, Yixiao",
+    "Wei, Jianglan",
+    "Gong, Ziyang",
+    "Zhao, Xiangyu",
+    "Tomizuka, Masayoshi",
+    "Yang, Xue",
+    "Yan, Junchi",
+    "Ding, Mingyu"
+  ],
+  "institutions": [
+    "Shanghai Jiao Tong University",
+    "UC Berkeley",
+    "UNC, Chapel Hill"
+  ],
+  "firstPublished": "2025-05-04",
+  "updated": "2025-10-08",
+  "publicationYear": null,
+  "venue": null,
+  "publicationStatus": "arXiv 预印本；正式发表状态未独立核实",
+  "year": 2025,
+  "tags": {
+    "direction": [
+      "操作"
+    ],
+    "task": [
+      "机器人控制",
+      "抓取"
+    ],
+    "paradigm": [
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "机械臂"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "把文本中的目标名称替换或补充为图像引用，使 VLA 能按交错图文指令执行操作。",
+  "method": {
+    "explanation": "Interleave-VLA 不把输入限制为一句纯文本任务，而是允许在指令里嵌入物体图像、裁剪图或示意图。数据流水线从 Open X-Embodiment 找到指令对应的视觉目标并构造交错输入；适配模块加入分隔 token，使已有 VLA 接收多张指令图像和当前观测。策略仍直接输出连续动作序列，沿用基础 VLA 的动作训练目标。这里的 zero-shot 指训练后对新物体/新指令形式的泛化，不表示整个方法没有机器人训练。",
+    "input": "当前相机观测及交错图文指令",
+    "output": "连续机器人动作序列",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "把文本中的目标名称替换或补充为图像引用，使 VLA 能按交错图文指令执行操作。",
+    "flow": [
+      "交错指令数据构建",
+      "轻量输入适配",
+      "连续动作学习与多模态泛化"
+    ],
+    "modules": [
+      {
+        "name": "交错指令数据构建",
+        "purpose": "把现有纯文本机器人数据变成图文条件",
+        "mechanism": "自动定位指令中所指物体，提取图像目标并生成交错图文描述；论文报告约21万episode、1300万帧。",
+        "sourceUrl": "https://arxiv.org/html/2505.02152",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "轻量输入适配",
+        "purpose": "复用已有VLA架构",
+        "mechanism": "扩展分隔符和输入组织方式，使当前观测、文本片段与指令图像共同进入基础模型，不另建任务专属控制栈。",
+        "sourceUrl": "https://arxiv.org/html/2505.02152",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "连续动作学习与多模态泛化",
+        "purpose": "减少纯文本对陌生物体命名的依赖",
+        "mechanism": "在交错数据上保留原VLA训练目标与超参数；部署可输入实拍裁剪、互联网图片或草图作为视觉指令。",
+        "sourceUrl": "https://arxiv.org/html/2505.02152",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督微调；部分新输入形式为零样本泛化",
+    "models": "π0为主要实机基座；也讨论适配OpenVLA",
+    "trainable": "VLA适配与策略参数，具体冻结细节依基座配置",
+    "frozen": "不应标为全系统冻结；原文未统一规定所有基座的冻结范围",
+    "data": "Open X-Embodiment转换的约21万episode交错图文数据，以及下游示范",
+    "objective": "沿用对应基础VLA的动作学习目标",
+    "stages": "构建交错数据 → 预训练/适配 → 下游训练 → 新物体及新图像形式评测"
+  },
+  "evaluation": [
+    {
+      "benchmark": "真实机器人 OOD 物体泛化",
+      "setting": "Table 2：π0基座，真实机器人；PT表示交错数据预训练，Succ为任务成功、Acc为选对物体。",
+      "result": "蔬菜任务OOD平均：Text-VLA(PT) Succ 13%、Acc 25%；Interleave-VLA(PT) Succ 71%、Acc 100%。工具OOD平均分别21%/25%与38%/84%。",
+      "sourceUrl": "https://arxiv.org/html/2505.02152",
+      "locator": "Table 2",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "columns": [
+          "任务组 / 配置",
+          "ID Succ / Acc (%)",
+          "OOD Succ / Acc (%)"
+        ],
+        "rows": [
+          [
+            "蔬菜 Text-VLA + PT",
+            "39 / 94",
+            "13 / 25"
+          ],
+          [
+            "蔬菜 Interleave-VLA + PT",
+            "67 / 100",
+            "71 / 100"
+          ],
+          [
+            "工具 Text-VLA + PT",
+            "50 / 72",
+            "21 / 25"
+          ],
+          [
+            "工具 Interleave-VLA + PT",
+            "47 / 69",
+            "38 / 84"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "相同模型对新物体泛化依赖指令图像质量；zero-shot指新输入/物体，不代表没有交错机器人训练。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2505.02152",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "url": "https://arxiv.org/abs/2505.02152",
+      "label": "用户给定论文链接（待全文核实）",
+      "supports": [
+        "待回查"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2505.02152",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2505.02152",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pfa3b62e4c9cb2025,\n title={Interleave-VLA: Enhancing Robot Manipulation with Interleaved Image-Text Instructions},\n author={Fan, Cunxin and Jia, Xiaosong and Sun, Yihang and Wang, Yixiao and Wei, Jianglan and Gong, Ziyang and Zhao, Xiangyu and Tomizuka, Masayoshi and Yang, Xue and Yan, Junchi and Ding, Mingyu},\n year={2025},\n url={https://arxiv.org/abs/2505.02152}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "Interleave-VLA 不把输入限制为一句纯文本任务，而是允许在指令里嵌入物体图像、裁剪图或示意图。数据流水线从 Open X-Embodiment 找到指令对应的视觉目标并构造交错输入；适配模块加入分隔 token，使已有 VLA 接收多张指令图像和当前观测。策略仍直接输出连续动作序列，沿用基础 VLA 的动作训练目标。这里的 zero-shot 指训练后对新物体/新指令形式的泛化，不表示整个方法没有机器人训练。",
+  "verificationLevel": "fulltext"
+}

@@ -1,0 +1,280 @@
+{
+  "id": "p-81232111673b",
+  "title": "C3-Bench: A Context-Aware Change Captioning Benchmark",
+  "short": "C3-Bench",
+  "aliases": [],
+  "authors": [
+    "Jae-Woo Kim",
+    "Hyeongbeom Kim",
+    "Ue-Hwan Kim"
+  ],
+  "institutions": [
+    "Gwangju Institute of Science and Technology"
+  ],
+  "firstPublished": "2026-06-24",
+  "updated": "2026-06-24",
+  "publicationYear": 2026,
+  "venue": "ECCV",
+  "publicationStatus": "已发表",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "综合具身智能"
+    ],
+    "task": [
+      "场景理解",
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [
+      "动态环境",
+      "泛化"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "室外"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "4996张真实变化图像对、51种上下文、4个领域；用明确变化准则、LLM评分与顺序反转一致性评估变化描述。",
+  "method": {
+    "input": "前图、后图以及上下文变化准则",
+    "output": "连贯的开放式变化描述及评测得分",
+    "assumptions": "给定两时刻图像；不含机器人动作或主动探索。",
+    "difference": "由泛泛“找不同”改为明确上下文准则，并检查前后顺序反转的语义一致性。",
+    "explanation": "收集15个以上公开基准及部分地图图像，经人工核实配对；每个上下文定义三段准则：需检测变化、应忽略干扰和语言风格。标注者参考变化掩码或其他辅助信息写描述，再经重复、时间顺序和图文一致性筛查。模型按照统一图像顺序与格式输出。GPT-5.2对正确性、具体性、流畅性、相关性和综合质量评分；反转图像后，对两段描述的变化方向一致性作0/1评价，并重复judge以报告波动。",
+    "flow": [
+      "上下文准则",
+      "配对与标注",
+      "统一推理协议",
+      "质量与可逆性评分"
+    ],
+    "modules": [
+      {
+        "name": "上下文准则",
+        "purpose": "定义什么算相关变化",
+        "mechanism": "为51上下文填写检测/忽略/语气三部分",
+        "input": "领域需求",
+        "output": "可执行文字标准"
+      },
+      {
+        "name": "配对与标注",
+        "purpose": "覆盖复杂真实变化",
+        "mechanism": "多源配对、辅助元数据、人工校验和重平衡",
+        "input": "图像与上下文",
+        "output": "4996图像对及描述"
+      },
+      {
+        "name": "统一推理协议",
+        "purpose": "对齐传统与LMM输出",
+        "mechanism": "输入before/after与准则，解析output字段",
+        "input": "模型、配对、准则",
+        "output": "变化描述"
+      },
+      {
+        "name": "质量与可逆性评分",
+        "purpose": "减少仅词面匹配偏差",
+        "mechanism": "GPT-5.2多维judge，反转输入检验一致性；补充judge检查",
+        "input": "预测、参考描述",
+        "output": "质量分与可逆性"
+      }
+    ]
+  },
+  "training": {
+    "regime": "主要基准评测仅推理；另有传统模型多数据训练实验",
+    "models": "32种传统模型及商用/开源LMM，judge GPT-5.2",
+    "trainable": "主Benchmark不新训练被测LMM；传统训练变体按§5.7区分",
+    "frozen": "商用/开源LMM主表使用现成模型",
+    "data": "4996对用于评测；传统模型训练集与权重按原文协议",
+    "objective": "评测非训练；变化质量和可逆性评分",
+    "stages": "数据策划→统一推理→三次judge与人类对齐分析"
+  },
+  "evaluation": [
+    {
+      "benchmark": "C3-Bench全量",
+      "setting": "arXiv v1；4996对、51上下文、4领域；Table5三次GPT-5.2 judge均值±std；综合质量0–10，可逆性0–1。small子集人类结果不得混入全量。",
+      "result": "GPT-5.2全量综合5.51±0.20，可逆性0.62；Gemini-3-Pro综合5.50±0.19，可逆性0.73。",
+      "locator": "Table 5",
+      "sourceUrl": "https://arxiv.org/abs/2606.25445",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 5",
+        "columns": [
+          "模型",
+          "综合质量",
+          "可逆性"
+        ],
+        "rows": [
+          [
+            "DUDA",
+            "2.09 ± 0.09",
+            "0.15 ± 0.00"
+          ],
+          [
+            "GPT-4o",
+            "4.95 ± 0.19",
+            "0.49 ± 0.00"
+          ],
+          [
+            "GPT-5.2",
+            "5.51 ± 0.20",
+            "0.62 ± 0.00"
+          ],
+          [
+            "Gemini-3-Pro",
+            "5.50 ± 0.19",
+            "0.73 ± 0.00"
+          ],
+          [
+            "Qwen3-VL-8B",
+            "5.10 ± 0.21",
+            "0.40 ± 0.00"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2606.25445",
+        "locator": "Table 5"
+      }
+    },
+    {
+      "benchmark": "judge与人工一致性",
+      "setting": "Table4用户研究；Pearson、Spearman与Kendall相关性，非模型任务得分。",
+      "result": "综合judge的Spearman为0.7944，ROUGE-L为0.4460。",
+      "locator": "Table 4",
+      "sourceUrl": "https://arxiv.org/abs/2606.25445",
+      "attribution": "作者报告",
+      "table": {
+        "caption": "Table 4",
+        "columns": [
+          "评分方法",
+          "Pearson r",
+          "Spearman ρ",
+          "Kendall τ"
+        ],
+        "rows": [
+          [
+            "ROUGE-L",
+            0.4916,
+            0.446,
+            0.3112
+          ],
+          [
+            "综合judge",
+            0.7563,
+            0.7944,
+            0.6317
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/abs/2606.25445",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "LLM judge与人工仍非完全一致；多源公开图像的预训练暴露无法排除。",
+      "主表包含自评judge，虽有替代judge检查仍应结合人工对照理解。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.25445",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/AutoCompSysLab/C3-Bench",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://github.com/AutoCompSysLab/C3-Bench",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "长期室内巡检论文调研.xlsx",
+      "locator": "论文调研 / C3-Bench: A Context-Aware Change Captioning Benchmark",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方原文核验（2026-10-19）",
+      "url": "https://arxiv.org/abs/2606.25445",
+      "locator": "下列方法章节与实验表/图；固定版本见实验设置",
+      "supports": [
+        "标题",
+        "作者",
+        "日期",
+        "方法",
+        "训练",
+        "实验"
+      ]
+    },
+    {
+      "kind": "primary",
+      "url": "https://github.com/AutoCompSysLab/C3-Bench",
+      "label": "作者官方仓库",
+      "locator": "标题标注ECCV2026",
+      "supports": [
+        "发表信息",
+        "资源"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{p81232111673b2026,\n  title = {C3-Bench: A Context-Aware Change Captioning Benchmark},\n  author = {Jae-Woo Kim and Hyeongbeom Kim and Ue-Hwan Kim},\n  year = {2026},\n  url = {https://arxiv.org/abs/2606.25445}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "ECCV状态由作者官方仓库声明，正式出版页面未逐项回查",
+    "源图像许可证、全部划分细节待核实"
+  ],
+  "sourceNotes": [
+    {
+      "label": "用户调研摘记；未回查原文",
+      "method": "图像对＋任务语境；评估变化描述的正确性、相关性等。提供变化语义评测，不控制机器人回访。",
+      "evaluation": "C3-Bench：51种上下文、4类领域；比较多种变化描述模型和VLM。",
+      "training": "主要是Benchmark评测，使用现成VLM推理；不是新训练的巡检VLM方案。",
+      "analysis": "以图像对为主，未评测跨轮异常累积、故障恶化预测和基于历史的自主复查；上下文判断仍受模型误解影响。"
+    }
+  ],
+  "verificationLevel": "fulltext",
+  "verification": "已核验原文方法与关键实验；未公开项仍保留缺口",
+  "overview": "“描述两图变化”并不唯一：道路巡检可能关心标志变化，遥感可能关心建筑，阴影通常应忽略。C3-Bench 为51种情境分别定义要检测、要忽略以及语气要求，在四类视觉领域统一评估开放式变化描述。除正确性等评分外，还反转前后图检查描述是否对应同一变化的相反方向。它衡量视觉比较和文本描述，不包含Agent自主导航。",
+  "benchmark": {
+    "motivation": "评测超出单一训练域的上下文感知变化描述。",
+    "task": "根据前后图与明确准则描述语义变化。",
+    "input": "before/after图像＋上下文标准。",
+    "output": "开放式文本。",
+    "actions": "不适用：离线图像对理解。",
+    "success": "多维质量及顺序反转可逆性；不是二元导航成功率。",
+    "collection": "15+公开基准、部分地图平台；配对与人工检查；辅助标注指导描述。",
+    "scale": "4996图像对，51上下文，4领域；32被测模型。",
+    "split": "主要为评测基准；small用于人类对照，训练变体须独立处理。",
+    "metrics": "正确/具体/流畅/相关/综合0–10，可逆性0–1。",
+    "baselines": "传统变化描述模型、商用及2B–90B开源LMM。",
+    "assets": "官方代码与数据入口已确认，源图像权限需分别核查。",
+    "license": "多源数据，不应推断全部图像具有统一商业许可。",
+    "reproduction": "固定模型、提示、judge版本及重复次数。",
+    "coverage": "自然场景、遥感、编辑、异常。",
+    "boundary": "没有动作空间、机器人自主探索和时序在线检测。",
+    "leakage": "公开来源可能处于基础模型预训练分布；需避免将全量评测当训练集。"
+  },
+  "citationNote": "根据已核验题名、作者与首次公开年份生成的预印本引用；正式会议元数据另见来源。"
+}

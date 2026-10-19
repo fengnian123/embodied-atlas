@@ -1,0 +1,264 @@
+{
+  "id": "p-bc635c0cef0e",
+  "title": "REVERIE: Remote Embodied Visual Referring Expression in Real Indoor Environments",
+  "short": "REVERIE",
+  "aliases": [],
+  "authors": [
+    "Yuankai Qi",
+    "Qi Wu",
+    "Peter Anderson",
+    "Xin Wang",
+    "William Yang Wang",
+    "Chunhua Shen",
+    "Anton van den Hengel"
+  ],
+  "institutions": [
+    "University of Adelaide",
+    "Georgia Institute of Technology",
+    "University of California, Santa Barbara"
+  ],
+  "firstPublished": "2019-04-23",
+  "updated": "2020-01-06",
+  "publicationYear": 2020,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2019,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "Benchmark",
+      "数据集"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "REVERIE 用简短的高层目标物描述替代逐步路线指令，要求机器人先到目标房间，再在可见物体框中指出正确对象。",
+  "method": {
+    "input": "真实室内全景、物体框与高层语言",
+    "output": "对象ID与远程指代成功判断",
+    "explanation": "REVERIE 用简短的高层目标物描述替代逐步路线指令，要求机器人先到目标房间，再在可见物体框中指出正确对象。导航成功与最终对象接地成功分别计量，指令虽然包含拿取或擦拭等动词，实际评测只要求找到对象，不要求操作。",
+    "flow": [
+      "远程指代数据",
+      "交互导航器",
+      "目标指针"
+    ],
+    "modules": [
+      {
+        "name": "远程指代数据",
+        "purpose": "本模块解决：远程指代数据",
+        "input": "真实室内全景、物体框与高层语言",
+        "mechanism": "基于Matterport3D采集21,702条指令，目标初始不可见且通常在其他房间，以对象和空间关系形成远程指代。",
+        "output": "指令—路径—对象ID样本",
+        "sourceUrl": "https://arxiv.org/html/1904.10151v2",
+        "locator": "方法章节"
+      },
+      {
+        "name": "交互导航器",
+        "purpose": "本模块解决：交互导航器",
+        "input": "指令、全景候选与对象线索",
+        "mechanism": "FAST-short 的 LSTM 共接地和回溯机制选择下一 viewpoint；pointer 返回与语言有关的辅助物体表示，改善导航感知。",
+        "output": "导航动作与目标候选",
+        "sourceUrl": "https://arxiv.org/html/1904.10151v2",
+        "locator": "方法章节"
+      },
+      {
+        "name": "目标指针",
+        "purpose": "本模块解决：目标指针",
+        "input": "到达处的候选边界框与指令",
+        "mechanism": "以 MAttNet 组成的指针在目标观测中选择指代对象，分别统计到达与对象定位是否成功。",
+        "output": "对象ID与远程指代成功判断",
+        "sourceUrl": "https://arxiv.org/html/1904.10151v2",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "依赖Matterport3D viewpoint图和候选对象框；实际目标是指代接地，不能据动作动词声称已验证物理操作。",
+    "difference": "REVERIE 用简短的高层目标物描述替代逐步路线指令，要求机器人先到目标房间，再在可见物体框中指出正确对象。导航成功与最终对象接地成功分别计量，指令虽然包含拿取或擦拭等动词，实际评测只要求找到对象，不要求操作。"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "FAST-short 的 LSTM 共接地和回溯机制选择下一 viewpoint；pointer 返回与语言有关的辅助物体表示，改善导航感知。",
+    "trainable": "基准本身不训练模型。论文先用训练集目标viewpoint的图像/对象框训练pointer，再用其对象线索训练navigator；不是只调用冻结VLM。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "基准本身不训练模型。论文先用训练集目标viewpoint的图像/对象框训练pointer，再用其对象线索训练navigator；不是只调用冻结VLM。",
+    "objective": "本条为数据/评测贡献；所附基线训练协议见训练范围。",
+    "stages": "基准本身不训练模型。论文先用训练集目标viewpoint的图像/对象框训练pointer，再用其对象线索训练navigator；不是只调用冻结VLM。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "REVERIE",
+      "setting": "原文Table 3；最后一列要求正确接地对象，不能与仅到达的导航SR混淆；不要求实际抓取。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 3",
+      "sourceUrl": "https://arxiv.org/html/1904.10151v2",
+      "table": {
+        "columns": [
+          "方法",
+          "划分",
+          "导航SR (%)",
+          "导航SPL (%)",
+          "REVERIE成功 (%)"
+        ],
+        "rows": [
+          [
+            "Ours",
+            "Val Seen",
+            50.53,
+            45.5,
+            31.97
+          ],
+          [
+            "Ours",
+            "Val Unseen",
+            14.4,
+            7.19,
+            7.84
+          ],
+          [
+            "Ours",
+            "Test Unseen",
+            19.88,
+            11.61,
+            11.28
+          ],
+          [
+            "Human",
+            "Test Unseen",
+            81.51,
+            53.66,
+            77.84
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/1904.10151v2",
+        "locator": "Table 3",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依赖Matterport3D viewpoint图和候选对象框；实际目标是指代接地，不能据动作动词声称已验证物理操作。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/1904.10151",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/YuankaiQi/REVERIE",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / REVERIE",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/1904.10151",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/1904.10151v2",
+      "locator": "方法章节；Table 3",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式发表页面",
+      "url": "https://openaccess.thecvf.com/content_CVPR_2020/html/Qi_REVERIE_Remote_Embodied_Visual_Referring_Expression_in_Real_Indoor_Environments_CVPR_2020_paper.html",
+      "locator": "会议论文集",
+      "supports": [
+        "正式发表年份",
+        "会议",
+        "版本对应"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文Benchmark/数据集协议",
+      "url": "https://arxiv.org/html/1904.10151v2",
+      "locator": "数据/实验设置章节；Table 3",
+      "supports": [
+        "任务定义",
+        "动作空间",
+        "数据规模及口径",
+        "成功判据",
+        "协议边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{pbc635c0cef0e,\n  title={REVERIE: Remote Embodied Visual Referring Expression in Real Indoor Environments},\n  author={Yuankai Qi and Qi Wu and Peter Anderson and Xin Wang and William Yang Wang and Chunhua Shen and Anton van den Hengel},\n  year={2019},\n  eprint={1904.10151},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/1904.10151}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "REVERIE 用简短的高层目标物描述替代逐步路线指令，要求机器人先到目标房间，再在可见物体框中指出正确对象。导航成功与最终对象接地成功分别计量，指令虽然包含拿取或擦拭等动词，实际评测只要求找到对象，不要求操作。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "motivation": "将逐步路线跟随扩展成高层指令下的远程对象搜索与接地。",
+    "task": "从初始不可见位置找到语言指代的远程物体并指出候选框。",
+    "input": "简短高层指令、全景观测、候选物体框与导航候选。",
+    "output": "导航路径、停止位置、对象ID/框。",
+    "actions": "Matterport3D离散viewpoint移动及对象选择；不执行指令中的抓取/清洁。",
+    "success": "导航成功要求到达目标可见viewpoint；REVERIE成功还需选对所指物体。",
+    "collection": "基于真实建筑全景和对象框采集含物体关系的远程指代表达，按建筑分开评测。",
+    "scale": "总计21,702指令；原文train为59场景、10,466指令、2,353目标对象；不能用其他转换版本的场景数代替。",
+    "split": "原文val-unseen为10场景/3,573指令；test为16场景/6,292指令；测试GT隐藏。",
+    "metrics": "导航SR、Oracle SR、SPL、轨迹长度与对象接地成功率分别统计。",
+    "baselines": "R2R-TF/SF、RCM、SelfMonitor、FAST-Short、MAttNet及交互Navigator-Pointer。",
+    "assets": "官方仓库发布代码/任务数据；底层Matterport全景需单独获取。",
+    "license": "代码、对象标注和Matterport资产许可分别核对；本轮未核实再分发权限。",
+    "reproduction": "需要匹配候选框、物体ID、viewpoint图及视觉特征；测试成绩依赖官方评测。",
+    "coverage": "远程视觉接地、目标关系推理、搜索与到达后对象识别。",
+    "boundary": "静态图像资产内导航；自然语言操作动词不代表操作能力评测。",
+    "leakage": "建筑级未见划分；候选框提供了额外感知先验，不能直接与原始RGB自主检测协议比成绩。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}

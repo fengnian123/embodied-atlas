@@ -1,0 +1,203 @@
+{
+  "id": "p-e5c7705b9332",
+  "title": "DecoVLN: Decoupling Observation, Reasoning, and Correction for Vision-and-Language Navigation",
+  "short": "DecoVLN",
+  "aliases": [
+    "DecoVLN"
+  ],
+  "authors": [
+    "Xin, Zihao",
+    "Li, Wentong",
+    "Jiang, Yixuan",
+    "Wang, Bin",
+    "Cong, Runmin",
+    "Qin, Jie",
+    "Huang, Shengjun"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-03-13",
+  "updated": "2026-03-26",
+  "publicationYear": 2026,
+  "venue": "CVPR",
+  "publicationStatus": "作者arXiv注记报告发表/录用；未独立核验会议目录",
+  "year": 2026,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "用指令相关性、多样性和时间覆盖联合选择历史帧，再用可信偏离状态进行纠错微调。",
+  "method": {
+    "explanation": "DecoVLN 将长期记忆构建明确为优化问题，从历史候选帧池迭代挑选兼顾指令语义相关、视觉互补与时间覆盖的子集。为缓解累积错误，方法在策略rollout后按与专家轨迹的测地偏离划定可信区域，只保留相关且有可靠专家动作的state-action对做纠错微调。前者改善上下文质量，后者改变策略参数，两者应与纯推理检索系统区分。评测使用单RGB，与依赖全景、深度和里程计的基线不能忽略输入差异。",
+    "input": "单RGB、指令与历史候选帧",
+    "output": "连续环境导航控制",
+    "assumptions": "依赖原文所用传感器、数据和底层执行接口；不由单一分数保证任意平台可部署。",
+    "difference": "用指令相关性、多样性和时间覆盖联合选择历史帧，再用可信偏离状态进行纠错微调。",
+    "flow": [
+      "候选历史帧池",
+      "Adaptive Memory Refinement",
+      "状态动作级纠错微调"
+    ],
+    "modules": [
+      {
+        "name": "候选历史帧池",
+        "purpose": "保留可精炼的历史视觉证据",
+        "mechanism": "从流式观察构建候选集合，以任务指令和已经选中的记忆帧为选择条件。",
+        "sourceUrl": "https://arxiv.org/html/2603.13133",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "Adaptive Memory Refinement",
+        "purpose": "控制有限记忆的信息密度",
+        "mechanism": "迭代优化统一评分，同时考虑指令相关性、视觉多样性与历史时间覆盖，减少近重复或任务无关帧。",
+        "sourceUrl": "https://arxiv.org/html/2603.13133",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      },
+      {
+        "name": "状态动作级纠错微调",
+        "purpose": "避免偏离过大污染训练",
+        "mechanism": "用当前状态到专家轨迹的测地距离衡量偏离，在trusted region采集高质量state-action对，过滤低相关样本后监督训练。",
+        "sourceUrl": "https://arxiv.org/html/2603.13133",
+        "locator": "Method / Approach；各步骤为原文机制的中文整理"
+      }
+    ]
+  },
+  "training": {
+    "regime": "导航监督训练与纠错微调",
+    "models": "视觉语言导航模型及流式记忆选择器",
+    "trainable": "导航策略/推理模型；记忆选择策略按评分执行",
+    "frozen": "原文细粒度冻结配置待代码复核",
+    "data": "专家导航数据与可信区域策略rollout纠错样本",
+    "objective": "监督state-action目标；依据测地偏离筛选样本",
+    "stages": "初始训练 → rollout筛选 → corrective fine-tuning → 记忆精炼推理"
+  },
+  "evaluation": [
+    {
+      "benchmark": "DecoVLN R2R消融",
+      "setting": "Table 2，R2R Val-Unseen；AMR=记忆精炼，CF=纠错微调。",
+      "result": "基线SR47.3/SPL43.9；加AMR50.9/46.1；再加CF56.3/50.5。Table1 RxR SR54.2/SPL46.3。",
+      "sourceUrl": "https://arxiv.org/html/2603.13133",
+      "locator": "原文 Table 2 ",
+      "attribution": "作者原文报告；非本站复现",
+      "table": {
+        "caption": "Table 2 : Ablation study of different modules on R2R Val-Unseen. AMR denotes Adaptive Memory Refinement, and CF denotes Corrective Fine-tuning.",
+        "columns": [
+          "AMR",
+          "CF",
+          "NE ↓",
+          "OS↑",
+          "SR↑",
+          "SPL↑"
+        ],
+        "rows": [
+          [
+            "",
+            "",
+            "5.89",
+            "51.7",
+            "47.3",
+            "43.9"
+          ],
+          [
+            "✓",
+            "",
+            "5.50",
+            "57.9",
+            "50.9",
+            "46.1"
+          ],
+          [
+            "✓",
+            "✓",
+            "5.01",
+            "63.5",
+            "56.3",
+            "50.5"
+          ]
+        ]
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "错误纠正收益既来自选择历史帧也来自参数微调，不能只归因于记忆检索；论文未声称预先组织完整stage-image目标序列。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2603.13133",
+      "status": "已核实入口",
+      "note": "已回查 arXiv 书目及全文"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息与粘贴文本",
+      "locator": "名称索引 / DecoVLN",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv书目与版本历史（本轮回查）",
+      "url": "https://arxiv.org/abs/2603.13133",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开时间",
+        "版本日期",
+        "作者注记中的发表声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文全文与原始表格（本轮回查）",
+      "url": "https://arxiv.org/html/2603.13133",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表；具体摘录范围见条目"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@article{pe5c7705b93322026,\n title={DecoVLN: Decoupling Observation, Reasoning, and Correction for Vision-and-Language Navigation},\n author={Xin, Zihao and Li, Wentong and Jiang, Yixuan and Wang, Bin and Cong, Runmin and Qin, Jie and Huang, Shengjun},\n year={2026},\n url={https://arxiv.org/abs/2603.13133}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "机构与正式出版目录的独立交叉核验",
+    "代码、权重与数据许可的逐项核验"
+  ],
+  "sourceNotes": [],
+  "overview": "DecoVLN 将长期记忆构建明确为优化问题，从历史候选帧池迭代挑选兼顾指令语义相关、视觉互补与时间覆盖的子集。为缓解累积错误，方法在策略rollout后按与专家轨迹的测地偏离划定可信区域，只保留相关且有可靠专家动作的state-action对做纠错微调。前者改善上下文质量，后者改变策略参数，两者应与纯推理检索系统区分。评测使用单RGB，与依赖全景、深度和里程计的基线不能忽略输入差异。",
+  "verificationLevel": "fulltext"
+}

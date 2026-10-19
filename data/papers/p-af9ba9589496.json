@@ -1,0 +1,270 @@
+{
+  "id": "p-af9ba9589496",
+  "title": "Habitat Synthetic Scenes Dataset (HSSD-200): An Analysis of 3D Scene Scale and Realism Tradeoffs for ObjectGoal Navigation",
+  "short": "HSSD",
+  "aliases": [
+    "Habitat Synthetic Scenes Dataset (HSSD)"
+  ],
+  "authors": [
+    "Mukul Khanna",
+    "Yongsen Mao",
+    "Hanxiao Jiang",
+    "Sanjay Haresh",
+    "Brennan Shacklett",
+    "Dhruv Batra",
+    "Alexander Clegg",
+    "Eric Undersander",
+    "Angel X. Chang",
+    "Manolis Savva"
+  ],
+  "institutions": [
+    "Georgia Tech",
+    "Simon Fraser University",
+    "Stanford University",
+    "Meta AI"
+  ],
+  "firstPublished": "2023-06-20",
+  "updated": "2023-12-08",
+  "publicationYear": 2024,
+  "venue": "CVPR",
+  "publicationStatus": "已发表",
+  "year": 2023,
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav"
+    ],
+    "paradigm": [],
+    "system": [
+      "评测平台"
+    ],
+    "contribution": [
+      "数据集",
+      "Benchmark"
+    ],
+    "problem": [],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "HSSD-200 检验室内场景训练是否越多越好。",
+  "method": {
+    "input": "Floorplanner房屋和专业3D模型",
+    "output": "跨数据集成功率和效率证据",
+    "explanation": "HSSD-200 检验室内场景训练是否越多越好。以人工设计的高质量房屋与程序生成房屋比较，在相同导航任务下分析规模、视觉真实感和物体空间分布；少量高质量场景也能提升对真实扫描场景的迁移，说明数据质量与数量需要分开研究。",
+    "flow": [
+      "人工场景与资产",
+      "可比任务生成",
+      "质量—规模迁移实验"
+    ],
+    "modules": [
+      {
+        "name": "人工场景与资产",
+        "purpose": "本模块解决：人工场景与资产",
+        "input": "Floorplanner房屋和专业3D模型",
+        "mechanism": "整理211间人工设计房屋、18,656个独立物体资产和466个语义类别，映射WordNet并压缩几何/纹理，适配高吞吐Habitat模拟。",
+        "output": "HSSD场景和语义资产",
+        "sourceUrl": "https://arxiv.org/html/2306.11290v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "可比任务生成",
+        "purpose": "本模块解决：可比任务生成",
+        "input": "场景可导航空间和六类目标",
+        "mechanism": "用共同ObjectNav目标类别生成训练/验证episode，控制任务与策略设计，对照iTHOR、ProcTHOR、MP3D和HM3DSem。",
+        "output": "可比较的训练和评测划分",
+        "sourceUrl": "https://arxiv.org/html/2306.11290v3",
+        "locator": "方法章节"
+      },
+      {
+        "name": "质量—规模迁移实验",
+        "purpose": "本模块解决：质量—规模迁移实验",
+        "input": "各来源训练的导航agent",
+        "mechanism": "分别测试同域与跨域，再比较微调后的结果；以FID/KID、物体分布及规模消融分析迁移差异。",
+        "output": "跨数据集成功率和效率证据",
+        "sourceUrl": "https://arxiv.org/html/2306.11290v3",
+        "locator": "方法章节"
+      }
+    ],
+    "assumptions": "需要Habitat与许可允许的HSSD资产；真实扫描评测是仿真任务，不等于实机部署。",
+    "difference": "HSSD-200 检验室内场景训练是否越多越好。以人工设计的高质量房屋与程序生成房屋比较，在相同导航任务下分析规模、视觉真实感和物体空间分布；少量高质量场景也能提升对真实扫描场景的迁移，说明数据质量与数量需要分开研究。"
+  },
+  "training": {
+    "regime": "不适用",
+    "models": "详见原文方法模块；未独立列全基础模型。",
+    "trainable": "场景数据集本身无VLM训练；实验按统一ObjectNav策略训练RL模型并进行下游微调。主表平均3次独立训练，误差为均值标准误；不把资产数和全部放置实例数混淆。",
+    "frozen": "详见训练范围说明；原文未明确的逐层冻结配置不作推断。",
+    "data": "场景数据集本身无VLM训练；实验按统一ObjectNav策略训练RL模型并进行下游微调。主表平均3次独立训练，误差为均值标准误；不把资产数和全部放置实例数混淆。",
+    "objective": "本条为数据/评测贡献；所附基线训练协议见训练范围。",
+    "stages": "场景数据集本身无VLM训练；实验按统一ObjectNav策略训练RL模型并进行下游微调。主表平均3次独立训练，误差为均值标准误；不把资产数和全部放置实例数混淆。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "ObjectNav zero-shot迁移",
+      "setting": "原文Table 5，3次训练；122是用于训练的场景数，不是全数据集211间房屋；测试在真实扫描资产内仿真，不是真机实验。",
+      "attribution": "论文作者报告（非本站复现）",
+      "result": "已将原文关键数值转录为下表；各行设置与单位见表头和比较条件。",
+      "locator": "Table 5",
+      "sourceUrl": "https://arxiv.org/html/2306.11290v3",
+      "table": {
+        "columns": [
+          "训练场景",
+          "评测场景",
+          "SR (%) ± SEM",
+          "SPL (%) ± SEM"
+        ],
+        "rows": [
+          [
+            "ProcTHOR-10K",
+            "MP3D",
+            "8.26 ± 0.73",
+            "2.96 ± 0.46"
+          ],
+          [
+            "HSSD-122",
+            "MP3D",
+            "14.44 ± 1.29",
+            "5.17 ± 0.48"
+          ],
+          [
+            "ProcTHOR-10K",
+            "HM3DSem",
+            "12.53 ± 0.49",
+            "5.26 ± 0.20"
+          ],
+          [
+            "HSSD-122",
+            "HM3DSem",
+            "19.15 ± 0.95",
+            "7.71 ± 0.47"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2306.11290v3",
+        "locator": "Table 5",
+        "note": "论文原文表值；不同协议、模型或划分不得合成统一排行榜。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要Habitat与许可允许的HSSD资产；真实扫描评测是仿真任务，不等于实机部署。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2306.11290",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "code": {
+      "url": "https://github.com/3dlg-hcvc/hssd",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    },
+    "project": {
+      "url": "https://3dlg-hcvc.github.io/hssd/",
+      "status": "已核实入口",
+      "note": "入口已核实（原文/官方页面列出，未运行或下载验证）"
+    }
+  },
+  "sources": [
+    {
+      "kind": "user",
+      "label": "用户本轮消息",
+      "locator": "导航数据源与方法清单 / HSSD",
+      "url": null,
+      "supports": [
+        "基础索引（未核实）"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 原始书目与版本历史",
+      "url": "https://arxiv.org/abs/2306.11290",
+      "locator": "Title / Authors / Submission history / Comments / Journal reference",
+      "supports": [
+        "论文全名",
+        "作者",
+        "首次公开日期",
+        "最新版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（版本固定）",
+      "url": "https://arxiv.org/html/2306.11290v3",
+      "locator": "方法章节；Table 5",
+      "supports": [
+        "方法模块",
+        "训练范围",
+        "原文实验数据",
+        "作者机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式发表页面",
+      "url": "https://openaccess.thecvf.com/content/CVPR2024/html/Khanna_Habitat_Synthetic_Scenes_Dataset_HSSD-200_An_Analysis_of_3D_Scene_CVPR_2024_paper.html",
+      "locator": "会议论文集",
+      "supports": [
+        "正式发表年份",
+        "会议",
+        "版本对应"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原文Benchmark/数据集协议",
+      "url": "https://arxiv.org/html/2306.11290v3",
+      "locator": "数据/实验设置章节；Table 5",
+      "supports": [
+        "任务定义",
+        "动作空间",
+        "数据规模及口径",
+        "成功判据",
+        "协议边界"
+      ]
+    }
+  ],
+  "related": [],
+  "bibtex": "@misc{paf9ba9589496,\n  title={Habitat Synthetic Scenes Dataset (HSSD-200): An Analysis of 3D Scene Scale and Realism Tradeoffs for ObjectGoal Navigation},\n  author={Mukul Khanna and Yongsen Mao and Hanxiao Jiang and Sanjay Haresh and Brennan Shacklett and Dhruv Batra and Alexander Clegg and Eric Undersander and Angel X. Chang and Manolis Savva},\n  year={2023},\n  eprint={2306.11290},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2306.11290}\n}",
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "gaps": [
+    "未逐项运行代码、下载模型或检查数据许可；资源入口不等于已复现",
+    "未摘录的逐层冻结配置、算力与自述局限应继续回查"
+  ],
+  "sourceNotes": [],
+  "verificationLevel": "fulltext",
+  "overview": "HSSD-200 检验室内场景训练是否越多越好。以人工设计的高质量房屋与程序生成房屋比较，在相同导航任务下分析规模、视觉真实感和物体空间分布；少量高质量场景也能提升对真实扫描场景的迁移，说明数据质量与数量需要分开研究。",
+  "reproduction": {
+    "status": "未复现"
+  },
+  "benchmark": {
+    "motivation": "隔离场景数量与质量，研究高质量人工合成室内场景能否改善真实扫描环境迁移。",
+    "task": "场景资产数据集；论文用统一六类ObjectNav任务比较训练分布。",
+    "input": "Habitat中的RGB、目标类别与配置规定的传感器。",
+    "output": "导航动作、STOP与目标到达结果。",
+    "actions": "Habitat ObjectNav移动/转向/停止；资产还可用于其他任务，但本文主表不验证所有下游能力。",
+    "success": "遵循统一ObjectNav成功判据；同类多个实例允许按协议到达其中一个。",
+    "collection": "Floorplanner人工设计住宅、专业资产；语义映射WordNet，优化纹理/几何以适配高吞吐模拟。",
+    "scale": "211场景、18,656独立物体资产、466语义类别；不是18,656条轨迹。",
+    "split": "论文Table4：HSSD train 122场景×1K=122K episode；val 40场景×30=1.2K episode。",
+    "metrics": "SR/SPL，视觉FID/KID，场景分布指标；迁移主表3次独立训练并报SEM。",
+    "baselines": "iTHOR、ProcTHOR-10K、MP3D、HM3DSem；共同架构下比较跨域和微调。",
+    "assets": "官方提供场景、Habitat适配与任务资源入口；未把用户本地未取得episode包当作论文未开放。",
+    "license": "原文称免费学术研究许可；Floorplanner资产限制需阅读实际许可，不声称可商用。",
+    "reproduction": "需要Habitat、场景下载、NavMesh/语义资产和任务包，训练资源显著大于单episode回放。",
+    "coverage": "静态室内、语义寻物、真实感与规模的迁移比较。",
+    "boundary": "合成数据；在MP3D/HM3DSem中的实验仍是仿真，不是真实机器人执行。",
+    "leakage": "跨来源训练/评测分开；相同物体资产或分布特征可能共享，不能把提升唯一归因于单一真实感因素。"
+  },
+  "citationNote": "根据已核实的arXiv题名、作者与首次公开年份生成预印本引用；正式出版格式请以会议或期刊页面为准。"
+}
