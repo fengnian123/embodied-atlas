@@ -41,7 +41,7 @@ npm test
 
 ## GitHub Pages 部署
 
-目标仓库：[fengnian123/embodied-atlas](https://github.com/fengnian123/embodied-atlas)。站点地址：`https://fengnian123.github.io/embodied-atlas/`。推送 `main` 后由 GitHub Actions 校验、构建并部署；具体发布结果以 Actions 为准。
+目标仓库：[fengnian123/embodied-atlas](https://github.com/fengnian123/embodied-atlas)。预期站点地址（启用 Pages 并成功部署后可访问）：`https://fengnian123.github.io/embodied-atlas/`。推送 `main` 后由 GitHub Actions 校验、构建并部署；具体发布结果以 Actions 为准。
 
 1. 新建一个仓库，例如 `embodied-atlas`，或选择一个独立空仓库；已部署版本可直接维护上述仓库。
 2. 将本目录内容放在仓库根目录。必须包含 `.github/workflows/pages.yml`，不要只上传压缩包，也不要遗漏隐藏目录。
