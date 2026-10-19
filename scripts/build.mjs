@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const R=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -18,6 +19,12 @@ fs.writeFileSync(path.join(dist,'.nojekyll'),'');
 fs.writeFileSync(path.join(dist,'favicon.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#087e83"/><text x="15" y="47" font-family="Georgia,serif" font-style="italic" font-size="55" fill="white">a</text><circle cx="48" cy="14" r="4" fill="#b9e4df"/></svg>');
 // Hash routes never need server rewrites; 404 retains an actionable recovery link.
 fs.writeFileSync(path.join(dist,'404.html'),'<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>页面地址有误</title><body style="font-family:system-ui;padding:10vw;background:#f6f8f8;color:#24343c"><h1>页面地址有误</h1><p>本网站使用首页后的 #/paper/论文ID 访问详情。请从已部署仓库首页重新打开论文库。</p><p>复制链接时请保留仓库子路径和 # 后的全部内容。</p></body></html>');
+// Version each hosted asset so newly deployed scripts and styles load together.
+const hostedHTML=read('src/index.html').replace(/(href|src)="\.\/(style\.css|data\.js|core\.js|detail-content\.js|app\.js)"/g,(_,attribute,file)=>{
+ const version=createHash('sha256').update(fs.readFileSync(path.join(dist,file))).digest('hex').slice(0,12);
+ return `${attribute}="./${file}?v=${version}"`;
+});
+fs.writeFileSync(path.join(dist,'index.html'),hostedHTML);
 // Standalone preview: all data, CSS and code in one offline-capable HTML artifact.
 let html=read('src/index.html').replace('<link rel="stylesheet" href="./style.css">',()=>'<style>'+read('src/style.css')+'</style>');
 html=html.replace('<link rel="icon" href="./favicon.svg" type="image/svg+xml">','');
