@@ -1,0 +1,553 @@
+{
+  "id": "coralplan",
+  "title": "CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection",
+  "short": "CoralPlan",
+  "aliases": [
+    "CoralVLM",
+    "arXiv:2609.31211"
+  ],
+  "authors": [
+    "Yuer Gao",
+    "Yu Zhao",
+    "Yi Cai"
+  ],
+  "institutions": [
+    "The Hong Kong University of Science and Technology (HKUST)"
+  ],
+  "firstPublished": "2026-09-25",
+  "updated": "2026-09-25",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "预印本；arXiv Comments为8 pages，未声明会议录用",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检",
+      "主动感知",
+      "机器人控制"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "数据集",
+      "系统"
+    ],
+    "problem": [
+      "主动感知",
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "水下",
+      "水下机器人",
+      "仿真",
+      "真实世界",
+      "真实采集资产"
+    ],
+    "training": [
+      "冻结主干并训练模块",
+      "监督微调"
+    ]
+  },
+  "summary": "用当前水下图像和任务文本选择观测技能，再执行目标相对轨迹；36对清水池实机/仿真测试中，实机观测完成77.8%、技能匹配且完成63.9%。",
+  "overview": "珊瑚巡检不仅要看见目标，还要取得任务所需的多角度、近距离或宽范围观测。CoralPlan 将视觉语言模型选出的观测 primitive 接到共享轨迹映射器，并把“选对技能”和“实际完成观测”分开计分。论文包含144次仿真和36对池内实机/仿真试验；87条野外珊瑚图像只用于离线规划评估。实机使用已知打印珊瑚与外部动捕，尚非开放海域视觉自主定位巡检。",
+  "method": {
+    "input": "当前水下相机图像及检查任务文本；部署时任务由episode manifest提供。运动实例化还需目标参考位姿：仿真来自场景真值，实机来自外部motion capture。",
+    "output": "JSON plan的primitive、view、priority、task type；只有primitive配置机器人运动，其余字段提供操作者指导。支持运动的primitive为orbit/patch/survey，top-view仅在离线规划词表中评测。",
+    "flow": [
+      "构建并筛选图像—指令—计划记录，适配规划VLM",
+      "当前相机帧与manifest任务文本生成JSON plan",
+      "解析和规范化字段，只接受可执行的primitive",
+      "共享mapper生成目标相对waypoints，控制器执行并记录图像和几何",
+      "离线按选择匹配、目标保持、覆盖与联合成功评分"
+    ],
+    "assumptions": "目标实例及参考坐标可用，实机为受控照明的清水池与4个已知打印珊瑚；训练含这些实体目标另拍照片。外部动捕用于目标相对waypoints及评分；评分用的分割掩码不参与在线控制。每次episode开始选一次技能，原文未验证根据新图像连续重选技能的闭环。",
+    "difference": "把离线计划标签正确性接到实际观测几何验证。选对orbit并不代表完成多角度扫描；反之执行了不同于参考的技能，也可能通过该已执行技能的覆盖标准，因此观测完成O与联合成功J必须分开。",
+    "explanation": "规划器读取当前帧和任务文本，输出受约束的四槽JSON。解析器提取JSON、必要时恢复单字段并规范同义词；无法执行的top-view或无法解析输出不会自动改成其它动作。共享motion mapper仅依据primitive生成目标相对的环绕、近距悬停或横向survey轨迹。控制器执行后，评分检查目标是否在大部分帧中保持、实际覆盖是否达到所执行primitive的标准，再单独检查选择是否与manifest参考一致。它评估的是观测获取接口，不是直接验证珊瑚诊断或三维重建质量。",
+    "modules": [
+      {
+        "name": "CoralVLM记录构建与域内适配",
+        "purpose": "提供图像条件下观测技能选择监督",
+        "input": "水下图像、GPT-4o候选健康/primitive标注、指令及JSON计划",
+        "mechanism": "GPT-4o先提议健康状态与primitive，再据图像和该primitive生成指令/计划；合并初始与扰动提示生成轮次，并过滤和抽样人工检查。以健康类别均衡的1,792条合成记录进行固定划分；另加入四个实体目标单独拍摄照片训练。",
+        "output": "适配所用图像—指令—计划记录及独立离线测试划分",
+        "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+        "locator": "v1 §III-A–C；Fig.3；§IV-B"
+      },
+      {
+        "name": "视觉语言技能选择与计划恢复",
+        "purpose": "将当前视觉上下文与任务意图转成固定技能接口",
+        "input": "相机帧、manifest任务文本；离线为数据集指令",
+        "mechanism": "Qwen2.5-VL-7B经语言侧LoRA适配；预测primitive/view/priority/task type。优先提取fenced或bare JSON，失败时逐字段正则恢复，至少恢复3字段才接受，使用固定同义词表。执行额外要求primitive受支持；未支持或无法解析不重映射。",
+        "output": "四槽规范化plan及可执行性判定；只有primitive驱动运动",
+        "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+        "locator": "v1 §IV-A–C；Fig.2"
+      },
+      {
+        "name": "共享目标相对运动接口",
+        "purpose": "把选中的观测语义变为机器人运动",
+        "input": "支持的primitive、目标参考位姿、相机/机器人配置",
+        "mechanism": "mapper把orbit映射为环绕standoff路径，patch映射为近距离悬停，survey映射为宽范围transect；waypoint controller执行。仿真与实机共享接口但各自从自身相机帧独立预测技能，配对并不强制执行同一动作。",
+        "output": "机器人轨迹与执行期间采集的后续视图",
+        "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+        "locator": "v1 §V-A–B、§V-D；Fig.2、Fig.4"
+      },
+      {
+        "name": "目标保持—覆盖—语义分解评分",
+        "purpose": "区分选错技能、目标丢失与覆盖不足",
+        "input": "执行日志、相机几何、观测与投影参考掩码、manifest参考primitive",
+        "mechanism": "每帧IoU≥0.5记为目标保持，全部评分帧中比例K≥0.8才通过；orbit要求方位跨度≥150°，patch要求至少80%帧距离处于0.30±0.05m，survey要求沿指令轴跨度严格>3.50m。O=保持通过×已执行技能覆盖通过，S=预测与参考匹配，J=S×O；空掩码记失败。",
+        "output": "S、O、J及故障分解；掩码仅用于离线评分",
+        "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+        "locator": "v1 §V-C–D；Tables I、III–IV"
+      }
+    ]
+  },
+  "training": {
+    "regime": "监督适配：Qwen2.5-VL-7B语言模型侧LoRA；视觉编码器冻结。",
+    "models": "Qwen2.5-VL-7B + LoRA；GPT-4o用于生成训练候选标注、指令和计划，未作为部署控制模型。",
+    "trainable": "语言侧LoRA：rank16、alpha32、learning rate 1×10^-4、5 epochs；训练种子42/43/44。全文未逐层列出其它参数更新清单。",
+    "frozen": "原文明示视觉编码器冻结；不应标记为整个系统仅推理，也不能把所有模型参数都写成全量微调。共享motion mapper与waypoint controller无学习训练报告。",
+    "data": "发布2,478条合成记录+100张潜水员采集野外图；实验用1,792条健康类别均衡合成子集（每类448），按固定seed42分为1,432/180/180训练/验证/测试，每类358/45/45。训练另含四个实体目标的单独照片，数量未在正文给出。87条完整野外记录留出离线评估，13张不完整记录排除。",
+    "objective": "从图像与任务文本预测标注JSON plan的监督适配；健康标注用于分层均衡，模型目标是计划而非健康分类。正文未列token级损失公式。",
+    "stages": "GPT-4o候选生成→过滤与100记录抽样人工质量评估（均分4.4/5）→固定数据划分→三训练种子LoRA→离线报告跨种子均值±样本标准差；所有机器人执行仅用seed42 checkpoint。image-only对照使用相同适配配方但不输入指令。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "CoralVLM离线观测计划与模态控制",
+      "setting": "同一固定测试集：合成180条，野外87条；primitive accuracy/Exact为百分比，Plan-F1为四计划字段macro-F1均值（0–100）。适配模型结果为3训练种子的均值±样本标准差；规则为单次。shuffled每个checkpoint评3次重排，先种子内平均再跨种子统计。",
+      "result": "CoralPlan合成primitive accuracy为74.4±1.1%，较shuffled image的67.3±0.8%高7.1个百分点，说明匹配视觉上下文有贡献。野外primitive accuracy为56.3±1.1%，低于majority的85.1%；但Plan-F1为53.8±0.9，高于majority的34.2，须结合类别集中分布解读。野外结果为静态图像离线计划匹配，不是野外机器人执行成功率。",
+      "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+      "locator": "v1 §III-C、§IV-B、§VI-B；Table II",
+      "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+      "tables": [
+        {
+          "caption": "Table II：合成测试集（n=180）",
+          "columns": [
+            "设置",
+            "Primitive accuracy (%)",
+            "Exact (%)",
+            "Plan-F1 (0–100)"
+          ],
+          "rows": [
+            [
+              "Majority class",
+              31.1,
+              "—",
+              28.6
+            ],
+            [
+              "Keyword-rule",
+              54.4,
+              "—",
+              "—"
+            ],
+            [
+              "Instruction-only",
+              "64.8±1.4",
+              "42.2±1.1",
+              "55.6±0.6"
+            ],
+            [
+              "Image-only reference",
+              "42.8±1.1",
+              "—",
+              "41.8±0.9"
+            ],
+            [
+              "Shuffled image",
+              "67.3±0.8",
+              "42.8±0.6",
+              "58.4±0.8"
+            ],
+            [
+              "CoralPlan",
+              "74.4±1.1",
+              "50.9±0.8",
+              "67.6±0.8"
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 Table II（HTML #S6.T2）",
+          "note": "±为训练种子样本标准差，不是置信区间；“—”是原文未报告。离线含4种primitive，包括不支持运动的top-view。"
+        },
+        {
+          "caption": "Table II：野外留出图像（n=87）",
+          "columns": [
+            "设置",
+            "Primitive accuracy (%)",
+            "Exact (%)",
+            "Plan-F1 (0–100)"
+          ],
+          "rows": [
+            [
+              "Majority class",
+              85.1,
+              "—",
+              34.2
+            ],
+            [
+              "Keyword-rule",
+              48.3,
+              "—",
+              "—"
+            ],
+            [
+              "Instruction-only",
+              "50.6±1.1",
+              "32.2±1.1",
+              "47.4±0.7"
+            ],
+            [
+              "Image-only reference",
+              "24.1±1.1",
+              "—",
+              "31.4±0.7"
+            ],
+            [
+              "Shuffled image",
+              "51.3±1.8",
+              "34.5±1.1",
+              "49.2±0.8"
+            ],
+            [
+              "CoralPlan",
+              "56.3±1.1",
+              "39.1±1.1",
+              "53.8±0.9"
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 Table II（HTML #S6.T2）",
+          "note": "仅87条完整野外记录离线评估。原发布集有100张野外图，13张因参考记录不完整/不可靠排除；不能将87写成全部野外采集规模。"
+        }
+      ]
+    },
+    {
+      "benchmark": "144次全因子仿真观测执行",
+      "setting": "OceanSim/Isaac Sim；4目标×4浑浊度×3光照×3参考技能=144 episodes，各参考技能48条；seed42规划checkpoint。按参考技能分组，覆盖按实际执行技能计分。额外3条无任务标签录像不进入本协议。",
+      "result": "选择匹配111/144=77.1%，观测完成121/144=84.0%，联合97/144=67.4%。匹配orbit的34条中仅20条完成（58.8%）；14条技能选对仍因观测未完成失败。24条技能不匹配却完成其所执行技能，造成O与J差距。Fig.1示例目标保持K=1但仅扫过132°，未达到150°要求。",
+      "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+      "locator": "v1 §V-C、§VI-C；Table III；Fig.1",
+      "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+      "tables": [
+        {
+          "caption": "Table III：按参考primitive分组的仿真结果",
+          "columns": [
+            "参考技能",
+            "Episodes",
+            "O完成 (%)",
+            "平均K (%)",
+            "S匹配 (%)",
+            "O|S=1 (%)",
+            "J成功 (%)"
+          ],
+          "rows": [
+            [
+              "Orbit",
+              48,
+              52.1,
+              88.5,
+              70.8,
+              58.8,
+              41.7
+            ],
+            [
+              "Patch",
+              48,
+              100.0,
+              99.9,
+              79.2,
+              100.0,
+              79.2
+            ],
+            [
+              "Survey",
+              48,
+              100.0,
+              99.8,
+              81.3,
+              100.0,
+              81.3
+            ],
+            [
+              "Overall",
+              144,
+              84.0,
+              96.1,
+              77.1,
+              87.4,
+              67.4
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 Table III（HTML #S6.T3）",
+          "note": "平均K是episode级目标保持分数均值，不是通过率；各组按参考技能分组，不能把Orbit组52.1%理解成所有实际orbit执行的完成率。"
+        }
+      ]
+    },
+    {
+      "benchmark": "36对清水池实机—仿真配对",
+      "setting": "4个已知打印珊瑚目标×3参考技能×3重复=36对；实机在清水池、受控照明下测试，动捕提供目标位姿，目标照片曾用于训练。各平台使用相同任务文本与共享运动接口，分别从自身相机帧选择并执行；4对动作不同仍保留计分。",
+      "result": "实机S=28/36（77.8%）、O=28/36（77.8%）、J=23/36（63.9%）；5次选错但完成，另5次选对未完成。O的名义95% Wilson区间为[61.9,88.3]%，J为[47.6,77.5]%。配对观测判定一致34/36（94.4%），不意味着动作全部一致；动作一致32/36（88.9%）。此36对队列与144条全因子仿真分开统计。",
+      "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+      "locator": "v1 §V-D、§VI-D；Table I；Fig.4",
+      "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+      "tables": [
+        {
+          "caption": "Table I：36对配对试验（百分比与计数）",
+          "columns": [
+            "指标",
+            "配对仿真",
+            "Physical ROV",
+            "配对判定一致"
+          ],
+          "rows": [
+            [
+              "Target keeping",
+              "97.2% (35/36)",
+              "94.4% (34/36)",
+              "97.2% (35/36)"
+            ],
+            [
+              "Coverage pass",
+              "86.1% (31/36)",
+              "77.8% (28/36)",
+              "91.7% (33/36)"
+            ],
+            [
+              "Selection S",
+              "80.6% (29/36)",
+              "77.8% (28/36)",
+              "91.7% (33/36)"
+            ],
+            [
+              "Observation O",
+              "83.3% (30/36)",
+              "77.8% (28/36)",
+              "94.4% (34/36)"
+            ],
+            [
+              "Joint J",
+              "69.4% (25/36)",
+              "63.9% (23/36)",
+              "88.9% (32/36)"
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 Table I（HTML #S5.T1）",
+          "note": "Agreement比较同指标的二元判定。O要求目标保持与覆盖同时通过，J另需技能与参考相符；此处不是87张野外图像测试。"
+        },
+        {
+          "caption": "Table I：选择与观测完成的交叉计数",
+          "columns": [
+            "选择",
+            "观测",
+            "配对仿真次数",
+            "实机次数"
+          ],
+          "rows": [
+            [
+              "匹配",
+              "完成",
+              25,
+              23
+            ],
+            [
+              "匹配",
+              "未完成",
+              4,
+              5
+            ],
+            [
+              "不匹配",
+              "完成",
+              5,
+              5
+            ],
+            [
+              "不匹配",
+              "未完成",
+              2,
+              3
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 Table I；§VI-D",
+          "note": "两列各自合计36。Fig.4(e)目标保持/覆盖四象限计数分别为仿真(30,5,1,0)、实机(28,6,0,2)，顺序为都通过、仅保持、仅覆盖、都失败。"
+        }
+      ]
+    },
+    {
+      "benchmark": "覆盖阈值敏感性：冻结轨迹重评分",
+      "setting": "对相同seed42的144次既有轨迹重评分，不重规划、不重新执行。K≥0.8及orbit≥150°保持不变；联合收紧patch的帧占比rho/距离容差epsilon与survey跨度下界L。patch中心距离固定0.30m，survey使用严格>L。",
+      "result": "从主协议84.0%到Strict仅49.3%观测完成；这反映评分接受条件敏感性，不是另一次部署性能或模型退化实验。",
+      "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+      "locator": "v1 §VI-C Threshold sensitivity；Table IV",
+      "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+      "tables": [
+        {
+          "caption": "Table IV：联合收紧patch/survey阈值",
+          "columns": [
+            "设置",
+            "Patch rho",
+            "Patch epsilon (m)",
+            "Survey L (m)",
+            "O完成"
+          ],
+          "rows": [
+            [
+              "Main",
+              0.8,
+              0.05,
+              3.5,
+              "121/144 (84.0%)"
+            ],
+            [
+              "Mild",
+              0.9,
+              0.04,
+              3.7,
+              "112/144 (77.8%)"
+            ],
+            [
+              "Medium",
+              0.9,
+              0.03,
+              3.8,
+              "100/144 (69.4%)"
+            ],
+            [
+              "Strict",
+              0.95,
+              0.02,
+              4.0,
+              "71/144 (49.3%)"
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 Table IV（HTML #S6.T4）",
+          "note": "多个阈值同步调整，不能据此归因于单个参数。Orbit参考组始终25/48完成，其中5条实际执行了patch/survey。"
+        }
+      ]
+    }
+  ],
+  "limitations": {
+    "author": [
+      "生成指令与plan共享同一个primitive参考，存在语言捷径；独立专家标注和反事实输入配对将加强grounding评估。",
+      "野外集只有87条完整记录且primitive类别分布集中；primitive accuracy与Plan-F1应互补解读。",
+      "仅seed42适配checkpoint执行机器人试验，keyword-rule与instruction-only基线只做离线评估；尚不能比较它们的执行观测/联合结果。",
+      "清水池测试为已知目标实例；需扩展更多几何、视觉估计目标位姿及野外实地试验，并分析orbit阈值与目标特异失败。",
+      "现有评价是观测几何；未验证下游重建质量、诊断细节或适应性扫描效用。"
+    ],
+    "analysis": [
+      "实机结果证明在外部动捕和已知目标条件下可以自动执行选出的技能；不能推断在浑浊开放海域靠单目视觉完成目标定位与闭环自主巡检。",
+      "另外拍摄的同一批实体目标照片进入训练，因此36对池内测试测量的是已知实例新相机帧上的执行能力，不能当作未见实体珊瑚实例泛化。",
+      "只有primitive影响动作，view/priority/task type即使预测变化也不改变本实现的运动；四槽计划正确率不直接等于更丰富的机器人动作控制能力。",
+      "主阈值下patch/survey参考组观测完成均100%，而收紧阈值后总体降至49.3%，说明报告观测完成率时必须连同覆盖容差，不能单报84.0%当作任务普适成功。",
+      "目标保持掩码与几何覆盖可检查是否完成既定运动，却没有测量图像是否足以区分珊瑚病理或重建隐蔽表面；几何达标不等价于巡检诊断成功。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2609.31211v1",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://anonymous.4open.science/r/CoralVLM-3EC9/",
+      "status": "原文声明的匿名入口；仓库内容及可访问性未核实"
+    },
+    "data": {
+      "url": "https://anonymous.4open.science/r/CoralVLM-3EC9/",
+      "status": "原文声明的匿名入口；数据下载、许可证未核实"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "CoralPlan arXiv v1 元数据",
+      "url": "https://arxiv.org/abs/2609.31211v1",
+      "locator": "Authors、Submitted on、Submission history、Comments",
+      "supports": [
+        "规范标题",
+        "完整作者",
+        "首次公开2026-09-25",
+        "当前仅v1",
+        "8页预印本状态"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "CoralPlan v1 方法与训练原文",
+      "url": "https://arxiv.org/html/2609.31211v1",
+      "locator": "作者脚注；Scope；§III、§IV-A–C；§V；Figs.2–3",
+      "supports": [
+        "HKUST机构",
+        "数据规模与划分",
+        "四个已知打印目标照片进入训练",
+        "LoRA与视觉编码器冻结",
+        "JSON解析",
+        "primitive到运动接口",
+        "外部动捕与离线掩码"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "CoralPlan v1 实验与局限",
+      "url": "https://arxiv.org/html/2609.31211v1",
+      "locator": "Tables I–IV；Figs.1、4；§VI-B–D；§VII",
+      "supports": [
+        "87条野外记录仅离线",
+        "144全因子仿真",
+        "36对池内实机/仿真",
+        "全部列出的精确表值与阈值",
+        "作者局限",
+        "O/S/J区分"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "匿名资源入口声明",
+      "url": "https://arxiv.org/html/2609.31211v1",
+      "locator": "§I末尾脚注1",
+      "supports": [
+        "作者声明数据、代码、提示和评分脚本位于匿名仓库；未验证仓库内容"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户资料：论文汇总(1).docx",
+      "url": null,
+      "locator": "CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection",
+      "supports": [
+        "本批论文索引；方法与实验另以原始来源为准"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "sage-subsea",
+      "reason": "同为水下巡检；CoralPlan解决图像/任务条件下的观测技能执行，SAGE解决阀门风险场驱动的时间分配与重访，不能将两者成功率和重访指标混排。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-20",
+  "verificationLevel": "fulltext",
+  "verification": "已回查arXiv v1元数据与HTML全文，逐行核对Tables I–IV、观测阈值与Scope；匿名仓库正文不可访问，未验证下载、训练或执行。",
+  "gaps": [
+    "未核验匿名仓库中的下载文件、许可证、训练配置与评分脚本实际内容；原文确认的入口已保留。",
+    "四个实体目标额外训练照片数量及完整逐层LoRA参数清单需查仓库，正文未给。",
+    "未自行复现计划训练、144次仿真或36对清水池执行。"
+  ],
+  "sourceNotes": [],
+  "bibtex": "@misc{gao2026coralplan,\n  title = {CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection},\n  author = {Yuer Gao and Yu Zhao and Yi Cai},\n  year = {2026},\n  eprint = {2609.31211},\n  archivePrefix = {arXiv},\n  primaryClass = {cs.RO},\n  url = {https://arxiv.org/abs/2609.31211v1}\n}",
+  "citationNote": "按arXiv v1已核实作者、标题和日期整理的预印本格式，未推断会议发表。"
+}

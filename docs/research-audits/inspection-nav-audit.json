@@ -1,0 +1,50 @@
+{
+  "status": "complete",
+  "checked": "2026-10-20",
+  "files": [
+    "data/papers/seek-inspection.json",
+    "data/papers/semantic-scene-difference.json"
+  ],
+  "sources": {
+    "seek-inspection": [
+      "https://arxiv.org/abs/2405.09822",
+      "https://arxiv.org/html/2405.09822v2",
+      "https://www.roboticsproceedings.org/rss20/p024.html",
+      "https://www.roboticsproceedings.org/rss20/p024.pdf"
+    ],
+    "semantic-scene-difference": [
+      "https://arxiv.org/abs/2309.16552",
+      "https://arxiv.org/html/2309.16552v1",
+      "https://www.jsk.t.u-tokyo.ac.jp/cgi-bin/bib/bib2htm.cgi?file=23&lang=en&mode=international"
+    ]
+  },
+  "metadataDecisions": [
+    "SEEK official RSS proceedings and DOI confirmed; full author names and affiliations follow formal PDF.",
+    "Semantic Scene Difference official JSK bibliography confirms IROS 2023, pages 3228–3233 and DOI 10.1109/IROS55552.2023.10342467."
+  ],
+  "correctionsToUserNotes": [
+    "SEEK is not entirely training-free: train a three-hidden-layer RSN MLP on 100 GPT-4-labelled objects with frozen pretrained embeddings.",
+    "Scene Difference uses OFA Image Captioning interface per section II-B despite abstract VQA phrasing.",
+    "Scene Difference threshold anomaly detection is discussed; no calibrated universal threshold, accuracy or AUROC is reported."
+  ],
+  "numericalProtocolDecisions": [
+    "SEEK table I separates fixed and movable objects, all methods have Si=1 under target existence and unlimited simulation time.",
+    "SEEK table II measures fit to GPT-4 labels for 40 held-out objects; not real-world probability calibration.",
+    "SEEK hardware SPL=0.93 is one shown run, not a multi-run mean.",
+    "Scene Difference SD<0.2 and SD≈0.14 follow author text for figures 6–8, preserving precision.",
+    "Scene Difference weighting experiment draws 10 questions from 67 into 10000 sets; no curve values fabricated."
+  ],
+  "newTags": [],
+  "reproduction": "Do not add reproduction field; build injects 未复现.",
+  "remainingGaps": [
+    "No confirmed method-specific code/data/RSN weights found.",
+    "SEEK optimizer/loss/learning-rate details not stated in reviewed fulltext.",
+    "Scene Difference OFA checkpoint, decoding configuration and complete runnable prompt set not verified."
+  ],
+  "validation": {
+    "command": "npm run validate",
+    "result": "Validated 184 records, 174 deep notes, 8 redirects. No duplicate titles or arXiv IDs.",
+    "perRecordChecks": "4 modules per record with input/mechanism/output/sourceUrl/locator; evaluation source fields present; table row widths valid; related IDs resolve; no reproduction field added.",
+    "numericalCrossCheck": "All recorded main table, sampling and deployment figures checked against cached original fulltext text on 2026-10-20."
+  }
+}

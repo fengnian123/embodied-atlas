@@ -1,0 +1,315 @@
+{
+  "id": "semantic-scene-difference",
+  "title": "Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model",
+  "short": "Semantic Scene Difference",
+  "aliases": [
+    "Semantic Scene Difference Detection",
+    "Semantic Scene Difference Detection in Daily Life Patrolling by Mobile Robots Using Pre-Trained Large-Scale Vision-Language Model",
+    "2309.16552"
+  ],
+  "authors": [
+    "Yoshiki Obinata",
+    "Kento Kawaharazuka",
+    "Naoaki Kanazawa",
+    "Naoya Yamaguchi",
+    "Naoto Tsukamoto",
+    "Iori Yanokura",
+    "Shingo Kitagawa",
+    "Koki Shinjo",
+    "Kei Okada",
+    "Masayuki Inaba"
+  ],
+  "institutions": [
+    "Department of Mechano-Informatics, Graduate School of Information Science and Technology, The University of Tokyo"
+  ],
+  "firstPublished": "2023-09-28",
+  "updated": "2023-09-28",
+  "publicationYear": 2023,
+  "year": 2023,
+  "venue": "IROS",
+  "publicationStatus": "已发表",
+  "tags": {
+    "direction": [
+      "场景表征",
+      "导航"
+    ],
+    "task": [
+      "巡检",
+      "场景理解"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "系统"
+    ],
+    "problem": [
+      "动态环境",
+      "记忆"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "轮式机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "用预训练OFA对参考图与当前图分别生成多问句条件描述，再以MPNet答案距离和问题去冗余权重衡量巡检点的语义变化。",
+  "method": {
+    "input": "每个巡检点一张参考RGB图、该点当前RGB图及人工预先准备的自然语言问题；实验使用67个问题。",
+    "output": "当前图相对参考图的标量Scene Distance（SD），以及可回查的各问题答案和余弦距离；论文讨论以适当阈值识别语义异常，未提供统一标定阈值或故障类别。",
+    "flow": [
+      "机器人到预设位置并调整躯干/头部，采集与参考地点对应的当前图",
+      "对参考图和当前图分别运行OFA，按同一问题集合生成描述",
+      "all-mpnet-base-v2编码问题和答案，逐问题计算当前/参考答案余弦距离",
+      "以问题间语义距离构造权重，加权求和为SD，并分析问题多样性对分数方差的影响"
+    ],
+    "assumptions": "参考图与当前图属于同一个巡检点且视角大体一致；参考状态、问题集合和导航/拍摄姿态由人预先指定。模型能以文本保留目标状态变化，问题覆盖所关心的变化。SD衡量相对参考状态的语义差异，本身不定义这种变化是否危险。",
+    "difference": "以语言描述的语义距离替代直接像素或视觉特征差；用一个参考图即可推理，不收集当地正常图像来重新训练异常模型。问题权重由问题之间的语义距离计算，并非依靠异常标签训练；两张图分别询问后比较答案，不是用双图VLM直接生成差异报告。",
+    "explanation": "Fetch按预设导航坐标和拍照姿态重访三个地点。OFA对每张图分别接收预定义问题并生成描述。尽管摘要使用VQA概念，§II-B明确指出OFA的VQA接口会输出异常句，因此实际选择Image Captioning接口。预训练all-mpnet-base-v2将问题和答案都编码成768维向量。对每个问题计算参考/当前答案的余弦距离；再从问题之间的两两余弦距离矩阵M_rel出发，用w=M_rel·1/||M_rel·1||生成权重，求SD=Σw_kD_c(a_k,a_ref_k)。问题与其他问题越不同，其贡献越大。QoQ为矩阵元素和，反映问题集合的语义分散程度。",
+    "modules": [
+      {
+        "name": "固定巡检点的参考与当前图采集",
+        "purpose": "让图像变化对应同一地点的日常状态差异。",
+        "input": "巡检点坐标、躯干高度、头部角度、每点一张参考图。",
+        "mechanism": "Fetch依次导航到table/kitchen/desk三点，每次将躯干与头部设置为预设姿态后拍照；实际导航和头部位置有小偏差。参考图固定，不训练该地点的正常状态模型。",
+        "output": "同一地点的参考图与当前图配对。",
+        "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+        "locator": "§III；图4–5；表I–II"
+      },
+      {
+        "name": "OFA多问句条件图像描述",
+        "purpose": "把图像状态压缩为能比较的自然语言特征。",
+        "input": "一张图像及人工准备的m个问题；对参考图和当前图分别执行。",
+        "mechanism": "使用预训练OFA。§II-B明确选择Image Captioning接口，因为VQA接口可能产生异常重复句。问题覆盖物体、人员、活动与场景等，且保留相近表达的变化，因为代词、介词、单复数会影响输出。",
+        "output": "参考图和当前图各m条问题对应的描述。",
+        "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+        "locator": "§II-A/B；图2–3"
+      },
+      {
+        "name": "句向量与逐问题答案差异",
+        "purpose": "把同一问题下描述的语义变化转换为可计算距离。",
+        "input": "m个问题、参考答案与当前答案。",
+        "mechanism": "冻结的all-mpnet-base-v2把所有句子映射到768维向量；对第k个问题的两条答案计算D_c=1−点积/(两向量范数之积)。因此措辞相近的答案不必逐字匹配。",
+        "output": "每个问题一个当前/参考答案余弦距离；问题embedding另供权重模块使用。",
+        "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+        "locator": "§II-C"
+      },
+      {
+        "name": "问题去冗余加权与场景距离",
+        "purpose": "减少大量同义问题主导分数的现象，并检查问题选择稳定性。",
+        "input": "问题embedding、逐问题答案距离。",
+        "mechanism": "M_rel记录问题之间的两两余弦距离；以各行距离之和构成向量，再按原式范数归一化得到w（不是声明其和为1）。加权求和得到SD，与均匀w_k=1/m比较。QoQ=ΣM_rel,ij作为问题多样性指标；随机问题子集实验按QoQ分箱比较SD方差。",
+        "output": "SD和问题集合QoQ；阈值化为论文讨论的后续使用方式。",
+        "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+        "locator": "§II-C 式(1)–(2)及QoQ定义；§III-B"
+      }
+    ]
+  },
+  "training": {
+    "regime": "本任务无训练或微调；使用已训练OFA和句编码器推理，计算解析权重与相似度。",
+    "models": "OFA视觉语言模型（实际使用Image Captioning接口）；sentence-transformers/all-mpnet-base-v2句向量模型，输出768维。",
+    "trainable": "无。每点参考图、67个问题、问题间距离权重均为推理配置或计算结果，不是可学习适配器。",
+    "frozen": "预训练OFA与all-mpnet-base-v2均不在本地巡检数据上再训练。all-mpnet-base-v2本身经过句表征训练，并不表示本文对MPNet执行了微调。",
+    "data": "东京大学实验室两个月巡检图像，仅用于该文实验：table 145张、kitchen 144张、desk 141张；每点一张参考图，预先准备67个问题。没有为本方法新建训练集或监督损失。",
+    "objective": "不适用梯度训练。推理时计算答案余弦距离与问题多样性权重，实验关注SD对语义状态的响应及随机问题选择带来的方差。",
+    "stages": "配置固定巡检点/参考图/问题→冻结OFA生成描述→冻结MPNet编码→计算问题关系权重→输出SD并做实验分析。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Fetch真实日常环境巡检采集",
+      "setting": "arXiv v1 §III，东京大学73B2实验室；预设三个位置与拍摄姿态；计划每天4次、持续两个月。张数为原文实际收集图像，不按计划频率反推总张数。每点只有一张参考图，展示的是所采数据中的代表图。",
+      "result": "table/kitchen/desk分别145/144/141张，共430张（本库由原文三项相加）；场景距离实验采用全部67个问题。没有报告训练/测试划分、带故障真值的分类准确率或AUROC。",
+      "locator": "v1 §III；图4–5；表I–II用于导航/拍照姿态",
+      "attribution": "作者正文报告；总数430为本库加总",
+      "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+      "table": {
+        "caption": "v1 §III正文：三个巡检点采集规模",
+        "columns": [
+          "巡检点",
+          "实际图像数",
+          "参考图数"
+        ],
+        "rows": [
+          [
+            "table",
+            "145",
+            "1"
+          ],
+          [
+            "kitchen",
+            "144",
+            "1"
+          ],
+          [
+            "desk",
+            "141",
+            "1"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+        "locator": "§III正文；图5",
+        "note": "采集规模整理表，并非原文新增编号表；原表I/II记录固定导航坐标与拍摄姿态。"
+      }
+    },
+    {
+      "benchmark": "代表性状态的Scene Distance",
+      "setting": "arXiv v1 §III-A/IV-A图6–8；同一地点参考图对当前图，使用全部67个问题与所提权重。原文未给统一异常阈值；下列值按作者讨论保留不等式和近似属性。",
+      "result": "遥控器/键盘轻微移动（table A）和水壶移到相邻位置（kitchen A）的SD均<0.2；办公桌近似不变（desk A）的SD约0.14。三个地点各自的C例均为最高SD：table C有人操作电脑、kitchen C有更多食物/厨具、desk C有人工作。作者据此讨论对细微位移和姿态误差相对不敏感，不能解读为所有噪声条件下都不受影响。",
+      "locator": "v1 图6–8；§IV-A",
+      "attribution": "作者正文报告；0.14为作者近似值，未从曲线估读其他精确分数",
+      "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+      "table": {
+        "caption": "v1 图6–8对应正文报告的SD数值",
+        "columns": [
+          "地点/例图",
+          "状态",
+          "Scene Distance"
+        ],
+        "rows": [
+          [
+            "table A",
+            "遥控器与键盘轻微位置变化",
+            "< 0.2"
+          ],
+          [
+            "kitchen A",
+            "水壶移动至相邻位置",
+            "< 0.2"
+          ],
+          [
+            "desk A",
+            "参考状态近似不变，仍存在导航/头部误差",
+            "约 0.14"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+        "locator": "§IV-A；图6–8",
+        "note": "不是分类阈值，也不是不同地点之间可通用的风险等级；约0.14保留原文近似性。"
+      }
+    },
+    {
+      "benchmark": "问题子集与权重稳定性消融",
+      "setting": "arXiv v1 §III-B图9–11；在每个地点的C例上，从67个问题随机抽10个问题形成10,000组；分别用均匀权重式(1)和问题距离权重式(2)，按QoQ分箱比较SD方差。",
+      "result": "两种方法随QoQ增大方差均下降；作者报告所提权重在QoQ小、问题偏向相近含义的区域方差较低。抑制程度依赖场景及答案相似性。原文没有提供每个分箱的数值表或分类准确率，本条保留图示结论，不将其改写为百分比提升。",
+      "locator": "v1 §III-B；§IV-B；图9–11",
+      "attribution": "作者图示与正文报告；未估读曲线值",
+      "sourceUrl": "https://arxiv.org/html/2309.16552v1"
+    }
+  ],
+  "limitations": {
+    "author": [
+      "§II-B：OFA的VQA接口有时输出异常重复句，所以采用IC接口；§II-B图3显示介词、代词、单复数等措辞会改变输出。",
+      "§IV-B：问题选择会引起SD较大波动；所提权重的方差抑制因场景和答案相似性而异，仍需研究答案相互贡献。",
+      "§IV-C：SD取决于问题内容，任务需要相应选择问题；§V把自然语言解释、状态聚类和进一步自动执行支援行为作为未来方向。"
+    ],
+    "analysis": [
+      "一地点一张参考图不足以覆盖正常的光照、人员或布局多样性；分数较大只表示与参考状态不同，不能自动判定危险或违规。",
+      "实验集中在同一实验室的三个固定点和代表性场景，缺少带异常真值的跨环境分类协议，无法据此比较异常检测召回率、误报率或AUROC。",
+      "对图像先做语言压缩可能遗漏微小缺陷、仪表数值和具体几何变化；小幅物体位移被忽略既可抑制噪声，也可能漏掉任务关注的细微变化。",
+      "巡检路线、拍摄姿态和问题预先配置；没有评测自主选择复查地点/时机、主动更换视角或从差异分数生成闭环维修行动。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2309.16552v1",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": null,
+      "status": "未找到经原文或作者确认的公开代码入口"
+    },
+    "project": {
+      "url": null,
+      "status": "未找到独立项目页"
+    },
+    "data": {
+      "url": null,
+      "status": "未找到430张巡检图像的公开下载入口"
+    },
+    "weights": {
+      "url": "https://huggingface.co/sentence-transformers/all-mpnet-base-v2",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv摘要与版本记录",
+      "url": "https://arxiv.org/abs/2309.16552",
+      "locator": "作者列表；Submission history；IROS录用声明",
+      "supports": [
+        "标题",
+        "完整作者",
+        "首次公开日",
+        "唯一版本日期",
+        "作者录用声明"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv v1全文",
+      "url": "https://arxiv.org/html/2309.16552v1",
+      "locator": "首页机构；§II–V；图4–11；表I–II；参考文献[24]",
+      "supports": [
+        "机构",
+        "实际OFA接口",
+        "方法公式",
+        "无任务微调",
+        "图像采集数量",
+        "图示SD数值",
+        "消融协议",
+        "局限",
+        "句编码器入口"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "东京大学JSK官方论文目录",
+      "url": "https://www.jsk.t.u-tokyo.ac.jp/cgi-bin/bib/bib2htm.cgi?file=23&lang=en&mode=international",
+      "locator": "2023 International Conference条目[19]",
+      "supports": [
+        "IROS正式发表",
+        "完整作者次序",
+        "页码3228–3233",
+        "DOI 10.1109/IROS55552.2023.10342467"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户资料：论文汇总(1).docx",
+      "url": null,
+      "locator": "Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model",
+      "supports": [
+        "本批论文索引；方法与实验另以原始来源为准"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "seek-inspection",
+      "reason": "同属真实机器人巡检：本方法对固定点观测作语义变化度量；SEEK优化未见目标的搜索与靠近路线。"
+    },
+    {
+      "id": "remembr",
+      "reason": "都用预训练视觉语言模型把观测压缩为文本；本方法与单参考图逐问题比较，ReMEmbR建立可检索的长程时空描述记忆。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-20",
+  "gaps": [
+    "原文未给出完整OFA检查点/解码配置、全部67个问题的可运行清单或统一异常阈值；未找到作者确认的代码及巡检图像下载入口。"
+  ],
+  "sourceNotes": [],
+  "bibtex": "@inproceedings{Obinata2023SemanticSceneDifference,\n  author = {Yoshiki Obinata and Kento Kawaharazuka and Naoaki Kanazawa and Naoya Yamaguchi and Naoto Tsukamoto and Iori Yanokura and Shingo Kitagawa and Koki Shinjo and Kei Okada and Masayuki Inaba},\n  title = {Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model},\n  booktitle = {2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},\n  year = {2023},\n  pages = {3228--3233},\n  doi = {10.1109/IROS55552.2023.10342467},\n  url = {https://arxiv.org/abs/2309.16552}\n}",
+  "verificationLevel": "fulltext",
+  "overview": "固定地点的像素变化不等于需要机器人处理的状态变化。本文把参考图与当前图分别转成多组自然语言描述，在句向量空间比较同一问题对应的答案，再减轻重复问题的影响。Fetch在餐桌、厨房和办公桌采集两个月图像，验证小幅位移影响较小、有人工作等语义变化距离较大。输出是场景差异分数；自然语言解释、状态聚类和自动触发支援行为在论文中仍属后续方向。",
+  "verification": "已核验arXiv v1全文，并由东京大学JSK官方论文目录确认IROS发表、作者与DOI；图示结果保留原文精度，不补造分类成绩。",
+  "citationNote": "作者、会议、页码及DOI按东京大学JSK官方目录；标题保留arXiv与实验室目录中的Patroling原拼写。方法与实验按arXiv v1（2023-09-28）。"
+}

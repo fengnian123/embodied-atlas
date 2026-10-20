@@ -1,0 +1,77 @@
+{
+  "checked": "2026-10-20",
+  "files": [
+    "data/papers/sage-subsea.json",
+    "data/papers/coralplan.json"
+  ],
+  "scope": "两篇新增水下巡检论文，v1原文与元数据核验；未实际复现作者实验。",
+  "checks": [
+    {
+      "paper": "sage-subsea",
+      "field": "evaluation[0].table",
+      "source": "v1 Table I #S3.T1",
+      "result": "5行风险权重、A*/EC访问次数及秒单位间隔逐单元相同"
+    },
+    {
+      "paper": "coralplan",
+      "field": "evaluation[0].tables",
+      "source": "v1 Table II #S6.T2",
+      "result": "合成/野外各6行，准确率、Exact与Plan-F1及所有±标准差逐单元相同"
+    },
+    {
+      "paper": "coralplan",
+      "field": "evaluation[1].tables[0]",
+      "source": "v1 Table III #S6.T3",
+      "result": "4行episode数、O、平均K、S、O|S与J逐单元相同；平均K不冒充通过率"
+    },
+    {
+      "paper": "coralplan",
+      "field": "evaluation[2].tables",
+      "source": "v1 Table I #S5.T1",
+      "result": "5行配对仿真/实机/一致率及计数相同；4行选择×观测交叉计数相同，两队列各合计36"
+    },
+    {
+      "paper": "coralplan",
+      "field": "evaluation[3].tables[0]",
+      "source": "v1 Table IV #S6.T4",
+      "result": "4行rho/epsilon/L与O计数、百分比逐单元相同；严格survey不等号和冻结轨迹条件保留"
+    },
+    {
+      "paper": "both",
+      "field": "metadata/tags/method/sources",
+      "result": "作者和机构与作者脚注核对，日期与v1 submission history核对；标签均已登记；各4方法模块；所有表有版本/locator/primary URL；未写复现字段"
+    }
+  ],
+  "critical_boundaries": {
+    "sage-subsea": [
+      "IEEE IROS 2026 AQ2UASIM workshop作者声明录用，非主会；正式论文集未核验。",
+      "ergodic-control-sandbox是Murphey Lab独立教程/参考实现；不是已确认的SAGE方法开源。",
+      "风险来自手设固定profile；相机/声呐与语言意图闭环是后续架构，未写成实测能力。",
+      "单阀profile P3为0访问；Fig.1轨迹展示分级profile，Table I是单阀高风险profile。"
+    ],
+    "coralplan": [
+      "87条野外记录仅离线计划评估，非野外机器人试验。",
+      "36对清水池实机/仿真使用已知打印目标与外部动捕；这些目标另拍照片参与训练。",
+      "144全因子仿真与36配对仿真分别统计，禁止合并。",
+      "四槽中仅primitive配置运动；top-view只在离线计划测试，不能执行。",
+      "语言侧LoRA rank16/alpha32/lr1e-4/5epochs；视觉编码器冻结；执行仅seed42。",
+      "O与J分开，实机77.8%观测完成、63.9%联合成功；不能把O当正确技能成功。",
+      "匿名资源入口在原文已确认，但内容、下载和许可未核验。"
+    ]
+  },
+  "validation": {
+    "command": "npm run validate",
+    "result": "passed",
+    "records": 184,
+    "deepNotes": 173,
+    "redirects": 8
+  },
+  "outstanding": [
+    "SAGE专用实现与完整控制配置未确认；workshop正式论文集未确认。",
+    "CoralPlan匿名仓库内容、完整配置、额外实体照片数、许可证未确认。"
+  ],
+  "review_notes": [
+    "数字表逐单元通过源HTML对照；非数字方法机制、任务假设、作者局限与本库分析分别人工核对。",
+    "当前检查时间与发布时间分开；未知正式发表元数据保留null。"
+  ]
+}

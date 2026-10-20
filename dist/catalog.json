@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "checked": "2026-10-19",
+  "checked": "2026-10-20",
   "audit": {
-    "total": 180,
-    "fulltext": 170,
+    "total": 185,
+    "fulltext": 175,
     "metadata": 9,
     "unresolved": 1,
-    "numericEvidence": 154
+    "numericEvidence": 159
   },
   "papers": [
     {
@@ -2019,6 +2019,960 @@
       }
     },
     {
+      "id": "construction-safety-vlm",
+      "title": "Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline",
+      "short": "Construction-Site Safety Inspection",
+      "aliases": [
+        "多层 VLM–LLM 施工安全巡检",
+        "arXiv:2512.13974"
+      ],
+      "authors": [
+        "Hossein Naderi",
+        "Alireza Shojaei",
+        "Philip Agee",
+        "Kereshmeh Afsari",
+        "Abiola Akanmu"
+      ],
+      "institutions": [
+        "Virginia Tech · Myers-Lawson School of Construction"
+      ],
+      "firstPublished": "2025-12-16",
+      "updated": "2025-12-16",
+      "publicationYear": null,
+      "year": 2025,
+      "venue": null,
+      "publicationStatus": "预印本",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "巡检"
+        ],
+        "paradigm": [
+          "VLM",
+          "LLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法",
+          "系统"
+        ],
+        "problem": [
+          "安全",
+          "空间理解",
+          "规划"
+        ],
+        "environment": [
+          "真实世界",
+          "室内",
+          "四足机器人"
+        ],
+        "training": [
+          "仅推理使用"
+        ]
+      },
+      "summary": "Go2按预设路线采集图像，经场景描述、规则生成、二次视觉评估和报告汇总完成巡检；三组实体实验共442帧，帧级隐患召回为92.2%、85.9%、78.6%。",
+      "method": {
+        "input": "Go2相机画面及时间戳、LiDAR/里程计与用户给定的目标点；安全法规/现场政策作为框架层面的规则依据。",
+        "output": "机器人导航控制、逐帧安全/不安全及五级严重程度判断、按时间戳汇总的结构化巡检报告。",
+        "flow": [
+          "RTAB-Map建图与Nav2执行用户指定路线",
+          "Gemma-3生成物体中心描述",
+          "Llama-3.3生成安全与不安全规则",
+          "Gemma-3结合原图和规则再次评估",
+          "DeepSeek-R1汇总带时间戳的报告"
+        ],
+        "assumptions": "实验路线和目标由用户提供，场景为可导航的室内施工实验室；AI在独立双RTX3090工作站运行。法规检索的具体索引、召回率和引用核对流程未充分说明。",
+        "difference": "将视觉描述、规则生成、视觉核查、报告生成分开，允许追溯每条结论的中间输出；不是端到端学习导航，也不等于已经实现未知场景的主动风险探索。",
+        "explanation": "机器人部分先提供可重复访问的空间路线；语义部分按固定频率抽帧，把一个复杂的安全判断拆成四个可检查步骤。第一次VLM只描述场景，LLM将描述转换为抽象原则与可测标准，第二次VLM重新查看原始画面而非仅依赖文字，最后汇总跨帧报告。时间戳用于证据关联，但逐帧评估本身没有显式时序状态模型。",
+        "modules": [
+          {
+            "name": "机器人空间底座",
+            "purpose": "重复覆盖与定点复访",
+            "input": "LiDAR、RGB-D/IMU、用户目标点",
+            "mechanism": "RTAB-Map进行图优化建图与ICP里程计；Nav2以全局代价地图和Dijkstra规划路径，局部避障；桥接/cmd_vel到Unitree SportMode，超时停止。",
+            "output": "位姿、地图、运动执行与带时间戳图像",
+            "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+            "locator": "§3.2–3.3、§4.1–4.2"
+          },
+          {
+            "name": "B1 感知抽象",
+            "purpose": "把图像转换成后续规则生成可用的事实",
+            "input": "每秒抽取的原始图像",
+            "mechanism": "Gemma-3 12B按物体中心提示描述对象、状态和关系；保留图像时间戳，允许报告回溯。",
+            "output": "逐帧场景描述",
+            "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+            "locator": "§3.4、§4.3"
+          },
+          {
+            "name": "B2 规则生成与法规接口",
+            "purpose": "把通用安全原则变成当前场景的判断依据",
+            "input": "B1描述、OSHA和现场政策",
+            "mechanism": "框架提出RAG法规 grounding；具体实现用Llama-3.3生成两条安全、两条不安全规则，每条含抽象原则和具体可测标准。原文未充分说明检索库构建和独立检索实验。",
+            "output": "与场景对应的安全规则",
+            "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+            "locator": "§3.4、§4.3"
+          },
+          {
+            "name": "B3 规则条件下的视觉评估",
+            "purpose": "减少仅依据文字描述判断的错误",
+            "input": "原图和B2规则",
+            "mechanism": "再次调用Gemma-3 12B，判断安全/不安全并使用五级严重程度。定量帧级评测读取本层输出。",
+            "output": "逐帧安全评估与严重程度",
+            "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+            "locator": "§4.3、§6"
+          },
+          {
+            "name": "B4 报告合成",
+            "purpose": "形成带证据索引的巡检文档",
+            "input": "所有逐帧判断及时间戳",
+            "mechanism": "DeepSeek-R1使用固定报告模板归并隐患、说明和建议；§7.1用帧号和模块编号追溯报告到描述与规则。未给报告整体质量的独立定量评分。",
+            "output": "结构化安全巡检报告",
+            "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+            "locator": "§4.3、§7.1"
+          }
+        ]
+      },
+      "training": {
+        "regime": "仅推理使用预训练模型；未报告任务专用训练",
+        "models": "Gemma-3 12B：描述和安全评估；Llama-3.3：规则生成；DeepSeek-R1：报告汇总。后两者具体规模/量化版本未明确。",
+        "trainable": "未报告更新模型参数；开发过程进行提示设计和模型预选。",
+        "frozen": "使用现成模型推理，没有论文提出的可训练适配模块；一个月预评估不应算作微调。",
+        "data": "三组施工实验室场景的视频仅用于所报告评估；无正式训练/验证/测试划分。",
+        "objective": "通过分阶段提示约束描述、规则与报告输出；无学习损失或梯度优化。",
+        "stages": "预评估选择模型 → 固定提示与Ollama部署 → 按帧推理 → 对照人工安全标签。AI工作站为Ubuntu20.04、Threadripper3960X、原文记载258GB内存、双RTX3090 24GB、CUDA12.4；不是GPU训练配置。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "三组施工实验室实体巡检",
+          "setting": "Go2沿预设路线，A/B/C各运行3次，1帧/秒；总442帧，评测B3帧级安全二分类。未提供全任务覆盖率或导航SR/SPL。",
+          "result": "作者Figure 15报告框架在A/B/C的召回为92.2/85.9/78.6%，F1为86.6/83.0/77.2%。复杂场景C仍有18个不安全帧被漏判。下面保留原图数字；A场景GPT-4o矩阵合计148帧，而Table 2列147帧，不能把两者当作严格一致的逐帧配对证据。",
+          "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+          "locator": "Table 1–2；Figure 13–15；§6",
+          "attribution": "作者报告；矩阵和柱形图标签逐项读取，未自行复现。",
+          "tables": [
+            {
+              "caption": "Table 2：各次运行的帧数",
+              "columns": [
+                "场景",
+                "运行1",
+                "运行2",
+                "运行3",
+                "合计"
+              ],
+              "rows": [
+                [
+                  "A",
+                  49,
+                  47,
+                  51,
+                  147
+                ],
+                [
+                  "B",
+                  46,
+                  45,
+                  43,
+                  134
+                ],
+                [
+                  "C",
+                  51,
+                  54,
+                  56,
+                  161
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+              "locator": "Table 2",
+              "note": "三个场景共442帧，非442个独立场景。"
+            },
+            {
+              "caption": "Figure 15：帧级指标（%）",
+              "columns": [
+                "场景",
+                "方法",
+                "Recall",
+                "Precision",
+                "Accuracy",
+                "F1"
+              ],
+              "rows": [
+                [
+                  "A",
+                  "GPT-4o",
+                  87.2,
+                  77.3,
+                  79.7,
+                  81.9
+                ],
+                [
+                  "A",
+                  "框架",
+                  92.2,
+                  81.6,
+                  85,
+                  86.6
+                ],
+                [
+                  "B",
+                  "GPT-4o",
+                  81.7,
+                  78.4,
+                  78.4,
+                  80
+                ],
+                [
+                  "B",
+                  "框架",
+                  85.9,
+                  80.3,
+                  81.3,
+                  83
+                ],
+                [
+                  "C",
+                  "GPT-4o",
+                  76.2,
+                  72.7,
+                  72.7,
+                  74.4
+                ],
+                [
+                  "C",
+                  "框架",
+                  78.6,
+                  75.9,
+                  75.8,
+                  77.2
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+              "locator": "Figure 15",
+              "note": "直接抄录原图标签，未按混淆矩阵重新计算；GPT-4o具体快照/提示对齐细节不足。"
+            },
+            {
+              "caption": "Figure 13–14：原始混淆矩阵计数",
+              "columns": [
+                "场景",
+                "方法",
+                "TN",
+                "FP",
+                "FN",
+                "TP"
+              ],
+              "rows": [
+                [
+                  "A",
+                  "框架",
+                  54,
+                  16,
+                  6,
+                  71
+                ],
+                [
+                  "A",
+                  "GPT-4o",
+                  50,
+                  20,
+                  10,
+                  68
+                ],
+                [
+                  "B",
+                  "框架",
+                  48,
+                  15,
+                  10,
+                  61
+                ],
+                [
+                  "B",
+                  "GPT-4o",
+                  47,
+                  16,
+                  13,
+                  58
+                ],
+                [
+                  "C",
+                  "框架",
+                  56,
+                  21,
+                  18,
+                  66
+                ],
+                [
+                  "C",
+                  "GPT-4o",
+                  53,
+                  24,
+                  20,
+                  64
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+              "locator": "Figure 13–14",
+              "note": "Unsafe为正类；TN/FP为真实Safe，FN/TP为真实Unsafe。A场景两图的真实Unsafe总数分别77/78，且GPT-4o总数148，原文与Table 2不一致。"
+            }
+          ]
+        }
+      ],
+      "limitations": {
+        "author": [
+          "用户指定目标点和路线，尚需主动探索未知或高风险区域。",
+          "杂乱环境与高速振动会影响地图对齐，复杂和不熟悉场景仍有幻觉与误报。",
+          "对梯子固定等空间/物理关系推理不足；逐帧VLM难以捕获运动、因果和时间过程。"
+        ],
+        "analysis": [
+          "三组受控实体布景支持概念验证，不能推断真实施工现场长期部署效果；帧间相关性较强，未报告按独立场景统计的置信区间。",
+          "数值评估集中在B3帧级二分类，缺少整场巡检覆盖、风险去重、报告正确性与规则检索质量的独立评估，也未消融各层的增益。",
+          "Table 1列A/B/C分别5/7/8项隐患，正文另写5/6/7；Figure 14的A帧数与Table 2不一致。保留各处原值，不把冲突合并成单一精确统计。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2512.13974",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/h-naderi/unitree-go2-slam-nav2",
+          "status": "已核实入口",
+          "note": "原文链接的Go2 SLAM/Nav2集成仓库；完整AI流水线、评估数据及全部提示的发布范围未核实。"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv v1书目",
+          "url": "https://arxiv.org/abs/2512.13974v1",
+          "locator": "作者、日期及版本历史",
+          "supports": [
+            "标题",
+            "作者",
+            "首次/最新日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "原始论文PDF",
+          "url": "https://arxiv.org/pdf/2512.13974v1",
+          "locator": "§3–4、Table 1–2、Figure 13–15、§7.3",
+          "supports": [
+            "机构",
+            "模块流程",
+            "模型部署",
+            "实验原表",
+            "作者局限"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "作者Go2集成仓库",
+          "url": "https://github.com/h-naderi/unitree-go2-slam-nav2",
+          "locator": "README及目录",
+          "supports": [
+            "机器人导航栈代码入口",
+            "开放范围边界"
+          ]
+        },
+        {
+          "kind": "user",
+          "label": "用户资料：论文汇总(1).docx",
+          "url": null,
+          "locator": "Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline",
+          "supports": [
+            "本批论文索引；方法与实验另以原始来源为准"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "homesafebench",
+          "reason": "同属安全巡检；HomeSafeBench评测仿真自由探索，本工作评测实体预设路线上的帧级判断，指标不能直接混排。"
+        },
+        {
+          "id": "seek-inspection",
+          "reason": "同样把语义推理接到机器人空间导航；SEEK主要定位待巡检物体，本工作主要判断风险并生成报告。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-20",
+      "gaps": [
+        "正式发表信息未核实。",
+        "完整AI代码、原始评估帧、提示版本、模型量化版本和各资源许可未逐项确认。",
+        "原文统计存在上述冲突；没有全部模块消融、独立场景误差条或整报告量化结果。"
+      ],
+      "sourceNotes": [],
+      "bibtex": "@misc{naderi2025constructioninspection,\n  title = {Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline},\n  author = {Hossein Naderi and Alireza Shojaei and Philip Agee and Kereshmeh Afsari and Abiola Akanmu},\n  year = {2025},\n  eprint = {2512.13974},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2512.13974}\n}",
+      "verificationLevel": "fulltext",
+      "verification": "已读取原始PDF并核对方法、Table 1–2与Figure 13–15；正文与图表冲突分别保留。",
+      "overview": "施工安全巡检需要把机器人看到的场景与具体安全规则连接起来，并形成可追溯的报告。该工作将Go2的建图导航与多模型流水线连接：先描述画面，再生成规则，将原图与规则一起送回VLM判断安全程度，最后汇总带时间戳的报告。它的主要改变是公开中间证据与职责分工，未训练新的机器人策略。验证来自三组实验室实体布景、人工指定路线上的帧级识别；不能据此推断未知施工现场的自主风险覆盖能力。",
+      "citationNote": "据arXiv v1书目整理的预印本引用。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "coralplan",
+      "title": "CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection",
+      "short": "CoralPlan",
+      "aliases": [
+        "CoralVLM",
+        "arXiv:2609.31211"
+      ],
+      "authors": [
+        "Yuer Gao",
+        "Yu Zhao",
+        "Yi Cai"
+      ],
+      "institutions": [
+        "The Hong Kong University of Science and Technology (HKUST)"
+      ],
+      "firstPublished": "2026-09-25",
+      "updated": "2026-09-25",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "预印本；arXiv Comments为8 pages，未声明会议录用",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "巡检",
+          "主动感知",
+          "机器人控制"
+        ],
+        "paradigm": [
+          "VLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法",
+          "数据集",
+          "系统"
+        ],
+        "problem": [
+          "主动感知",
+          "规划",
+          "泛化"
+        ],
+        "environment": [
+          "水下",
+          "水下机器人",
+          "仿真",
+          "真实世界",
+          "真实采集资产"
+        ],
+        "training": [
+          "冻结主干并训练模块",
+          "监督微调"
+        ]
+      },
+      "summary": "用当前水下图像和任务文本选择观测技能，再执行目标相对轨迹；36对清水池实机/仿真测试中，实机观测完成77.8%、技能匹配且完成63.9%。",
+      "overview": "珊瑚巡检不仅要看见目标，还要取得任务所需的多角度、近距离或宽范围观测。CoralPlan 将视觉语言模型选出的观测 primitive 接到共享轨迹映射器，并把“选对技能”和“实际完成观测”分开计分。论文包含144次仿真和36对池内实机/仿真试验；87条野外珊瑚图像只用于离线规划评估。实机使用已知打印珊瑚与外部动捕，尚非开放海域视觉自主定位巡检。",
+      "method": {
+        "input": "当前水下相机图像及检查任务文本；部署时任务由episode manifest提供。运动实例化还需目标参考位姿：仿真来自场景真值，实机来自外部motion capture。",
+        "output": "JSON plan的primitive、view、priority、task type；只有primitive配置机器人运动，其余字段提供操作者指导。支持运动的primitive为orbit/patch/survey，top-view仅在离线规划词表中评测。",
+        "flow": [
+          "构建并筛选图像—指令—计划记录，适配规划VLM",
+          "当前相机帧与manifest任务文本生成JSON plan",
+          "解析和规范化字段，只接受可执行的primitive",
+          "共享mapper生成目标相对waypoints，控制器执行并记录图像和几何",
+          "离线按选择匹配、目标保持、覆盖与联合成功评分"
+        ],
+        "assumptions": "目标实例及参考坐标可用，实机为受控照明的清水池与4个已知打印珊瑚；训练含这些实体目标另拍照片。外部动捕用于目标相对waypoints及评分；评分用的分割掩码不参与在线控制。每次episode开始选一次技能，原文未验证根据新图像连续重选技能的闭环。",
+        "difference": "把离线计划标签正确性接到实际观测几何验证。选对orbit并不代表完成多角度扫描；反之执行了不同于参考的技能，也可能通过该已执行技能的覆盖标准，因此观测完成O与联合成功J必须分开。",
+        "explanation": "规划器读取当前帧和任务文本，输出受约束的四槽JSON。解析器提取JSON、必要时恢复单字段并规范同义词；无法执行的top-view或无法解析输出不会自动改成其它动作。共享motion mapper仅依据primitive生成目标相对的环绕、近距悬停或横向survey轨迹。控制器执行后，评分检查目标是否在大部分帧中保持、实际覆盖是否达到所执行primitive的标准，再单独检查选择是否与manifest参考一致。它评估的是观测获取接口，不是直接验证珊瑚诊断或三维重建质量。",
+        "modules": [
+          {
+            "name": "CoralVLM记录构建与域内适配",
+            "purpose": "提供图像条件下观测技能选择监督",
+            "input": "水下图像、GPT-4o候选健康/primitive标注、指令及JSON计划",
+            "mechanism": "GPT-4o先提议健康状态与primitive，再据图像和该primitive生成指令/计划；合并初始与扰动提示生成轮次，并过滤和抽样人工检查。以健康类别均衡的1,792条合成记录进行固定划分；另加入四个实体目标单独拍摄照片训练。",
+            "output": "适配所用图像—指令—计划记录及独立离线测试划分",
+            "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+            "locator": "v1 §III-A–C；Fig.3；§IV-B"
+          },
+          {
+            "name": "视觉语言技能选择与计划恢复",
+            "purpose": "将当前视觉上下文与任务意图转成固定技能接口",
+            "input": "相机帧、manifest任务文本；离线为数据集指令",
+            "mechanism": "Qwen2.5-VL-7B经语言侧LoRA适配；预测primitive/view/priority/task type。优先提取fenced或bare JSON，失败时逐字段正则恢复，至少恢复3字段才接受，使用固定同义词表。执行额外要求primitive受支持；未支持或无法解析不重映射。",
+            "output": "四槽规范化plan及可执行性判定；只有primitive驱动运动",
+            "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+            "locator": "v1 §IV-A–C；Fig.2"
+          },
+          {
+            "name": "共享目标相对运动接口",
+            "purpose": "把选中的观测语义变为机器人运动",
+            "input": "支持的primitive、目标参考位姿、相机/机器人配置",
+            "mechanism": "mapper把orbit映射为环绕standoff路径，patch映射为近距离悬停，survey映射为宽范围transect；waypoint controller执行。仿真与实机共享接口但各自从自身相机帧独立预测技能，配对并不强制执行同一动作。",
+            "output": "机器人轨迹与执行期间采集的后续视图",
+            "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+            "locator": "v1 §V-A–B、§V-D；Fig.2、Fig.4"
+          },
+          {
+            "name": "目标保持—覆盖—语义分解评分",
+            "purpose": "区分选错技能、目标丢失与覆盖不足",
+            "input": "执行日志、相机几何、观测与投影参考掩码、manifest参考primitive",
+            "mechanism": "每帧IoU≥0.5记为目标保持，全部评分帧中比例K≥0.8才通过；orbit要求方位跨度≥150°，patch要求至少80%帧距离处于0.30±0.05m，survey要求沿指令轴跨度严格>3.50m。O=保持通过×已执行技能覆盖通过，S=预测与参考匹配，J=S×O；空掩码记失败。",
+            "output": "S、O、J及故障分解；掩码仅用于离线评分",
+            "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+            "locator": "v1 §V-C–D；Tables I、III–IV"
+          }
+        ]
+      },
+      "training": {
+        "regime": "监督适配：Qwen2.5-VL-7B语言模型侧LoRA；视觉编码器冻结。",
+        "models": "Qwen2.5-VL-7B + LoRA；GPT-4o用于生成训练候选标注、指令和计划，未作为部署控制模型。",
+        "trainable": "语言侧LoRA：rank16、alpha32、learning rate 1×10^-4、5 epochs；训练种子42/43/44。全文未逐层列出其它参数更新清单。",
+        "frozen": "原文明示视觉编码器冻结；不应标记为整个系统仅推理，也不能把所有模型参数都写成全量微调。共享motion mapper与waypoint controller无学习训练报告。",
+        "data": "发布2,478条合成记录+100张潜水员采集野外图；实验用1,792条健康类别均衡合成子集（每类448），按固定seed42分为1,432/180/180训练/验证/测试，每类358/45/45。训练另含四个实体目标的单独照片，数量未在正文给出。87条完整野外记录留出离线评估，13张不完整记录排除。",
+        "objective": "从图像与任务文本预测标注JSON plan的监督适配；健康标注用于分层均衡，模型目标是计划而非健康分类。正文未列token级损失公式。",
+        "stages": "GPT-4o候选生成→过滤与100记录抽样人工质量评估（均分4.4/5）→固定数据划分→三训练种子LoRA→离线报告跨种子均值±样本标准差；所有机器人执行仅用seed42 checkpoint。image-only对照使用相同适配配方但不输入指令。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "CoralVLM离线观测计划与模态控制",
+          "setting": "同一固定测试集：合成180条，野外87条；primitive accuracy/Exact为百分比，Plan-F1为四计划字段macro-F1均值（0–100）。适配模型结果为3训练种子的均值±样本标准差；规则为单次。shuffled每个checkpoint评3次重排，先种子内平均再跨种子统计。",
+          "result": "CoralPlan合成primitive accuracy为74.4±1.1%，较shuffled image的67.3±0.8%高7.1个百分点，说明匹配视觉上下文有贡献。野外primitive accuracy为56.3±1.1%，低于majority的85.1%；但Plan-F1为53.8±0.9，高于majority的34.2，须结合类别集中分布解读。野外结果为静态图像离线计划匹配，不是野外机器人执行成功率。",
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 §III-C、§IV-B、§VI-B；Table II",
+          "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+          "tables": [
+            {
+              "caption": "Table II：合成测试集（n=180）",
+              "columns": [
+                "设置",
+                "Primitive accuracy (%)",
+                "Exact (%)",
+                "Plan-F1 (0–100)"
+              ],
+              "rows": [
+                [
+                  "Majority class",
+                  31.1,
+                  "—",
+                  28.6
+                ],
+                [
+                  "Keyword-rule",
+                  54.4,
+                  "—",
+                  "—"
+                ],
+                [
+                  "Instruction-only",
+                  "64.8±1.4",
+                  "42.2±1.1",
+                  "55.6±0.6"
+                ],
+                [
+                  "Image-only reference",
+                  "42.8±1.1",
+                  "—",
+                  "41.8±0.9"
+                ],
+                [
+                  "Shuffled image",
+                  "67.3±0.8",
+                  "42.8±0.6",
+                  "58.4±0.8"
+                ],
+                [
+                  "CoralPlan",
+                  "74.4±1.1",
+                  "50.9±0.8",
+                  "67.6±0.8"
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+              "locator": "v1 Table II（HTML #S6.T2）",
+              "note": "±为训练种子样本标准差，不是置信区间；“—”是原文未报告。离线含4种primitive，包括不支持运动的top-view。"
+            },
+            {
+              "caption": "Table II：野外留出图像（n=87）",
+              "columns": [
+                "设置",
+                "Primitive accuracy (%)",
+                "Exact (%)",
+                "Plan-F1 (0–100)"
+              ],
+              "rows": [
+                [
+                  "Majority class",
+                  85.1,
+                  "—",
+                  34.2
+                ],
+                [
+                  "Keyword-rule",
+                  48.3,
+                  "—",
+                  "—"
+                ],
+                [
+                  "Instruction-only",
+                  "50.6±1.1",
+                  "32.2±1.1",
+                  "47.4±0.7"
+                ],
+                [
+                  "Image-only reference",
+                  "24.1±1.1",
+                  "—",
+                  "31.4±0.7"
+                ],
+                [
+                  "Shuffled image",
+                  "51.3±1.8",
+                  "34.5±1.1",
+                  "49.2±0.8"
+                ],
+                [
+                  "CoralPlan",
+                  "56.3±1.1",
+                  "39.1±1.1",
+                  "53.8±0.9"
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+              "locator": "v1 Table II（HTML #S6.T2）",
+              "note": "仅87条完整野外记录离线评估。原发布集有100张野外图，13张因参考记录不完整/不可靠排除；不能将87写成全部野外采集规模。"
+            }
+          ]
+        },
+        {
+          "benchmark": "144次全因子仿真观测执行",
+          "setting": "OceanSim/Isaac Sim；4目标×4浑浊度×3光照×3参考技能=144 episodes，各参考技能48条；seed42规划checkpoint。按参考技能分组，覆盖按实际执行技能计分。额外3条无任务标签录像不进入本协议。",
+          "result": "选择匹配111/144=77.1%，观测完成121/144=84.0%，联合97/144=67.4%。匹配orbit的34条中仅20条完成（58.8%）；14条技能选对仍因观测未完成失败。24条技能不匹配却完成其所执行技能，造成O与J差距。Fig.1示例目标保持K=1但仅扫过132°，未达到150°要求。",
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 §V-C、§VI-C；Table III；Fig.1",
+          "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+          "tables": [
+            {
+              "caption": "Table III：按参考primitive分组的仿真结果",
+              "columns": [
+                "参考技能",
+                "Episodes",
+                "O完成 (%)",
+                "平均K (%)",
+                "S匹配 (%)",
+                "O|S=1 (%)",
+                "J成功 (%)"
+              ],
+              "rows": [
+                [
+                  "Orbit",
+                  48,
+                  52.1,
+                  88.5,
+                  70.8,
+                  58.8,
+                  41.7
+                ],
+                [
+                  "Patch",
+                  48,
+                  100,
+                  99.9,
+                  79.2,
+                  100,
+                  79.2
+                ],
+                [
+                  "Survey",
+                  48,
+                  100,
+                  99.8,
+                  81.3,
+                  100,
+                  81.3
+                ],
+                [
+                  "Overall",
+                  144,
+                  84,
+                  96.1,
+                  77.1,
+                  87.4,
+                  67.4
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+              "locator": "v1 Table III（HTML #S6.T3）",
+              "note": "平均K是episode级目标保持分数均值，不是通过率；各组按参考技能分组，不能把Orbit组52.1%理解成所有实际orbit执行的完成率。"
+            }
+          ]
+        },
+        {
+          "benchmark": "36对清水池实机—仿真配对",
+          "setting": "4个已知打印珊瑚目标×3参考技能×3重复=36对；实机在清水池、受控照明下测试，动捕提供目标位姿，目标照片曾用于训练。各平台使用相同任务文本与共享运动接口，分别从自身相机帧选择并执行；4对动作不同仍保留计分。",
+          "result": "实机S=28/36（77.8%）、O=28/36（77.8%）、J=23/36（63.9%）；5次选错但完成，另5次选对未完成。O的名义95% Wilson区间为[61.9,88.3]%，J为[47.6,77.5]%。配对观测判定一致34/36（94.4%），不意味着动作全部一致；动作一致32/36（88.9%）。此36对队列与144条全因子仿真分开统计。",
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 §V-D、§VI-D；Table I；Fig.4",
+          "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+          "tables": [
+            {
+              "caption": "Table I：36对配对试验（百分比与计数）",
+              "columns": [
+                "指标",
+                "配对仿真",
+                "Physical ROV",
+                "配对判定一致"
+              ],
+              "rows": [
+                [
+                  "Target keeping",
+                  "97.2% (35/36)",
+                  "94.4% (34/36)",
+                  "97.2% (35/36)"
+                ],
+                [
+                  "Coverage pass",
+                  "86.1% (31/36)",
+                  "77.8% (28/36)",
+                  "91.7% (33/36)"
+                ],
+                [
+                  "Selection S",
+                  "80.6% (29/36)",
+                  "77.8% (28/36)",
+                  "91.7% (33/36)"
+                ],
+                [
+                  "Observation O",
+                  "83.3% (30/36)",
+                  "77.8% (28/36)",
+                  "94.4% (34/36)"
+                ],
+                [
+                  "Joint J",
+                  "69.4% (25/36)",
+                  "63.9% (23/36)",
+                  "88.9% (32/36)"
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+              "locator": "v1 Table I（HTML #S5.T1）",
+              "note": "Agreement比较同指标的二元判定。O要求目标保持与覆盖同时通过，J另需技能与参考相符；此处不是87张野外图像测试。"
+            },
+            {
+              "caption": "Table I：选择与观测完成的交叉计数",
+              "columns": [
+                "选择",
+                "观测",
+                "配对仿真次数",
+                "实机次数"
+              ],
+              "rows": [
+                [
+                  "匹配",
+                  "完成",
+                  25,
+                  23
+                ],
+                [
+                  "匹配",
+                  "未完成",
+                  4,
+                  5
+                ],
+                [
+                  "不匹配",
+                  "完成",
+                  5,
+                  5
+                ],
+                [
+                  "不匹配",
+                  "未完成",
+                  2,
+                  3
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+              "locator": "v1 Table I；§VI-D",
+              "note": "两列各自合计36。Fig.4(e)目标保持/覆盖四象限计数分别为仿真(30,5,1,0)、实机(28,6,0,2)，顺序为都通过、仅保持、仅覆盖、都失败。"
+            }
+          ]
+        },
+        {
+          "benchmark": "覆盖阈值敏感性：冻结轨迹重评分",
+          "setting": "对相同seed42的144次既有轨迹重评分，不重规划、不重新执行。K≥0.8及orbit≥150°保持不变；联合收紧patch的帧占比rho/距离容差epsilon与survey跨度下界L。patch中心距离固定0.30m，survey使用严格>L。",
+          "result": "从主协议84.0%到Strict仅49.3%观测完成；这反映评分接受条件敏感性，不是另一次部署性能或模型退化实验。",
+          "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+          "locator": "v1 §VI-C Threshold sensitivity；Table IV",
+          "attribution": "作者报告，未自行复现；数据为原文表值，不是图像估读。",
+          "tables": [
+            {
+              "caption": "Table IV：联合收紧patch/survey阈值",
+              "columns": [
+                "设置",
+                "Patch rho",
+                "Patch epsilon (m)",
+                "Survey L (m)",
+                "O完成"
+              ],
+              "rows": [
+                [
+                  "Main",
+                  0.8,
+                  0.05,
+                  3.5,
+                  "121/144 (84.0%)"
+                ],
+                [
+                  "Mild",
+                  0.9,
+                  0.04,
+                  3.7,
+                  "112/144 (77.8%)"
+                ],
+                [
+                  "Medium",
+                  0.9,
+                  0.03,
+                  3.8,
+                  "100/144 (69.4%)"
+                ],
+                [
+                  "Strict",
+                  0.95,
+                  0.02,
+                  4,
+                  "71/144 (49.3%)"
+                ]
+              ],
+              "sourceUrl": "https://arxiv.org/html/2609.31211v1",
+              "locator": "v1 Table IV（HTML #S6.T4）",
+              "note": "多个阈值同步调整，不能据此归因于单个参数。Orbit参考组始终25/48完成，其中5条实际执行了patch/survey。"
+            }
+          ]
+        }
+      ],
+      "limitations": {
+        "author": [
+          "生成指令与plan共享同一个primitive参考，存在语言捷径；独立专家标注和反事实输入配对将加强grounding评估。",
+          "野外集只有87条完整记录且primitive类别分布集中；primitive accuracy与Plan-F1应互补解读。",
+          "仅seed42适配checkpoint执行机器人试验，keyword-rule与instruction-only基线只做离线评估；尚不能比较它们的执行观测/联合结果。",
+          "清水池测试为已知目标实例；需扩展更多几何、视觉估计目标位姿及野外实地试验，并分析orbit阈值与目标特异失败。",
+          "现有评价是观测几何；未验证下游重建质量、诊断细节或适应性扫描效用。"
+        ],
+        "analysis": [
+          "实机结果证明在外部动捕和已知目标条件下可以自动执行选出的技能；不能推断在浑浊开放海域靠单目视觉完成目标定位与闭环自主巡检。",
+          "另外拍摄的同一批实体目标照片进入训练，因此36对池内测试测量的是已知实例新相机帧上的执行能力，不能当作未见实体珊瑚实例泛化。",
+          "只有primitive影响动作，view/priority/task type即使预测变化也不改变本实现的运动；四槽计划正确率不直接等于更丰富的机器人动作控制能力。",
+          "主阈值下patch/survey参考组观测完成均100%，而收紧阈值后总体降至49.3%，说明报告观测完成率时必须连同覆盖容差，不能单报84.0%当作任务普适成功。",
+          "目标保持掩码与几何覆盖可检查是否完成既定运动，却没有测量图像是否足以区分珊瑚病理或重建隐蔽表面；几何达标不等价于巡检诊断成功。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2609.31211v1",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://anonymous.4open.science/r/CoralVLM-3EC9/",
+          "status": "原文声明的匿名入口；仓库内容及可访问性未核实"
+        },
+        "data": {
+          "url": "https://anonymous.4open.science/r/CoralVLM-3EC9/",
+          "status": "原文声明的匿名入口；数据下载、许可证未核实"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "CoralPlan arXiv v1 元数据",
+          "url": "https://arxiv.org/abs/2609.31211v1",
+          "locator": "Authors、Submitted on、Submission history、Comments",
+          "supports": [
+            "规范标题",
+            "完整作者",
+            "首次公开2026-09-25",
+            "当前仅v1",
+            "8页预印本状态"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "CoralPlan v1 方法与训练原文",
+          "url": "https://arxiv.org/html/2609.31211v1",
+          "locator": "作者脚注；Scope；§III、§IV-A–C；§V；Figs.2–3",
+          "supports": [
+            "HKUST机构",
+            "数据规模与划分",
+            "四个已知打印目标照片进入训练",
+            "LoRA与视觉编码器冻结",
+            "JSON解析",
+            "primitive到运动接口",
+            "外部动捕与离线掩码"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "CoralPlan v1 实验与局限",
+          "url": "https://arxiv.org/html/2609.31211v1",
+          "locator": "Tables I–IV；Figs.1、4；§VI-B–D；§VII",
+          "supports": [
+            "87条野外记录仅离线",
+            "144全因子仿真",
+            "36对池内实机/仿真",
+            "全部列出的精确表值与阈值",
+            "作者局限",
+            "O/S/J区分"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "匿名资源入口声明",
+          "url": "https://arxiv.org/html/2609.31211v1",
+          "locator": "§I末尾脚注1",
+          "supports": [
+            "作者声明数据、代码、提示和评分脚本位于匿名仓库；未验证仓库内容"
+          ]
+        },
+        {
+          "kind": "user",
+          "label": "用户资料：论文汇总(1).docx",
+          "url": null,
+          "locator": "CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection",
+          "supports": [
+            "本批论文索引；方法与实验另以原始来源为准"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "sage-subsea",
+          "reason": "同为水下巡检；CoralPlan解决图像/任务条件下的观测技能执行，SAGE解决阀门风险场驱动的时间分配与重访，不能将两者成功率和重访指标混排。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-20",
+      "verificationLevel": "fulltext",
+      "verification": "已回查arXiv v1元数据与HTML全文，逐行核对Tables I–IV、观测阈值与Scope；匿名仓库正文不可访问，未验证下载、训练或执行。",
+      "gaps": [
+        "未核验匿名仓库中的下载文件、许可证、训练配置与评分脚本实际内容；原文确认的入口已保留。",
+        "四个实体目标额外训练照片数量及完整逐层LoRA参数清单需查仓库，正文未给。",
+        "未自行复现计划训练、144次仿真或36对清水池执行。"
+      ],
+      "sourceNotes": [],
+      "bibtex": "@misc{gao2026coralplan,\n  title = {CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection},\n  author = {Yuer Gao and Yu Zhao and Yi Cai},\n  year = {2026},\n  eprint = {2609.31211},\n  archivePrefix = {arXiv},\n  primaryClass = {cs.RO},\n  url = {https://arxiv.org/abs/2609.31211v1}\n}",
+      "citationNote": "按arXiv v1已核实作者、标题和日期整理的预印本格式，未推断会议发表。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
       "id": "eta",
       "title": "ETA: A New Agentic Paradigm for Embodied Tasks",
       "short": "ETA / OpenETA",
@@ -3441,7 +4395,8 @@
           "室内"
         ],
         "training": [
-          "监督微调"
+          "监督微调",
+          "冻结主干并训练模块"
         ]
       },
       "summary": "在 VirtualHome 中自由探索并报告家庭隐患，测试集含 1,000 个任务、3,000 个隐患实例；CueBack 生成可见线索约束下的训练数据。",
@@ -3489,13 +4444,13 @@
         ]
       },
       "training": {
-        "regime": "监督微调",
-        "models": "Qwen3-VL-4B；基线另含多种商用与开源 VLM",
-        "trainable": "CueBack 数据上的下游微调；原文另比较偏好优化",
-        "frozen": "基线模型仅推理不代表 CueBack 方法也无训练",
+        "regime": "冻结视觉编码器，语言模型LoRA监督微调；另有DPO对照",
+        "models": "Qwen3-VL-4B-Thinking；商用与开源VLM基线仅推理。",
+        "trainable": "语言模型attention与FFN投影的LoRA参数：rank16、alpha32、dropout0.05。",
+        "frozen": "视觉编码器冻结，语言模型基础权重不更新；仅训练LoRA适配器。",
         "data": "与测试环境、布局及物体实例隔离的训练场景",
-        "objective": "动作、推理及偏好监督（按变体区分）",
-        "stages": "数据构造 → SFT/偏好优化 → OOD 评测"
+        "objective": "CueBack/SFT变体使用监督学习；DPO为独立对照：每任务4条rollout，按F1及更短轨迹构造最优/最差偏好对，beta0.1。",
+        "stages": "构造可见线索约束的轨迹与推理 → 1 epoch LoRA微调（AdamW、学习率1e-4、batch16、16K上下文、100步warmup、cosine）→ 合并adapter并评估；DPO为独立变体。"
       },
       "evaluation": [
         {
@@ -3611,12 +4566,32 @@
             "方法",
             "实验"
           ]
+        },
+        {
+          "kind": "primary",
+          "label": "HomeSafeBench v2原文与附录",
+          "url": "https://arxiv.org/html/2509.23690v2",
+          "locator": "§3.2、§5.2、Table 2、Appendix D.3–D.4",
+          "supports": [
+            "场景与标注口径",
+            "LoRA训练/冻结范围",
+            "对照方法差异"
+          ]
+        },
+        {
+          "kind": "user",
+          "label": "用户资料：论文汇总(1).docx",
+          "url": null,
+          "locator": "HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection",
+          "supports": [
+            "本批论文索引；方法与实验另以原始来源为准"
+          ]
         }
       ],
       "related": [],
       "bibtex": "@misc{homesafebench2025,\n  title = {HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection},\n  author = {Jiashu Yao and Haoyu Wen and Siyuan Gao and Yuhang Guo and Zeming Liu and Heyan Huang},\n  year = {2025},\n  eprint = {2509.23690},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2509.23690}\n}",
       "status": "重点详解",
-      "checked": "2026-10-19",
+      "checked": "2026-10-20",
       "gaps": [
         "尚未逐项核实所有资源许可证与下载内容"
       ],
@@ -3631,7 +4606,7 @@
         "actions": "VirtualHome 原生移动、转向、接近等工具；最多20步。",
         "success": "隐患级 precision/recall/F1；LLM judge 匹配。",
         "collection": "场景组合生成、VLM 视觉筛选、人工验证可达性和风险。",
-        "scale": "测试1000任务、3000隐患实例；每任务1–5个隐患；5类风险。",
+        "scale": "3个VirtualHome环境、12个room scenes，人工标注136处风险位置、367个具安全属性的物体；测试1000任务、3000隐患实例，每任务1–5个隐患、5类风险。",
         "split": "训练：2环境、8 room scenes；测试：1留出环境、4 room scenes。",
         "metrics": "隐患级 P/R/F1；另有不依赖 LLM judge 的类别级结果。",
         "baselines": "商用/开源 VLM、SFT 与偏好优化变体。",
@@ -42714,6 +43689,625 @@
       }
     },
     {
+      "id": "sage-subsea",
+      "title": "SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure",
+      "short": "SAGE",
+      "aliases": [
+        "Semantic and Adaptive Generative Ergodicity",
+        "arXiv:2608.19671"
+      ],
+      "authors": [
+        "Markus Buchholz",
+        "Ignacio Carlucho",
+        "Yvan R. Petillot"
+      ],
+      "institutions": [
+        "Norwegian Defence Research Establishment (FFI)",
+        "School of Engineering & Physical Sciences, Heriot-Watt University"
+      ],
+      "firstPublished": "2026-08-20",
+      "updated": "2026-08-20",
+      "publicationYear": 2026,
+      "year": 2026,
+      "venue": "IEEE IROS 2026 AQ2UASIM workshop",
+      "publicationStatus": "作者在 arXiv Comments 声明 workshop 录用；未核验正式论文集，非 IROS 主会",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "巡检",
+          "机器人控制"
+        ],
+        "paradigm": [
+          "最优控制"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "主动感知",
+          "规划",
+          "安全"
+        ],
+        "environment": [
+          "仿真",
+          "水下",
+          "水下机器人"
+        ],
+        "training": [
+          "不适用"
+        ]
+      },
+      "summary": "将阀门风险场与轨迹访问统计的 Fourier 差异直接转成速度指令；五阀门仿真中高风险阀门重访间隔为5.8秒，但另一个阀门300秒内未获访问。",
+      "overview": "海底采油树的已知阀门需要反复检查，且检查频率应随风险改变。SAGE 用风险加权高斯混合表示关注分布，以遍历控制持续纠正机器人访问统计与风险分布的差异，从而同时调节停留与重访。论文验证的是两棵采油树、五阀门和手设风险的300秒仿真；相机/声呐检测驱动的风险更新、语言意图和实机试验仍是后续工作。",
+      "method": {
+        "input": "五个已知阀门的二维位置 μ_i、分布尺度 Σ_i、风险权重 w_i(t)、机器人位置及运行至当前的轨迹统计。实验中的权重按情景固定手设。",
+        "output": "每个控制周期的运动方向与恒定转场速度下的速度指令；访问轨迹由控制律持续产生，不输出离散巡检路线。",
+        "flow": [
+          "以阀门位置为中心建立归一化风险高斯混合",
+          "将风险场与历史轨迹投影到相同 Fourier 基",
+          "按频谱访问不足方向生成控制向量并执行",
+          "累积新轨迹统计；风险权重改变时更新目标谱系数"
+        ],
+        "assumptions": "工作空间归一化为二维，阀门位置已知；可给每个阀门赋风险权重。论文未在实验闭合真实泄漏检测与风险更新，也未展示实机、洋流扰动或障碍安全约束验证。",
+        "difference": "固定 A* 闭环即使按风险增加驻留时间，仍在每圈各访问一次；遍历控制用整个轨迹的时间平均覆盖误差决定即时运动，可在权重变化后的下一个控制周期改变方向。该机制的即时响应性质不等于已完成中途泄漏注入实验。",
+        "explanation": "每个阀门在空间形成一个高斯风险峰，归一化后得到目标概率密度。目标密度的 Fourier 系数 φ_k 与轨迹至当前时刻的平均系数 c_k 表示应当关注哪里、已经关注哪里。控制器把各频率上的系数差乘以基函数梯度并求负加权和，优先修正低频的大尺度覆盖失衡；沿该向量以恒定转场速度移动。改变某阀风险只需重算目标系数，但有限时域内并无逐阀访问保证。",
+        "modules": [
+          {
+            "name": "阀门风险场",
+            "purpose": "把不同风险映射成连续空间覆盖目标",
+            "input": "已知阀门位置、协方差、风险权重",
+            "mechanism": "使用 φ(x,t)=Σ_i w_i(t)N(x;μ_i,Σ_i)/Z；Z使密度积分为1。实验分别固定等权、分级、单阀极高风险三组权重。",
+            "output": "归一化二维风险密度与各阀门附近的目标风险质量",
+            "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+            "locator": "§II，式(1)"
+          },
+          {
+            "name": "频谱覆盖记忆",
+            "purpose": "比较目标分布与实际访问历史",
+            "input": "风险密度与从0到t的机器人轨迹",
+            "mechanism": "在同一余弦 Fourier 基 F_k 上计算 φ_k=∫φF_k 与 c_k(t)=t⁻¹∫₀ᵗF_k(x(τ))dτ；使用完整运行时间平均，正文未给滑动窗口遗忘机制。",
+            "output": "各空间频率上的访问偏差 c_k−φ_k",
+            "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+            "locator": "§II，式(1)之后的 Fourier 基及系数定义"
+          },
+          {
+            "name": "即时遍历速度控制",
+            "purpose": "把覆盖不足直接变成运动",
+            "input": "频谱误差、当前位置、基函数梯度",
+            "mechanism": "S=−Σ_k Λ_k(c_k−φ_k)∇F_k，Λ_k=(1+||k||²)^−(n+1)/2；低频优先，车辆沿S以恒定转场速度行进。作者在 ergodic-control-sandbox 参考实现之上实现控制律。",
+            "output": "连续生成的运动方向与巡检轨迹",
+            "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+            "locator": "§II，式(2)，参考文献[3–4]"
+          },
+          {
+            "name": "风险重加权接口（部分为架构设想）",
+            "purpose": "支持任务期间改变关注重点",
+            "input": "更新后的单阀风险权重；未来拟接检测置信度和操作者意图",
+            "mechanism": "重算 φ_k 后，下一控制周期的S随之改变；相机/声呐泄漏标志、Bayesian融合与语言模型意图属于完整SAGE的拟议接口，本次评测仍为手设固定权重。",
+            "output": "对风险变化有响应的覆盖控制目标；感知闭环尚未验证",
+            "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+            "locator": "§II首段；§III最后两段，Fig.1"
+          }
+        ]
+      },
+      "training": {
+        "regime": "不适用：解析遍历控制；无神经网络训练",
+        "models": "实验核心为 Mathew–Mezić 谱多尺度遍历控制律；没有已部署的 VLM、LLM 或学习策略。",
+        "trainable": "无可训练模型参数；风险权重与控制配置由实验设置给定。",
+        "frozen": "不涉及冻结神经主干。文末语言模型解释操作者意图的描述是后续完整架构设想。",
+        "data": "两棵海底采油树、五个阀门的仿真布局；三组手设风险分布，而非训练数据集。",
+        "objective": "逐时刻减小目标风险分布与历史轨迹分布的加权 Fourier 系数差；这属于在线控制目标，不是离线学习损失。",
+        "stages": "设置阀门布局与风险 → 初始化覆盖统计 → 每周期计算控制律、运动并累积统计；无训练/微调阶段。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "五阀门风险自适应巡检（作者仿真）",
+          "setting": "Gazebo/BlueROV2示意场景；两棵XT分别2/3个阀门，非共线且不等距；每次任务300秒。三种手设profile：20/20/20/20/20%、40/25/15/12/8%、55/20/10/8/7%。A*在8邻接网格按最短tour顺序闭环巡检，并按风险比例设置各阀等待时间。",
+          "result": "Table I单阀高风险profile中，P1由A*的37次/8.1秒变为EC的50次/5.8秒；P3却为0次。EC访问次数与权重的相关系数在分级profile为+0.88、单阀高风险profile为+0.93；A*各阀次数相同，相关系数无定义。Fig.1的轨迹对应分级profile，不能与Table I的单阀高风险profile混为同一条件。",
+          "locator": "v1 §III，Table I；Fig.1图注及§III正文",
+          "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+          "attribution": "作者报告；未自行复现。以下为表格精确值，非从轨迹图估读。",
+          "table": {
+            "caption": "Table I：300秒单阀高风险profile，访问次数与重访间隔",
+            "columns": [
+              "阀门",
+              "风险权重",
+              "A*访问次数",
+              "A*间隔(s)",
+              "EC访问次数",
+              "EC间隔(s)"
+            ],
+            "rows": [
+              [
+                "P1（泄漏）",
+                0.55,
+                37,
+                8.1,
+                50,
+                5.8
+              ],
+              [
+                "P2",
+                0.2,
+                37,
+                8.1,
+                10,
+                26.8
+              ],
+              [
+                "P3",
+                0.1,
+                37,
+                8.1,
+                0,
+                "—"
+              ],
+              [
+                "P4",
+                0.08,
+                37,
+                8.1,
+                7,
+                43.5
+              ],
+              [
+                "P5",
+                0.07,
+                37,
+                8.1,
+                15,
+                18.4
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+            "locator": "v1 Table I（HTML #S3.T1）",
+            "note": "时间单位秒；P3没有访问，间隔未定义。原文未报告多次运行方差、随机种子或置信区间。"
+          }
+        }
+      ],
+      "limitations": {
+        "author": [
+          "单阀高风险profile中P3零访问；无约束遍历控制只约束长期平均，有限300秒任务内可能饿死部分阀门。作者提出权重下界或硬重访间隔约束作为后续补充。",
+          "Fourier基会造成短暂角落偏移，约占任务时间2–5%。",
+          "尚需更多场景与采油树布局、相机实时泄漏检测驱动风险、实体载具以及任务中途泄漏注入试验；Bayesian置信度更新与语言模型意图接口尚待整合。"
+        ],
+        "analysis": [
+          "本次五阀固定风险实验支持风险分配与访问次数差异；“新泄漏在下一控制周期改变方向”主要由控制律结构说明，不能写成已实测的在线感知响应延迟。",
+          "P3权重0.10仍零访问，而更低权重P4/P5有访问，说明有限时域结果还受空间布局与轨迹动力学影响；风险权重大并不逐阀保证更频繁访问。",
+          "与单一固定tour A*比较，尚不能推断优于可自动重规划、带最大重访间隔约束的风险感知规划器。单给权重加正下界也不等于严格的有限时域安全保证。",
+          "未报告逐阀重访间隔的最大值或分布；平均5.8秒不能当作泄漏漏检时长的硬上界。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2608.19671v1",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/MurpheyLab/ergodic-control-sandbox",
+          "status": "参考依赖/教程库；不是已核实的SAGE方法开源实现"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv v1 元数据与 workshop 录用声明",
+          "url": "https://arxiv.org/abs/2608.19671v1",
+          "locator": "Authors、Submitted on、Submission history、Comments",
+          "supports": [
+            "标题",
+            "完整作者",
+            "首次与最新日期",
+            "AQ2UASIM workshop身份"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "SAGE v1 原文",
+          "url": "https://arxiv.org/html/2608.19671v1",
+          "locator": "作者脚注；§II式(1–2)；§III；Table I；Fig.1",
+          "supports": [
+            "机构",
+            "方法模块",
+            "无学习训练",
+            "三组风险条件",
+            "访问计数与间隔",
+            "作者局限"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "被引用的 Ergodic Control Sandbox 仓库",
+          "url": "https://github.com/MurpheyLab/ergodic-control-sandbox",
+          "locator": "README：Standalone tutorials；Authors；Table of contents；论文§II与参考[4]",
+          "supports": [
+            "仅为参考实现/依赖库",
+            "不能推断SAGE专用代码已开源"
+          ]
+        },
+        {
+          "kind": "user",
+          "label": "用户资料：论文汇总(1).docx",
+          "url": null,
+          "locator": "SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure",
+          "supports": [
+            "本批论文索引；方法与实验另以原始来源为准"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "coralplan",
+          "reason": "同属水下巡检；SAGE研究风险加权的重复覆盖控制，CoralPlan研究视觉语言驱动的观测技能选择与执行，评测指标和平台不同。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-19",
+      "verificationLevel": "fulltext",
+      "verification": "已逐项回查arXiv v1元数据、全文式(1–2)、Table I和Fig.1及被引仓库README；未将原文未来架构当作已验证模块。",
+      "gaps": [
+        "未找到由原文确认的SAGE专用实现、场景文件或风险实验日志入口。",
+        "未核验 workshop 正式论文集；录用信息来自作者arXiv Comments。",
+        "原文未提供多次独立运行的误差统计、控制频率与完整可复现实验配置。"
+      ],
+      "sourceNotes": [],
+      "bibtex": "@misc{buchholz2026sage,\n  title = {SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure},\n  author = {Markus Buchholz and Ignacio Carlucho and Yvan R. Petillot},\n  year = {2026},\n  eprint = {2608.19671},\n  archivePrefix = {arXiv},\n  primaryClass = {cs.RO},\n  url = {https://arxiv.org/abs/2608.19671v1}\n}",
+      "citationNote": "按arXiv v1元数据整理的预印本引用；作者声明AQ2UASIM workshop录用，不构造IROS主会论文集引用。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "seek-inspection",
+      "title": "SEEK: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks",
+      "short": "SEEK",
+      "aliases": [
+        "Semantic Reasoning for Object Inspection Tasks",
+        "2405.09822"
+      ],
+      "authors": [
+        "Muhammad Fadhil Ginting",
+        "Sung-Kyun Kim",
+        "David D. Fan",
+        "Matteo Palieri",
+        "Mykel J. Kochenderfer",
+        "Ali-akbar Agha-mohammadi"
+      ],
+      "institutions": [
+        "Stanford University",
+        "Field AI"
+      ],
+      "firstPublished": "2024-05-16",
+      "updated": "2024-11-18",
+      "publicationYear": 2024,
+      "year": 2024,
+      "venue": "RSS",
+      "publicationStatus": "已发表",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "ObjectNav",
+          "巡检"
+        ],
+        "paradigm": [
+          "LLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法",
+          "系统"
+        ],
+        "problem": [
+          "规划",
+          "空间理解",
+          "记忆"
+        ],
+        "environment": [
+          "仿真",
+          "真实世界",
+          "室内",
+          "四足机器人"
+        ],
+        "training": [
+          "冻结主干并训练模块"
+        ]
+      },
+      "summary": "从平面图构建分层场景图，用GPT-4蒸馏的轻量语义网络预测房间中的目标概率，再以MDP规划和局部主动搜索完成实机目标导航。",
+      "method": {
+        "input": "目标物体类别文本、带房间语义与几何布局的平面图/BIM类空间先验；在线输入LiDAR定位、相机目标检测和目标位姿/置信度。",
+        "output": "房间级访问/搜索策略、局部导航轨迹、目标物体位置，以及靠近目标后触发的任务完成信号。",
+        "flow": [
+          "离线从平面图生成DSG，编码房间、位置与连接代价",
+          "冻结文本编码器提供语义特征，训练MLP并初始化房间目标概率",
+          "全局MDP选择去哪个房间或是否仔细搜索当前房间",
+          "局部状态机执行导航、主动语义搜索、靠近目标；新观测更新概率并重规划"
+        ],
+        "assumptions": "已有可定位到的平面图和房间类型；运行内房间/建筑之间连接保持不变，局部可通行风险可更新。需有能检测目标类别的视觉模型及可靠定位。论文全局规划比较给定目标存在且时间不限，不能直接外推到未知目标是否存在或严格限时的标准ObjectNav。",
+        "difference": "把常识编码成可本地运行的概率模型，并在MDP中共同考虑跨房间行走代价、搜索代价、发现概率及找不到后的后续动作；区别于只挑当前最高语义效用房间、按距离覆盖，或每一步直接向云端LLM请求动作。主系统没有图像级VLM推理。",
+        "explanation": "DSG保存建筑/房间/位置/物体的空间结构，RSN单独表达目标出现的语义概率。RSN由文本编码器、MLP和朴素贝叶斯网络组成：物体名称先转为embedding，MLP预测27种房间的出现概率与不仔细搜索即可发现的概率；实际观察再修正各房间分布。全局规划将房间和终止状态建成MDP，以去另一房间和搜索当前房间为动作，通过值迭代求期望行程最小的策略。每个全局动作执行后重新估计概率并求解。局部控制器继承SB2G，在全局搜索、主动感知和靠近检测目标间切换，路径交给风险感知MPC执行。",
+        "modules": [
+          {
+            "name": "从平面图初始化并在线维护DSG",
+            "purpose": "把大范围目标搜索变成有层级和几何代价的房间导航。",
+            "input": "楼层平面图、房间语义/几何、LiDAR地图、局部可通行风险和新检测物体。",
+            "mechanism": "从平面图生成房间节点，在可行走开放空间均匀采样位置节点，边存欧氏距离。机器人用LiDAR地图与平面图对齐，更新位置节点之间的通行风险；首次定位的物体加入对象层并连接最近位置节点。运行内不改变房间和建筑之间的连接。",
+            "output": "可查询房间结构、位置连通、目标观测及路径代价的DSG。",
+            "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+            "locator": "§IV-A；§III-B"
+          },
+          {
+            "name": "RSN：蒸馏常识与贝叶斯更新",
+            "purpose": "估计目标在哪些房间，以及进入房间后是否容易发现目标。",
+            "input": "目标类别文本、房间类型和历史搜索/发现记录。",
+            "mechanism": "预训练bge-small编码物体名称，三隐藏层MLP预测27类房间出现概率和无需仔细搜索的发现概率；用100个物体的GPT-4概率标注训练。朴素贝叶斯网络把上次分布作为先验、各房间局部搜索后是否看到目标作为二值证据，以条件概率和边缘化做精确推断。在线更新的是分布，不是再次微调LLM。",
+            "output": "每个具体房间的目标概率与搜索发现概率。",
+            "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+            "locator": "§IV-B；附录C"
+          },
+          {
+            "name": "房间级MDP与滚动全局策略",
+            "purpose": "同时考虑搜索收益、移动距离和搜索失败后的后续行动。",
+            "input": "DSG、RSN概率、当前位置、目标类别。",
+            "mechanism": "状态来自房间节点并包括完成状态；动作是去另一房间或搜索当前房间。到达目标的转移概率由RSN给出，房间间转移按已知连通图处理。A*在DSG上算跨房间最短距离，房内位置覆盖路径给搜索代价；小规模状态/动作空间使用值迭代。执行动作后用新观测更新转移概率并重解。",
+            "output": "从当前房间开始的访问或搜索动作。",
+            "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+            "locator": "§III-C；§IV-C；图3"
+          },
+          {
+            "name": "SB2G局部状态机与风险感知MPC",
+            "purpose": "把房间级策略落地为导航、确认目标和靠近观察。",
+            "input": "全局动作、局部地图、目标语义信念与检测位置。",
+            "mechanism": "全局搜索状态执行到房间的最短路或当前房间覆盖路；主动语义搜索状态选择增加目标观测信息的路径；检查状态选择距目标最近的无障碍机器人位姿。各路径交给风险感知MPC产生轨迹，实机用YOLO系检测器和LiDAR SLAM提供观测。",
+            "output": "连续机器人轨迹、更新的目标信念和目标附近的终止位姿。",
+            "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+            "locator": "§IV-D；§V-C"
+          }
+        ]
+      },
+      "training": {
+        "regime": "任务特定的轻量MLP监督训练；预训练文本编码器作为固定特征，部署时只做概率更新和规划。",
+        "models": "RSN：bge-small文本编码器＋三隐藏层MLP＋朴素贝叶斯网络；GPT-4生成离线标签；Spot用YOLO系目标检测器、LiDAR SLAM和风险感知MPC。",
+        "trainable": "RSN中的MLP；其输出为27类房间的目标出现概率和不仔细搜索的发现概率。本文未给出完整优化器、学习率和损失函数配置。",
+        "frozen": "预训练文本编码器用于生成输入embedding，原文未报告微调；GPT-4仅离线提供常识标签，不在部署循环中训练或推理。YOLO系检测器训练出处/配置未完整交代，不能据此称全系统无训练。",
+        "data": "GPT-4生成100个家庭/城市建筑常见物体名称，按每次5个物体查询各房间类型出现概率和易发现程度；附录C另取训练集外40个物体测试。未用Matterport3D物体分布训练RSN，实机RSN也未以办公室数据微调。",
+        "objective": "用文本特征拟合GPT-4给出的语义概率；附录C用测试集均方误差比较编码器。具体训练损失未明确；在线贝叶斯条件推断和MDP值迭代均不属于神经网络梯度训练。",
+        "stages": "离线准备平面图DSG→GPT-4蒸馏标签并训练MLP→本地部署RSN/全局与局部控制→按观测更新分布并保存供后续任务使用。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "Matterport3D / Habitat全局规划",
+          "setting": "arXiv v2 §V-A表I；5个场景、10种目标，每种方法50次模拟；寻找最近实例。目标保证存在、时间不限，因此所有方法Si=1，此处SPL主要反映路径效率；固定/可移动物体分列，均值括号内为标准差。每次不记忆上次运行的目标位置或信息。",
+          "result": "SEEK固定物体SPL 0.96（0.12）、可移动物体0.84（0.23）；GPT-4 Planner相应为0.84（0.26）、0.81（0.23）。该实验不表示SEEK在严格限时或未知目标存在条件下有96%成功率。",
+          "locator": "v2 §V-A 表I、式(3)",
+          "attribution": "作者报告；原表精确值",
+          "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+          "table": {
+            "caption": "v2 表I：全局规划SPL，均值（标准差）",
+            "columns": [
+              "方法",
+              "固定物体SPL",
+              "可移动物体SPL"
+            ],
+            "rows": [
+              [
+                "SEEK",
+                "0.96 (0.12)",
+                "0.84 (0.23)"
+              ],
+              [
+                "Semantic Utility",
+                "0.74 (0.27)",
+                "0.70 (0.27)"
+              ],
+              [
+                "GPT-4 Planner",
+                "0.84 (0.26)",
+                "0.81 (0.23)"
+              ],
+              [
+                "Room Coverage",
+                "0.77 (0.25)",
+                "0.65 (0.27)"
+              ],
+              [
+                "Random",
+                "0.65 (0.35)",
+                "0.68 (0.32)"
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+            "locator": "§V-A 表I",
+            "note": "五种方法使用该文给定的房间级动作和布局；不与其他论文标准ObjectNav结果合并。"
+          }
+        },
+        {
+          "benchmark": "RSN文本编码器比较",
+          "setting": "arXiv v2附录C表II；另向GPT-4查询训练集外40个物体，以其概率标签为测试目标。参数量是表中编码模型参数，不是完整机器人系统大小。",
+          "result": "bge-small为33M参数、预测均方误差0.051；bge-base为109M、0.045。误差对GPT-4标签计算，不是对真实物体频率标注计算。",
+          "locator": "v2 附录C 表II",
+          "attribution": "作者报告；原表精确值",
+          "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+          "table": {
+            "caption": "v2 表II：不同文本embedding的RSN预测误差",
+            "columns": [
+              "文本编码器",
+              "参数量",
+              "预测MSE"
+            ],
+            "rows": [
+              [
+                "bge-small",
+                "33 M",
+                "0.051"
+              ],
+              [
+                "CLIP text encoder",
+                "65 M",
+                "0.052"
+              ],
+              [
+                "bge-base",
+                "109 M",
+                "0.045"
+              ],
+              [
+                "bert-base-uncased",
+                "110 M",
+                "0.043"
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+            "locator": "附录C 表II",
+            "note": "预测误差对40个额外物体的GPT-4蒸馏标签，不是导航SPL。"
+          }
+        },
+        {
+          "benchmark": "Gazebo办公室系统与错误先验测试",
+          "setting": "arXiv v2 §V-B图4–6：21房间、Spot模型；最近灭火器7个不同起点，图5时间曲线为同起点3次运行；咖啡杯跨任务更新为3个起点共12次运行。附录B图8–9另用18种咖啡杯位置、3个起点。",
+          "result": "附录B报告：目标置于RSN先验概率低于0.5的房间时，SEEK平均SPL低于Room Coverage；后者均值约0.25且方差较大。最低预期的PPE储藏室初始概率0.05，示例经过25个全局规划步骤才找到杯子。主文图5–6展示效率/概率改善趋势，未把图线估读成精确数值。",
+          "locator": "v2 §V-B 图4–6；附录B 图8–9",
+          "attribution": "作者正文报告；0.25为原文近似值，未重新估读曲线",
+          "sourceUrl": "https://arxiv.org/html/2405.09822v2"
+        },
+        {
+          "benchmark": "Spot实机目标巡检",
+          "setting": "arXiv v2 §V-C图7；办公室3个灭火器候选位置（厨房、充电房、前台）；LiDAR＋3相机，检测运行于Jetson AGX Xavier，其他栈运行于机载Intel i7。",
+          "result": "图7所展示的单次实机导航到最近灭火器SPL=0.93。论文没有将此值报告为多次实机均值或巡检故障识别准确率。",
+          "locator": "v2 §V-C 图7",
+          "attribution": "作者报告；正文精确值，单次展示",
+          "sourceUrl": "https://arxiv.org/html/2405.09822v2"
+        }
+      ],
+      "limitations": {
+        "author": [
+          "附录B：目标在低先验房间（预测概率<0.5）时，SEEK平均路径效率低于Room Coverage；错误常识或异常摆放使其先访问高概率房间。",
+          "§IV-A/C：实验中不考虑运行内房间/建筑连接变化；当前代价查表依赖这一条件。",
+          "§IV-B及§VI：紧凑RSN面向预期会查询及语义相近的目标；引入物体间关系、图像/VLM上下文、BIM层级和开放词汇是未来扩展。"
+        ],
+        "analysis": [
+          "依赖带语义平面图的设置提供了额外空间先验，不能把表I直接与仅相机观测的未知环境ObjectNav排名比较。",
+          "RSN测试标签来自GPT-4，低MSE说明复现了该教师的概率判断，不能单独证明现实布局概率已校准。",
+          "靠近灭火器展示的是搜索与导航；设备状态判读、故障识别、周期复查调度和动态人流下持续巡检尚无该实验的定量验证。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2405.09822v2",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": null,
+          "status": "未找到独立项目页；RSS官方论文集见来源"
+        },
+        "code": {
+          "url": null,
+          "status": "未找到经原文或作者确认的公开代码入口"
+        },
+        "data": {
+          "url": null,
+          "status": "未找到该方法专属公开数据入口"
+        },
+        "weights": {
+          "url": null,
+          "status": "未找到RSN权重入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv摘要与版本记录",
+          "url": "https://arxiv.org/abs/2405.09822",
+          "locator": "Submission history；Journal reference",
+          "supports": [
+            "首次公开日",
+            "v2更新日",
+            "标题",
+            "作者",
+            "RSS发表身份"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "arXiv v2全文",
+          "url": "https://arxiv.org/html/2405.09822v2",
+          "locator": "§III–VI；表I–II；附录A–C",
+          "supports": [
+            "方法模块",
+            "RSN训练",
+            "评测协议",
+            "精确表值",
+            "实机单次结果",
+            "异常位置局限"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "RSS 2024官方论文集入口",
+          "url": "https://www.roboticsproceedings.org/rss20/p024.html",
+          "locator": "RSS XX paper 024；BibTeX",
+          "supports": [
+            "正式发表",
+            "完整作者次序",
+            "会议年份",
+            "DOI"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "RSS正式论文PDF",
+          "url": "https://www.roboticsproceedings.org/rss20/p024.pdf",
+          "locator": "首页作者与机构",
+          "supports": [
+            "Stanford University",
+            "Field AI",
+            "作者全名"
+          ]
+        },
+        {
+          "kind": "user",
+          "label": "用户资料：论文汇总(1).docx",
+          "url": null,
+          "locator": "SEEK: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks",
+          "supports": [
+            "本批论文索引；方法与实验另以原始来源为准"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "semantic-scene-difference",
+          "reason": "同属真实机器人巡检：SEEK决定先去哪找目标，Semantic Scene Difference比较固定巡检点的语义变化，解决的环节互补。"
+        },
+        {
+          "id": "remembr",
+          "reason": "都把语义信息与空间位置连接到导航；ReMEmbR检索历史观测，SEEK用先验概率与在线观测优化目标搜索。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-20",
+      "gaps": [
+        "原文未完整给出RSN训练损失、优化器和学习率；未找到作者确认的公开代码、训练数据或RSN权重。"
+      ],
+      "sourceNotes": [],
+      "bibtex": "@inproceedings{Ginting2024Seek,\n  author = {Muhammad Fadhil Ginting and Sung-Kyun Kim and David D. Fan and Matteo Palieri and Mykel J. Kochenderfer and Ali-akbar Agha-mohammadi},\n  title = {{SEEK}: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks},\n  booktitle = {Proceedings of Robotics: Science and Systems},\n  year = {2024},\n  address = {Delft, Netherlands},\n  month = {July},\n  doi = {10.15607/RSS.2024.XX.024},\n  url = {https://www.roboticsproceedings.org/rss20/p024.html}\n}",
+      "verificationLevel": "fulltext",
+      "overview": "大型建筑中的巡检首先需要找到设备。SEEK使用人类通常能获得的平面图与“某类物体更可能在哪类房间”的常识，把搜索从逐处覆盖改成考虑行走代价、发现概率和后续动作的房间级规划。它离线训练小型语义网络，在线用观测更新概率，再由局部控制器执行。论文验证了Matterport3D全局规划、Gazebo系统仿真和Spot实机导航；其主要任务是找到并靠近物体，尚未验证设备故障判读。",
+      "verification": "已核验arXiv v2全文及RSS正式论文集；分开记录全局规划、系统仿真、RSN预测和单次实机结果。",
+      "citationNote": "会议身份与DOI按RSS官方论文集；作者全名按正式PDF首页，保留D.及J.中间名。技术与表格按arXiv v2（2024-11-18）。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
       "id": "semantic-inspection",
       "title": "Semantically-driven Deep Reinforcement Learning for Inspection Path Planning",
       "short": "Semantically-driven Inspection",
@@ -42949,6 +44543,324 @@
       "overview": "在未知环境中，并非每个表面都同等重要。论文让巡检策略依据目标语义、深度、局部占用与过去位置，选择能观察感兴趣对象的运动。研究价值在于把检查覆盖与导航约束放入同一个学习策略。它不应被归入“无训练 VLM”：系统没有使用语言 VLM，但确实训练了强化学习策略。",
       "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
       "verificationLevel": "fulltext",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "semantic-scene-difference",
+      "title": "Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model",
+      "short": "Semantic Scene Difference",
+      "aliases": [
+        "Semantic Scene Difference Detection",
+        "Semantic Scene Difference Detection in Daily Life Patrolling by Mobile Robots Using Pre-Trained Large-Scale Vision-Language Model",
+        "2309.16552"
+      ],
+      "authors": [
+        "Yoshiki Obinata",
+        "Kento Kawaharazuka",
+        "Naoaki Kanazawa",
+        "Naoya Yamaguchi",
+        "Naoto Tsukamoto",
+        "Iori Yanokura",
+        "Shingo Kitagawa",
+        "Koki Shinjo",
+        "Kei Okada",
+        "Masayuki Inaba"
+      ],
+      "institutions": [
+        "Department of Mechano-Informatics, Graduate School of Information Science and Technology, The University of Tokyo"
+      ],
+      "firstPublished": "2023-09-28",
+      "updated": "2023-09-28",
+      "publicationYear": 2023,
+      "year": 2023,
+      "venue": "IROS",
+      "publicationStatus": "已发表",
+      "tags": {
+        "direction": [
+          "场景表征",
+          "导航"
+        ],
+        "task": [
+          "巡检",
+          "场景理解"
+        ],
+        "paradigm": [
+          "VLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法",
+          "系统"
+        ],
+        "problem": [
+          "动态环境",
+          "记忆"
+        ],
+        "environment": [
+          "真实世界",
+          "室内",
+          "轮式机器人"
+        ],
+        "training": [
+          "仅推理使用"
+        ]
+      },
+      "summary": "用预训练OFA对参考图与当前图分别生成多问句条件描述，再以MPNet答案距离和问题去冗余权重衡量巡检点的语义变化。",
+      "method": {
+        "input": "每个巡检点一张参考RGB图、该点当前RGB图及人工预先准备的自然语言问题；实验使用67个问题。",
+        "output": "当前图相对参考图的标量Scene Distance（SD），以及可回查的各问题答案和余弦距离；论文讨论以适当阈值识别语义异常，未提供统一标定阈值或故障类别。",
+        "flow": [
+          "机器人到预设位置并调整躯干/头部，采集与参考地点对应的当前图",
+          "对参考图和当前图分别运行OFA，按同一问题集合生成描述",
+          "all-mpnet-base-v2编码问题和答案，逐问题计算当前/参考答案余弦距离",
+          "以问题间语义距离构造权重，加权求和为SD，并分析问题多样性对分数方差的影响"
+        ],
+        "assumptions": "参考图与当前图属于同一个巡检点且视角大体一致；参考状态、问题集合和导航/拍摄姿态由人预先指定。模型能以文本保留目标状态变化，问题覆盖所关心的变化。SD衡量相对参考状态的语义差异，本身不定义这种变化是否危险。",
+        "difference": "以语言描述的语义距离替代直接像素或视觉特征差；用一个参考图即可推理，不收集当地正常图像来重新训练异常模型。问题权重由问题之间的语义距离计算，并非依靠异常标签训练；两张图分别询问后比较答案，不是用双图VLM直接生成差异报告。",
+        "explanation": "Fetch按预设导航坐标和拍照姿态重访三个地点。OFA对每张图分别接收预定义问题并生成描述。尽管摘要使用VQA概念，§II-B明确指出OFA的VQA接口会输出异常句，因此实际选择Image Captioning接口。预训练all-mpnet-base-v2将问题和答案都编码成768维向量。对每个问题计算参考/当前答案的余弦距离；再从问题之间的两两余弦距离矩阵M_rel出发，用w=M_rel·1/||M_rel·1||生成权重，求SD=Σw_kD_c(a_k,a_ref_k)。问题与其他问题越不同，其贡献越大。QoQ为矩阵元素和，反映问题集合的语义分散程度。",
+        "modules": [
+          {
+            "name": "固定巡检点的参考与当前图采集",
+            "purpose": "让图像变化对应同一地点的日常状态差异。",
+            "input": "巡检点坐标、躯干高度、头部角度、每点一张参考图。",
+            "mechanism": "Fetch依次导航到table/kitchen/desk三点，每次将躯干与头部设置为预设姿态后拍照；实际导航和头部位置有小偏差。参考图固定，不训练该地点的正常状态模型。",
+            "output": "同一地点的参考图与当前图配对。",
+            "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+            "locator": "§III；图4–5；表I–II"
+          },
+          {
+            "name": "OFA多问句条件图像描述",
+            "purpose": "把图像状态压缩为能比较的自然语言特征。",
+            "input": "一张图像及人工准备的m个问题；对参考图和当前图分别执行。",
+            "mechanism": "使用预训练OFA。§II-B明确选择Image Captioning接口，因为VQA接口可能产生异常重复句。问题覆盖物体、人员、活动与场景等，且保留相近表达的变化，因为代词、介词、单复数会影响输出。",
+            "output": "参考图和当前图各m条问题对应的描述。",
+            "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+            "locator": "§II-A/B；图2–3"
+          },
+          {
+            "name": "句向量与逐问题答案差异",
+            "purpose": "把同一问题下描述的语义变化转换为可计算距离。",
+            "input": "m个问题、参考答案与当前答案。",
+            "mechanism": "冻结的all-mpnet-base-v2把所有句子映射到768维向量；对第k个问题的两条答案计算D_c=1−点积/(两向量范数之积)。因此措辞相近的答案不必逐字匹配。",
+            "output": "每个问题一个当前/参考答案余弦距离；问题embedding另供权重模块使用。",
+            "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+            "locator": "§II-C"
+          },
+          {
+            "name": "问题去冗余加权与场景距离",
+            "purpose": "减少大量同义问题主导分数的现象，并检查问题选择稳定性。",
+            "input": "问题embedding、逐问题答案距离。",
+            "mechanism": "M_rel记录问题之间的两两余弦距离；以各行距离之和构成向量，再按原式范数归一化得到w（不是声明其和为1）。加权求和得到SD，与均匀w_k=1/m比较。QoQ=ΣM_rel,ij作为问题多样性指标；随机问题子集实验按QoQ分箱比较SD方差。",
+            "output": "SD和问题集合QoQ；阈值化为论文讨论的后续使用方式。",
+            "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+            "locator": "§II-C 式(1)–(2)及QoQ定义；§III-B"
+          }
+        ]
+      },
+      "training": {
+        "regime": "本任务无训练或微调；使用已训练OFA和句编码器推理，计算解析权重与相似度。",
+        "models": "OFA视觉语言模型（实际使用Image Captioning接口）；sentence-transformers/all-mpnet-base-v2句向量模型，输出768维。",
+        "trainable": "无。每点参考图、67个问题、问题间距离权重均为推理配置或计算结果，不是可学习适配器。",
+        "frozen": "预训练OFA与all-mpnet-base-v2均不在本地巡检数据上再训练。all-mpnet-base-v2本身经过句表征训练，并不表示本文对MPNet执行了微调。",
+        "data": "东京大学实验室两个月巡检图像，仅用于该文实验：table 145张、kitchen 144张、desk 141张；每点一张参考图，预先准备67个问题。没有为本方法新建训练集或监督损失。",
+        "objective": "不适用梯度训练。推理时计算答案余弦距离与问题多样性权重，实验关注SD对语义状态的响应及随机问题选择带来的方差。",
+        "stages": "配置固定巡检点/参考图/问题→冻结OFA生成描述→冻结MPNet编码→计算问题关系权重→输出SD并做实验分析。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "Fetch真实日常环境巡检采集",
+          "setting": "arXiv v1 §III，东京大学73B2实验室；预设三个位置与拍摄姿态；计划每天4次、持续两个月。张数为原文实际收集图像，不按计划频率反推总张数。每点只有一张参考图，展示的是所采数据中的代表图。",
+          "result": "table/kitchen/desk分别145/144/141张，共430张（本库由原文三项相加）；场景距离实验采用全部67个问题。没有报告训练/测试划分、带故障真值的分类准确率或AUROC。",
+          "locator": "v1 §III；图4–5；表I–II用于导航/拍照姿态",
+          "attribution": "作者正文报告；总数430为本库加总",
+          "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+          "table": {
+            "caption": "v1 §III正文：三个巡检点采集规模",
+            "columns": [
+              "巡检点",
+              "实际图像数",
+              "参考图数"
+            ],
+            "rows": [
+              [
+                "table",
+                "145",
+                "1"
+              ],
+              [
+                "kitchen",
+                "144",
+                "1"
+              ],
+              [
+                "desk",
+                "141",
+                "1"
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+            "locator": "§III正文；图5",
+            "note": "采集规模整理表，并非原文新增编号表；原表I/II记录固定导航坐标与拍摄姿态。"
+          }
+        },
+        {
+          "benchmark": "代表性状态的Scene Distance",
+          "setting": "arXiv v1 §III-A/IV-A图6–8；同一地点参考图对当前图，使用全部67个问题与所提权重。原文未给统一异常阈值；下列值按作者讨论保留不等式和近似属性。",
+          "result": "遥控器/键盘轻微移动（table A）和水壶移到相邻位置（kitchen A）的SD均<0.2；办公桌近似不变（desk A）的SD约0.14。三个地点各自的C例均为最高SD：table C有人操作电脑、kitchen C有更多食物/厨具、desk C有人工作。作者据此讨论对细微位移和姿态误差相对不敏感，不能解读为所有噪声条件下都不受影响。",
+          "locator": "v1 图6–8；§IV-A",
+          "attribution": "作者正文报告；0.14为作者近似值，未从曲线估读其他精确分数",
+          "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+          "table": {
+            "caption": "v1 图6–8对应正文报告的SD数值",
+            "columns": [
+              "地点/例图",
+              "状态",
+              "Scene Distance"
+            ],
+            "rows": [
+              [
+                "table A",
+                "遥控器与键盘轻微位置变化",
+                "< 0.2"
+              ],
+              [
+                "kitchen A",
+                "水壶移动至相邻位置",
+                "< 0.2"
+              ],
+              [
+                "desk A",
+                "参考状态近似不变，仍存在导航/头部误差",
+                "约 0.14"
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2309.16552v1",
+            "locator": "§IV-A；图6–8",
+            "note": "不是分类阈值，也不是不同地点之间可通用的风险等级；约0.14保留原文近似性。"
+          }
+        },
+        {
+          "benchmark": "问题子集与权重稳定性消融",
+          "setting": "arXiv v1 §III-B图9–11；在每个地点的C例上，从67个问题随机抽10个问题形成10,000组；分别用均匀权重式(1)和问题距离权重式(2)，按QoQ分箱比较SD方差。",
+          "result": "两种方法随QoQ增大方差均下降；作者报告所提权重在QoQ小、问题偏向相近含义的区域方差较低。抑制程度依赖场景及答案相似性。原文没有提供每个分箱的数值表或分类准确率，本条保留图示结论，不将其改写为百分比提升。",
+          "locator": "v1 §III-B；§IV-B；图9–11",
+          "attribution": "作者图示与正文报告；未估读曲线值",
+          "sourceUrl": "https://arxiv.org/html/2309.16552v1"
+        }
+      ],
+      "limitations": {
+        "author": [
+          "§II-B：OFA的VQA接口有时输出异常重复句，所以采用IC接口；§II-B图3显示介词、代词、单复数等措辞会改变输出。",
+          "§IV-B：问题选择会引起SD较大波动；所提权重的方差抑制因场景和答案相似性而异，仍需研究答案相互贡献。",
+          "§IV-C：SD取决于问题内容，任务需要相应选择问题；§V把自然语言解释、状态聚类和进一步自动执行支援行为作为未来方向。"
+        ],
+        "analysis": [
+          "一地点一张参考图不足以覆盖正常的光照、人员或布局多样性；分数较大只表示与参考状态不同，不能自动判定危险或违规。",
+          "实验集中在同一实验室的三个固定点和代表性场景，缺少带异常真值的跨环境分类协议，无法据此比较异常检测召回率、误报率或AUROC。",
+          "对图像先做语言压缩可能遗漏微小缺陷、仪表数值和具体几何变化；小幅物体位移被忽略既可抑制噪声，也可能漏掉任务关注的细微变化。",
+          "巡检路线、拍摄姿态和问题预先配置；没有评测自主选择复查地点/时机、主动更换视角或从差异分数生成闭环维修行动。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2309.16552v1",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": null,
+          "status": "未找到经原文或作者确认的公开代码入口"
+        },
+        "project": {
+          "url": null,
+          "status": "未找到独立项目页"
+        },
+        "data": {
+          "url": null,
+          "status": "未找到430张巡检图像的公开下载入口"
+        },
+        "weights": {
+          "url": "https://huggingface.co/sentence-transformers/all-mpnet-base-v2",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv摘要与版本记录",
+          "url": "https://arxiv.org/abs/2309.16552",
+          "locator": "作者列表；Submission history；IROS录用声明",
+          "supports": [
+            "标题",
+            "完整作者",
+            "首次公开日",
+            "唯一版本日期",
+            "作者录用声明"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "arXiv v1全文",
+          "url": "https://arxiv.org/html/2309.16552v1",
+          "locator": "首页机构；§II–V；图4–11；表I–II；参考文献[24]",
+          "supports": [
+            "机构",
+            "实际OFA接口",
+            "方法公式",
+            "无任务微调",
+            "图像采集数量",
+            "图示SD数值",
+            "消融协议",
+            "局限",
+            "句编码器入口"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "东京大学JSK官方论文目录",
+          "url": "https://www.jsk.t.u-tokyo.ac.jp/cgi-bin/bib/bib2htm.cgi?file=23&lang=en&mode=international",
+          "locator": "2023 International Conference条目[19]",
+          "supports": [
+            "IROS正式发表",
+            "完整作者次序",
+            "页码3228–3233",
+            "DOI 10.1109/IROS55552.2023.10342467"
+          ]
+        },
+        {
+          "kind": "user",
+          "label": "用户资料：论文汇总(1).docx",
+          "url": null,
+          "locator": "Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model",
+          "supports": [
+            "本批论文索引；方法与实验另以原始来源为准"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "seek-inspection",
+          "reason": "同属真实机器人巡检：本方法对固定点观测作语义变化度量；SEEK优化未见目标的搜索与靠近路线。"
+        },
+        {
+          "id": "remembr",
+          "reason": "都用预训练视觉语言模型把观测压缩为文本；本方法与单参考图逐问题比较，ReMEmbR建立可检索的长程时空描述记忆。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-20",
+      "gaps": [
+        "原文未给出完整OFA检查点/解码配置、全部67个问题的可运行清单或统一异常阈值；未找到作者确认的代码及巡检图像下载入口。"
+      ],
+      "sourceNotes": [],
+      "bibtex": "@inproceedings{Obinata2023SemanticSceneDifference,\n  author = {Yoshiki Obinata and Kento Kawaharazuka and Naoaki Kanazawa and Naoya Yamaguchi and Naoto Tsukamoto and Iori Yanokura and Shingo Kitagawa and Koki Shinjo and Kei Okada and Masayuki Inaba},\n  title = {Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model},\n  booktitle = {2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},\n  year = {2023},\n  pages = {3228--3233},\n  doi = {10.1109/IROS55552.2023.10342467},\n  url = {https://arxiv.org/abs/2309.16552}\n}",
+      "verificationLevel": "fulltext",
+      "overview": "固定地点的像素变化不等于需要机器人处理的状态变化。本文把参考图与当前图分别转成多组自然语言描述，在句向量空间比较同一问题对应的答案，再减轻重复问题的影响。Fetch在餐桌、厨房和办公桌采集两个月图像，验证小幅位移影响较小、有人工作等语义变化距离较大。输出是场景差异分数；自然语言解释、状态聚类和自动触发支援行为在论文中仍属后续方向。",
+      "verification": "已核验arXiv v1全文，并由东京大学JSK官方论文目录确认IROS发表、作者与DOI；图示结果保留原文精度，不补造分类成绩。",
+      "citationNote": "作者、会议、页码及DOI按东京大学JSK官方目录；标题保留arXiv与实验室目录中的Patroling原拼写。方法与实验按arXiv v1（2023-09-28）。",
       "reproduction": {
         "status": "未复现"
       }
@@ -43486,7 +45398,8 @@
       "VLA",
       "VLM",
       "强化学习",
-      "模仿学习"
+      "模仿学习",
+      "最优控制"
     ],
     "system": [
       "具身 Agent",
@@ -43525,7 +45438,9 @@
       "离线重建",
       "轮式机器人",
       "静态图像",
-      "预采集观测池"
+      "预采集观测池",
+      "水下",
+      "水下机器人"
     ],
     "training": [
       "不适用",
@@ -43552,7 +45467,9 @@
       "高斯重建": "3D/4D 表征",
       "户外": "室外",
       "Humanoid": "人形机器人",
-      "Wheeled robot": "轮式机器人"
+      "Wheeled robot": "轮式机器人",
+      "Underwater": "水下",
+      "Optimal Control": "最优控制"
     }
   },
   "redirects": {

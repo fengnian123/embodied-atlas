@@ -1,0 +1,395 @@
+{
+  "id": "construction-safety-vlm",
+  "title": "Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline",
+  "short": "Construction-Site Safety Inspection",
+  "aliases": [
+    "多层 VLM–LLM 施工安全巡检",
+    "arXiv:2512.13974"
+  ],
+  "authors": [
+    "Hossein Naderi",
+    "Alireza Shojaei",
+    "Philip Agee",
+    "Kereshmeh Afsari",
+    "Abiola Akanmu"
+  ],
+  "institutions": [
+    "Virginia Tech · Myers-Lawson School of Construction"
+  ],
+  "firstPublished": "2025-12-16",
+  "updated": "2025-12-16",
+  "publicationYear": null,
+  "year": 2025,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检"
+    ],
+    "paradigm": [
+      "VLM",
+      "LLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "系统"
+    ],
+    "problem": [
+      "安全",
+      "空间理解",
+      "规划"
+    ],
+    "environment": [
+      "真实世界",
+      "室内",
+      "四足机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "Go2按预设路线采集图像，经场景描述、规则生成、二次视觉评估和报告汇总完成巡检；三组实体实验共442帧，帧级隐患召回为92.2%、85.9%、78.6%。",
+  "method": {
+    "input": "Go2相机画面及时间戳、LiDAR/里程计与用户给定的目标点；安全法规/现场政策作为框架层面的规则依据。",
+    "output": "机器人导航控制、逐帧安全/不安全及五级严重程度判断、按时间戳汇总的结构化巡检报告。",
+    "flow": [
+      "RTAB-Map建图与Nav2执行用户指定路线",
+      "Gemma-3生成物体中心描述",
+      "Llama-3.3生成安全与不安全规则",
+      "Gemma-3结合原图和规则再次评估",
+      "DeepSeek-R1汇总带时间戳的报告"
+    ],
+    "assumptions": "实验路线和目标由用户提供，场景为可导航的室内施工实验室；AI在独立双RTX3090工作站运行。法规检索的具体索引、召回率和引用核对流程未充分说明。",
+    "difference": "将视觉描述、规则生成、视觉核查、报告生成分开，允许追溯每条结论的中间输出；不是端到端学习导航，也不等于已经实现未知场景的主动风险探索。",
+    "explanation": "机器人部分先提供可重复访问的空间路线；语义部分按固定频率抽帧，把一个复杂的安全判断拆成四个可检查步骤。第一次VLM只描述场景，LLM将描述转换为抽象原则与可测标准，第二次VLM重新查看原始画面而非仅依赖文字，最后汇总跨帧报告。时间戳用于证据关联，但逐帧评估本身没有显式时序状态模型。",
+    "modules": [
+      {
+        "name": "机器人空间底座",
+        "purpose": "重复覆盖与定点复访",
+        "input": "LiDAR、RGB-D/IMU、用户目标点",
+        "mechanism": "RTAB-Map进行图优化建图与ICP里程计；Nav2以全局代价地图和Dijkstra规划路径，局部避障；桥接/cmd_vel到Unitree SportMode，超时停止。",
+        "output": "位姿、地图、运动执行与带时间戳图像",
+        "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+        "locator": "§3.2–3.3、§4.1–4.2"
+      },
+      {
+        "name": "B1 感知抽象",
+        "purpose": "把图像转换成后续规则生成可用的事实",
+        "input": "每秒抽取的原始图像",
+        "mechanism": "Gemma-3 12B按物体中心提示描述对象、状态和关系；保留图像时间戳，允许报告回溯。",
+        "output": "逐帧场景描述",
+        "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+        "locator": "§3.4、§4.3"
+      },
+      {
+        "name": "B2 规则生成与法规接口",
+        "purpose": "把通用安全原则变成当前场景的判断依据",
+        "input": "B1描述、OSHA和现场政策",
+        "mechanism": "框架提出RAG法规 grounding；具体实现用Llama-3.3生成两条安全、两条不安全规则，每条含抽象原则和具体可测标准。原文未充分说明检索库构建和独立检索实验。",
+        "output": "与场景对应的安全规则",
+        "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+        "locator": "§3.4、§4.3"
+      },
+      {
+        "name": "B3 规则条件下的视觉评估",
+        "purpose": "减少仅依据文字描述判断的错误",
+        "input": "原图和B2规则",
+        "mechanism": "再次调用Gemma-3 12B，判断安全/不安全并使用五级严重程度。定量帧级评测读取本层输出。",
+        "output": "逐帧安全评估与严重程度",
+        "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+        "locator": "§4.3、§6"
+      },
+      {
+        "name": "B4 报告合成",
+        "purpose": "形成带证据索引的巡检文档",
+        "input": "所有逐帧判断及时间戳",
+        "mechanism": "DeepSeek-R1使用固定报告模板归并隐患、说明和建议；§7.1用帧号和模块编号追溯报告到描述与规则。未给报告整体质量的独立定量评分。",
+        "output": "结构化安全巡检报告",
+        "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+        "locator": "§4.3、§7.1"
+      }
+    ]
+  },
+  "training": {
+    "regime": "仅推理使用预训练模型；未报告任务专用训练",
+    "models": "Gemma-3 12B：描述和安全评估；Llama-3.3：规则生成；DeepSeek-R1：报告汇总。后两者具体规模/量化版本未明确。",
+    "trainable": "未报告更新模型参数；开发过程进行提示设计和模型预选。",
+    "frozen": "使用现成模型推理，没有论文提出的可训练适配模块；一个月预评估不应算作微调。",
+    "data": "三组施工实验室场景的视频仅用于所报告评估；无正式训练/验证/测试划分。",
+    "objective": "通过分阶段提示约束描述、规则与报告输出；无学习损失或梯度优化。",
+    "stages": "预评估选择模型 → 固定提示与Ollama部署 → 按帧推理 → 对照人工安全标签。AI工作站为Ubuntu20.04、Threadripper3960X、原文记载258GB内存、双RTX3090 24GB、CUDA12.4；不是GPU训练配置。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "三组施工实验室实体巡检",
+      "setting": "Go2沿预设路线，A/B/C各运行3次，1帧/秒；总442帧，评测B3帧级安全二分类。未提供全任务覆盖率或导航SR/SPL。",
+      "result": "作者Figure 15报告框架在A/B/C的召回为92.2/85.9/78.6%，F1为86.6/83.0/77.2%。复杂场景C仍有18个不安全帧被漏判。下面保留原图数字；A场景GPT-4o矩阵合计148帧，而Table 2列147帧，不能把两者当作严格一致的逐帧配对证据。",
+      "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+      "locator": "Table 1–2；Figure 13–15；§6",
+      "attribution": "作者报告；矩阵和柱形图标签逐项读取，未自行复现。",
+      "tables": [
+        {
+          "caption": "Table 2：各次运行的帧数",
+          "columns": [
+            "场景",
+            "运行1",
+            "运行2",
+            "运行3",
+            "合计"
+          ],
+          "rows": [
+            [
+              "A",
+              49,
+              47,
+              51,
+              147
+            ],
+            [
+              "B",
+              46,
+              45,
+              43,
+              134
+            ],
+            [
+              "C",
+              51,
+              54,
+              56,
+              161
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+          "locator": "Table 2",
+          "note": "三个场景共442帧，非442个独立场景。"
+        },
+        {
+          "caption": "Figure 15：帧级指标（%）",
+          "columns": [
+            "场景",
+            "方法",
+            "Recall",
+            "Precision",
+            "Accuracy",
+            "F1"
+          ],
+          "rows": [
+            [
+              "A",
+              "GPT-4o",
+              87.2,
+              77.3,
+              79.7,
+              81.9
+            ],
+            [
+              "A",
+              "框架",
+              92.2,
+              81.6,
+              85.0,
+              86.6
+            ],
+            [
+              "B",
+              "GPT-4o",
+              81.7,
+              78.4,
+              78.4,
+              80.0
+            ],
+            [
+              "B",
+              "框架",
+              85.9,
+              80.3,
+              81.3,
+              83.0
+            ],
+            [
+              "C",
+              "GPT-4o",
+              76.2,
+              72.7,
+              72.7,
+              74.4
+            ],
+            [
+              "C",
+              "框架",
+              78.6,
+              75.9,
+              75.8,
+              77.2
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+          "locator": "Figure 15",
+          "note": "直接抄录原图标签，未按混淆矩阵重新计算；GPT-4o具体快照/提示对齐细节不足。"
+        },
+        {
+          "caption": "Figure 13–14：原始混淆矩阵计数",
+          "columns": [
+            "场景",
+            "方法",
+            "TN",
+            "FP",
+            "FN",
+            "TP"
+          ],
+          "rows": [
+            [
+              "A",
+              "框架",
+              54,
+              16,
+              6,
+              71
+            ],
+            [
+              "A",
+              "GPT-4o",
+              50,
+              20,
+              10,
+              68
+            ],
+            [
+              "B",
+              "框架",
+              48,
+              15,
+              10,
+              61
+            ],
+            [
+              "B",
+              "GPT-4o",
+              47,
+              16,
+              13,
+              58
+            ],
+            [
+              "C",
+              "框架",
+              56,
+              21,
+              18,
+              66
+            ],
+            [
+              "C",
+              "GPT-4o",
+              53,
+              24,
+              20,
+              64
+            ]
+          ],
+          "sourceUrl": "https://arxiv.org/pdf/2512.13974v1",
+          "locator": "Figure 13–14",
+          "note": "Unsafe为正类；TN/FP为真实Safe，FN/TP为真实Unsafe。A场景两图的真实Unsafe总数分别77/78，且GPT-4o总数148，原文与Table 2不一致。"
+        }
+      ]
+    }
+  ],
+  "limitations": {
+    "author": [
+      "用户指定目标点和路线，尚需主动探索未知或高风险区域。",
+      "杂乱环境与高速振动会影响地图对齐，复杂和不熟悉场景仍有幻觉与误报。",
+      "对梯子固定等空间/物理关系推理不足；逐帧VLM难以捕获运动、因果和时间过程。"
+    ],
+    "analysis": [
+      "三组受控实体布景支持概念验证，不能推断真实施工现场长期部署效果；帧间相关性较强，未报告按独立场景统计的置信区间。",
+      "数值评估集中在B3帧级二分类，缺少整场巡检覆盖、风险去重、报告正确性与规则检索质量的独立评估，也未消融各层的增益。",
+      "Table 1列A/B/C分别5/7/8项隐患，正文另写5/6/7；Figure 14的A帧数与Table 2不一致。保留各处原值，不把冲突合并成单一精确统计。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2512.13974",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/h-naderi/unitree-go2-slam-nav2",
+      "status": "已核实入口",
+      "note": "原文链接的Go2 SLAM/Nav2集成仓库；完整AI流水线、评估数据及全部提示的发布范围未核实。"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv v1书目",
+      "url": "https://arxiv.org/abs/2512.13974v1",
+      "locator": "作者、日期及版本历史",
+      "supports": [
+        "标题",
+        "作者",
+        "首次/最新日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始论文PDF",
+      "url": "https://arxiv.org/pdf/2512.13974v1",
+      "locator": "§3–4、Table 1–2、Figure 13–15、§7.3",
+      "supports": [
+        "机构",
+        "模块流程",
+        "模型部署",
+        "实验原表",
+        "作者局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "作者Go2集成仓库",
+      "url": "https://github.com/h-naderi/unitree-go2-slam-nav2",
+      "locator": "README及目录",
+      "supports": [
+        "机器人导航栈代码入口",
+        "开放范围边界"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户资料：论文汇总(1).docx",
+      "url": null,
+      "locator": "Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline",
+      "supports": [
+        "本批论文索引；方法与实验另以原始来源为准"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "homesafebench",
+      "reason": "同属安全巡检；HomeSafeBench评测仿真自由探索，本工作评测实体预设路线上的帧级判断，指标不能直接混排。"
+    },
+    {
+      "id": "seek-inspection",
+      "reason": "同样把语义推理接到机器人空间导航；SEEK主要定位待巡检物体，本工作主要判断风险并生成报告。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-20",
+  "gaps": [
+    "正式发表信息未核实。",
+    "完整AI代码、原始评估帧、提示版本、模型量化版本和各资源许可未逐项确认。",
+    "原文统计存在上述冲突；没有全部模块消融、独立场景误差条或整报告量化结果。"
+  ],
+  "sourceNotes": [],
+  "bibtex": "@misc{naderi2025constructioninspection,\n  title = {Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline},\n  author = {Hossein Naderi and Alireza Shojaei and Philip Agee and Kereshmeh Afsari and Abiola Akanmu},\n  year = {2025},\n  eprint = {2512.13974},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2512.13974}\n}",
+  "verificationLevel": "fulltext",
+  "verification": "已读取原始PDF并核对方法、Table 1–2与Figure 13–15；正文与图表冲突分别保留。",
+  "overview": "施工安全巡检需要把机器人看到的场景与具体安全规则连接起来，并形成可追溯的报告。该工作将Go2的建图导航与多模型流水线连接：先描述画面，再生成规则，将原图与规则一起送回VLM判断安全程度，最后汇总带时间戳的报告。它的主要改变是公开中间证据与职责分工，未训练新的机器人策略。验证来自三组实验室实体布景、人工指定路线上的帧级识别；不能据此推断未知施工现场的自主风险覆盖能力。",
+  "citationNote": "据arXiv v1书目整理的预印本引用。"
+}

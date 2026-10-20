@@ -48,7 +48,8 @@
       "室内"
     ],
     "training": [
-      "监督微调"
+      "监督微调",
+      "冻结主干并训练模块"
     ]
   },
   "summary": "在 VirtualHome 中自由探索并报告家庭隐患，测试集含 1,000 个任务、3,000 个隐患实例；CueBack 生成可见线索约束下的训练数据。",
@@ -96,13 +97,13 @@
     ]
   },
   "training": {
-    "regime": "监督微调",
-    "models": "Qwen3-VL-4B；基线另含多种商用与开源 VLM",
-    "trainable": "CueBack 数据上的下游微调；原文另比较偏好优化",
-    "frozen": "基线模型仅推理不代表 CueBack 方法也无训练",
+    "regime": "冻结视觉编码器，语言模型LoRA监督微调；另有DPO对照",
+    "models": "Qwen3-VL-4B-Thinking；商用与开源VLM基线仅推理。",
+    "trainable": "语言模型attention与FFN投影的LoRA参数：rank16、alpha32、dropout0.05。",
+    "frozen": "视觉编码器冻结，语言模型基础权重不更新；仅训练LoRA适配器。",
     "data": "与测试环境、布局及物体实例隔离的训练场景",
-    "objective": "动作、推理及偏好监督（按变体区分）",
-    "stages": "数据构造 → SFT/偏好优化 → OOD 评测"
+    "objective": "CueBack/SFT变体使用监督学习；DPO为独立对照：每任务4条rollout，按F1及更短轨迹构造最优/最差偏好对，beta0.1。",
+    "stages": "构造可见线索约束的轨迹与推理 → 1 epoch LoRA微调（AdamW、学习率1e-4、batch16、16K上下文、100步warmup、cosine）→ 合并adapter并评估；DPO为独立变体。"
   },
   "evaluation": [
     {
@@ -218,12 +219,32 @@
         "方法",
         "实验"
       ]
+    },
+    {
+      "kind": "primary",
+      "label": "HomeSafeBench v2原文与附录",
+      "url": "https://arxiv.org/html/2509.23690v2",
+      "locator": "§3.2、§5.2、Table 2、Appendix D.3–D.4",
+      "supports": [
+        "场景与标注口径",
+        "LoRA训练/冻结范围",
+        "对照方法差异"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户资料：论文汇总(1).docx",
+      "url": null,
+      "locator": "HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection",
+      "supports": [
+        "本批论文索引；方法与实验另以原始来源为准"
+      ]
     }
   ],
   "related": [],
   "bibtex": "@misc{homesafebench2025,\n  title = {HomeSafeBench: Benchmarking Embodied Vision-Language Models in Free-Exploration Home Safety Inspection},\n  author = {Jiashu Yao and Haoyu Wen and Siyuan Gao and Yuhang Guo and Zeming Liu and Heyan Huang},\n  year = {2025},\n  eprint = {2509.23690},\n  archivePrefix = {arXiv},\n  url = {https://arxiv.org/abs/2509.23690}\n}",
   "status": "重点详解",
-  "checked": "2026-10-19",
+  "checked": "2026-10-20",
   "gaps": [
     "尚未逐项核实所有资源许可证与下载内容"
   ],
@@ -238,7 +259,7 @@
     "actions": "VirtualHome 原生移动、转向、接近等工具；最多20步。",
     "success": "隐患级 precision/recall/F1；LLM judge 匹配。",
     "collection": "场景组合生成、VLM 视觉筛选、人工验证可达性和风险。",
-    "scale": "测试1000任务、3000隐患实例；每任务1–5个隐患；5类风险。",
+    "scale": "3个VirtualHome环境、12个room scenes，人工标注136处风险位置、367个具安全属性的物体；测试1000任务、3000隐患实例，每任务1–5个隐患、5类风险。",
     "split": "训练：2环境、8 room scenes；测试：1留出环境、4 room scenes。",
     "metrics": "隐患级 P/R/F1；另有不依赖 LLM judge 的类别级结果。",
     "baselines": "商用/开源 VLM、SFT 与偏好优化变体。",

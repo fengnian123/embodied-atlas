@@ -1,8 +1,8 @@
 {
-  "checked": "2026-10-19T12:03:57.415331+00:00",
+  "checked": "2026-10-20T02:24:12.200668+00:00",
   "scope": "Resource URLs only; HTTP HEAD; observations may be reused (see observedAt; --refresh checks again). 403/429/timeouts are inconclusive. Reachability is not download, license, or reproduction verification.",
   "counts": {
-    "reachable": 287,
+    "reachable": 296,
     "unavailable": 3,
     "inconclusive": 9
   },
@@ -84,6 +84,23 @@
       "state": "unavailable",
       "getRecheck": 404,
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://anonymous.4open.science/r/CoralVLM-3EC9/",
+      "uses": [
+        {
+          "id": "coralplan",
+          "resource": "code"
+        },
+        {
+          "id": "coralplan",
+          "resource": "data"
+        }
+      ],
+      "observedAt": "2026-10-20T02:23:58.523703+00:00",
+      "http": 200,
+      "finalUrl": "https://anonymous.4open.science/r/CoralVLM-3EC9/",
+      "state": "reachable"
     },
     {
       "url": "https://arxiv.org/abs/1709.06158",
@@ -424,6 +441,19 @@
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
     },
     {
+      "url": "https://arxiv.org/abs/2309.16552v1",
+      "uses": [
+        {
+          "id": "semantic-scene-difference",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-20T02:23:58.526949+00:00",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2309.16552v1",
+      "state": "reachable"
+    },
+    {
       "url": "https://arxiv.org/abs/2310.08528",
       "uses": [
         {
@@ -539,6 +569,19 @@
       "finalUrl": "https://arxiv.org/abs/2404.12379",
       "state": "reachable",
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2405.09822v2",
+      "uses": [
+        {
+          "id": "seek-inspection",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-20T02:23:58.527647+00:00",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2405.09822v2",
+      "state": "reachable"
     },
     {
       "url": "https://arxiv.org/abs/2405.14093",
@@ -1191,6 +1234,19 @@
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
     },
     {
+      "url": "https://arxiv.org/abs/2512.13974",
+      "uses": [
+        {
+          "id": "construction-safety-vlm",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-20T02:23:58.528319+00:00",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2512.13974",
+      "state": "reachable"
+    },
+    {
       "url": "https://arxiv.org/abs/2601.05251",
       "uses": [
         {
@@ -1737,6 +1793,19 @@
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
     },
     {
+      "url": "https://arxiv.org/abs/2608.19671v1",
+      "uses": [
+        {
+          "id": "sage-subsea",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-20T02:23:58.529152+00:00",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2608.19671v1",
+      "state": "reachable"
+    },
+    {
       "url": "https://arxiv.org/abs/2608.29783",
       "uses": [
         {
@@ -1787,6 +1856,19 @@
       "finalUrl": "https://arxiv.org/abs/2609.24124",
       "state": "reachable",
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://arxiv.org/abs/2609.31211v1",
+      "uses": [
+        {
+          "id": "coralplan",
+          "resource": "paper"
+        }
+      ],
+      "observedAt": "2026-10-20T02:23:58.530281+00:00",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2609.31211v1",
+      "state": "reachable"
     },
     {
       "url": "https://arxiv.org/abs/2610.01286",
@@ -1865,6 +1947,19 @@
       "finalUrl": "https://chumsy0725.github.io/O-SCD/",
       "state": "reachable",
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://cirl.lcsr.jhu.edu/wp-content/uploads/2015/11/JIGSAWS.pdf",
+      "uses": [
+        {
+          "id": "p-0b20527a0147",
+          "resource": "paper"
+        }
+      ],
+      "http": 200,
+      "state": "reachable",
+      "method": "GET via original PDF inspection",
+      "observedAt": "2026-10-19T12:05:49.022749+00:00"
     },
     {
       "url": "https://code-as-policies.github.io",
@@ -2650,6 +2745,19 @@
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
     },
     {
+      "url": "https://github.com/MurpheyLab/ergodic-control-sandbox",
+      "uses": [
+        {
+          "id": "sage-subsea",
+          "resource": "code"
+        }
+      ],
+      "observedAt": "2026-10-20T02:24:03.777162+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/MurpheyLab/ergodic-control-sandbox",
+      "state": "reachable"
+    },
+    {
       "url": "https://github.com/NVlabs/AHA",
       "uses": [
         {
@@ -3065,6 +3173,19 @@
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
     },
     {
+      "url": "https://github.com/h-naderi/unitree-go2-slam-nav2",
+      "uses": [
+        {
+          "id": "construction-safety-vlm",
+          "resource": "code"
+        }
+      ],
+      "observedAt": "2026-10-20T02:24:04.899333+00:00",
+      "http": 200,
+      "finalUrl": "https://github.com/h-naderi/unitree-go2-slam-nav2",
+      "state": "reachable"
+    },
+    {
       "url": "https://github.com/hbb1/2d-gaussian-splatting",
       "uses": [
         {
@@ -3401,6 +3522,19 @@
       "finalUrl": "https://huggingface.co/openvla/openvla-7b",
       "state": "reachable",
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
+    },
+    {
+      "url": "https://huggingface.co/sentence-transformers/all-mpnet-base-v2",
+      "uses": [
+        {
+          "id": "semantic-scene-difference",
+          "resource": "weights"
+        }
+      ],
+      "observedAt": "2026-10-20T02:24:04.935715+00:00",
+      "http": 200,
+      "finalUrl": "https://huggingface.co/sentence-transformers/all-mpnet-base-v2",
+      "state": "reachable"
     },
     {
       "url": "https://ingra14m.github.io/Deformable-Gaussians/",
@@ -3895,19 +4029,6 @@
       "finalUrl": "https://ziyc.github.io/omnire/",
       "state": "reachable",
       "observedAt": "2026-10-19T12:00:28.973388+00:00"
-    },
-    {
-      "url": "https://cirl.lcsr.jhu.edu/wp-content/uploads/2015/11/JIGSAWS.pdf",
-      "uses": [
-        {
-          "id": "p-0b20527a0147",
-          "resource": "paper"
-        }
-      ],
-      "http": 200,
-      "state": "reachable",
-      "method": "GET via original PDF inspection",
-      "observedAt": "2026-10-19T12:05:49.022749+00:00"
     }
   ]
 }

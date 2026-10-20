@@ -1,0 +1,271 @@
+{
+  "id": "sage-subsea",
+  "title": "SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure",
+  "short": "SAGE",
+  "aliases": [
+    "Semantic and Adaptive Generative Ergodicity",
+    "arXiv:2608.19671"
+  ],
+  "authors": [
+    "Markus Buchholz",
+    "Ignacio Carlucho",
+    "Yvan R. Petillot"
+  ],
+  "institutions": [
+    "Norwegian Defence Research Establishment (FFI)",
+    "School of Engineering & Physical Sciences, Heriot-Watt University"
+  ],
+  "firstPublished": "2026-08-20",
+  "updated": "2026-08-20",
+  "publicationYear": 2026,
+  "year": 2026,
+  "venue": "IEEE IROS 2026 AQ2UASIM workshop",
+  "publicationStatus": "作者在 arXiv Comments 声明 workshop 录用；未核验正式论文集，非 IROS 主会",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "巡检",
+      "机器人控制"
+    ],
+    "paradigm": [
+      "最优控制"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "主动感知",
+      "规划",
+      "安全"
+    ],
+    "environment": [
+      "仿真",
+      "水下",
+      "水下机器人"
+    ],
+    "training": [
+      "不适用"
+    ]
+  },
+  "summary": "将阀门风险场与轨迹访问统计的 Fourier 差异直接转成速度指令；五阀门仿真中高风险阀门重访间隔为5.8秒，但另一个阀门300秒内未获访问。",
+  "overview": "海底采油树的已知阀门需要反复检查，且检查频率应随风险改变。SAGE 用风险加权高斯混合表示关注分布，以遍历控制持续纠正机器人访问统计与风险分布的差异，从而同时调节停留与重访。论文验证的是两棵采油树、五阀门和手设风险的300秒仿真；相机/声呐检测驱动的风险更新、语言意图和实机试验仍是后续工作。",
+  "method": {
+    "input": "五个已知阀门的二维位置 μ_i、分布尺度 Σ_i、风险权重 w_i(t)、机器人位置及运行至当前的轨迹统计。实验中的权重按情景固定手设。",
+    "output": "每个控制周期的运动方向与恒定转场速度下的速度指令；访问轨迹由控制律持续产生，不输出离散巡检路线。",
+    "flow": [
+      "以阀门位置为中心建立归一化风险高斯混合",
+      "将风险场与历史轨迹投影到相同 Fourier 基",
+      "按频谱访问不足方向生成控制向量并执行",
+      "累积新轨迹统计；风险权重改变时更新目标谱系数"
+    ],
+    "assumptions": "工作空间归一化为二维，阀门位置已知；可给每个阀门赋风险权重。论文未在实验闭合真实泄漏检测与风险更新，也未展示实机、洋流扰动或障碍安全约束验证。",
+    "difference": "固定 A* 闭环即使按风险增加驻留时间，仍在每圈各访问一次；遍历控制用整个轨迹的时间平均覆盖误差决定即时运动，可在权重变化后的下一个控制周期改变方向。该机制的即时响应性质不等于已完成中途泄漏注入实验。",
+    "explanation": "每个阀门在空间形成一个高斯风险峰，归一化后得到目标概率密度。目标密度的 Fourier 系数 φ_k 与轨迹至当前时刻的平均系数 c_k 表示应当关注哪里、已经关注哪里。控制器把各频率上的系数差乘以基函数梯度并求负加权和，优先修正低频的大尺度覆盖失衡；沿该向量以恒定转场速度移动。改变某阀风险只需重算目标系数，但有限时域内并无逐阀访问保证。",
+    "modules": [
+      {
+        "name": "阀门风险场",
+        "purpose": "把不同风险映射成连续空间覆盖目标",
+        "input": "已知阀门位置、协方差、风险权重",
+        "mechanism": "使用 φ(x,t)=Σ_i w_i(t)N(x;μ_i,Σ_i)/Z；Z使密度积分为1。实验分别固定等权、分级、单阀极高风险三组权重。",
+        "output": "归一化二维风险密度与各阀门附近的目标风险质量",
+        "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+        "locator": "§II，式(1)"
+      },
+      {
+        "name": "频谱覆盖记忆",
+        "purpose": "比较目标分布与实际访问历史",
+        "input": "风险密度与从0到t的机器人轨迹",
+        "mechanism": "在同一余弦 Fourier 基 F_k 上计算 φ_k=∫φF_k 与 c_k(t)=t⁻¹∫₀ᵗF_k(x(τ))dτ；使用完整运行时间平均，正文未给滑动窗口遗忘机制。",
+        "output": "各空间频率上的访问偏差 c_k−φ_k",
+        "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+        "locator": "§II，式(1)之后的 Fourier 基及系数定义"
+      },
+      {
+        "name": "即时遍历速度控制",
+        "purpose": "把覆盖不足直接变成运动",
+        "input": "频谱误差、当前位置、基函数梯度",
+        "mechanism": "S=−Σ_k Λ_k(c_k−φ_k)∇F_k，Λ_k=(1+||k||²)^−(n+1)/2；低频优先，车辆沿S以恒定转场速度行进。作者在 ergodic-control-sandbox 参考实现之上实现控制律。",
+        "output": "连续生成的运动方向与巡检轨迹",
+        "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+        "locator": "§II，式(2)，参考文献[3–4]"
+      },
+      {
+        "name": "风险重加权接口（部分为架构设想）",
+        "purpose": "支持任务期间改变关注重点",
+        "input": "更新后的单阀风险权重；未来拟接检测置信度和操作者意图",
+        "mechanism": "重算 φ_k 后，下一控制周期的S随之改变；相机/声呐泄漏标志、Bayesian融合与语言模型意图属于完整SAGE的拟议接口，本次评测仍为手设固定权重。",
+        "output": "对风险变化有响应的覆盖控制目标；感知闭环尚未验证",
+        "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+        "locator": "§II首段；§III最后两段，Fig.1"
+      }
+    ]
+  },
+  "training": {
+    "regime": "不适用：解析遍历控制；无神经网络训练",
+    "models": "实验核心为 Mathew–Mezić 谱多尺度遍历控制律；没有已部署的 VLM、LLM 或学习策略。",
+    "trainable": "无可训练模型参数；风险权重与控制配置由实验设置给定。",
+    "frozen": "不涉及冻结神经主干。文末语言模型解释操作者意图的描述是后续完整架构设想。",
+    "data": "两棵海底采油树、五个阀门的仿真布局；三组手设风险分布，而非训练数据集。",
+    "objective": "逐时刻减小目标风险分布与历史轨迹分布的加权 Fourier 系数差；这属于在线控制目标，不是离线学习损失。",
+    "stages": "设置阀门布局与风险 → 初始化覆盖统计 → 每周期计算控制律、运动并累积统计；无训练/微调阶段。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "五阀门风险自适应巡检（作者仿真）",
+      "setting": "Gazebo/BlueROV2示意场景；两棵XT分别2/3个阀门，非共线且不等距；每次任务300秒。三种手设profile：20/20/20/20/20%、40/25/15/12/8%、55/20/10/8/7%。A*在8邻接网格按最短tour顺序闭环巡检，并按风险比例设置各阀等待时间。",
+      "result": "Table I单阀高风险profile中，P1由A*的37次/8.1秒变为EC的50次/5.8秒；P3却为0次。EC访问次数与权重的相关系数在分级profile为+0.88、单阀高风险profile为+0.93；A*各阀次数相同，相关系数无定义。Fig.1的轨迹对应分级profile，不能与Table I的单阀高风险profile混为同一条件。",
+      "locator": "v1 §III，Table I；Fig.1图注及§III正文",
+      "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+      "attribution": "作者报告；未自行复现。以下为表格精确值，非从轨迹图估读。",
+      "table": {
+        "caption": "Table I：300秒单阀高风险profile，访问次数与重访间隔",
+        "columns": [
+          "阀门",
+          "风险权重",
+          "A*访问次数",
+          "A*间隔(s)",
+          "EC访问次数",
+          "EC间隔(s)"
+        ],
+        "rows": [
+          [
+            "P1（泄漏）",
+            0.55,
+            37,
+            8.1,
+            50,
+            5.8
+          ],
+          [
+            "P2",
+            0.2,
+            37,
+            8.1,
+            10,
+            26.8
+          ],
+          [
+            "P3",
+            0.1,
+            37,
+            8.1,
+            0,
+            "—"
+          ],
+          [
+            "P4",
+            0.08,
+            37,
+            8.1,
+            7,
+            43.5
+          ],
+          [
+            "P5",
+            0.07,
+            37,
+            8.1,
+            15,
+            18.4
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2608.19671v1",
+        "locator": "v1 Table I（HTML #S3.T1）",
+        "note": "时间单位秒；P3没有访问，间隔未定义。原文未报告多次运行方差、随机种子或置信区间。"
+      }
+    }
+  ],
+  "limitations": {
+    "author": [
+      "单阀高风险profile中P3零访问；无约束遍历控制只约束长期平均，有限300秒任务内可能饿死部分阀门。作者提出权重下界或硬重访间隔约束作为后续补充。",
+      "Fourier基会造成短暂角落偏移，约占任务时间2–5%。",
+      "尚需更多场景与采油树布局、相机实时泄漏检测驱动风险、实体载具以及任务中途泄漏注入试验；Bayesian置信度更新与语言模型意图接口尚待整合。"
+    ],
+    "analysis": [
+      "本次五阀固定风险实验支持风险分配与访问次数差异；“新泄漏在下一控制周期改变方向”主要由控制律结构说明，不能写成已实测的在线感知响应延迟。",
+      "P3权重0.10仍零访问，而更低权重P4/P5有访问，说明有限时域结果还受空间布局与轨迹动力学影响；风险权重大并不逐阀保证更频繁访问。",
+      "与单一固定tour A*比较，尚不能推断优于可自动重规划、带最大重访间隔约束的风险感知规划器。单给权重加正下界也不等于严格的有限时域安全保证。",
+      "未报告逐阀重访间隔的最大值或分布；平均5.8秒不能当作泄漏漏检时长的硬上界。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2608.19671v1",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/MurpheyLab/ergodic-control-sandbox",
+      "status": "参考依赖/教程库；不是已核实的SAGE方法开源实现"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv v1 元数据与 workshop 录用声明",
+      "url": "https://arxiv.org/abs/2608.19671v1",
+      "locator": "Authors、Submitted on、Submission history、Comments",
+      "supports": [
+        "标题",
+        "完整作者",
+        "首次与最新日期",
+        "AQ2UASIM workshop身份"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "SAGE v1 原文",
+      "url": "https://arxiv.org/html/2608.19671v1",
+      "locator": "作者脚注；§II式(1–2)；§III；Table I；Fig.1",
+      "supports": [
+        "机构",
+        "方法模块",
+        "无学习训练",
+        "三组风险条件",
+        "访问计数与间隔",
+        "作者局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "被引用的 Ergodic Control Sandbox 仓库",
+      "url": "https://github.com/MurpheyLab/ergodic-control-sandbox",
+      "locator": "README：Standalone tutorials；Authors；Table of contents；论文§II与参考[4]",
+      "supports": [
+        "仅为参考实现/依赖库",
+        "不能推断SAGE专用代码已开源"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户资料：论文汇总(1).docx",
+      "url": null,
+      "locator": "SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure",
+      "supports": [
+        "本批论文索引；方法与实验另以原始来源为准"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "coralplan",
+      "reason": "同属水下巡检；SAGE研究风险加权的重复覆盖控制，CoralPlan研究视觉语言驱动的观测技能选择与执行，评测指标和平台不同。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-19",
+  "verificationLevel": "fulltext",
+  "verification": "已逐项回查arXiv v1元数据、全文式(1–2)、Table I和Fig.1及被引仓库README；未将原文未来架构当作已验证模块。",
+  "gaps": [
+    "未找到由原文确认的SAGE专用实现、场景文件或风险实验日志入口。",
+    "未核验 workshop 正式论文集；录用信息来自作者arXiv Comments。",
+    "原文未提供多次独立运行的误差统计、控制频率与完整可复现实验配置。"
+  ],
+  "sourceNotes": [],
+  "bibtex": "@misc{buchholz2026sage,\n  title = {SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure},\n  author = {Markus Buchholz and Ignacio Carlucho and Yvan R. Petillot},\n  year = {2026},\n  eprint = {2608.19671},\n  archivePrefix = {arXiv},\n  primaryClass = {cs.RO},\n  url = {https://arxiv.org/abs/2608.19671v1}\n}",
+  "citationNote": "按arXiv v1元数据整理的预印本引用；作者声明AQ2UASIM workshop录用，不构造IROS主会论文集引用。"
+}

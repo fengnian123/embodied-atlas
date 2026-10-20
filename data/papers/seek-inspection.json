@@ -1,0 +1,342 @@
+{
+  "id": "seek-inspection",
+  "title": "SEEK: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks",
+  "short": "SEEK",
+  "aliases": [
+    "Semantic Reasoning for Object Inspection Tasks",
+    "2405.09822"
+  ],
+  "authors": [
+    "Muhammad Fadhil Ginting",
+    "Sung-Kyun Kim",
+    "David D. Fan",
+    "Matteo Palieri",
+    "Mykel J. Kochenderfer",
+    "Ali-akbar Agha-mohammadi"
+  ],
+  "institutions": [
+    "Stanford University",
+    "Field AI"
+  ],
+  "firstPublished": "2024-05-16",
+  "updated": "2024-11-18",
+  "publicationYear": 2024,
+  "year": 2024,
+  "venue": "RSS",
+  "publicationStatus": "已发表",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "ObjectNav",
+      "巡检"
+    ],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "系统"
+    ],
+    "problem": [
+      "规划",
+      "空间理解",
+      "记忆"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "四足机器人"
+    ],
+    "training": [
+      "冻结主干并训练模块"
+    ]
+  },
+  "summary": "从平面图构建分层场景图，用GPT-4蒸馏的轻量语义网络预测房间中的目标概率，再以MDP规划和局部主动搜索完成实机目标导航。",
+  "method": {
+    "input": "目标物体类别文本、带房间语义与几何布局的平面图/BIM类空间先验；在线输入LiDAR定位、相机目标检测和目标位姿/置信度。",
+    "output": "房间级访问/搜索策略、局部导航轨迹、目标物体位置，以及靠近目标后触发的任务完成信号。",
+    "flow": [
+      "离线从平面图生成DSG，编码房间、位置与连接代价",
+      "冻结文本编码器提供语义特征，训练MLP并初始化房间目标概率",
+      "全局MDP选择去哪个房间或是否仔细搜索当前房间",
+      "局部状态机执行导航、主动语义搜索、靠近目标；新观测更新概率并重规划"
+    ],
+    "assumptions": "已有可定位到的平面图和房间类型；运行内房间/建筑之间连接保持不变，局部可通行风险可更新。需有能检测目标类别的视觉模型及可靠定位。论文全局规划比较给定目标存在且时间不限，不能直接外推到未知目标是否存在或严格限时的标准ObjectNav。",
+    "difference": "把常识编码成可本地运行的概率模型，并在MDP中共同考虑跨房间行走代价、搜索代价、发现概率及找不到后的后续动作；区别于只挑当前最高语义效用房间、按距离覆盖，或每一步直接向云端LLM请求动作。主系统没有图像级VLM推理。",
+    "explanation": "DSG保存建筑/房间/位置/物体的空间结构，RSN单独表达目标出现的语义概率。RSN由文本编码器、MLP和朴素贝叶斯网络组成：物体名称先转为embedding，MLP预测27种房间的出现概率与不仔细搜索即可发现的概率；实际观察再修正各房间分布。全局规划将房间和终止状态建成MDP，以去另一房间和搜索当前房间为动作，通过值迭代求期望行程最小的策略。每个全局动作执行后重新估计概率并求解。局部控制器继承SB2G，在全局搜索、主动感知和靠近检测目标间切换，路径交给风险感知MPC执行。",
+    "modules": [
+      {
+        "name": "从平面图初始化并在线维护DSG",
+        "purpose": "把大范围目标搜索变成有层级和几何代价的房间导航。",
+        "input": "楼层平面图、房间语义/几何、LiDAR地图、局部可通行风险和新检测物体。",
+        "mechanism": "从平面图生成房间节点，在可行走开放空间均匀采样位置节点，边存欧氏距离。机器人用LiDAR地图与平面图对齐，更新位置节点之间的通行风险；首次定位的物体加入对象层并连接最近位置节点。运行内不改变房间和建筑之间的连接。",
+        "output": "可查询房间结构、位置连通、目标观测及路径代价的DSG。",
+        "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+        "locator": "§IV-A；§III-B"
+      },
+      {
+        "name": "RSN：蒸馏常识与贝叶斯更新",
+        "purpose": "估计目标在哪些房间，以及进入房间后是否容易发现目标。",
+        "input": "目标类别文本、房间类型和历史搜索/发现记录。",
+        "mechanism": "预训练bge-small编码物体名称，三隐藏层MLP预测27类房间出现概率和无需仔细搜索的发现概率；用100个物体的GPT-4概率标注训练。朴素贝叶斯网络把上次分布作为先验、各房间局部搜索后是否看到目标作为二值证据，以条件概率和边缘化做精确推断。在线更新的是分布，不是再次微调LLM。",
+        "output": "每个具体房间的目标概率与搜索发现概率。",
+        "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+        "locator": "§IV-B；附录C"
+      },
+      {
+        "name": "房间级MDP与滚动全局策略",
+        "purpose": "同时考虑搜索收益、移动距离和搜索失败后的后续行动。",
+        "input": "DSG、RSN概率、当前位置、目标类别。",
+        "mechanism": "状态来自房间节点并包括完成状态；动作是去另一房间或搜索当前房间。到达目标的转移概率由RSN给出，房间间转移按已知连通图处理。A*在DSG上算跨房间最短距离，房内位置覆盖路径给搜索代价；小规模状态/动作空间使用值迭代。执行动作后用新观测更新转移概率并重解。",
+        "output": "从当前房间开始的访问或搜索动作。",
+        "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+        "locator": "§III-C；§IV-C；图3"
+      },
+      {
+        "name": "SB2G局部状态机与风险感知MPC",
+        "purpose": "把房间级策略落地为导航、确认目标和靠近观察。",
+        "input": "全局动作、局部地图、目标语义信念与检测位置。",
+        "mechanism": "全局搜索状态执行到房间的最短路或当前房间覆盖路；主动语义搜索状态选择增加目标观测信息的路径；检查状态选择距目标最近的无障碍机器人位姿。各路径交给风险感知MPC产生轨迹，实机用YOLO系检测器和LiDAR SLAM提供观测。",
+        "output": "连续机器人轨迹、更新的目标信念和目标附近的终止位姿。",
+        "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+        "locator": "§IV-D；§V-C"
+      }
+    ]
+  },
+  "training": {
+    "regime": "任务特定的轻量MLP监督训练；预训练文本编码器作为固定特征，部署时只做概率更新和规划。",
+    "models": "RSN：bge-small文本编码器＋三隐藏层MLP＋朴素贝叶斯网络；GPT-4生成离线标签；Spot用YOLO系目标检测器、LiDAR SLAM和风险感知MPC。",
+    "trainable": "RSN中的MLP；其输出为27类房间的目标出现概率和不仔细搜索的发现概率。本文未给出完整优化器、学习率和损失函数配置。",
+    "frozen": "预训练文本编码器用于生成输入embedding，原文未报告微调；GPT-4仅离线提供常识标签，不在部署循环中训练或推理。YOLO系检测器训练出处/配置未完整交代，不能据此称全系统无训练。",
+    "data": "GPT-4生成100个家庭/城市建筑常见物体名称，按每次5个物体查询各房间类型出现概率和易发现程度；附录C另取训练集外40个物体测试。未用Matterport3D物体分布训练RSN，实机RSN也未以办公室数据微调。",
+    "objective": "用文本特征拟合GPT-4给出的语义概率；附录C用测试集均方误差比较编码器。具体训练损失未明确；在线贝叶斯条件推断和MDP值迭代均不属于神经网络梯度训练。",
+    "stages": "离线准备平面图DSG→GPT-4蒸馏标签并训练MLP→本地部署RSN/全局与局部控制→按观测更新分布并保存供后续任务使用。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "Matterport3D / Habitat全局规划",
+      "setting": "arXiv v2 §V-A表I；5个场景、10种目标，每种方法50次模拟；寻找最近实例。目标保证存在、时间不限，因此所有方法Si=1，此处SPL主要反映路径效率；固定/可移动物体分列，均值括号内为标准差。每次不记忆上次运行的目标位置或信息。",
+      "result": "SEEK固定物体SPL 0.96（0.12）、可移动物体0.84（0.23）；GPT-4 Planner相应为0.84（0.26）、0.81（0.23）。该实验不表示SEEK在严格限时或未知目标存在条件下有96%成功率。",
+      "locator": "v2 §V-A 表I、式(3)",
+      "attribution": "作者报告；原表精确值",
+      "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+      "table": {
+        "caption": "v2 表I：全局规划SPL，均值（标准差）",
+        "columns": [
+          "方法",
+          "固定物体SPL",
+          "可移动物体SPL"
+        ],
+        "rows": [
+          [
+            "SEEK",
+            "0.96 (0.12)",
+            "0.84 (0.23)"
+          ],
+          [
+            "Semantic Utility",
+            "0.74 (0.27)",
+            "0.70 (0.27)"
+          ],
+          [
+            "GPT-4 Planner",
+            "0.84 (0.26)",
+            "0.81 (0.23)"
+          ],
+          [
+            "Room Coverage",
+            "0.77 (0.25)",
+            "0.65 (0.27)"
+          ],
+          [
+            "Random",
+            "0.65 (0.35)",
+            "0.68 (0.32)"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+        "locator": "§V-A 表I",
+        "note": "五种方法使用该文给定的房间级动作和布局；不与其他论文标准ObjectNav结果合并。"
+      }
+    },
+    {
+      "benchmark": "RSN文本编码器比较",
+      "setting": "arXiv v2附录C表II；另向GPT-4查询训练集外40个物体，以其概率标签为测试目标。参数量是表中编码模型参数，不是完整机器人系统大小。",
+      "result": "bge-small为33M参数、预测均方误差0.051；bge-base为109M、0.045。误差对GPT-4标签计算，不是对真实物体频率标注计算。",
+      "locator": "v2 附录C 表II",
+      "attribution": "作者报告；原表精确值",
+      "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+      "table": {
+        "caption": "v2 表II：不同文本embedding的RSN预测误差",
+        "columns": [
+          "文本编码器",
+          "参数量",
+          "预测MSE"
+        ],
+        "rows": [
+          [
+            "bge-small",
+            "33 M",
+            "0.051"
+          ],
+          [
+            "CLIP text encoder",
+            "65 M",
+            "0.052"
+          ],
+          [
+            "bge-base",
+            "109 M",
+            "0.045"
+          ],
+          [
+            "bert-base-uncased",
+            "110 M",
+            "0.043"
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2405.09822v2",
+        "locator": "附录C 表II",
+        "note": "预测误差对40个额外物体的GPT-4蒸馏标签，不是导航SPL。"
+      }
+    },
+    {
+      "benchmark": "Gazebo办公室系统与错误先验测试",
+      "setting": "arXiv v2 §V-B图4–6：21房间、Spot模型；最近灭火器7个不同起点，图5时间曲线为同起点3次运行；咖啡杯跨任务更新为3个起点共12次运行。附录B图8–9另用18种咖啡杯位置、3个起点。",
+      "result": "附录B报告：目标置于RSN先验概率低于0.5的房间时，SEEK平均SPL低于Room Coverage；后者均值约0.25且方差较大。最低预期的PPE储藏室初始概率0.05，示例经过25个全局规划步骤才找到杯子。主文图5–6展示效率/概率改善趋势，未把图线估读成精确数值。",
+      "locator": "v2 §V-B 图4–6；附录B 图8–9",
+      "attribution": "作者正文报告；0.25为原文近似值，未重新估读曲线",
+      "sourceUrl": "https://arxiv.org/html/2405.09822v2"
+    },
+    {
+      "benchmark": "Spot实机目标巡检",
+      "setting": "arXiv v2 §V-C图7；办公室3个灭火器候选位置（厨房、充电房、前台）；LiDAR＋3相机，检测运行于Jetson AGX Xavier，其他栈运行于机载Intel i7。",
+      "result": "图7所展示的单次实机导航到最近灭火器SPL=0.93。论文没有将此值报告为多次实机均值或巡检故障识别准确率。",
+      "locator": "v2 §V-C 图7",
+      "attribution": "作者报告；正文精确值，单次展示",
+      "sourceUrl": "https://arxiv.org/html/2405.09822v2"
+    }
+  ],
+  "limitations": {
+    "author": [
+      "附录B：目标在低先验房间（预测概率<0.5）时，SEEK平均路径效率低于Room Coverage；错误常识或异常摆放使其先访问高概率房间。",
+      "§IV-A/C：实验中不考虑运行内房间/建筑连接变化；当前代价查表依赖这一条件。",
+      "§IV-B及§VI：紧凑RSN面向预期会查询及语义相近的目标；引入物体间关系、图像/VLM上下文、BIM层级和开放词汇是未来扩展。"
+    ],
+    "analysis": [
+      "依赖带语义平面图的设置提供了额外空间先验，不能把表I直接与仅相机观测的未知环境ObjectNav排名比较。",
+      "RSN测试标签来自GPT-4，低MSE说明复现了该教师的概率判断，不能单独证明现实布局概率已校准。",
+      "靠近灭火器展示的是搜索与导航；设备状态判读、故障识别、周期复查调度和动态人流下持续巡检尚无该实验的定量验证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2405.09822v2",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": null,
+      "status": "未找到独立项目页；RSS官方论文集见来源"
+    },
+    "code": {
+      "url": null,
+      "status": "未找到经原文或作者确认的公开代码入口"
+    },
+    "data": {
+      "url": null,
+      "status": "未找到该方法专属公开数据入口"
+    },
+    "weights": {
+      "url": null,
+      "status": "未找到RSN权重入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv摘要与版本记录",
+      "url": "https://arxiv.org/abs/2405.09822",
+      "locator": "Submission history；Journal reference",
+      "supports": [
+        "首次公开日",
+        "v2更新日",
+        "标题",
+        "作者",
+        "RSS发表身份"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv v2全文",
+      "url": "https://arxiv.org/html/2405.09822v2",
+      "locator": "§III–VI；表I–II；附录A–C",
+      "supports": [
+        "方法模块",
+        "RSN训练",
+        "评测协议",
+        "精确表值",
+        "实机单次结果",
+        "异常位置局限"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "RSS 2024官方论文集入口",
+      "url": "https://www.roboticsproceedings.org/rss20/p024.html",
+      "locator": "RSS XX paper 024；BibTeX",
+      "supports": [
+        "正式发表",
+        "完整作者次序",
+        "会议年份",
+        "DOI"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "RSS正式论文PDF",
+      "url": "https://www.roboticsproceedings.org/rss20/p024.pdf",
+      "locator": "首页作者与机构",
+      "supports": [
+        "Stanford University",
+        "Field AI",
+        "作者全名"
+      ]
+    },
+    {
+      "kind": "user",
+      "label": "用户资料：论文汇总(1).docx",
+      "url": null,
+      "locator": "SEEK: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks",
+      "supports": [
+        "本批论文索引；方法与实验另以原始来源为准"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "semantic-scene-difference",
+      "reason": "同属真实机器人巡检：SEEK决定先去哪找目标，Semantic Scene Difference比较固定巡检点的语义变化，解决的环节互补。"
+    },
+    {
+      "id": "remembr",
+      "reason": "都把语义信息与空间位置连接到导航；ReMEmbR检索历史观测，SEEK用先验概率与在线观测优化目标搜索。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-20",
+  "gaps": [
+    "原文未完整给出RSN训练损失、优化器和学习率；未找到作者确认的公开代码、训练数据或RSN权重。"
+  ],
+  "sourceNotes": [],
+  "bibtex": "@inproceedings{Ginting2024Seek,\n  author = {Muhammad Fadhil Ginting and Sung-Kyun Kim and David D. Fan and Matteo Palieri and Mykel J. Kochenderfer and Ali-akbar Agha-mohammadi},\n  title = {{SEEK}: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks},\n  booktitle = {Proceedings of Robotics: Science and Systems},\n  year = {2024},\n  address = {Delft, Netherlands},\n  month = {July},\n  doi = {10.15607/RSS.2024.XX.024},\n  url = {https://www.roboticsproceedings.org/rss20/p024.html}\n}",
+  "verificationLevel": "fulltext",
+  "overview": "大型建筑中的巡检首先需要找到设备。SEEK使用人类通常能获得的平面图与“某类物体更可能在哪类房间”的常识，把搜索从逐处覆盖改成考虑行走代价、发现概率和后续动作的房间级规划。它离线训练小型语义网络，在线用观测更新概率，再由局部控制器执行。论文验证了Matterport3D全局规划、Gazebo系统仿真和Spot实机导航；其主要任务是找到并靠近物体，尚未验证设备故障判读。",
+  "verification": "已核验arXiv v2全文及RSS正式论文集；分开记录全局规划、系统仿真、RSN预测和单次实机结果。",
+  "citationNote": "会议身份与DOI按RSS官方论文集；作者全名按正式PDF首页，保留D.及J.中间名。技术与表格按arXiv v2（2024-11-18）。"
+}

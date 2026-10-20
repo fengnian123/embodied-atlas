@@ -8,7 +8,8 @@ const json=p=>JSON.parse(read(p));
 const papers=fs.readdirSync(path.join(R,'data/papers')).filter(f=>f.endsWith('.json')).sort().map(f=>json('data/papers/'+f));
 for(const p of papers)p.reproduction=p.id==='p-a2ae5d358c9c'?json('data/reproduction-unilavira.json'):{status:'未复现'};
 const audit={total:papers.length,fulltext:papers.filter(p=>p.verificationLevel==='fulltext').length,metadata:papers.filter(p=>p.verificationLevel==='metadata').length,unresolved:papers.filter(p=>!p.verificationLevel||p.verificationLevel==='unresolved').length,numericEvidence:papers.filter(p=>p.evaluation?.some(e=>e.table?.rows?.length||e.tables?.some(t=>t.rows?.length)||e.metrics?.length)).length};
-const data={schemaVersion:1,checked:'2026-10-19',audit,papers,taxonomy:json('data/taxonomy.json'),redirects:json('data/redirects.json'),...json('data/editorial.json')};
+const checked=papers.map(p=>p.checked).filter(Boolean).sort().at(-1)||null;
+const data={schemaVersion:1,checked,audit,papers,taxonomy:json('data/taxonomy.json'),redirects:json('data/redirects.json'),...json('data/editorial.json')};
 const dist=path.join(R,'dist');fs.rmSync(dist,{recursive:true,force:true});fs.mkdirSync(dist,{recursive:true});
 for(const f of ['index.html','style.css','core.js','detail-content.js','app.js'])fs.copyFileSync(path.join(R,'src',f),path.join(dist,f));
 if(fs.existsSync(path.join(R,'src/assets')))fs.cpSync(path.join(R,'src/assets'),path.join(dist,'assets'),{recursive:true});
@@ -38,7 +39,7 @@ const scripts=[...html.matchAll(/<script defer>[\s\S]*?<\/script>/g)].map(m=>m[0
 html=html.replace(/<script defer>[\s\S]*?<\/script>/g,'').replace('</body>',()=>scripts+'</body>');
 fs.writeFileSync(path.join(R,'embodied-atlas-preview.html'),html);
 const pending=papers.filter(p=>p.gaps?.length);
-fs.writeFileSync(path.join(R,'docs/PENDING.md'),'# 待核实与待完善清单\n\n生成于 2026-10-19。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。\n\n'+pending.map(p=>`- **${p.title}** (${p.id})：${p.gaps.join('；')}。状态：${p.status}。`).join('\n')+'\n');
+fs.writeFileSync(path.join(R,'docs/PENDING.md'),`# 待核实与待完善清单\n\n最近内容核验：${data.checked}。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。\n\n`+pending.map(p=>`- **${p.title}** (${p.id})：${p.gaps.join('；')}。状态：${p.status}。`).join('\n')+'\n');
 const modules=papers.reduce((n,p)=>n+(p.method?.modules?.length||0),0);
 const tables=papers.reduce((n,p)=>n+p.evaluation.reduce((m,e)=>m+Number(!!e.table)+(e.tables?.length||0),0),0);
 const unconfirmed=papers.filter(p=>!p.verificationLevel||p.verificationLevel==='unresolved');

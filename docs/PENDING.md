@@ -1,6 +1,6 @@
 # 待核实与待完善清单
 
-生成于 2026-10-19。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。
+最近内容核验：2026-10-20。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。
 
 - **4D Gaussian Splatting for Real-Time Dynamic Scene Rendering** (4dgs-deformation)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
 - **Real-time Photorealistic Dynamic Scene Representation and Rendering with 4D Gaussian Splatting** (4dgs-native)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
@@ -9,6 +9,8 @@
 - **AgenticNav: A Hierarchical Multi-Agentic System for LLM-Driven Autonomous Problem-Solving in Robotics** (agenticnav-mas)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；原论文全文和正式DOI/论文集入口；真实作者与机构（官方CITATION仍TBD）；首次公开/最新论文版本日期；完全同分母且全部重新运行的对照实验；作者机构未在已读取原文中完整确认。状态：待核实。
 - **AgenticNav: Zero-Shot Vision-and-Language Navigation as a Tool-Calling Harness** (agenticnav-vln)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **Tandem CCV-VLM: Visual construction safety inspection based on Collaborative Cross-Verification VLM** (ccv-vlm)：尚未逐项核实所有资源许可证与下载内容；训练冻结配置；数据划分与逐表量化复核；论文 DOI 与资源入口；作者机构；首次公开日期；最新版本日期。状态：重点详解。
+- **Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline** (construction-safety-vlm)：正式发表信息未核实。；完整AI代码、原始评估帧、提示版本、模型量化版本和各资源许可未逐项确认。；原文统计存在上述冲突；没有全部模块消融、独立场景误差条或整报告量化结果。。状态：重点详解。
+- **CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection** (coralplan)：未核验匿名仓库中的下载文件、许可证、训练配置与评分脚本实际内容；原文确认的入口已保留。；四个实体目标额外训练照片数量及完整逐层LoRA参数清单需查仓库，正文未给。；未自行复现计划训练、144次仿真或36对清水池执行。。状态：重点详解。
 - **ETA: A New Agentic Paradigm for Embodied Tasks** (eta)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks** (gap)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **GOAT-Bench: A Benchmark for Multi-Modal Lifelong Navigation** (goat-bench)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；作者机构未在已读取原文中完整确认。状态：重点详解。
@@ -179,6 +181,9 @@
 - **ReMEmbR: Building and Reasoning Over Long-Horizon Spatio-Temporal Memory for Robot Navigation** (remembr)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **RoboHarness: A Memory-Augmented Policy Harness for Vision-Language-Action Model Robustness via In-Context Adaptation** (roboharness-memory)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **RoboHarness: Memory-Driven Orchestration of Heterogeneous Robot Policies for Long-Horizon Planning** (roboharness-routing)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure** (sage-subsea)：未找到由原文确认的SAGE专用实现、场景文件或风险实验日志入口。；未核验 workshop 正式论文集；录用信息来自作者arXiv Comments。；原文未提供多次独立运行的误差统计、控制频率与完整可复现实验配置。。状态：重点详解。
+- **SEEK: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks** (seek-inspection)：原文未完整给出RSN训练损失、优化器和学习率；未找到作者确认的公开代码、训练数据或RSN权重。。状态：重点详解。
 - **Semantically-driven Deep Reinforcement Learning for Inspection Path Planning** (semantic-inspection)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
+- **Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model** (semantic-scene-difference)：原文未给出完整OFA检查点/解码配置、全部67个问题的可运行清单或统一异常阈值；未找到作者确认的代码及巡检图像下载入口。。状态：重点详解。
 - **Shape of Motion: 4D Reconstruction from a Single Video** (shape-of-motion)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
 - **TypeGo: An OS Runtime for Embodied Agents** (typego)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。

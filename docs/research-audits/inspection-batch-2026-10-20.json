@@ -1,0 +1,35 @@
+{
+  "checked": "2026-10-20",
+  "input": "论文汇总(1).docx",
+  "inputRecords": 6,
+  "newRecords": [
+    "sage-subsea",
+    "coralplan",
+    "construction-safety-vlm",
+    "seek-inspection",
+    "semantic-scene-difference"
+  ],
+  "mergedIntoExisting": [
+    "homesafebench"
+  ],
+  "constructionInspection": {
+    "version": "2512.13974v1",
+    "visualChecks": [
+      "Figure 13 PDF p23",
+      "Figure 14 PDF p24",
+      "Figure 15 PDF p25"
+    ],
+    "source": "https://arxiv.org/pdf/2512.13974v1",
+    "hazardInventoryConflict": "Table1 A/B/C=5/7/8; narrative=5/6/7",
+    "sampleCountConflict": "Table2 A=147; Fig13 A=147; Fig14 A=148 (Unsafe 77 vs 78)",
+    "metrics": "Figure15 labels retained without recomputing; no aggregate risk leaderboard",
+    "resourceBoundary": "Author repository confirms Go2 SLAM/Nav2 demos, not release completeness for all AI and evaluation components"
+  },
+  "homeSafeBenchRefinements": {
+    "version": "2509.23690v2",
+    "source": "https://arxiv.org/html/2509.23690v2",
+    "training": "Appendix D.3 visual encoder frozen; LM LoRA only; DPO separate baseline",
+    "duplicatePolicy": "merged uploaded document provenance into existing stable ID"
+  },
+  "reproduction": "No new reproduction claim; all five new papers remain 未复现 via build default."
+}
