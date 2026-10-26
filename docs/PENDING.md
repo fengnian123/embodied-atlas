@@ -1,6 +1,6 @@
 # 待核实与待完善清单
 
-最近内容核验：2026-10-20。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。
+最近内容核验：2026-10-26。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。
 
 - **4D Gaussian Splatting for Real-Time Dynamic Scene Rendering** (4dgs-deformation)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
 - **Real-time Photorealistic Dynamic Scene Representation and Rendering with 4D Gaussian Splatting** (4dgs-native)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
@@ -11,8 +11,12 @@
 - **Tandem CCV-VLM: Visual construction safety inspection based on Collaborative Cross-Verification VLM** (ccv-vlm)：尚未逐项核实所有资源许可证与下载内容；训练冻结配置；数据划分与逐表量化复核；论文 DOI 与资源入口；作者机构；首次公开日期；最新版本日期。状态：重点详解。
 - **Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline** (construction-safety-vlm)：正式发表信息未核实。；完整AI代码、原始评估帧、提示版本、模型量化版本和各资源许可未逐项确认。；原文统计存在上述冲突；没有全部模块消融、独立场景误差条或整报告量化结果。。状态：重点详解。
 - **CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection** (coralplan)：未核验匿名仓库中的下载文件、许可证、训练配置与评分脚本实际内容；原文确认的入口已保留。；四个实体目标额外训练照片数量及完整逐层LoRA参数清单需查仓库，正文未给。；未自行复现计划训练、144次仿真或36对清水池执行。。状态：重点详解。
+- **Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation** (dualvln)：未逐项下载并核对 Social-VLN 资源和资产许可。。状态：重点详解。
 - **ETA: A New Agentic Paradigm for Embodied Tasks** (eta)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **ETP-R1: Evolving Topological Planning with Reinforcement Fine-tuning for Vision-Language Navigation in Continuous Environments** (etp-r1)：未下载并运行 extra_files.zip；资源包完整性与资产许可尚未逐项检查。。状态：重点详解。
+- **FutureNav: Unified World-Action Modeling for Vision-and-Language Navigation** (futurenav)：Base 权重与 Table 1 各训练设置的对应关系未明确。；训练数据与训练脚本尚未在官方 README 中标为已发布；权重完整许可待确认。。状态：重点详解。
 - **GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks** (gap)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **GC-VLN: Instruction as Graph Constraints for Training-free Vision-and-Language Navigation** (gc-vln)：用户所列 † 的具体表格脚注意义未提供；按正式方法收录，不将其当成另一篇论文。。状态：重点详解。
 - **GOAT-Bench: A Benchmark for Multi-Modal Lifelong Navigation** (goat-bench)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；作者机构未在已读取原文中完整确认。状态：重点详解。
 - **Habitat-Matterport 3D Dataset (HM3D): 1000 Large-scale 3D Environments for Embodied AI** (hm3d)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **HoloAgent-0: A Unified Embodied Agent Framework with 3D Spatial Memory** (holoagent-0)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
@@ -186,4 +190,5 @@
 - **Semantically-driven Deep Reinforcement Learning for Inspection Path Planning** (semantic-inspection)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
 - **Semantic Scene Difference Detection in Daily Life Patroling by Mobile Robots using Pre-Trained Large-Scale Vision-Language Model** (semantic-scene-difference)：原文未给出完整OFA检查点/解码配置、全部67个问题的可运行清单或统一异常阈值；未找到作者确认的代码及巡检图像下载入口。。状态：重点详解。
 - **Shape of Motion: 4D Reconstruction from a Single Video** (shape-of-motion)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
+- **StreamVLN: Streaming Vision-and-Language Navigation via SlowFast Context Modeling** (streamvln)：正文与 Table I 的数值差异未获作者说明。。状态：重点详解。
 - **TypeGo: An OS Runtime for Embodied Agents** (typego)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。

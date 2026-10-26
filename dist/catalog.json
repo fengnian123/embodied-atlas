@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "checked": "2026-10-20",
+  "checked": "2026-10-26",
   "audit": {
-    "total": 185,
-    "fulltext": 175,
+    "total": 190,
+    "fulltext": 180,
     "metadata": 9,
     "unresolved": 1,
-    "numericEvidence": 159
+    "numericEvidence": 164
   },
   "papers": [
     {
@@ -2973,6 +2973,438 @@
       }
     },
     {
+      "id": "dualvln",
+      "short": "DualVLN",
+      "title": "Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation",
+      "aliases": [
+        "InternVLA-N1-DualVLN"
+      ],
+      "authors": [
+        "Meng Wei",
+        "Chenyang Wan",
+        "Jiaqi Peng",
+        "Xiqian Yu",
+        "Yuqiang Yang",
+        "Delin Feng",
+        "Wenzhe Cai",
+        "Chenming Zhu",
+        "Tai Wang",
+        "Jiangmiao Pang",
+        "Xihui Liu"
+      ],
+      "institutions": [
+        "Shanghai AI Laboratory",
+        "The University of Hong Kong",
+        "Zhejiang University",
+        "Tsinghua University"
+      ],
+      "firstPublished": "2025-12-09",
+      "updated": "2025-12-09",
+      "publicationYear": 2026,
+      "year": 2025,
+      "venue": "ICLR",
+      "publicationStatus": "已发表",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN"
+        ],
+        "paradigm": [
+          "VLM",
+          "VLA",
+          "模仿学习"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法",
+          "Benchmark"
+        ],
+        "problem": [
+          "规划",
+          "实时性",
+          "动态环境",
+          "泛化"
+        ],
+        "environment": [
+          "仿真",
+          "真实世界",
+          "室内",
+          "室外",
+          "轮式机器人",
+          "四足机器人",
+          "人形机器人"
+        ],
+        "training": [
+          "监督微调",
+          "冻结主干并训练模块"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2512.08186",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/InternRobotics/InternNav",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://internrobotics.github.io/internvla-n1-dualvln.github.io/",
+          "status": "已核实入口"
+        },
+        "weights": {
+          "url": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN",
+          "status": "已核实入口"
+        },
+        "data": {
+          "url": "https://huggingface.co/datasets/InternRobotics/InternData-N1",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本",
+          "url": "https://arxiv.org/abs/2512.08186",
+          "supports": [
+            "题名",
+            "作者",
+            "首次公开日期",
+            "版本历史"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文",
+          "url": "https://arxiv.org/html/2512.08186v1",
+          "supports": [
+            "方法",
+            "训练",
+            "实验原表",
+            "机构"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "ICLR 2026 论文",
+          "url": "https://openreview.net/pdf?id=GK4rznYwhn",
+          "supports": [
+            "发表状态",
+            "会议"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "官方项目页",
+          "url": "https://internrobotics.github.io/internvla-n1-dualvln.github.io/",
+          "supports": [
+            "方法",
+            "资源",
+            "实机平台"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "官方模型说明",
+          "url": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN",
+          "supports": [
+            "模型身份",
+            "权重入口"
+          ]
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "Social-VLN 的人类碰撞率仍为 35.4%，说明高频局部策略不构成安全保证。",
+          "模型策略为 RGB 输入，但实机轨迹跟踪依赖额外里程计和 MPC；两种传感器口径应区分。"
+        ]
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE",
+          "setting": "val_unseen；单第一视角 RGB；同表基线保留各自训练配方。",
+          "result": "DualVLN 的 SR/SPL 为 64.3/58.5。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+          "locator": "Table 1",
+          "table": {
+            "columns": [
+              "方法",
+              "NE ↓ (m)",
+              "OS ↑ (%)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "StreamVLN（本论文基线）",
+                4.98,
+                64.2,
+                56.9,
+                51.9
+              ],
+              [
+                "DualVLN",
+                4.05,
+                70.7,
+                64.3,
+                58.5
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "Table 1",
+            "note": "StreamVLN 行来自 DualVLN 的对照表，不覆盖 StreamVLN 自身 v2 表格。"
+          }
+        },
+        {
+          "benchmark": "RxR-CE",
+          "setting": "val_unseen；单第一视角 RGB。",
+          "result": "DualVLN 的 SR/SPL 为 61.4/51.8，nDTW=70.0。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+          "locator": "Table 1",
+          "table": {
+            "columns": [
+              "方法",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)",
+              "nDTW ↑"
+            ],
+            "rows": [
+              [
+                "StreamVLN（本论文基线）",
+                6.22,
+                52.9,
+                46,
+                61.9
+              ],
+              [
+                "DualVLN",
+                4.58,
+                61.4,
+                51.8,
+                70
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "Table 1"
+          }
+        },
+        {
+          "benchmark": "Social-VLN",
+          "setting": "R2R val_unseen 改造的动态行人设置；HCR 为人类碰撞率。",
+          "result": "动态行人下 DualVLN SR 从 64.3 降为 37.2；不能据定性避障演示宣称解决了社交导航。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+          "locator": "Table 3",
+          "table": {
+            "columns": [
+              "方法",
+              "SR ↑ (%)",
+              "SPL ↑ (%)",
+              "HCR ↓ (%)"
+            ],
+            "rows": [
+              [
+                "StreamVLN",
+                31.4,
+                29.1,
+                36.4
+              ],
+              [
+                "DualVLN",
+                37.2,
+                35.8,
+                35.4
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "Table 3"
+          }
+        },
+        {
+          "benchmark": "VLN-PE",
+          "setting": "物理运动控制仿真；R2R val_unseen；从 VLN-CE 零样本迁移。",
+          "result": "DualVLN 的 SR/SPL 为 51.60/42.49。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+          "locator": "Table 2",
+          "table": {
+            "columns": [
+              "方法",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "NaVid",
+                5.94,
+                22.42,
+                18.58
+              ],
+              [
+                "DualVLN",
+                4.66,
+                51.6,
+                42.49
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "Table 2",
+            "note": "这不是 Habitat VLN-CE；不与前两表合并排名。"
+          }
+        },
+        {
+          "benchmark": "局部规划器消融",
+          "setting": "VLN-PE，flash controller；R2R val_unseen；替代规划器通过额外深度接收 point-goal。",
+          "result": "System 1 的 latent 条件轨迹策略优于显式目标连接的替代规划器。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+          "locator": "Table 4",
+          "table": {
+            "columns": [
+              "局部规划器",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "iPlanner",
+                4.91,
+                47.07,
+                41.09
+              ],
+              [
+                "NavDP",
+                4.22,
+                58.72,
+                50.98
+              ],
+              [
+                "System 1",
+                3.9,
+                63.62,
+                56.49
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "Table 4"
+          }
+        }
+      ],
+      "related": [
+        {
+          "id": "streamvln",
+          "reason": "高层数据配方及视频导航基线。"
+        },
+        {
+          "id": "gc-vln",
+          "reason": "比较学习式像素 / latent 目标与训练无关的几何约束规划。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-26",
+      "verificationLevel": "fulltext",
+      "gaps": [
+        "未逐项下载并核对 Social-VLN 资源和资产许可。"
+      ],
+      "sourceNotes": [],
+      "reproduction": {
+        "status": "未复现"
+      },
+      "bibtex": "@misc{dualvln,\n  title={Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation},\n  author={Meng Wei and Chenyang Wan and Jiaqi Peng and Xiqian Yu and Yuqiang Yang and Delin Feng and Wenzhe Cai and Chenming Zhu and Tai Wang and Jiangmiao Pang and Xihui Liu},\n  year={2025},\n  eprint={2512.08186},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2512.08186}\n}",
+      "summary": "慢速 VLM 预测像素目标与 latent goal，快速扩散策略根据新 RGB 持续生成轨迹，实现异步导航。",
+      "overview": "DualVLN 将语言理解与局部运动放在不同频率运行。System 2 结合指令和视觉历史，先主动调整视角，再预测下一段路线的像素目标；可学习查询从其隐藏状态提取 latent goal。System 1 接收这个较慢更新的目标和高频 RGB，以 Flow Matching 生成平滑轨迹。训练先微调 VLM 的目标接地能力，再冻结它、学习 latent queries 和轨迹策略。评测除 VLN-CE 外，还包含物理仿真、动态行人的 Social-VLN 及多平台实机部署。",
+      "method": {
+        "input": "语言指令、当前与历史 RGB；部署运动跟踪还使用里程计",
+        "output": "视角调整 / STOP 或含 32 个密集航点的局部轨迹",
+        "explanation": "高层系统负责选择走向，低层系统在高层尚未返回新目标时继续利用新图像更新局部轨迹。显式像素目标提供接地监督，latent goal 连接两个系统的语义与动作表征。",
+        "assumptions": "高低层异步调度、相机视角调整与可跟踪轨迹的机器人控制接口；实机系统包含里程计和 MPC。",
+        "difference": "不同于每走一步调用大模型，也不同于仅把像素点交给独立局部规划器；latent queries 学习从高层上下文提取对轨迹生成有效的信息。",
+        "flow": [
+          "目标接地与主动视角",
+          "Latent goal 提取",
+          "高频轨迹生成",
+          "异步执行"
+        ],
+        "modules": [
+          {
+            "name": "目标接地与主动视角",
+            "purpose": "将长指令转换为当前视野中的中期目标",
+            "input": "指令、历史图像和当前 RGB",
+            "mechanism": "用 Qwen2.5-VL-7B 预测当前可见轨迹中最远的像素航点；训练时借助深度过滤遮挡点。目标不在视野内时先生成转头 / 转向动作，完成后再接地，末步输出 STOP。",
+            "output": "像素目标、视角调整或停止",
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "3.1 / Appendix A.1"
+          },
+          {
+            "name": "Latent goal 提取",
+            "purpose": "把高层推理中的信息传给局部策略",
+            "input": "冻结 VLM 的上下文、像素目标和 4 个可学习查询",
+            "mechanism": "在目标文本后追加 4 个查询 token，借助冻结 VLM 的注意力读取指令、视觉历史和目标信息。训练更新查询表征，使其成为轨迹策略可用的条件。",
+            "output": "紧凑的 latent goal embeddings",
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "3.2 / Appendix A.2"
+          },
+          {
+            "name": "高频轨迹生成",
+            "purpose": "在高层目标暂时不变时响应新观测",
+            "input": "latent goal、高层最后一帧 RGB 与当前 RGB",
+            "mechanism": "用 ViT 编码两时刻图像，经自注意力融合、Q-Former 压成 32 个视觉 token；与 latent goal 共同条件化 DiT。Flow Matching 学习从噪声到轨迹的速度场，生成 32 个密集航点。",
+            "output": "持续刷新的平滑局部轨迹",
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "3.2"
+          },
+          {
+            "name": "异步执行",
+            "purpose": "减少等待高层推理造成的停顿",
+            "input": "慢更新目标、快更新轨迹和机器人状态",
+            "mechanism": "System 2 与 System 1 异步运行，低层读取最新 RGB 继续调整轨迹；实机将输出结合里程计转换并用 MPC 跟踪。论文示意高层约 2 Hz、低层约 30 Hz，实测延迟需按具体配置读取。",
+            "output": "连续机器人运动与下一轮观测",
+            "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+            "locator": "Figure 1 / 5.2"
+          }
+        ]
+      },
+      "training": {
+        "regime": "先全量微调 System 2，再冻结高层训练查询与轨迹策略",
+        "models": "System 2：Qwen2.5-VL-7B；System 1：DepthAnythingV2-Small 的 ViT 图像骨干、Q-Former 与紧凑 DiT。",
+        "trainable": "阶段 1 解冻视觉编码器和 LLM；阶段 2 训练 latent queries 与扩散轨迹策略。",
+        "frozen": "阶段 2 冻结已经完成目标接地微调的 QwenVL；冻结仅适用于该阶段。",
+        "data": "遵循 StreamVLN 的多源配方，将轨迹投影到图像生成最远可见目标、视角调整和停止样本；轨迹监督仅取 pixel-goal 样本，插值为 32 个固定间隔航点。 论文另构建 60 个 MP3D 场景的 763K 社交导航 episode：人类掩码比例超过阈值时，触发修改后的 A* 生成避让轨迹。",
+        "objective": "阶段 1 自回归动作 / 像素坐标监督；阶段 2 以 Flow Matching 速度场 MSE 训练轨迹生成。",
+        "stages": "阶段 1 AdamW，lr 2e-5、batch 128、14,000 steps；阶段 2 lr 1e-4、batch 128、15,000 steps。推理异步运行，模型权重不在线更新。"
+      },
+      "benchmark": {
+        "motivation": "评测指令导航遇到动态行人的避让与任务恢复。",
+        "task": "Social-VLN：在标准导航路线中加入人形代理，保留自然语言目标。",
+        "input": "导航指令与第一视角观测。",
+        "output": "移动、视角调整及停止。",
+        "scale": "动态避障训练数据：60 个 MP3D 场景、763K episode。该数不代表 Social-VLN 测试集规模；测试表使用 R2R val_unseen。",
+        "split": "沿用基础任务划分；禁止混用标准 VLN 与 Social-VLN 结果。",
+        "environment": "动态人形代理仿真；论文另有独立实机实验。",
+        "metrics": "NE、OS、SR、SPL 与 HCR（人类碰撞率）。",
+        "baselines": "DualVLN、StreamVLN。",
+        "actions": "高层视角调整、像素目标与 STOP；低层生成局部轨迹。",
+        "success": "沿用任务完成指标，同时独立统计 Human Collision Rate；任务成功不等于无碰撞。",
+        "collection": "在 Habitat 3.0 中沿参考路线设置动态人形代理；逐 episode 核查避免行人完全阻塞道路。训练轨迹用人类检测和修改 A* 生成。",
+        "assets": "官方 InternNav 与 InternData-N1 提供相关资源入口；下载和资产许可须分别确认。",
+        "boundary": "只覆盖文中动态人形代理场景；尚不等于开放人群社会规范的完整评测。",
+        "coverage": "动态人形障碍下的任务完成、避让和绕行恢复。",
+        "reproduction": "依赖 InternNav、Habitat 动态代理及两阶段训练资源；本站尚未运行。",
+        "leakage": "训练数据规模与测试数据规模分开记录；未独立审计全部轨迹和场景的去重。",
+        "license": "模型、轨迹与 MP3D 场景资产的许可需分别确认。"
+      }
+    },
+    {
       "id": "eta",
       "title": "ETA: A New Agentic Paradigm for Embodied Tasks",
       "short": "ETA / OpenETA",
@@ -3279,6 +3711,802 @@
       }
     },
     {
+      "id": "etp-r1",
+      "short": "ETP-R1",
+      "title": "ETP-R1: Evolving Topological Planning with Reinforcement Fine-tuning for Vision-Language Navigation in Continuous Environments",
+      "aliases": [
+        "ETP-R1（GRPO）",
+        "ETP-R1 (GRPO)",
+        "ETP-R1-GRPO"
+      ],
+      "authors": [
+        "Shuhao Ye",
+        "Sitong Mao",
+        "Yuxiang Cui",
+        "Xuan Yu",
+        "Shichao Zhai",
+        "Wen Chen",
+        "Shunbo Zhou",
+        "Rong Xiong",
+        "Yue Wang"
+      ],
+      "institutions": [
+        "Zhejiang University",
+        "Huawei Technologies Co., Ltd.",
+        "Zhejiang Humanoid Robot Innovation Center"
+      ],
+      "firstPublished": "2025-12-24",
+      "updated": "2025-12-24",
+      "publicationYear": null,
+      "year": 2025,
+      "venue": null,
+      "publicationStatus": "预印本",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN"
+        ],
+        "paradigm": [
+          "强化学习",
+          "模仿学习"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "规划",
+          "泛化"
+        ],
+        "environment": [
+          "仿真",
+          "室内"
+        ],
+        "training": [
+          "监督微调",
+          "强化学习",
+          "冻结主干并训练模块"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2512.20940",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/Cepillar/ETP-R1",
+          "status": "已核实入口"
+        },
+        "data": {
+          "url": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+          "status": "已核实入口"
+        },
+        "weights": {
+          "url": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本",
+          "url": "https://arxiv.org/abs/2512.20940",
+          "supports": [
+            "题名",
+            "作者",
+            "首次公开日期",
+            "版本历史"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文",
+          "url": "https://arxiv.org/html/2512.20940v1",
+          "supports": [
+            "方法",
+            "训练",
+            "实验原表",
+            "机构"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "官方代码与训练配置",
+          "url": "https://github.com/Cepillar/ETP-R1",
+          "supports": [
+            "训练硬件",
+            "环境",
+            "各阶段 checkpoint"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "官方数据与权重包",
+          "url": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+          "supports": [
+            "数据与权重入口"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "原始 PDF 表格",
+          "url": "https://arxiv.org/pdf/2512.20940v1",
+          "supports": [
+            "Table I",
+            "Table III"
+          ]
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "依赖全景 RGB-D、航点预测与模拟器交互，不能直接当作单 RGB VLM 导航结果比较。",
+          "原文重点验证 R2R-CE / RxR-CE；未提供本文已核实的大规模实机或动态目标导航结果。"
+        ]
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE",
+          "setting": "原文 Table I；val_unseen 与 test_unseen 分开；12 视角全景 RGB-D。",
+          "result": "GRPO 在 val_unseen 为 SR/SPL=65/56，在 test_unseen 为 64/54；主表作整数报告。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+          "locator": "Table I",
+          "table": {
+            "columns": [
+              "配置 / 划分",
+              "NE ↓ (m)",
+              "OSR ↑ (%)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "ETPNav / val_unseen",
+                4.71,
+                65,
+                57,
+                49
+              ],
+              [
+                "ETP-R1 DAgger / val_unseen",
+                4.11,
+                69,
+                63,
+                54
+              ],
+              [
+                "ETP-R1 GRPO / val_unseen",
+                3.94,
+                72,
+                65,
+                56
+              ],
+              [
+                "ETP-R1 GRPO / test_unseen",
+                4.19,
+                69,
+                64,
+                54
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+            "locator": "Table I",
+            "note": "R2R 配置允许 sliding、半径 0.10 m；不能与不同传感器或碰撞配置的结果直接视为同条件排名。"
+          }
+        },
+        {
+          "benchmark": "RxR-CE",
+          "setting": "val_unseen；原文 RxR 配置半径 0.18 m，碰撞停止。",
+          "result": "GRPO 相对 DAgger 提升路线遵循和任务成功。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+          "locator": "Table I",
+          "table": {
+            "columns": [
+              "配置",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)",
+              "nDTW ↑",
+              "SDTW ↑"
+            ],
+            "rows": [
+              [
+                "ETPNav",
+                5.64,
+                54.79,
+                44.89,
+                61.9,
+                45.33
+              ],
+              [
+                "ETP-R1 DAgger",
+                5.42,
+                58.26,
+                48.19,
+                63.78,
+                48.53
+              ],
+              [
+                "ETP-R1 GRPO",
+                5.22,
+                59.92,
+                48.97,
+                65.31,
+                50.41
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+            "locator": "Table I"
+          }
+        },
+        {
+          "benchmark": "GRPO 配置消融",
+          "setting": "R2R-CE val_unseen；Table III 保留小数，区别于主表舍入。",
+          "result": "默认 GRPO 为 65.36/55.82；表内控制变量评估采样和冻结层 dropout。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+          "locator": "Table III",
+          "table": {
+            "columns": [
+              "配置",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "默认 GRPO",
+                65.36,
+                55.82
+              ],
+              [
+                "关闭采样 dropout",
+                63.78,
+                55.1
+              ],
+              [
+                "关闭冻结层 dropout",
+                64.17,
+                54.96
+              ],
+              [
+                "加入温度缩放",
+                63.46,
+                53.8
+              ],
+              [
+                "每组更新两轮",
+                64.76,
+                54.25
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+            "locator": "Table III"
+          }
+        }
+      ],
+      "related": [
+        {
+          "id": "gc-vln",
+          "reason": "图规划中无额外训练与 GRPO 强化微调的对照路线。"
+        },
+        {
+          "id": "futurenav",
+          "reason": "比较全景图规划与单 RGB 世界—动作联合建模。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-26",
+      "verificationLevel": "fulltext",
+      "gaps": [
+        "未下载并运行 extra_files.zip；资源包完整性与资产许可尚未逐项检查。"
+      ],
+      "sourceNotes": [],
+      "reproduction": {
+        "status": "未复现"
+      },
+      "bibtex": "@misc{etpr1,\n  title={ETP-R1: Evolving Topological Planning with Reinforcement Fine-tuning for Vision-Language Navigation in Continuous Environments},\n  author={Shuhao Ye and Sitong Mao and Yuxiang Cui and Xuan Yu and Shichao Zhai and Wen Chen and Shunbo Zhou and Rong Xiong and Yue Wang},\n  year={2025},\n  eprint={2512.20940},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2512.20940}\n}",
+      "summary": "用 Gemini 扩充指令，联合预训练拓扑规划器，再以 DAgger 和闭环在线 GRPO 优化整条导航轨迹。",
+      "overview": "ETP-R1 将大规模数据和强化微调引入图导航，而不是将 GRPO 直接用于大 VLM。Gemini 2.0 Flash 为拓扑轨迹生成多样化指令，约 0.5B 的规划器联合学习 R2R 与 RxR，在在线全景 RGB-D 观测中维护候选航点图。训练依次经过离线预训练、DAgger 监督微调和 GRPO。强化阶段从同一 episode 采样多条实际闭环轨迹，用整条路线的成功、效率与路径遵循奖励计算组内优势，更新节点选择策略。",
+      "method": {
+        "input": "语言指令、每步 12 视角全景 RGB-D、在线拓扑图与相对位姿",
+        "output": "下一候选航点 / STOP；控制器执行 0.25 m 前进、15° 转向等低层动作",
+        "explanation": "继承 ETPNav 的在线建图与底层控制，把学习重点放在指令数据、跨任务预训练和高层航点选择的在线强化。Gemini 不参与导航时逐步决策。",
+        "assumptions": "预训练航点预测器、全景 RGB-D 和位姿；GRPO 需要可重置并采样多条轨迹的交互模拟器。",
+        "difference": "把 episode 对应 prompt、闭环轨迹对应 response、高层节点选择对应 token，以组内轨迹回报代替 critic 训练。",
+        "flow": [
+          "轨迹指令扩充",
+          "在线拓扑表征",
+          "双阶段跨模态融合",
+          "闭环在线 GRPO"
+        ],
+        "modules": [
+          {
+            "name": "轨迹指令扩充",
+            "purpose": "提高导航预训练的语言多样性",
+            "input": "Prevalent 轨迹、左右前视图与下个节点方向",
+            "mechanism": "每节点拼接三个 90° 图像并标注方向箭头；Gemini 2.0 Flash 根据 1/2/3 段拆分方案生成指令，每条轨迹得到六种描述，形成约 1M 新样本。",
+            "output": "Prevalent_Gemini_Aug 指令—轨迹数据",
+            "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+            "locator": "III-A"
+          },
+          {
+            "name": "在线拓扑表征",
+            "purpose": "把全景观测压成可规划节点",
+            "input": "12 对 RGB-D、已访问与候选节点、指令",
+            "mechanism": "CLIP ViT-B/32 和 point-goal ResNet-50 提取视觉特征，panorama Transformer 融合视角；节点加入相对位置、访问步数与任务 embedding，语言由 RoBERTa 编码。",
+            "output": "带任务信息的语言和图 token",
+            "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+            "locator": "III-B1–2 / IV-A3"
+          },
+          {
+            "name": "双阶段跨模态融合",
+            "purpose": "将指令中的路线要求对齐到候选航点",
+            "input": "语言 token 和图 token",
+            "mechanism": "DPFT 先做双向跨注意力，使语言与图互相感知；再由图查询文本获取定向指导，经过 FFN 与原图特征拼接。SAP head 为节点及 STOP 打分。",
+            "output": "下一高层航点的概率分布",
+            "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+            "locator": "III-B3–4"
+          },
+          {
+            "name": "闭环在线 GRPO",
+            "purpose": "优化完整路线而非单次离线动作",
+            "input": "同一 episode 的 8 条策略 rollout",
+            "mechanism": "先以 DAgger 适应环境，再从起点重复采样完整轨迹，根据最终回报标准化得到组内优势。R2R 奖励强调近目标成功和 SPL；RxR 使用 nDTW、SDTW 与参考路线 gSPL，避免鼓励抄近路。",
+            "output": "经过任务回报优化的规划器",
+            "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+            "locator": "III-C / IV-A3"
+          }
+        ]
+      },
+      "training": {
+        "regime": "联合预训练 → 在线 DAgger SFT → 在线 GRPO RFT",
+        "models": "约 0.5B 图规划器：RoBERTa、panorama encoder、DPFT、SAP / MLM heads；CLIP ViT-B/32 与 point-goal ResNet-50 视觉骨干。Gemini 2.0 Flash 仅生成训练数据。",
+        "trainable": "预训练与 SFT 更新视觉骨干之外的模型参数；RFT 仅更新 DPFT 与 SAP head。",
+        "frozen": "RGB 与深度视觉骨干始终冻结；RFT 冻结其余模块，并保留原文配置的 dropout。",
+        "data": "Prevalent 1M、Gemini Aug 1M、RxR-Marky 1M、R2R_train 14K、RxR_train 80K；在线任务数据按 90% SFT / 10% RFT 不相交划分。",
+        "objective": "预训练 SAP 与 MLM 按 1:1；SFT 用 DAgger 专家节点监督；RFT 用带 KL 正则的 GRPO，R2R 与 RxR 分别定义整轨迹奖励。",
+        "stages": "GRPO group size 8、clip 0.2、KL 权重 0.04，每组只更新 1 epoch，采样及冻结层启用 dropout。官方 README 报告使用 4×A6000 训练，未将其解释为单卡可复现。"
+      }
+    },
+    {
+      "id": "futurenav",
+      "short": "FutureNav",
+      "title": "FutureNav: Unified World-Action Modeling for Vision-and-Language Navigation",
+      "aliases": [
+        "FutureNav-4B-Base",
+        "FutureNav-4B",
+        "FutureNav-8B",
+        "FutureNav-4B†",
+        "FutureNav-8B†"
+      ],
+      "authors": [
+        "Lingfeng Zhang",
+        "Zeying Gong",
+        "Xiaoshuai Hao",
+        "Haoxiang Fu",
+        "Qiang Zhang",
+        "Mingliang Zhou",
+        "Hangjun Ye",
+        "Xiaojun Liang",
+        "Junwei Liang",
+        "Wenbo Ding"
+      ],
+      "institutions": [
+        "Tsinghua University",
+        "Pengcheng Laboratory",
+        "The Hong Kong University of Science and Technology (Guangzhou)",
+        "Xiaomi EV",
+        "National University of Singapore"
+      ],
+      "firstPublished": "2026-06-29",
+      "updated": "2026-06-29",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "预印本",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN"
+        ],
+        "paradigm": [
+          "VLM",
+          "VLA",
+          "世界模型",
+          "3D/4D 表征"
+        ],
+        "system": [
+          "端到端策略"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "空间理解",
+          "泛化"
+        ],
+        "environment": [
+          "仿真",
+          "真实世界",
+          "室内",
+          "室外",
+          "四足机器人"
+        ],
+        "training": [
+          "监督微调",
+          "冻结主干并训练模块"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2606.30367",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/linglingxiansen/FutureNav",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://linglingxiansen.github.io/FutureNav/",
+          "status": "已核实入口"
+        },
+        "weights": {
+          "url": "https://huggingface.co/llxs/FutureNav/tree/main/FutureNav-4B-Base",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本",
+          "url": "https://arxiv.org/abs/2606.30367",
+          "supports": [
+            "题名",
+            "作者",
+            "首次公开日期",
+            "版本历史"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文",
+          "url": "https://arxiv.org/html/2606.30367v1",
+          "supports": [
+            "方法",
+            "训练",
+            "实验原表",
+            "机构"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "官方代码与发布清单",
+          "url": "https://github.com/linglingxiansen/FutureNav",
+          "supports": [
+            "评测配置",
+            "训练资源开放范围"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "发布的 Base 权重目录",
+          "url": "https://huggingface.co/llxs/FutureNav/tree/main/FutureNav-4B-Base",
+          "supports": [
+            "FutureNav-4B-Base 身份"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "原始 PDF 表格",
+          "url": "https://arxiv.org/pdf/2606.30367v1",
+          "supports": [
+            "Table 1",
+            "Table 2",
+            "Table 3"
+          ]
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "实机部分主要是 Go2 + D435i、H20 远程推理的定性案例，未据此填写大规模实机成功率。",
+          "预测目标为短期空间 latent，当前实验不直接证明长期环境演化或动态目标位置预测能力。"
+        ]
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE",
+          "setting": "val_unseen；单 RGB；论文 Table 1 的 0K 与完整数据设置分别列出。",
+          "result": "4B 完整设置 SR/SPL=65.4/61.3；0K 设置为 55.1/50.1。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+          "locator": "Table 1",
+          "table": {
+            "columns": [
+              "论文配置",
+              "外部样本",
+              "NE ↓ (m)",
+              "OS ↑ (%)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "4B（0K）",
+                "0",
+                5.13,
+                61.8,
+                55.1,
+                50.1
+              ],
+              [
+                "8B（0K）",
+                "0",
+                5.15,
+                61.6,
+                55.5,
+                51.4
+              ],
+              [
+                "4B（完整）",
+                "10.457M",
+                4.24,
+                70.2,
+                65.4,
+                61.3
+              ],
+              [
+                "8B（完整）",
+                "10.435M",
+                4.29,
+                69.2,
+                64.3,
+                60.3
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "Table 1"
+          },
+          "caveat": "FutureNav-4B-Base 的已发布目录未明确说明对应哪一行，不能把论文最佳值直接当成该权重的实测结果。"
+        },
+        {
+          "benchmark": "RxR-CE",
+          "setting": "val_unseen；训练数据设置同 R2R 表。",
+          "result": "4B 完整设置 SR/SPL=60.9/52.8；8B 为 63.9/54.8。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+          "locator": "Table 1",
+          "table": {
+            "columns": [
+              "论文配置",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)",
+              "nDTW ↑"
+            ],
+            "rows": [
+              [
+                "4B（0K）",
+                5.62,
+                54.5,
+                46,
+                61.8
+              ],
+              [
+                "8B（0K）",
+                5.93,
+                53.3,
+                45.4,
+                59.8
+              ],
+              [
+                "4B（完整）",
+                4.6,
+                60.9,
+                52.8,
+                68
+              ],
+              [
+                "8B（完整）",
+                4.26,
+                63.9,
+                54.8,
+                69.1
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "Table 1"
+          }
+        },
+        {
+          "benchmark": "World-action 目标消融",
+          "setting": "R2R-CE val_unseen，0K 外部数据。",
+          "result": "联合四目标相对 policy-only 提升 5.0 个百分点 SR 和 SPL。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+          "locator": "Table 2",
+          "table": {
+            "columns": [
+              "训练目标",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "仅策略",
+                6,
+                50.1,
+                45.1
+              ],
+              [
+                "策略 + 逆向",
+                5.82,
+                50.8,
+                45.8
+              ],
+              [
+                "策略 + 正向",
+                5.31,
+                53,
+                48.3
+              ],
+              [
+                "策略 + 未来生成",
+                5.35,
+                51.6,
+                46.9
+              ],
+              [
+                "全部四目标",
+                5.13,
+                55.1,
+                50.1
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "Table 2"
+          }
+        },
+        {
+          "benchmark": "状态表征消融",
+          "setting": "R2R-CE val_unseen，无外部数据。",
+          "result": "空间 latent 在原文比较的监督表征中表现最好。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+          "locator": "Table 3",
+          "table": {
+            "columns": [
+              "预测目标表征",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "无 latent 建模",
+                50.1,
+                45.1
+              ],
+              [
+                "VAE latent",
+                51,
+                46.4
+              ],
+              [
+                "VLM visual latent",
+                51.4,
+                46.8
+              ],
+              [
+                "DINO semantic latent",
+                51.8,
+                47.1
+              ],
+              [
+                "Spatial latent",
+                55.1,
+                50.1
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "Table 3"
+          }
+        }
+      ],
+      "related": [
+        {
+          "id": "streamvln",
+          "reason": "同为单 RGB VLM 导航，但状态建模和推理机制不同。"
+        },
+        {
+          "id": "dualvln",
+          "reason": "比较单策略动作解码与双系统连续轨迹执行。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-26",
+      "verificationLevel": "fulltext",
+      "gaps": [
+        "Base 权重与 Table 1 各训练设置的对应关系未明确。",
+        "训练数据与训练脚本尚未在官方 README 中标为已发布；权重完整许可待确认。"
+      ],
+      "sourceNotes": [],
+      "reproduction": {
+        "status": "未复现"
+      },
+      "bibtex": "@misc{futurenav,\n  title={FutureNav: Unified World-Action Modeling for Vision-and-Language Navigation},\n  author={Lingfeng Zhang and Zeying Gong and Xiaoshuai Hao and Haoxiang Fu and Qiang Zhang and Mingliang Zhou and Hangjun Ye and Xiaojun Liang and Junwei Liang and Wenbo Ding},\n  year={2026},\n  eprint={2606.30367},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2606.30367}\n}",
+      "summary": "联合学习动作、正向动力学、逆向动力学和未来空间状态，推理默认只解码动作；收录 FutureNav-4B-Base 权重。",
+      "overview": "FutureNav 在 Qwen3-VL 的图像特征之外引入冻结 VGGT 的空间特征，经残差融合送入语言主干。训练同时要求模型选择动作、根据动作预测下一状态、从观测变化反推动作，以及不依赖动作预测未来状态。三个辅助目标在训练中约束共享表征，默认推理关闭辅助预测头，保留带空间编码的动作路径。论文比较 4B / 8B 与有无外部导航数据的设置；已发布的 FutureNav-4B-Base 作为同一论文的模型资源收录。",
+      "method": {
+        "input": "语言指令、当前及历史 RGB",
+        "output": "STOP、MOVE_FORWARD、TURN_LEFT、TURN_RIGHT 等低层动作文本",
+        "explanation": "把空间状态、动作和状态转移作为联合监督：视觉与空间编码继续用于默认策略推理，辅助动力学和未来预测头可以关闭。",
+        "assumptions": "VGGT 与 VLM 的图像预处理、token 数对齐和历史缓存；默认评测不是在线生成视频或多分支想象规划。",
+        "difference": "世界模型主要作为训练监督塑造共享表示；未来预测目标是空间潜变量，而非直接合成未来 RGB。",
+        "flow": [
+          "视觉与空间融合",
+          "动作策略",
+          "正逆动力学",
+          "未来状态与联合优化"
+        ],
+        "modules": [
+          {
+            "name": "视觉与空间融合",
+            "purpose": "向策略注入几何感知信息",
+            "input": "同一段 RGB 历史的 VLM 和 VGGT 特征",
+            "mechanism": "冻结 VGGT 产生 2048 维空间 patch 特征，用邻域合并、RMSNorm 和两层 MLP 映射到 LLM 隐空间；token 数不匹配时插值，以 0.2 的残差权重加到视觉 embedding。",
+            "output": "对齐后的语义—空间 token",
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "3.1–3.2"
+          },
+          {
+            "name": "动作策略",
+            "purpose": "产生可执行导航决策",
+            "input": "融合后的 token、指令与动作提示",
+            "mechanism": "语言模型自回归生成动作。仅 assistant 动作 token 参与交叉熵，system 和 user 文本标签被屏蔽，避免把输入复述当作动作监督。",
+            "output": "离散动作及共享隐藏状态",
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "3.3 Action Policy"
+          },
+          {
+            "name": "正逆动力学",
+            "purpose": "约束动作与观测变化的一致性",
+            "input": "当前状态、动作隐藏状态和相邻帧特征",
+            "mechanism": "正向头把当前观测与 teacher-forced 动作状态映射到下一帧池化空间特征，使用 MSE；逆向头读取上下文、相邻帧均值与差分，分类导致变化的四类动作。",
+            "output": "下一状态预测与逆向动作类别",
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "3.3 Forward / Inverse Dynamics"
+          },
+          {
+            "name": "未来状态与联合优化",
+            "purpose": "学习不依赖给定动作的短期状态先验",
+            "input": "动作响应前的上下文与当前图像隐藏状态",
+            "mechanism": "未来头不读取动作 token，预测下一帧的 2048 维空间状态；用动作 CE 加三项辅助损失联合训练，各辅助权重 0.1。默认评测关闭这些辅助头，直接从策略分支解码。",
+            "output": "经过状态转移监督的导航策略",
+            "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+            "locator": "3.3 Future Generation / 3.4"
+          }
+        ]
+      },
+      "training": {
+        "regime": "冻结视觉 / 空间编码器，监督微调语言主干并联合训练辅助头",
+        "models": "Qwen3-VL-4B / 8B；VGGT 提供空间特征与未来状态监督。",
+        "trainable": "VLM 语言组件、多模态 merger 和 world-action heads。",
+        "frozen": "VLM 视觉塔与 VGGT 空间编码器。",
+        "data": "0K 设置仅用 R2R-CE 与 RxR-CE 专家轨迹，约 2.43M 样本（631K / 1.80M，按原文近似数）；完整设置增加 ScaleVLN 与 DAgger。Table 1 的外部数据是样本数，4B 为 10.457M，8B 为 10.435M。",
+        "objective": "动作 token 交叉熵 + 0.1×正向状态 MSE + 0.1×逆向动作 CE + 0.1×未来状态 MSE。",
+        "stages": "联合训练四目标；默认推理仅运行策略输出头，仍需视觉与空间编码。公开仓库已给出评测脚本，训练脚本与训练数据在 README 中仍列为待发布。"
+      }
+    },
+    {
       "id": "gap",
       "title": "GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation Tasks",
       "short": "GaP",
@@ -3549,6 +4777,361 @@
       "verificationLevel": "fulltext",
       "reproduction": {
         "status": "未复现"
+      }
+    },
+    {
+      "id": "gc-vln",
+      "short": "GC-VLN",
+      "title": "GC-VLN: Instruction as Graph Constraints for Training-free Vision-and-Language Navigation",
+      "aliases": [
+        "GC-VLN†",
+        "Graph Constraints for Vision-and-Language Navigation"
+      ],
+      "authors": [
+        "Hang Yin",
+        "Haoyu Wei",
+        "Xiuwei Xu",
+        "Wenxuan Guo",
+        "Jie Zhou",
+        "Jiwen Lu"
+      ],
+      "institutions": [
+        "Tsinghua University",
+        "Beijing Key Laboratory of Embodied Intelligence Systems",
+        "Beijing National Research Center for Information Science and Technology"
+      ],
+      "firstPublished": "2025-09-12",
+      "updated": "2025-09-12",
+      "publicationYear": 2025,
+      "year": 2025,
+      "venue": "CoRL",
+      "publicationStatus": "已发表",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN"
+        ],
+        "paradigm": [
+          "LLM",
+          "3D/4D 表征"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "规划",
+          "空间理解",
+          "泛化"
+        ],
+        "environment": [
+          "仿真",
+          "真实世界",
+          "室内",
+          "轮式机器人"
+        ],
+        "training": [
+          "仅推理使用"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2509.10454",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/bagh2178/GC-VLN",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://bagh2178.github.io/GC-VLN/",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本",
+          "url": "https://arxiv.org/abs/2509.10454",
+          "supports": [
+            "题名",
+            "作者",
+            "首次公开日期",
+            "版本历史"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文",
+          "url": "https://arxiv.org/html/2509.10454v1",
+          "supports": [
+            "方法",
+            "训练",
+            "实验原表",
+            "机构"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "CoRL 2025 正式论文集",
+          "url": "https://proceedings.mlr.press/v305/yin25a.html",
+          "supports": [
+            "发表信息",
+            "正式引用"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "官方实现",
+          "url": "https://github.com/bagh2178/GC-VLN",
+          "supports": [
+            "代码开放",
+            "环境配置"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "正式论文 PDF",
+          "url": "https://raw.githubusercontent.com/mlresearch/v305/main/assets/yin25a/yin25a.pdf",
+          "supports": [
+            "Table 1",
+            "Table 2",
+            "失败案例"
+          ]
+        }
+      ],
+      "limitations": {
+        "author": [
+          "附录 F 展示三类失败：未识别目标物、把“向右穿门”误解析为前进、错误分支中偶遇正确物体导致未及时回溯。"
+        ],
+        "analysis": [
+          "无需额外训练不代表不依赖深度、位姿和感知模型；物体漏检及错误约束会影响整个求解链。",
+          "实机 Hexmove 部分以定性示例为主，不能从演示推导大规模实机成功率。"
+        ]
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE",
+          "setting": "val_unseen；1,839 episodes；3 m 成功阈值；仅比较 training-free 行。",
+          "result": "GC-VLN 的 SR 高于 InstructNav，但 SPL 低于 InstructNav。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+          "locator": "Table 1",
+          "table": {
+            "columns": [
+              "方法",
+              "NE ↓ (m)",
+              "OSR ↑ (%)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "NavGPT-CE",
+                8.4,
+                26.9,
+                16.3,
+                10.2
+              ],
+              [
+                "CA-Nav",
+                7.6,
+                48,
+                25.3,
+                10.8
+              ],
+              [
+                "InstructNav",
+                6.9,
+                "—",
+                31,
+                24
+              ],
+              [
+                "GC-VLN",
+                7.3,
+                41.8,
+                33.6,
+                16.3
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+            "locator": "Table 1",
+            "note": "33.6−31.0=2.6 个百分点；不沿用正文约写的“2%”。"
+          }
+        },
+        {
+          "benchmark": "RxR-CE",
+          "setting": "val_unseen；11,006 episodes；3 m 成功阈值。",
+          "result": "原表的 GC-VLN SR/SPL 为 33.8/13.8。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+          "locator": "Table 1",
+          "table": {
+            "columns": [
+              "方法",
+              "NE ↓ (m)",
+              "OSR ↑ (%)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "CA-Nav",
+                10.4,
+                "—",
+                19,
+                6
+              ],
+              [
+                "GC-VLN",
+                8.8,
+                44.4,
+                33.8,
+                13.8
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+            "locator": "Table 1"
+          }
+        },
+        {
+          "benchmark": "约束与回溯消融",
+          "setting": "R2R-CE val_unseen；与完整系统使用相同评测。",
+          "result": "移除回溯后 SR 从 33.6 降为 21.3。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+          "locator": "Table 2",
+          "table": {
+            "columns": [
+              "配置",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "完整系统",
+                7.3,
+                33.6,
+                16.3
+              ],
+              [
+                "放松空间约束",
+                8.7,
+                21.5,
+                10.8
+              ],
+              [
+                "去掉航点约束",
+                8.7,
+                23.8,
+                10.9
+              ],
+              [
+                "随机约束求解",
+                9.1,
+                7,
+                2.6
+              ],
+              [
+                "去掉回溯",
+                9,
+                21.3,
+                13.6
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+            "locator": "Table 2"
+          }
+        }
+      ],
+      "related": [
+        {
+          "id": "etp-r1",
+          "reason": "都使用显式结构化规划，但额外训练与动作选择机制不同。"
+        },
+        {
+          "id": "dualvln",
+          "reason": "比较图约束航点与像素目标 / latent goal 的接地方式。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-26",
+      "verificationLevel": "fulltext",
+      "gaps": [
+        "用户所列 † 的具体表格脚注意义未提供；按正式方法收录，不将其当成另一篇论文。"
+      ],
+      "sourceNotes": [],
+      "reproduction": {
+        "status": "未复现"
+      },
+      "bibtex": "@inproceedings{pmlr-v305-yin25a,\n  title={GC-VLN: Instruction as Graph Constraints for Training-free Vision-and-Language Navigation},\n  author={Yin, Hang and Wei, Haoyu and Xu, Xiuwei and Guo, Wenxuan and Zhou, Jie and Lu, Jiwen},\n  booktitle={Proceedings of The 9th Conference on Robot Learning},\n  year={2025},\n  volume={305},\n  pages={1809--1824},\n  series={Proceedings of Machine Learning Research},\n  url={https://proceedings.mlr.press/v305/yin25a.html}\n}",
+      "summary": "把指令解析为航点—物体关系图，用空间约束求解航点坐标，并在无解时沿导航树回溯，无需额外导航训练。",
+      "overview": "GC-VLN 将指令中的“经过、左转、靠近”等关系写成可求解的空间约束。LLM 先生成含航点和物体的有向无环图，再查询预定义约束库；感知模块把物体落到场景坐标中，求解器按拓扑顺序寻找满足角度、距离和物体关系的航点。如果出现多个解就保留多个分支，无解则沿导航树回溯。它不做任务专用模型训练，但依赖预训练语言与感知模型，以及几何定位、约束求解和局部路径执行。",
+      "method": {
+        "input": "自然语言指令、视觉观测及深度 / 位姿等场景定位信息",
+        "output": "满足指令约束的航点序列与最终目标位置",
+        "explanation": "语言推理生成约束结构，数值求解确定坐标，导航树处理解的歧义；指令关系和局部运动由不同模块完成。",
+        "assumptions": "场景中的物体须可检测并定位，指令可分解为所定义的空间关系；回溯依赖已探索路径和机器人定位。",
+        "difference": "将导航决策表述为图约束优化，显式保留多个可行解释，而非让 LLM 每步直接猜一个低层动作。",
+        "flow": [
+          "指令图分解",
+          "约束实例化",
+          "航点坐标求解",
+          "导航树与回溯"
+        ],
+        "modules": [
+          {
+            "name": "指令图分解",
+            "purpose": "提取动作顺序与空间关系",
+            "input": "完整导航指令",
+            "mechanism": "使用 DeepSeek-R1 构建有向无环图，分离航点节点、物体节点及关系边；按拓扑顺序安排求解，物体节点先于依赖它的航点处理。",
+            "output": "分阶段的指令图",
+            "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+            "locator": "3.2 / Appendix D.1, D.3"
+          },
+          {
+            "name": "约束实例化",
+            "purpose": "把自然语言关系变成几何条件",
+            "input": "关系图、约束库、已定位物体",
+            "mechanism": "从六类预定义空间关系中检索适用模板，为方向角、距离和多物体关系建立容差约束；Grounded-SAM-2 提供物体感知，将语义对象与场景位置对应。",
+            "output": "具有坐标变量的图约束集合",
+            "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+            "locator": "3.2 / Appendix D.2 / 4.1"
+          },
+          {
+            "name": "航点坐标求解",
+            "purpose": "在当前已知场景中找到满足关系的位置",
+            "input": "已有节点坐标与待求航点的约束",
+            "mechanism": "按图的拓扑顺序求坐标，最大化约束满足程度，同时要求各角度 / 距离约束非负；重复求解时排除已找到解附近区域，获得不同可行候选。",
+            "output": "按质量排序的一个或多个航点解",
+            "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+            "locator": "3.3"
+          },
+          {
+            "name": "导航树与回溯",
+            "purpose": "在无解或走错分支时恢复搜索",
+            "input": "候选航点、分支历史和新观测",
+            "mechanism": "每个求解阶段构成一层，多解对应兄弟分支。无可行解时退回最近有未探索分支的位置；局部执行用 Fast Marching Method，抵达最终层后停止。",
+            "output": "可恢复的探索路径",
+            "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+            "locator": "3.3 / Appendix B"
+          }
+        ]
+      },
+      "training": {
+        "regime": "无额外导航训练；使用预训练模型推理",
+        "models": "DeepSeek-R1：指令分解；Grounded-SAM-2：开放词汇物体感知；Fast Marching Method：局部执行。",
+        "trainable": "没有为 GC-VLN 新训练或微调导航策略。",
+        "frozen": "语言与视觉感知模型作为预训练组件使用；不把其预训练成本称为零。",
+        "data": "不使用 R2R / RxR 的导航监督进行额外训练；推理时使用关系模板和空间约束库。",
+        "objective": "没有模型训练损失；在线求解坐标约束的满足程度。",
+        "stages": "指令解析 → 感知与约束构造 → 坐标求解 → 导航 / 回溯；几何优化发生在推理阶段。"
       }
     },
     {
@@ -45166,6 +46749,413 @@
       }
     },
     {
+      "id": "streamvln",
+      "short": "StreamVLN",
+      "title": "StreamVLN: Streaming Vision-and-Language Navigation via SlowFast Context Modeling",
+      "aliases": [
+        "StreamVLN†",
+        "StreamVLN-Prune-Mem",
+        "StreamVLN-Prune-All"
+      ],
+      "authors": [
+        "Meng Wei",
+        "Chenyang Wan",
+        "Xiqian Yu",
+        "Tai Wang",
+        "Yuqiang Yang",
+        "Xiaohan Mao",
+        "Chenming Zhu",
+        "Wenzhe Cai",
+        "Hanqing Wang",
+        "Yilun Chen",
+        "Xihui Liu",
+        "Jiangmiao Pang"
+      ],
+      "institutions": [
+        "The University of Hong Kong",
+        "Zhejiang University",
+        "Shanghai AI Laboratory",
+        "Shanghai Jiao Tong University"
+      ],
+      "firstPublished": "2025-07-07",
+      "updated": "2026-07-09",
+      "publicationYear": 2026,
+      "year": 2025,
+      "venue": "ICRA",
+      "publicationStatus": "已发表",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN"
+        ],
+        "paradigm": [
+          "VLM",
+          "VLA",
+          "模仿学习"
+        ],
+        "system": [
+          "端到端策略"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "记忆",
+          "实时性",
+          "泛化"
+        ],
+        "environment": [
+          "仿真",
+          "真实世界",
+          "室内",
+          "室外",
+          "四足机器人"
+        ],
+        "training": [
+          "监督微调"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2507.05240",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/InternRobotics/StreamVLN",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://streamvln.github.io/",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本",
+          "url": "https://arxiv.org/abs/2507.05240",
+          "supports": [
+            "题名",
+            "作者",
+            "首次公开日期",
+            "版本历史"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文",
+          "url": "https://arxiv.org/html/2507.05240v2",
+          "supports": [
+            "方法",
+            "训练",
+            "实验原表",
+            "机构"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "官方代码与模型说明",
+          "url": "https://github.com/InternRobotics/StreamVLN",
+          "supports": [
+            "资源",
+            "数据配方"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "ICRA 2026 机构书目",
+          "url": "https://hub.hku.hk/handle/10722/375409",
+          "supports": [
+            "正式发表年份",
+            "会议"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "原始 PDF 表格与实机柱状图",
+          "url": "https://arxiv.org/pdf/2507.05240v2",
+          "supports": [
+            "Table I",
+            "Table III",
+            "Figure 5"
+          ]
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "几何剪枝将重复空间 token 合并为最新观测，动态物体和定位误差下的长期信息保真仍需单独评测。",
+          "实机结果采用远程 GPU 和网络通信；模型推理延迟不能直接视为完整机器人闭环延迟。"
+        ]
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE",
+          "setting": "val_unseen；v2 Table I；NE 单位 m，其余为 %。",
+          "result": "不同训练数据与剪枝配置分别列出。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+          "locator": "Table I",
+          "table": {
+            "columns": [
+              "配置",
+              "NE ↓ (m)",
+              "OS ↑ (%)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "StreamVLN（无额外 VLN 数据）",
+                5.43,
+                62.5,
+                52.8,
+                47.2
+              ],
+              [
+                "StreamVLN（含额外数据）",
+                4.9,
+                63.6,
+                56.4,
+                50.2
+              ],
+              [
+                "Prune-Mem（含额外数据）",
+                4.73,
+                65.5,
+                57.4,
+                51.1
+              ],
+              [
+                "Prune-All（含额外数据）",
+                4.82,
+                65.7,
+                56,
+                48.5
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "Table I"
+          },
+          "caveat": "v2 正文另写 SR/SPL=56.9/51.9，与本表不同；这里保留实际表格数值。Prune 两行需深度与位姿进行反投影。"
+        },
+        {
+          "benchmark": "RxR-CE",
+          "setting": "val_unseen；v2 Table I；额外数据和传感器条件同上。",
+          "result": "不把 RxR 与 R2R 合并排名。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+          "locator": "Table I",
+          "table": {
+            "columns": [
+              "配置",
+              "NE ↓ (m)",
+              "SR ↑ (%)",
+              "SPL ↑ (%)",
+              "nDTW ↑"
+            ],
+            "rows": [
+              [
+                "StreamVLN（无额外 VLN 数据）",
+                6.72,
+                48.6,
+                42.5,
+                60.2
+              ],
+              [
+                "StreamVLN（含额外数据）",
+                5.65,
+                54.4,
+                45.4,
+                63.7
+              ],
+              [
+                "Prune-Mem（含额外数据）",
+                5.72,
+                53.9,
+                45.1,
+                63.3
+              ],
+              [
+                "Prune-All（含额外数据）",
+                5.86,
+                53.3,
+                44,
+                63.5
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "Table I"
+          },
+          "caveat": "正文的 RxR SR/SPL=52.9/46.0 也与表格不同；本站未将正文数值替换进表格。"
+        },
+        {
+          "benchmark": "训练数据消融",
+          "setting": "R2R-CE val_unseen；全部关闭体素剪枝。",
+          "result": "全配方为 56.4/50.2；移除 DAgger 后为 50.2/47.1。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+          "locator": "Table III",
+          "table": {
+            "columns": [
+              "配方",
+              "SR ↑ (%)",
+              "SPL ↑ (%)"
+            ],
+            "rows": [
+              [
+                "仅 R2R + RxR 专家",
+                45.6,
+                42.3
+              ],
+              [
+                "加入 DAgger + VideoQA",
+                50.8,
+                45.7
+              ],
+              [
+                "DAgger + VideoQA + MMC4",
+                52.8,
+                47.2
+              ],
+              [
+                "完整配方（再加 ScaleVLN）",
+                56.4,
+                50.2
+              ],
+              [
+                "完整配方移除 DAgger",
+                50.2,
+                47.1
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "Table III"
+          }
+        },
+        {
+          "benchmark": "实机导航",
+          "setting": "Unitree Go2 + D455；RTX 4090 远程推理；每场景、每方法 20 次。",
+          "result": "由 Figure 5 柱顶标注转录，未估读未标注的曲线。",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+          "locator": "Figure 5 / IV-C",
+          "table": {
+            "columns": [
+              "方法 / 场景",
+              "SR ↑ (%)",
+              "NE ↓ (m)"
+            ],
+            "rows": [
+              [
+                "StreamVLN / 走廊",
+                100,
+                0.2
+              ],
+              [
+                "StreamVLN / 单卧室",
+                85,
+                0.3
+              ],
+              [
+                "StreamVLN / 跨房间办公室",
+                60,
+                0.5
+              ]
+            ],
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "Figure 5 / IV-C",
+            "note": "原文另报告 4 个动作约 0.27 s 的模型推理延迟；不含室内约 0.2 s、室外约 1.0 s 的通信延迟。"
+          }
+        }
+      ],
+      "related": [
+        {
+          "id": "dualvln",
+          "reason": "同一研究路线从流式上下文管理扩展到异步高低层控制。"
+        },
+        {
+          "id": "futurenav",
+          "reason": "比较以缓存降低推理成本与以辅助世界建模改善策略学习。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-10-26",
+      "verificationLevel": "fulltext",
+      "gaps": [
+        "正文与 Table I 的数值差异未获作者说明。"
+      ],
+      "sourceNotes": [],
+      "reproduction": {
+        "status": "未复现"
+      },
+      "bibtex": "@misc{streamvln,\n  title={StreamVLN: Streaming Vision-and-Language Navigation via SlowFast Context Modeling},\n  author={Meng Wei and Chenyang Wan and Xiqian Yu and Tai Wang and Yuqiang Yang and Xiaohan Mao and Chenming Zhu and Wenzhe Cai and Hanqing Wang and Yilun Chen and Xihui Liu and Jiangmiao Pang},\n  year={2025},\n  eprint={2507.05240},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2507.05240}\n}",
+      "summary": "用快更新的对话窗口和慢更新的视觉记忆处理流式视频，复用 KV cache 降低导航动作的生成延迟。",
+      "overview": "StreamVLN 关注连续导航中的长历史与低延迟：每次都重算视频上下文代价高，只保留少量帧又容易遗忘。它将导航表示为观测和动作交替的多轮对话，近期窗口直接复用 KV cache，旧窗口转入视觉记忆。可选的三维体素剪枝删除反复看到的空间内容。模型先学习专家轨迹，再混合 DAgger 纠错和通用视觉语言数据训练。基础策略使用单目 RGB，几何剪枝版本另需深度与位姿。",
+      "method": {
+        "input": "语言指令、连续第一视角 RGB 与历史动作；体素剪枝额外使用深度和位姿",
+        "output": "自回归生成的低层动作序列",
+        "explanation": "快、慢指两种上下文更新节奏：活跃对话窗口负责即时动作，历史窗口经压缩后提供长期视觉记忆。两者共用一个 LLaVA-Video 模型。",
+        "assumptions": "连续环境中的相机观测与动作接口；启用体素剪枝时须能把图像 patch 对齐到共同三维坐标系。",
+        "difference": "跨轮复用缓存，减少重复 prefill；几何剪枝保留原始视觉 token 特征，而不依赖额外学习的压缩器。",
+        "flow": [
+          "交替观测与动作",
+          "滑动对话窗口",
+          "几何剪枝与记忆",
+          "纠错与多源共训"
+        ],
+        "modules": [
+          {
+            "name": "交替观测与动作",
+            "purpose": "将持续导航转换为可复用上下文的生成任务",
+            "input": "指令、当前 RGB、先前对话",
+            "mechanism": "以观测—动作交替格式追加新输入，语言模型在已有 token 状态上自回归预测下一段动作；不在每次决策时重建全部历史。",
+            "output": "动作响应与新增 KV 状态",
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "III-A"
+          },
+          {
+            "name": "滑动对话窗口",
+            "purpose": "控制活跃上下文与解码开销",
+            "input": "近期多轮对话的 KV cache",
+            "mechanism": "保留固定轮数的活跃窗口。窗口满后移出旧状态，丢弃旧提示和动作等非观测 token，把视觉部分交给长期记忆；新窗口继续读取记忆与当前对话。",
+            "output": "有界活跃窗口和待压缩视觉历史",
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "III-B"
+          },
+          {
+            "name": "几何剪枝与记忆",
+            "purpose": "减少跨帧重复观察的空间内容",
+            "input": "旧视觉 token；可选的深度、相机位姿",
+            "mechanism": "将图像 patch 反投影到三维体素；同一时间分段和体素中仅保留最新 token。按阈值去掉剩余有效 token 太少的帧，再用掩码选取记忆状态。Prune-Mem 只剪记忆，Prune-All 还剪当前视觉输入。",
+            "output": "稀疏视觉记忆与相应缓存",
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "III-C / Algorithm 1"
+          },
+          {
+            "name": "纠错与多源共训",
+            "purpose": "提高偏航恢复和通用视觉理解能力",
+            "input": "专家轨迹、模型 rollout、VideoQA 与图文交错样本",
+            "mechanism": "先做专家轨迹监督训练，再用最短路径专家为模型自身 rollout 提供 DAgger 纠错标签；第二阶段混合导航、视频问答与 MMC4 图文对话，减少导航微调对通用能力的损害。",
+            "output": "流式导航策略",
+            "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+            "locator": "III-D / IV-B"
+          }
+        ]
+      },
+      "training": {
+        "regime": "两阶段监督微调 + DAgger 数据聚合",
+        "models": "LLaVA-Video-7B；语言主干为 Qwen2-7B。",
+        "trainable": "语言模型与视觉编码器参与微调；热身峰值学习率分别为 2e-5 与 5e-6。",
+        "frozen": "体素剪枝本身无需训练；不能据此把整套 StreamVLN 标成 training-free。",
+        "data": "原文数据配方：MP3D 的 R2R / EnvDrop / RxR 共 450K 视频片段，ScaleVLN 子集 300K，DAgger 240K；另有 VideoQA 248K、MMC4 230K。均为样本/片段口径。",
+        "objective": "对动作响应做自回归监督，混合通用视觉语言任务。",
+        "stages": "专家导航数据 1 epoch → 收集 DAgger → 导航与通用多模态混合训练 1 epoch；batch 128 视频片段，总计约 1500 A100 GPU 小时。推理时复用 KV cache，剪枝按配置启用。"
+      }
+    },
+    {
       "id": "typego",
       "title": "TypeGo: An OS Runtime for Embodied Agents",
       "short": "TypeGo",
@@ -45399,7 +47389,8 @@
       "VLM",
       "强化学习",
       "模仿学习",
-      "最优控制"
+      "最优控制",
+      "世界模型"
     ],
     "system": [
       "具身 Agent",

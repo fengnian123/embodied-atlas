@@ -1,0 +1,264 @@
+{
+  "checked": "2026-10-26",
+  "papers": [
+    "streamvln",
+    "dualvln",
+    "futurenav",
+    "gc-vln",
+    "etp-r1"
+  ],
+  "newRecords": 5,
+  "newTables": 19,
+  "numericalChecks": [
+    {
+      "paper": "streamvln",
+      "experiment": 0,
+      "sourceTableIndex": 1,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 4
+    },
+    {
+      "paper": "streamvln",
+      "experiment": 1,
+      "sourceTableIndex": 1,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 4
+    },
+    {
+      "paper": "streamvln",
+      "experiment": 2,
+      "sourceTableIndex": 3,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 5
+    },
+    {
+      "paper": "streamvln",
+      "experiment": 3,
+      "check": "Figure 5 柱顶数字经原 PDF 渲染视觉核对",
+      "rows": 3
+    },
+    {
+      "paper": "dualvln",
+      "experiment": 0,
+      "sourceTableIndex": 4,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 2
+    },
+    {
+      "paper": "dualvln",
+      "experiment": 1,
+      "sourceTableIndex": 4,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 2
+    },
+    {
+      "paper": "dualvln",
+      "experiment": 2,
+      "sourceTableIndex": 6,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 2
+    },
+    {
+      "paper": "dualvln",
+      "experiment": 3,
+      "sourceTableIndex": 5,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 2
+    },
+    {
+      "paper": "dualvln",
+      "experiment": 4,
+      "sourceTableIndex": 7,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 3
+    },
+    {
+      "paper": "futurenav",
+      "experiment": 0,
+      "sourceTableIndex": 11,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 4
+    },
+    {
+      "paper": "futurenav",
+      "experiment": 1,
+      "sourceTableIndex": 11,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 4
+    },
+    {
+      "paper": "futurenav",
+      "experiment": 2,
+      "sourceTableIndex": 12,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 5
+    },
+    {
+      "paper": "futurenav",
+      "experiment": 3,
+      "sourceTableIndex": 13,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 5
+    },
+    {
+      "paper": "gc-vln",
+      "experiment": 0,
+      "sourceTableIndex": 4,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 4
+    },
+    {
+      "paper": "gc-vln",
+      "experiment": 1,
+      "sourceTableIndex": 4,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 2
+    },
+    {
+      "paper": "gc-vln",
+      "experiment": 2,
+      "sourceTableIndex": 5,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 5
+    },
+    {
+      "paper": "etp-r1",
+      "experiment": 0,
+      "sourceTableIndex": 5,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 4
+    },
+    {
+      "paper": "etp-r1",
+      "experiment": 1,
+      "sourceTableIndex": 5,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 3
+    },
+    {
+      "paper": "etp-r1",
+      "experiment": 2,
+      "sourceTableIndex": 7,
+      "check": "每行数值按顺序匹配同一原表行；NE/SR/SPL等列经表头核对",
+      "rows": 5
+    }
+  ],
+  "resourceChecks": [
+    {
+      "url": "https://arxiv.org/abs/2507.05240",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2507.05240",
+      "state": "reachable"
+    },
+    {
+      "url": "https://arxiv.org/abs/2509.10454",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2509.10454",
+      "state": "reachable"
+    },
+    {
+      "url": "https://arxiv.org/abs/2512.08186",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2512.08186",
+      "state": "reachable"
+    },
+    {
+      "url": "https://arxiv.org/abs/2512.20940",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2512.20940",
+      "state": "reachable"
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.30367",
+      "http": 200,
+      "finalUrl": "https://arxiv.org/abs/2606.30367",
+      "state": "reachable"
+    },
+    {
+      "url": "https://bagh2178.github.io/GC-VLN/",
+      "http": 200,
+      "finalUrl": "https://bagh2178.github.io/GC-VLN/",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/Cepillar/ETP-R1",
+      "http": 200,
+      "finalUrl": "https://github.com/Cepillar/ETP-R1",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/InternRobotics/InternNav",
+      "http": 200,
+      "finalUrl": "https://github.com/InternRobotics/InternNav",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/InternRobotics/StreamVLN",
+      "http": 200,
+      "finalUrl": "https://github.com/InternRobotics/StreamVLN",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/bagh2178/GC-VLN",
+      "http": 200,
+      "finalUrl": "https://github.com/bagh2178/GC-VLN",
+      "state": "reachable"
+    },
+    {
+      "url": "https://github.com/linglingxiansen/FutureNav",
+      "http": 200,
+      "finalUrl": "https://github.com/linglingxiansen/FutureNav",
+      "state": "reachable"
+    },
+    {
+      "url": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN",
+      "http": 200,
+      "finalUrl": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN",
+      "state": "reachable"
+    },
+    {
+      "url": "https://huggingface.co/datasets/InternRobotics/InternData-N1",
+      "http": 200,
+      "finalUrl": "https://huggingface.co/datasets/InternRobotics/InternData-N1",
+      "state": "reachable"
+    },
+    {
+      "url": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+      "http": 200,
+      "finalUrl": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+      "state": "reachable"
+    },
+    {
+      "url": "https://huggingface.co/llxs/FutureNav/tree/main/FutureNav-4B-Base",
+      "http": 200,
+      "finalUrl": "https://huggingface.co/llxs/FutureNav/tree/main/FutureNav-4B-Base",
+      "state": "reachable"
+    },
+    {
+      "url": "https://internrobotics.github.io/internvla-n1-dualvln.github.io/",
+      "http": 200,
+      "finalUrl": "https://internrobotics.github.io/internvla-n1-dualvln.github.io/",
+      "state": "reachable"
+    },
+    {
+      "url": "https://linglingxiansen.github.io/FutureNav/",
+      "http": 200,
+      "finalUrl": "https://linglingxiansen.github.io/FutureNav/",
+      "state": "reachable"
+    },
+    {
+      "url": "https://streamvln.github.io/",
+      "http": 200,
+      "finalUrl": "https://streamvln.github.io/",
+      "state": "reachable"
+    }
+  ],
+  "boundaries": [
+    "StreamVLN v2 的 Table I 与 IV-C 正文数值矛盾，按实际 PDF 表值收录。",
+    "FutureNav-4B-Base 为同篇论文发布权重；未确认与原表 0K / full 的映射。",
+    "DualVLN 的 763K 是动态避障训练 episode，不是 Social-VLN 测试集规模。",
+    "GC-VLN† 以正式论文身份收录，保留输入别名。",
+    "ETP-R1 主表整数与消融小数分别转录，训练及碰撞设置不混用。"
+  ],
+  "reproduction": "五篇均未复现；实验数字为作者报告。"
+}

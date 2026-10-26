@@ -1,0 +1,432 @@
+{
+  "id": "futurenav",
+  "short": "FutureNav",
+  "title": "FutureNav: Unified World-Action Modeling for Vision-and-Language Navigation",
+  "aliases": [
+    "FutureNav-4B-Base",
+    "FutureNav-4B",
+    "FutureNav-8B",
+    "FutureNav-4B†",
+    "FutureNav-8B†"
+  ],
+  "authors": [
+    "Lingfeng Zhang",
+    "Zeying Gong",
+    "Xiaoshuai Hao",
+    "Haoxiang Fu",
+    "Qiang Zhang",
+    "Mingliang Zhou",
+    "Hangjun Ye",
+    "Xiaojun Liang",
+    "Junwei Liang",
+    "Wenbo Ding"
+  ],
+  "institutions": [
+    "Tsinghua University",
+    "Pengcheng Laboratory",
+    "The Hong Kong University of Science and Technology (Guangzhou)",
+    "Xiaomi EV",
+    "National University of Singapore"
+  ],
+  "firstPublished": "2026-06-29",
+  "updated": "2026-06-29",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM",
+      "VLA",
+      "世界模型",
+      "3D/4D 表征"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "空间理解",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "室外",
+      "四足机器人"
+    ],
+    "training": [
+      "监督微调",
+      "冻结主干并训练模块"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.30367",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/linglingxiansen/FutureNav",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://linglingxiansen.github.io/FutureNav/",
+      "status": "已核实入口"
+    },
+    "weights": {
+      "url": "https://huggingface.co/llxs/FutureNav/tree/main/FutureNav-4B-Base",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本",
+      "url": "https://arxiv.org/abs/2606.30367",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开日期",
+        "版本历史"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文",
+      "url": "https://arxiv.org/html/2606.30367v1",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表",
+        "机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方代码与发布清单",
+      "url": "https://github.com/linglingxiansen/FutureNav",
+      "supports": [
+        "评测配置",
+        "训练资源开放范围"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "发布的 Base 权重目录",
+      "url": "https://huggingface.co/llxs/FutureNav/tree/main/FutureNav-4B-Base",
+      "supports": [
+        "FutureNav-4B-Base 身份"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始 PDF 表格",
+      "url": "https://arxiv.org/pdf/2606.30367v1",
+      "supports": [
+        "Table 1",
+        "Table 2",
+        "Table 3"
+      ]
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "实机部分主要是 Go2 + D435i、H20 远程推理的定性案例，未据此填写大规模实机成功率。",
+      "预测目标为短期空间 latent，当前实验不直接证明长期环境演化或动态目标位置预测能力。"
+    ]
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE",
+      "setting": "val_unseen；单 RGB；论文 Table 1 的 0K 与完整数据设置分别列出。",
+      "result": "4B 完整设置 SR/SPL=65.4/61.3；0K 设置为 55.1/50.1。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+      "locator": "Table 1",
+      "table": {
+        "columns": [
+          "论文配置",
+          "外部样本",
+          "NE ↓ (m)",
+          "OS ↑ (%)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "4B（0K）",
+            "0",
+            5.13,
+            61.8,
+            55.1,
+            50.1
+          ],
+          [
+            "8B（0K）",
+            "0",
+            5.15,
+            61.6,
+            55.5,
+            51.4
+          ],
+          [
+            "4B（完整）",
+            "10.457M",
+            4.24,
+            70.2,
+            65.4,
+            61.3
+          ],
+          [
+            "8B（完整）",
+            "10.435M",
+            4.29,
+            69.2,
+            64.3,
+            60.3
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "Table 1"
+      },
+      "caveat": "FutureNav-4B-Base 的已发布目录未明确说明对应哪一行，不能把论文最佳值直接当成该权重的实测结果。"
+    },
+    {
+      "benchmark": "RxR-CE",
+      "setting": "val_unseen；训练数据设置同 R2R 表。",
+      "result": "4B 完整设置 SR/SPL=60.9/52.8；8B 为 63.9/54.8。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+      "locator": "Table 1",
+      "table": {
+        "columns": [
+          "论文配置",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)",
+          "nDTW ↑"
+        ],
+        "rows": [
+          [
+            "4B（0K）",
+            5.62,
+            54.5,
+            46.0,
+            61.8
+          ],
+          [
+            "8B（0K）",
+            5.93,
+            53.3,
+            45.4,
+            59.8
+          ],
+          [
+            "4B（完整）",
+            4.6,
+            60.9,
+            52.8,
+            68.0
+          ],
+          [
+            "8B（完整）",
+            4.26,
+            63.9,
+            54.8,
+            69.1
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "World-action 目标消融",
+      "setting": "R2R-CE val_unseen，0K 外部数据。",
+      "result": "联合四目标相对 policy-only 提升 5.0 个百分点 SR 和 SPL。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+      "locator": "Table 2",
+      "table": {
+        "columns": [
+          "训练目标",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "仅策略",
+            6.0,
+            50.1,
+            45.1
+          ],
+          [
+            "策略 + 逆向",
+            5.82,
+            50.8,
+            45.8
+          ],
+          [
+            "策略 + 正向",
+            5.31,
+            53.0,
+            48.3
+          ],
+          [
+            "策略 + 未来生成",
+            5.35,
+            51.6,
+            46.9
+          ],
+          [
+            "全部四目标",
+            5.13,
+            55.1,
+            50.1
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "Table 2"
+      }
+    },
+    {
+      "benchmark": "状态表征消融",
+      "setting": "R2R-CE val_unseen，无外部数据。",
+      "result": "空间 latent 在原文比较的监督表征中表现最好。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+      "locator": "Table 3",
+      "table": {
+        "columns": [
+          "预测目标表征",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "无 latent 建模",
+            50.1,
+            45.1
+          ],
+          [
+            "VAE latent",
+            51.0,
+            46.4
+          ],
+          [
+            "VLM visual latent",
+            51.4,
+            46.8
+          ],
+          [
+            "DINO semantic latent",
+            51.8,
+            47.1
+          ],
+          [
+            "Spatial latent",
+            55.1,
+            50.1
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "Table 3"
+      }
+    }
+  ],
+  "related": [
+    {
+      "id": "streamvln",
+      "reason": "同为单 RGB VLM 导航，但状态建模和推理机制不同。"
+    },
+    {
+      "id": "dualvln",
+      "reason": "比较单策略动作解码与双系统连续轨迹执行。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-26",
+  "verificationLevel": "fulltext",
+  "gaps": [
+    "Base 权重与 Table 1 各训练设置的对应关系未明确。",
+    "训练数据与训练脚本尚未在官方 README 中标为已发布；权重完整许可待确认。"
+  ],
+  "sourceNotes": [],
+  "reproduction": {
+    "status": "未复现"
+  },
+  "bibtex": "@misc{futurenav,\n  title={FutureNav: Unified World-Action Modeling for Vision-and-Language Navigation},\n  author={Lingfeng Zhang and Zeying Gong and Xiaoshuai Hao and Haoxiang Fu and Qiang Zhang and Mingliang Zhou and Hangjun Ye and Xiaojun Liang and Junwei Liang and Wenbo Ding},\n  year={2026},\n  eprint={2606.30367},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2606.30367}\n}",
+  "summary": "联合学习动作、正向动力学、逆向动力学和未来空间状态，推理默认只解码动作；收录 FutureNav-4B-Base 权重。",
+  "overview": "FutureNav 在 Qwen3-VL 的图像特征之外引入冻结 VGGT 的空间特征，经残差融合送入语言主干。训练同时要求模型选择动作、根据动作预测下一状态、从观测变化反推动作，以及不依赖动作预测未来状态。三个辅助目标在训练中约束共享表征，默认推理关闭辅助预测头，保留带空间编码的动作路径。论文比较 4B / 8B 与有无外部导航数据的设置；已发布的 FutureNav-4B-Base 作为同一论文的模型资源收录。",
+  "method": {
+    "input": "语言指令、当前及历史 RGB",
+    "output": "STOP、MOVE_FORWARD、TURN_LEFT、TURN_RIGHT 等低层动作文本",
+    "explanation": "把空间状态、动作和状态转移作为联合监督：视觉与空间编码继续用于默认策略推理，辅助动力学和未来预测头可以关闭。",
+    "assumptions": "VGGT 与 VLM 的图像预处理、token 数对齐和历史缓存；默认评测不是在线生成视频或多分支想象规划。",
+    "difference": "世界模型主要作为训练监督塑造共享表示；未来预测目标是空间潜变量，而非直接合成未来 RGB。",
+    "flow": [
+      "视觉与空间融合",
+      "动作策略",
+      "正逆动力学",
+      "未来状态与联合优化"
+    ],
+    "modules": [
+      {
+        "name": "视觉与空间融合",
+        "purpose": "向策略注入几何感知信息",
+        "input": "同一段 RGB 历史的 VLM 和 VGGT 特征",
+        "mechanism": "冻结 VGGT 产生 2048 维空间 patch 特征，用邻域合并、RMSNorm 和两层 MLP 映射到 LLM 隐空间；token 数不匹配时插值，以 0.2 的残差权重加到视觉 embedding。",
+        "output": "对齐后的语义—空间 token",
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "3.1–3.2"
+      },
+      {
+        "name": "动作策略",
+        "purpose": "产生可执行导航决策",
+        "input": "融合后的 token、指令与动作提示",
+        "mechanism": "语言模型自回归生成动作。仅 assistant 动作 token 参与交叉熵，system 和 user 文本标签被屏蔽，避免把输入复述当作动作监督。",
+        "output": "离散动作及共享隐藏状态",
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "3.3 Action Policy"
+      },
+      {
+        "name": "正逆动力学",
+        "purpose": "约束动作与观测变化的一致性",
+        "input": "当前状态、动作隐藏状态和相邻帧特征",
+        "mechanism": "正向头把当前观测与 teacher-forced 动作状态映射到下一帧池化空间特征，使用 MSE；逆向头读取上下文、相邻帧均值与差分，分类导致变化的四类动作。",
+        "output": "下一状态预测与逆向动作类别",
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "3.3 Forward / Inverse Dynamics"
+      },
+      {
+        "name": "未来状态与联合优化",
+        "purpose": "学习不依赖给定动作的短期状态先验",
+        "input": "动作响应前的上下文与当前图像隐藏状态",
+        "mechanism": "未来头不读取动作 token，预测下一帧的 2048 维空间状态；用动作 CE 加三项辅助损失联合训练，各辅助权重 0.1。默认评测关闭这些辅助头，直接从策略分支解码。",
+        "output": "经过状态转移监督的导航策略",
+        "sourceUrl": "https://arxiv.org/html/2606.30367v1",
+        "locator": "3.3 Future Generation / 3.4"
+      }
+    ]
+  },
+  "training": {
+    "regime": "冻结视觉 / 空间编码器，监督微调语言主干并联合训练辅助头",
+    "models": "Qwen3-VL-4B / 8B；VGGT 提供空间特征与未来状态监督。",
+    "trainable": "VLM 语言组件、多模态 merger 和 world-action heads。",
+    "frozen": "VLM 视觉塔与 VGGT 空间编码器。",
+    "data": "0K 设置仅用 R2R-CE 与 RxR-CE 专家轨迹，约 2.43M 样本（631K / 1.80M，按原文近似数）；完整设置增加 ScaleVLN 与 DAgger。Table 1 的外部数据是样本数，4B 为 10.457M，8B 为 10.435M。",
+    "objective": "动作 token 交叉熵 + 0.1×正向状态 MSE + 0.1×逆向动作 CE + 0.1×未来状态 MSE。",
+    "stages": "联合训练四目标；默认推理仅运行策略输出头，仍需视觉与空间编码。公开仓库已给出评测脚本，训练脚本与训练数据在 README 中仍列为待发布。"
+  }
+}

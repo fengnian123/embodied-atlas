@@ -1,0 +1,364 @@
+{
+  "id": "etp-r1",
+  "short": "ETP-R1",
+  "title": "ETP-R1: Evolving Topological Planning with Reinforcement Fine-tuning for Vision-Language Navigation in Continuous Environments",
+  "aliases": [
+    "ETP-R1（GRPO）",
+    "ETP-R1 (GRPO)",
+    "ETP-R1-GRPO"
+  ],
+  "authors": [
+    "Shuhao Ye",
+    "Sitong Mao",
+    "Yuxiang Cui",
+    "Xuan Yu",
+    "Shichao Zhai",
+    "Wen Chen",
+    "Shunbo Zhou",
+    "Rong Xiong",
+    "Yue Wang"
+  ],
+  "institutions": [
+    "Zhejiang University",
+    "Huawei Technologies Co., Ltd.",
+    "Zhejiang Humanoid Robot Innovation Center"
+  ],
+  "firstPublished": "2025-12-24",
+  "updated": "2025-12-24",
+  "publicationYear": null,
+  "year": 2025,
+  "venue": null,
+  "publicationStatus": "预印本",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "强化学习",
+      "模仿学习"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调",
+      "强化学习",
+      "冻结主干并训练模块"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2512.20940",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/Cepillar/ETP-R1",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+      "status": "已核实入口"
+    },
+    "weights": {
+      "url": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本",
+      "url": "https://arxiv.org/abs/2512.20940",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开日期",
+        "版本历史"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文",
+      "url": "https://arxiv.org/html/2512.20940v1",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表",
+        "机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方代码与训练配置",
+      "url": "https://github.com/Cepillar/ETP-R1",
+      "supports": [
+        "训练硬件",
+        "环境",
+        "各阶段 checkpoint"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方数据与权重包",
+      "url": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files",
+      "supports": [
+        "数据与权重入口"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始 PDF 表格",
+      "url": "https://arxiv.org/pdf/2512.20940v1",
+      "supports": [
+        "Table I",
+        "Table III"
+      ]
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "依赖全景 RGB-D、航点预测与模拟器交互，不能直接当作单 RGB VLM 导航结果比较。",
+      "原文重点验证 R2R-CE / RxR-CE；未提供本文已核实的大规模实机或动态目标导航结果。"
+    ]
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE",
+      "setting": "原文 Table I；val_unseen 与 test_unseen 分开；12 视角全景 RGB-D。",
+      "result": "GRPO 在 val_unseen 为 SR/SPL=65/56，在 test_unseen 为 64/54；主表作整数报告。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+      "locator": "Table I",
+      "table": {
+        "columns": [
+          "配置 / 划分",
+          "NE ↓ (m)",
+          "OSR ↑ (%)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "ETPNav / val_unseen",
+            4.71,
+            65,
+            57,
+            49
+          ],
+          [
+            "ETP-R1 DAgger / val_unseen",
+            4.11,
+            69,
+            63,
+            54
+          ],
+          [
+            "ETP-R1 GRPO / val_unseen",
+            3.94,
+            72,
+            65,
+            56
+          ],
+          [
+            "ETP-R1 GRPO / test_unseen",
+            4.19,
+            69,
+            64,
+            54
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+        "locator": "Table I",
+        "note": "R2R 配置允许 sliding、半径 0.10 m；不能与不同传感器或碰撞配置的结果直接视为同条件排名。"
+      }
+    },
+    {
+      "benchmark": "RxR-CE",
+      "setting": "val_unseen；原文 RxR 配置半径 0.18 m，碰撞停止。",
+      "result": "GRPO 相对 DAgger 提升路线遵循和任务成功。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+      "locator": "Table I",
+      "table": {
+        "columns": [
+          "配置",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)",
+          "nDTW ↑",
+          "SDTW ↑"
+        ],
+        "rows": [
+          [
+            "ETPNav",
+            5.64,
+            54.79,
+            44.89,
+            61.9,
+            45.33
+          ],
+          [
+            "ETP-R1 DAgger",
+            5.42,
+            58.26,
+            48.19,
+            63.78,
+            48.53
+          ],
+          [
+            "ETP-R1 GRPO",
+            5.22,
+            59.92,
+            48.97,
+            65.31,
+            50.41
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+        "locator": "Table I"
+      }
+    },
+    {
+      "benchmark": "GRPO 配置消融",
+      "setting": "R2R-CE val_unseen；Table III 保留小数，区别于主表舍入。",
+      "result": "默认 GRPO 为 65.36/55.82；表内控制变量评估采样和冻结层 dropout。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+      "locator": "Table III",
+      "table": {
+        "columns": [
+          "配置",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "默认 GRPO",
+            65.36,
+            55.82
+          ],
+          [
+            "关闭采样 dropout",
+            63.78,
+            55.1
+          ],
+          [
+            "关闭冻结层 dropout",
+            64.17,
+            54.96
+          ],
+          [
+            "加入温度缩放",
+            63.46,
+            53.8
+          ],
+          [
+            "每组更新两轮",
+            64.76,
+            54.25
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+        "locator": "Table III"
+      }
+    }
+  ],
+  "related": [
+    {
+      "id": "gc-vln",
+      "reason": "图规划中无额外训练与 GRPO 强化微调的对照路线。"
+    },
+    {
+      "id": "futurenav",
+      "reason": "比较全景图规划与单 RGB 世界—动作联合建模。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-26",
+  "verificationLevel": "fulltext",
+  "gaps": [
+    "未下载并运行 extra_files.zip；资源包完整性与资产许可尚未逐项检查。"
+  ],
+  "sourceNotes": [],
+  "reproduction": {
+    "status": "未复现"
+  },
+  "bibtex": "@misc{etpr1,\n  title={ETP-R1: Evolving Topological Planning with Reinforcement Fine-tuning for Vision-Language Navigation in Continuous Environments},\n  author={Shuhao Ye and Sitong Mao and Yuxiang Cui and Xuan Yu and Shichao Zhai and Wen Chen and Shunbo Zhou and Rong Xiong and Yue Wang},\n  year={2025},\n  eprint={2512.20940},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2512.20940}\n}",
+  "summary": "用 Gemini 扩充指令，联合预训练拓扑规划器，再以 DAgger 和闭环在线 GRPO 优化整条导航轨迹。",
+  "overview": "ETP-R1 将大规模数据和强化微调引入图导航，而不是将 GRPO 直接用于大 VLM。Gemini 2.0 Flash 为拓扑轨迹生成多样化指令，约 0.5B 的规划器联合学习 R2R 与 RxR，在在线全景 RGB-D 观测中维护候选航点图。训练依次经过离线预训练、DAgger 监督微调和 GRPO。强化阶段从同一 episode 采样多条实际闭环轨迹，用整条路线的成功、效率与路径遵循奖励计算组内优势，更新节点选择策略。",
+  "method": {
+    "input": "语言指令、每步 12 视角全景 RGB-D、在线拓扑图与相对位姿",
+    "output": "下一候选航点 / STOP；控制器执行 0.25 m 前进、15° 转向等低层动作",
+    "explanation": "继承 ETPNav 的在线建图与底层控制，把学习重点放在指令数据、跨任务预训练和高层航点选择的在线强化。Gemini 不参与导航时逐步决策。",
+    "assumptions": "预训练航点预测器、全景 RGB-D 和位姿；GRPO 需要可重置并采样多条轨迹的交互模拟器。",
+    "difference": "把 episode 对应 prompt、闭环轨迹对应 response、高层节点选择对应 token，以组内轨迹回报代替 critic 训练。",
+    "flow": [
+      "轨迹指令扩充",
+      "在线拓扑表征",
+      "双阶段跨模态融合",
+      "闭环在线 GRPO"
+    ],
+    "modules": [
+      {
+        "name": "轨迹指令扩充",
+        "purpose": "提高导航预训练的语言多样性",
+        "input": "Prevalent 轨迹、左右前视图与下个节点方向",
+        "mechanism": "每节点拼接三个 90° 图像并标注方向箭头；Gemini 2.0 Flash 根据 1/2/3 段拆分方案生成指令，每条轨迹得到六种描述，形成约 1M 新样本。",
+        "output": "Prevalent_Gemini_Aug 指令—轨迹数据",
+        "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+        "locator": "III-A"
+      },
+      {
+        "name": "在线拓扑表征",
+        "purpose": "把全景观测压成可规划节点",
+        "input": "12 对 RGB-D、已访问与候选节点、指令",
+        "mechanism": "CLIP ViT-B/32 和 point-goal ResNet-50 提取视觉特征，panorama Transformer 融合视角；节点加入相对位置、访问步数与任务 embedding，语言由 RoBERTa 编码。",
+        "output": "带任务信息的语言和图 token",
+        "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+        "locator": "III-B1–2 / IV-A3"
+      },
+      {
+        "name": "双阶段跨模态融合",
+        "purpose": "将指令中的路线要求对齐到候选航点",
+        "input": "语言 token 和图 token",
+        "mechanism": "DPFT 先做双向跨注意力，使语言与图互相感知；再由图查询文本获取定向指导，经过 FFN 与原图特征拼接。SAP head 为节点及 STOP 打分。",
+        "output": "下一高层航点的概率分布",
+        "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+        "locator": "III-B3–4"
+      },
+      {
+        "name": "闭环在线 GRPO",
+        "purpose": "优化完整路线而非单次离线动作",
+        "input": "同一 episode 的 8 条策略 rollout",
+        "mechanism": "先以 DAgger 适应环境，再从起点重复采样完整轨迹，根据最终回报标准化得到组内优势。R2R 奖励强调近目标成功和 SPL；RxR 使用 nDTW、SDTW 与参考路线 gSPL，避免鼓励抄近路。",
+        "output": "经过任务回报优化的规划器",
+        "sourceUrl": "https://arxiv.org/html/2512.20940v1",
+        "locator": "III-C / IV-A3"
+      }
+    ]
+  },
+  "training": {
+    "regime": "联合预训练 → 在线 DAgger SFT → 在线 GRPO RFT",
+    "models": "约 0.5B 图规划器：RoBERTa、panorama encoder、DPFT、SAP / MLM heads；CLIP ViT-B/32 与 point-goal ResNet-50 视觉骨干。Gemini 2.0 Flash 仅生成训练数据。",
+    "trainable": "预训练与 SFT 更新视觉骨干之外的模型参数；RFT 仅更新 DPFT 与 SAP head。",
+    "frozen": "RGB 与深度视觉骨干始终冻结；RFT 冻结其余模块，并保留原文配置的 dropout。",
+    "data": "Prevalent 1M、Gemini Aug 1M、RxR-Marky 1M、R2R_train 14K、RxR_train 80K；在线任务数据按 90% SFT / 10% RFT 不相交划分。",
+    "objective": "预训练 SAP 与 MLM 按 1:1；SFT 用 DAgger 专家节点监督；RFT 用带 KL 正则的 GRPO，R2R 与 RxR 分别定义整轨迹奖励。",
+    "stages": "GRPO group size 8、clip 0.2、KL 权重 0.04，每组只更新 1 epoch，采样及冻结层启用 dropout。官方 README 报告使用 4×A6000 训练，未将其解释为单卡可复现。"
+  }
+}

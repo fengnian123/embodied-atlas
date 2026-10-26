@@ -1,0 +1,432 @@
+{
+  "id": "dualvln",
+  "short": "DualVLN",
+  "title": "Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation",
+  "aliases": [
+    "InternVLA-N1-DualVLN"
+  ],
+  "authors": [
+    "Meng Wei",
+    "Chenyang Wan",
+    "Jiaqi Peng",
+    "Xiqian Yu",
+    "Yuqiang Yang",
+    "Delin Feng",
+    "Wenzhe Cai",
+    "Chenming Zhu",
+    "Tai Wang",
+    "Jiangmiao Pang",
+    "Xihui Liu"
+  ],
+  "institutions": [
+    "Shanghai AI Laboratory",
+    "The University of Hong Kong",
+    "Zhejiang University",
+    "Tsinghua University"
+  ],
+  "firstPublished": "2025-12-09",
+  "updated": "2025-12-09",
+  "publicationYear": 2026,
+  "year": 2025,
+  "venue": "ICLR",
+  "publicationStatus": "已发表",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM",
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "Benchmark"
+    ],
+    "problem": [
+      "规划",
+      "实时性",
+      "动态环境",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "室外",
+      "轮式机器人",
+      "四足机器人",
+      "人形机器人"
+    ],
+    "training": [
+      "监督微调",
+      "冻结主干并训练模块"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2512.08186",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/InternRobotics/InternNav",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://internrobotics.github.io/internvla-n1-dualvln.github.io/",
+      "status": "已核实入口"
+    },
+    "weights": {
+      "url": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN",
+      "status": "已核实入口"
+    },
+    "data": {
+      "url": "https://huggingface.co/datasets/InternRobotics/InternData-N1",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本",
+      "url": "https://arxiv.org/abs/2512.08186",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开日期",
+        "版本历史"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文",
+      "url": "https://arxiv.org/html/2512.08186v1",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表",
+        "机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "ICLR 2026 论文",
+      "url": "https://openreview.net/pdf?id=GK4rznYwhn",
+      "supports": [
+        "发表状态",
+        "会议"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方项目页",
+      "url": "https://internrobotics.github.io/internvla-n1-dualvln.github.io/",
+      "supports": [
+        "方法",
+        "资源",
+        "实机平台"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方模型说明",
+      "url": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN",
+      "supports": [
+        "模型身份",
+        "权重入口"
+      ]
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "Social-VLN 的人类碰撞率仍为 35.4%，说明高频局部策略不构成安全保证。",
+      "模型策略为 RGB 输入，但实机轨迹跟踪依赖额外里程计和 MPC；两种传感器口径应区分。"
+    ]
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE",
+      "setting": "val_unseen；单第一视角 RGB；同表基线保留各自训练配方。",
+      "result": "DualVLN 的 SR/SPL 为 64.3/58.5。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+      "locator": "Table 1",
+      "table": {
+        "columns": [
+          "方法",
+          "NE ↓ (m)",
+          "OS ↑ (%)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "StreamVLN（本论文基线）",
+            4.98,
+            64.2,
+            56.9,
+            51.9
+          ],
+          [
+            "DualVLN",
+            4.05,
+            70.7,
+            64.3,
+            58.5
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "Table 1",
+        "note": "StreamVLN 行来自 DualVLN 的对照表，不覆盖 StreamVLN 自身 v2 表格。"
+      }
+    },
+    {
+      "benchmark": "RxR-CE",
+      "setting": "val_unseen；单第一视角 RGB。",
+      "result": "DualVLN 的 SR/SPL 为 61.4/51.8，nDTW=70.0。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+      "locator": "Table 1",
+      "table": {
+        "columns": [
+          "方法",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)",
+          "nDTW ↑"
+        ],
+        "rows": [
+          [
+            "StreamVLN（本论文基线）",
+            6.22,
+            52.9,
+            46.0,
+            61.9
+          ],
+          [
+            "DualVLN",
+            4.58,
+            61.4,
+            51.8,
+            70.0
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "Social-VLN",
+      "setting": "R2R val_unseen 改造的动态行人设置；HCR 为人类碰撞率。",
+      "result": "动态行人下 DualVLN SR 从 64.3 降为 37.2；不能据定性避障演示宣称解决了社交导航。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+      "locator": "Table 3",
+      "table": {
+        "columns": [
+          "方法",
+          "SR ↑ (%)",
+          "SPL ↑ (%)",
+          "HCR ↓ (%)"
+        ],
+        "rows": [
+          [
+            "StreamVLN",
+            31.4,
+            29.1,
+            36.4
+          ],
+          [
+            "DualVLN",
+            37.2,
+            35.8,
+            35.4
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "Table 3"
+      }
+    },
+    {
+      "benchmark": "VLN-PE",
+      "setting": "物理运动控制仿真；R2R val_unseen；从 VLN-CE 零样本迁移。",
+      "result": "DualVLN 的 SR/SPL 为 51.60/42.49。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+      "locator": "Table 2",
+      "table": {
+        "columns": [
+          "方法",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "NaVid",
+            5.94,
+            22.42,
+            18.58
+          ],
+          [
+            "DualVLN",
+            4.66,
+            51.6,
+            42.49
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "Table 2",
+        "note": "这不是 Habitat VLN-CE；不与前两表合并排名。"
+      }
+    },
+    {
+      "benchmark": "局部规划器消融",
+      "setting": "VLN-PE，flash controller；R2R val_unseen；替代规划器通过额外深度接收 point-goal。",
+      "result": "System 1 的 latent 条件轨迹策略优于显式目标连接的替代规划器。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+      "locator": "Table 4",
+      "table": {
+        "columns": [
+          "局部规划器",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "iPlanner",
+            4.91,
+            47.07,
+            41.09
+          ],
+          [
+            "NavDP",
+            4.22,
+            58.72,
+            50.98
+          ],
+          [
+            "System 1",
+            3.9,
+            63.62,
+            56.49
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "Table 4"
+      }
+    }
+  ],
+  "related": [
+    {
+      "id": "streamvln",
+      "reason": "高层数据配方及视频导航基线。"
+    },
+    {
+      "id": "gc-vln",
+      "reason": "比较学习式像素 / latent 目标与训练无关的几何约束规划。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-26",
+  "verificationLevel": "fulltext",
+  "gaps": [
+    "未逐项下载并核对 Social-VLN 资源和资产许可。"
+  ],
+  "sourceNotes": [],
+  "reproduction": {
+    "status": "未复现"
+  },
+  "bibtex": "@misc{dualvln,\n  title={Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation},\n  author={Meng Wei and Chenyang Wan and Jiaqi Peng and Xiqian Yu and Yuqiang Yang and Delin Feng and Wenzhe Cai and Chenming Zhu and Tai Wang and Jiangmiao Pang and Xihui Liu},\n  year={2025},\n  eprint={2512.08186},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2512.08186}\n}",
+  "summary": "慢速 VLM 预测像素目标与 latent goal，快速扩散策略根据新 RGB 持续生成轨迹，实现异步导航。",
+  "overview": "DualVLN 将语言理解与局部运动放在不同频率运行。System 2 结合指令和视觉历史，先主动调整视角，再预测下一段路线的像素目标；可学习查询从其隐藏状态提取 latent goal。System 1 接收这个较慢更新的目标和高频 RGB，以 Flow Matching 生成平滑轨迹。训练先微调 VLM 的目标接地能力，再冻结它、学习 latent queries 和轨迹策略。评测除 VLN-CE 外，还包含物理仿真、动态行人的 Social-VLN 及多平台实机部署。",
+  "method": {
+    "input": "语言指令、当前与历史 RGB；部署运动跟踪还使用里程计",
+    "output": "视角调整 / STOP 或含 32 个密集航点的局部轨迹",
+    "explanation": "高层系统负责选择走向，低层系统在高层尚未返回新目标时继续利用新图像更新局部轨迹。显式像素目标提供接地监督，latent goal 连接两个系统的语义与动作表征。",
+    "assumptions": "高低层异步调度、相机视角调整与可跟踪轨迹的机器人控制接口；实机系统包含里程计和 MPC。",
+    "difference": "不同于每走一步调用大模型，也不同于仅把像素点交给独立局部规划器；latent queries 学习从高层上下文提取对轨迹生成有效的信息。",
+    "flow": [
+      "目标接地与主动视角",
+      "Latent goal 提取",
+      "高频轨迹生成",
+      "异步执行"
+    ],
+    "modules": [
+      {
+        "name": "目标接地与主动视角",
+        "purpose": "将长指令转换为当前视野中的中期目标",
+        "input": "指令、历史图像和当前 RGB",
+        "mechanism": "用 Qwen2.5-VL-7B 预测当前可见轨迹中最远的像素航点；训练时借助深度过滤遮挡点。目标不在视野内时先生成转头 / 转向动作，完成后再接地，末步输出 STOP。",
+        "output": "像素目标、视角调整或停止",
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "3.1 / Appendix A.1"
+      },
+      {
+        "name": "Latent goal 提取",
+        "purpose": "把高层推理中的信息传给局部策略",
+        "input": "冻结 VLM 的上下文、像素目标和 4 个可学习查询",
+        "mechanism": "在目标文本后追加 4 个查询 token，借助冻结 VLM 的注意力读取指令、视觉历史和目标信息。训练更新查询表征，使其成为轨迹策略可用的条件。",
+        "output": "紧凑的 latent goal embeddings",
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "3.2 / Appendix A.2"
+      },
+      {
+        "name": "高频轨迹生成",
+        "purpose": "在高层目标暂时不变时响应新观测",
+        "input": "latent goal、高层最后一帧 RGB 与当前 RGB",
+        "mechanism": "用 ViT 编码两时刻图像，经自注意力融合、Q-Former 压成 32 个视觉 token；与 latent goal 共同条件化 DiT。Flow Matching 学习从噪声到轨迹的速度场，生成 32 个密集航点。",
+        "output": "持续刷新的平滑局部轨迹",
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "3.2"
+      },
+      {
+        "name": "异步执行",
+        "purpose": "减少等待高层推理造成的停顿",
+        "input": "慢更新目标、快更新轨迹和机器人状态",
+        "mechanism": "System 2 与 System 1 异步运行，低层读取最新 RGB 继续调整轨迹；实机将输出结合里程计转换并用 MPC 跟踪。论文示意高层约 2 Hz、低层约 30 Hz，实测延迟需按具体配置读取。",
+        "output": "连续机器人运动与下一轮观测",
+        "sourceUrl": "https://arxiv.org/html/2512.08186v1",
+        "locator": "Figure 1 / 5.2"
+      }
+    ]
+  },
+  "training": {
+    "regime": "先全量微调 System 2，再冻结高层训练查询与轨迹策略",
+    "models": "System 2：Qwen2.5-VL-7B；System 1：DepthAnythingV2-Small 的 ViT 图像骨干、Q-Former 与紧凑 DiT。",
+    "trainable": "阶段 1 解冻视觉编码器和 LLM；阶段 2 训练 latent queries 与扩散轨迹策略。",
+    "frozen": "阶段 2 冻结已经完成目标接地微调的 QwenVL；冻结仅适用于该阶段。",
+    "data": "遵循 StreamVLN 的多源配方，将轨迹投影到图像生成最远可见目标、视角调整和停止样本；轨迹监督仅取 pixel-goal 样本，插值为 32 个固定间隔航点。 论文另构建 60 个 MP3D 场景的 763K 社交导航 episode：人类掩码比例超过阈值时，触发修改后的 A* 生成避让轨迹。",
+    "objective": "阶段 1 自回归动作 / 像素坐标监督；阶段 2 以 Flow Matching 速度场 MSE 训练轨迹生成。",
+    "stages": "阶段 1 AdamW，lr 2e-5、batch 128、14,000 steps；阶段 2 lr 1e-4、batch 128、15,000 steps。推理异步运行，模型权重不在线更新。"
+  },
+  "benchmark": {
+    "motivation": "评测指令导航遇到动态行人的避让与任务恢复。",
+    "task": "Social-VLN：在标准导航路线中加入人形代理，保留自然语言目标。",
+    "input": "导航指令与第一视角观测。",
+    "output": "移动、视角调整及停止。",
+    "scale": "动态避障训练数据：60 个 MP3D 场景、763K episode。该数不代表 Social-VLN 测试集规模；测试表使用 R2R val_unseen。",
+    "split": "沿用基础任务划分；禁止混用标准 VLN 与 Social-VLN 结果。",
+    "environment": "动态人形代理仿真；论文另有独立实机实验。",
+    "metrics": "NE、OS、SR、SPL 与 HCR（人类碰撞率）。",
+    "baselines": "DualVLN、StreamVLN。",
+    "actions": "高层视角调整、像素目标与 STOP；低层生成局部轨迹。",
+    "success": "沿用任务完成指标，同时独立统计 Human Collision Rate；任务成功不等于无碰撞。",
+    "collection": "在 Habitat 3.0 中沿参考路线设置动态人形代理；逐 episode 核查避免行人完全阻塞道路。训练轨迹用人类检测和修改 A* 生成。",
+    "assets": "官方 InternNav 与 InternData-N1 提供相关资源入口；下载和资产许可须分别确认。",
+    "boundary": "只覆盖文中动态人形代理场景；尚不等于开放人群社会规范的完整评测。",
+    "coverage": "动态人形障碍下的任务完成、避让和绕行恢复。",
+    "reproduction": "依赖 InternNav、Habitat 动态代理及两阶段训练资源；本站尚未运行。",
+    "leakage": "训练数据规模与测试数据规模分开记录；未独立审计全部轨迹和场景的去重。",
+    "license": "模型、轨迹与 MP3D 场景资产的许可需分别确认。"
+  }
+}

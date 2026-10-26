@@ -1,0 +1,407 @@
+{
+  "id": "streamvln",
+  "short": "StreamVLN",
+  "title": "StreamVLN: Streaming Vision-and-Language Navigation via SlowFast Context Modeling",
+  "aliases": [
+    "StreamVLN†",
+    "StreamVLN-Prune-Mem",
+    "StreamVLN-Prune-All"
+  ],
+  "authors": [
+    "Meng Wei",
+    "Chenyang Wan",
+    "Xiqian Yu",
+    "Tai Wang",
+    "Yuqiang Yang",
+    "Xiaohan Mao",
+    "Chenming Zhu",
+    "Wenzhe Cai",
+    "Hanqing Wang",
+    "Yilun Chen",
+    "Xihui Liu",
+    "Jiangmiao Pang"
+  ],
+  "institutions": [
+    "The University of Hong Kong",
+    "Zhejiang University",
+    "Shanghai AI Laboratory",
+    "Shanghai Jiao Tong University"
+  ],
+  "firstPublished": "2025-07-07",
+  "updated": "2026-07-09",
+  "publicationYear": 2026,
+  "year": 2025,
+  "venue": "ICRA",
+  "publicationStatus": "已发表",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "VLM",
+      "VLA",
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "实时性",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "室外",
+      "四足机器人"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2507.05240",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/InternRobotics/StreamVLN",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://streamvln.github.io/",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本",
+      "url": "https://arxiv.org/abs/2507.05240",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开日期",
+        "版本历史"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文",
+      "url": "https://arxiv.org/html/2507.05240v2",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表",
+        "机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方代码与模型说明",
+      "url": "https://github.com/InternRobotics/StreamVLN",
+      "supports": [
+        "资源",
+        "数据配方"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "ICRA 2026 机构书目",
+      "url": "https://hub.hku.hk/handle/10722/375409",
+      "supports": [
+        "正式发表年份",
+        "会议"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "原始 PDF 表格与实机柱状图",
+      "url": "https://arxiv.org/pdf/2507.05240v2",
+      "supports": [
+        "Table I",
+        "Table III",
+        "Figure 5"
+      ]
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "几何剪枝将重复空间 token 合并为最新观测，动态物体和定位误差下的长期信息保真仍需单独评测。",
+      "实机结果采用远程 GPU 和网络通信；模型推理延迟不能直接视为完整机器人闭环延迟。"
+    ]
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE",
+      "setting": "val_unseen；v2 Table I；NE 单位 m，其余为 %。",
+      "result": "不同训练数据与剪枝配置分别列出。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+      "locator": "Table I",
+      "table": {
+        "columns": [
+          "配置",
+          "NE ↓ (m)",
+          "OS ↑ (%)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "StreamVLN（无额外 VLN 数据）",
+            5.43,
+            62.5,
+            52.8,
+            47.2
+          ],
+          [
+            "StreamVLN（含额外数据）",
+            4.9,
+            63.6,
+            56.4,
+            50.2
+          ],
+          [
+            "Prune-Mem（含额外数据）",
+            4.73,
+            65.5,
+            57.4,
+            51.1
+          ],
+          [
+            "Prune-All（含额外数据）",
+            4.82,
+            65.7,
+            56.0,
+            48.5
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "Table I"
+      },
+      "caveat": "v2 正文另写 SR/SPL=56.9/51.9，与本表不同；这里保留实际表格数值。Prune 两行需深度与位姿进行反投影。"
+    },
+    {
+      "benchmark": "RxR-CE",
+      "setting": "val_unseen；v2 Table I；额外数据和传感器条件同上。",
+      "result": "不把 RxR 与 R2R 合并排名。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+      "locator": "Table I",
+      "table": {
+        "columns": [
+          "配置",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)",
+          "nDTW ↑"
+        ],
+        "rows": [
+          [
+            "StreamVLN（无额外 VLN 数据）",
+            6.72,
+            48.6,
+            42.5,
+            60.2
+          ],
+          [
+            "StreamVLN（含额外数据）",
+            5.65,
+            54.4,
+            45.4,
+            63.7
+          ],
+          [
+            "Prune-Mem（含额外数据）",
+            5.72,
+            53.9,
+            45.1,
+            63.3
+          ],
+          [
+            "Prune-All（含额外数据）",
+            5.86,
+            53.3,
+            44.0,
+            63.5
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "Table I"
+      },
+      "caveat": "正文的 RxR SR/SPL=52.9/46.0 也与表格不同；本站未将正文数值替换进表格。"
+    },
+    {
+      "benchmark": "训练数据消融",
+      "setting": "R2R-CE val_unseen；全部关闭体素剪枝。",
+      "result": "全配方为 56.4/50.2；移除 DAgger 后为 50.2/47.1。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+      "locator": "Table III",
+      "table": {
+        "columns": [
+          "配方",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "仅 R2R + RxR 专家",
+            45.6,
+            42.3
+          ],
+          [
+            "加入 DAgger + VideoQA",
+            50.8,
+            45.7
+          ],
+          [
+            "DAgger + VideoQA + MMC4",
+            52.8,
+            47.2
+          ],
+          [
+            "完整配方（再加 ScaleVLN）",
+            56.4,
+            50.2
+          ],
+          [
+            "完整配方移除 DAgger",
+            50.2,
+            47.1
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "Table III"
+      }
+    },
+    {
+      "benchmark": "实机导航",
+      "setting": "Unitree Go2 + D455；RTX 4090 远程推理；每场景、每方法 20 次。",
+      "result": "由 Figure 5 柱顶标注转录，未估读未标注的曲线。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+      "locator": "Figure 5 / IV-C",
+      "table": {
+        "columns": [
+          "方法 / 场景",
+          "SR ↑ (%)",
+          "NE ↓ (m)"
+        ],
+        "rows": [
+          [
+            "StreamVLN / 走廊",
+            100,
+            0.2
+          ],
+          [
+            "StreamVLN / 单卧室",
+            85,
+            0.3
+          ],
+          [
+            "StreamVLN / 跨房间办公室",
+            60,
+            0.5
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "Figure 5 / IV-C",
+        "note": "原文另报告 4 个动作约 0.27 s 的模型推理延迟；不含室内约 0.2 s、室外约 1.0 s 的通信延迟。"
+      }
+    }
+  ],
+  "related": [
+    {
+      "id": "dualvln",
+      "reason": "同一研究路线从流式上下文管理扩展到异步高低层控制。"
+    },
+    {
+      "id": "futurenav",
+      "reason": "比较以缓存降低推理成本与以辅助世界建模改善策略学习。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-26",
+  "verificationLevel": "fulltext",
+  "gaps": [
+    "正文与 Table I 的数值差异未获作者说明。"
+  ],
+  "sourceNotes": [],
+  "reproduction": {
+    "status": "未复现"
+  },
+  "bibtex": "@misc{streamvln,\n  title={StreamVLN: Streaming Vision-and-Language Navigation via SlowFast Context Modeling},\n  author={Meng Wei and Chenyang Wan and Xiqian Yu and Tai Wang and Yuqiang Yang and Xiaohan Mao and Chenming Zhu and Wenzhe Cai and Hanqing Wang and Yilun Chen and Xihui Liu and Jiangmiao Pang},\n  year={2025},\n  eprint={2507.05240},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2507.05240}\n}",
+  "summary": "用快更新的对话窗口和慢更新的视觉记忆处理流式视频，复用 KV cache 降低导航动作的生成延迟。",
+  "overview": "StreamVLN 关注连续导航中的长历史与低延迟：每次都重算视频上下文代价高，只保留少量帧又容易遗忘。它将导航表示为观测和动作交替的多轮对话，近期窗口直接复用 KV cache，旧窗口转入视觉记忆。可选的三维体素剪枝删除反复看到的空间内容。模型先学习专家轨迹，再混合 DAgger 纠错和通用视觉语言数据训练。基础策略使用单目 RGB，几何剪枝版本另需深度与位姿。",
+  "method": {
+    "input": "语言指令、连续第一视角 RGB 与历史动作；体素剪枝额外使用深度和位姿",
+    "output": "自回归生成的低层动作序列",
+    "explanation": "快、慢指两种上下文更新节奏：活跃对话窗口负责即时动作，历史窗口经压缩后提供长期视觉记忆。两者共用一个 LLaVA-Video 模型。",
+    "assumptions": "连续环境中的相机观测与动作接口；启用体素剪枝时须能把图像 patch 对齐到共同三维坐标系。",
+    "difference": "跨轮复用缓存，减少重复 prefill；几何剪枝保留原始视觉 token 特征，而不依赖额外学习的压缩器。",
+    "flow": [
+      "交替观测与动作",
+      "滑动对话窗口",
+      "几何剪枝与记忆",
+      "纠错与多源共训"
+    ],
+    "modules": [
+      {
+        "name": "交替观测与动作",
+        "purpose": "将持续导航转换为可复用上下文的生成任务",
+        "input": "指令、当前 RGB、先前对话",
+        "mechanism": "以观测—动作交替格式追加新输入，语言模型在已有 token 状态上自回归预测下一段动作；不在每次决策时重建全部历史。",
+        "output": "动作响应与新增 KV 状态",
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "III-A"
+      },
+      {
+        "name": "滑动对话窗口",
+        "purpose": "控制活跃上下文与解码开销",
+        "input": "近期多轮对话的 KV cache",
+        "mechanism": "保留固定轮数的活跃窗口。窗口满后移出旧状态，丢弃旧提示和动作等非观测 token，把视觉部分交给长期记忆；新窗口继续读取记忆与当前对话。",
+        "output": "有界活跃窗口和待压缩视觉历史",
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "III-B"
+      },
+      {
+        "name": "几何剪枝与记忆",
+        "purpose": "减少跨帧重复观察的空间内容",
+        "input": "旧视觉 token；可选的深度、相机位姿",
+        "mechanism": "将图像 patch 反投影到三维体素；同一时间分段和体素中仅保留最新 token。按阈值去掉剩余有效 token 太少的帧，再用掩码选取记忆状态。Prune-Mem 只剪记忆，Prune-All 还剪当前视觉输入。",
+        "output": "稀疏视觉记忆与相应缓存",
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "III-C / Algorithm 1"
+      },
+      {
+        "name": "纠错与多源共训",
+        "purpose": "提高偏航恢复和通用视觉理解能力",
+        "input": "专家轨迹、模型 rollout、VideoQA 与图文交错样本",
+        "mechanism": "先做专家轨迹监督训练，再用最短路径专家为模型自身 rollout 提供 DAgger 纠错标签；第二阶段混合导航、视频问答与 MMC4 图文对话，减少导航微调对通用能力的损害。",
+        "output": "流式导航策略",
+        "sourceUrl": "https://arxiv.org/html/2507.05240v2",
+        "locator": "III-D / IV-B"
+      }
+    ]
+  },
+  "training": {
+    "regime": "两阶段监督微调 + DAgger 数据聚合",
+    "models": "LLaVA-Video-7B；语言主干为 Qwen2-7B。",
+    "trainable": "语言模型与视觉编码器参与微调；热身峰值学习率分别为 2e-5 与 5e-6。",
+    "frozen": "体素剪枝本身无需训练；不能据此把整套 StreamVLN 标成 training-free。",
+    "data": "原文数据配方：MP3D 的 R2R / EnvDrop / RxR 共 450K 视频片段，ScaleVLN 子集 300K，DAgger 240K；另有 VideoQA 248K、MMC4 230K。均为样本/片段口径。",
+    "objective": "对动作响应做自回归监督，混合通用视觉语言任务。",
+    "stages": "专家导航数据 1 epoch → 收集 DAgger → 导航与通用多模态混合训练 1 epoch；batch 128 视频片段，总计约 1500 A100 GPU 小时。推理时复用 KV cache，剪枝按配置启用。"
+  }
+}

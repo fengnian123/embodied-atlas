@@ -1,0 +1,355 @@
+{
+  "id": "gc-vln",
+  "short": "GC-VLN",
+  "title": "GC-VLN: Instruction as Graph Constraints for Training-free Vision-and-Language Navigation",
+  "aliases": [
+    "GC-VLN†",
+    "Graph Constraints for Vision-and-Language Navigation"
+  ],
+  "authors": [
+    "Hang Yin",
+    "Haoyu Wei",
+    "Xiuwei Xu",
+    "Wenxuan Guo",
+    "Jie Zhou",
+    "Jiwen Lu"
+  ],
+  "institutions": [
+    "Tsinghua University",
+    "Beijing Key Laboratory of Embodied Intelligence Systems",
+    "Beijing National Research Center for Information Science and Technology"
+  ],
+  "firstPublished": "2025-09-12",
+  "updated": "2025-09-12",
+  "publicationYear": 2025,
+  "year": 2025,
+  "venue": "CoRL",
+  "publicationStatus": "已发表",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN"
+    ],
+    "paradigm": [
+      "LLM",
+      "3D/4D 表征"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "空间理解",
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "轮式机器人"
+    ],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2509.10454",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/bagh2178/GC-VLN",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://bagh2178.github.io/GC-VLN/",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本",
+      "url": "https://arxiv.org/abs/2509.10454",
+      "supports": [
+        "题名",
+        "作者",
+        "首次公开日期",
+        "版本历史"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文",
+      "url": "https://arxiv.org/html/2509.10454v1",
+      "supports": [
+        "方法",
+        "训练",
+        "实验原表",
+        "机构"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "CoRL 2025 正式论文集",
+      "url": "https://proceedings.mlr.press/v305/yin25a.html",
+      "supports": [
+        "发表信息",
+        "正式引用"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "官方实现",
+      "url": "https://github.com/bagh2178/GC-VLN",
+      "supports": [
+        "代码开放",
+        "环境配置"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "正式论文 PDF",
+      "url": "https://raw.githubusercontent.com/mlresearch/v305/main/assets/yin25a/yin25a.pdf",
+      "supports": [
+        "Table 1",
+        "Table 2",
+        "失败案例"
+      ]
+    }
+  ],
+  "limitations": {
+    "author": [
+      "附录 F 展示三类失败：未识别目标物、把“向右穿门”误解析为前进、错误分支中偶遇正确物体导致未及时回溯。"
+    ],
+    "analysis": [
+      "无需额外训练不代表不依赖深度、位姿和感知模型；物体漏检及错误约束会影响整个求解链。",
+      "实机 Hexmove 部分以定性示例为主，不能从演示推导大规模实机成功率。"
+    ]
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE",
+      "setting": "val_unseen；1,839 episodes；3 m 成功阈值；仅比较 training-free 行。",
+      "result": "GC-VLN 的 SR 高于 InstructNav，但 SPL 低于 InstructNav。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+      "locator": "Table 1",
+      "table": {
+        "columns": [
+          "方法",
+          "NE ↓ (m)",
+          "OSR ↑ (%)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "NavGPT-CE",
+            8.4,
+            26.9,
+            16.3,
+            10.2
+          ],
+          [
+            "CA-Nav",
+            7.6,
+            48.0,
+            25.3,
+            10.8
+          ],
+          [
+            "InstructNav",
+            6.9,
+            "—",
+            31.0,
+            24.0
+          ],
+          [
+            "GC-VLN",
+            7.3,
+            41.8,
+            33.6,
+            16.3
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+        "locator": "Table 1",
+        "note": "33.6−31.0=2.6 个百分点；不沿用正文约写的“2%”。"
+      }
+    },
+    {
+      "benchmark": "RxR-CE",
+      "setting": "val_unseen；11,006 episodes；3 m 成功阈值。",
+      "result": "原表的 GC-VLN SR/SPL 为 33.8/13.8。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+      "locator": "Table 1",
+      "table": {
+        "columns": [
+          "方法",
+          "NE ↓ (m)",
+          "OSR ↑ (%)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "CA-Nav",
+            10.4,
+            "—",
+            19.0,
+            6.0
+          ],
+          [
+            "GC-VLN",
+            8.8,
+            44.4,
+            33.8,
+            13.8
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+        "locator": "Table 1"
+      }
+    },
+    {
+      "benchmark": "约束与回溯消融",
+      "setting": "R2R-CE val_unseen；与完整系统使用相同评测。",
+      "result": "移除回溯后 SR 从 33.6 降为 21.3。",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+      "locator": "Table 2",
+      "table": {
+        "columns": [
+          "配置",
+          "NE ↓ (m)",
+          "SR ↑ (%)",
+          "SPL ↑ (%)"
+        ],
+        "rows": [
+          [
+            "完整系统",
+            7.3,
+            33.6,
+            16.3
+          ],
+          [
+            "放松空间约束",
+            8.7,
+            21.5,
+            10.8
+          ],
+          [
+            "去掉航点约束",
+            8.7,
+            23.8,
+            10.9
+          ],
+          [
+            "随机约束求解",
+            9.1,
+            7.0,
+            2.6
+          ],
+          [
+            "去掉回溯",
+            9.0,
+            21.3,
+            13.6
+          ]
+        ],
+        "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+        "locator": "Table 2"
+      }
+    }
+  ],
+  "related": [
+    {
+      "id": "etp-r1",
+      "reason": "都使用显式结构化规划，但额外训练与动作选择机制不同。"
+    },
+    {
+      "id": "dualvln",
+      "reason": "比较图约束航点与像素目标 / latent goal 的接地方式。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-10-26",
+  "verificationLevel": "fulltext",
+  "gaps": [
+    "用户所列 † 的具体表格脚注意义未提供；按正式方法收录，不将其当成另一篇论文。"
+  ],
+  "sourceNotes": [],
+  "reproduction": {
+    "status": "未复现"
+  },
+  "bibtex": "@inproceedings{pmlr-v305-yin25a,\n  title={GC-VLN: Instruction as Graph Constraints for Training-free Vision-and-Language Navigation},\n  author={Yin, Hang and Wei, Haoyu and Xu, Xiuwei and Guo, Wenxuan and Zhou, Jie and Lu, Jiwen},\n  booktitle={Proceedings of The 9th Conference on Robot Learning},\n  year={2025},\n  volume={305},\n  pages={1809--1824},\n  series={Proceedings of Machine Learning Research},\n  url={https://proceedings.mlr.press/v305/yin25a.html}\n}",
+  "summary": "把指令解析为航点—物体关系图，用空间约束求解航点坐标，并在无解时沿导航树回溯，无需额外导航训练。",
+  "overview": "GC-VLN 将指令中的“经过、左转、靠近”等关系写成可求解的空间约束。LLM 先生成含航点和物体的有向无环图，再查询预定义约束库；感知模块把物体落到场景坐标中，求解器按拓扑顺序寻找满足角度、距离和物体关系的航点。如果出现多个解就保留多个分支，无解则沿导航树回溯。它不做任务专用模型训练，但依赖预训练语言与感知模型，以及几何定位、约束求解和局部路径执行。",
+  "method": {
+    "input": "自然语言指令、视觉观测及深度 / 位姿等场景定位信息",
+    "output": "满足指令约束的航点序列与最终目标位置",
+    "explanation": "语言推理生成约束结构，数值求解确定坐标，导航树处理解的歧义；指令关系和局部运动由不同模块完成。",
+    "assumptions": "场景中的物体须可检测并定位，指令可分解为所定义的空间关系；回溯依赖已探索路径和机器人定位。",
+    "difference": "将导航决策表述为图约束优化，显式保留多个可行解释，而非让 LLM 每步直接猜一个低层动作。",
+    "flow": [
+      "指令图分解",
+      "约束实例化",
+      "航点坐标求解",
+      "导航树与回溯"
+    ],
+    "modules": [
+      {
+        "name": "指令图分解",
+        "purpose": "提取动作顺序与空间关系",
+        "input": "完整导航指令",
+        "mechanism": "使用 DeepSeek-R1 构建有向无环图，分离航点节点、物体节点及关系边；按拓扑顺序安排求解，物体节点先于依赖它的航点处理。",
+        "output": "分阶段的指令图",
+        "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+        "locator": "3.2 / Appendix D.1, D.3"
+      },
+      {
+        "name": "约束实例化",
+        "purpose": "把自然语言关系变成几何条件",
+        "input": "关系图、约束库、已定位物体",
+        "mechanism": "从六类预定义空间关系中检索适用模板，为方向角、距离和多物体关系建立容差约束；Grounded-SAM-2 提供物体感知，将语义对象与场景位置对应。",
+        "output": "具有坐标变量的图约束集合",
+        "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+        "locator": "3.2 / Appendix D.2 / 4.1"
+      },
+      {
+        "name": "航点坐标求解",
+        "purpose": "在当前已知场景中找到满足关系的位置",
+        "input": "已有节点坐标与待求航点的约束",
+        "mechanism": "按图的拓扑顺序求坐标，最大化约束满足程度，同时要求各角度 / 距离约束非负；重复求解时排除已找到解附近区域，获得不同可行候选。",
+        "output": "按质量排序的一个或多个航点解",
+        "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+        "locator": "3.3"
+      },
+      {
+        "name": "导航树与回溯",
+        "purpose": "在无解或走错分支时恢复搜索",
+        "input": "候选航点、分支历史和新观测",
+        "mechanism": "每个求解阶段构成一层，多解对应兄弟分支。无可行解时退回最近有未探索分支的位置；局部执行用 Fast Marching Method，抵达最终层后停止。",
+        "output": "可恢复的探索路径",
+        "sourceUrl": "https://arxiv.org/html/2509.10454v1",
+        "locator": "3.3 / Appendix B"
+      }
+    ]
+  },
+  "training": {
+    "regime": "无额外导航训练；使用预训练模型推理",
+    "models": "DeepSeek-R1：指令分解；Grounded-SAM-2：开放词汇物体感知；Fast Marching Method：局部执行。",
+    "trainable": "没有为 GC-VLN 新训练或微调导航策略。",
+    "frozen": "语言与视觉感知模型作为预训练组件使用；不把其预训练成本称为零。",
+    "data": "不使用 R2R / RxR 的导航监督进行额外训练；推理时使用关系模板和空间约束库。",
+    "objective": "没有模型训练损失；在线求解坐标约束的满足程度。",
+    "stages": "指令解析 → 感知与约束构造 → 坐标求解 → 导航 / 回溯；几何优化发生在推理阶段。"
+  }
+}
