@@ -1,0 +1,173 @@
+{
+  "id": "jop-vln",
+  "title": "Joint On-and-Off Policy Learning for Vision-and-Language Navigation",
+  "short": "JOP-VLN",
+  "aliases": [],
+  "authors": [
+    "Qingrong He",
+    "Lin Zhao",
+    "Kevin Zheng",
+    "Liang Lin"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-07-15",
+  "updated": "2026-07-15",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": "IROS 2026（arXiv 作者声明录用）",
+  "publicationStatus": "作者声明已录用；正式论文集条目未核实",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN",
+      "故障恢复"
+    ],
+    "paradigm": [
+      "VLM",
+      "模仿学习",
+      "强化学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "室内",
+      "室外"
+    ],
+    "training": [
+      "监督微调",
+      "强化学习"
+    ]
+  },
+  "summary": "先学专家演示，再用 DAgger 训练恢复，最后联合离策略模仿学习与在策略强化学习。",
+  "method": {
+    "input": "指令、视觉历史、专家演示、学习者采样轨迹及环境奖励",
+    "output": "导航策略与动作",
+    "explanation": "阶段一学习基础导航；阶段二从 DAgger 轨迹学习错误恢复；阶段三联合在策略 GRPO 与离策略模仿目标，并优先利用纠错轨迹。",
+    "flow": [
+      "专家演示训练",
+      "DAgger 采样与纠正训练",
+      "高熵探索采样",
+      "联合 IL 与 GRPO 优化"
+    ],
+    "difference": "重点是专家/恢复数据与在策略探索的联合训练，不是在线更新长期笔记库。",
+    "assumptions": "需要导航仿真、专家纠正或 oracle 及可验证奖励。"
+  },
+  "training": {
+    "regime": "三阶段策略训练；包含监督模仿、DAgger 恢复训练及联合 IL/RL。",
+    "models": "VLM 导航策略；基础 checkpoint 与各组件冻结范围在本资料卡中暂不细填。",
+    "trainable": "导航策略；第三阶段联合优化动作模仿与在策略目标。",
+    "frozen": "具体视觉骨干冻结配置待逐项核实。",
+    "data": "多源导航与轨迹总结数据、专家演示、当前策略 DAgger 轨迹，以及强化学习采样；具体规模待补。",
+    "objective": "前两阶段模仿学习；第三阶段结合 GRPO 与纠错优先的离策略 IL。",
+    "stages": "基础能力、恢复能力、联合探索与纠错三个阶段。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE / RxR-CE",
+      "setting": "VLN-CE val-unseen；两项任务分别报告。",
+      "result": "作者报告 SR 为 69.9% / 68.0%；RxR-CE SPL 为 59.3%。",
+      "locator": "§V / 主结果表",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2607.13461v1"
+    },
+    {
+      "benchmark": "实机导航",
+      "setting": "室内外 challenging scenarios；few-shot adaptation 设置。",
+      "result": "论文另做实机部署，不能将其称为完全零样本迁移。",
+      "locator": "§I / §V 实机实验",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2607.13461v1"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "DAgger/专家查询、数据采样和联合训练预算需要与比较方法对齐。",
+      "恢复数据增加与新训练目标的收益应通过等量数据实验分开。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.13461",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://qingrongh.github.io/JOP-VLN/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": null,
+      "status": "未核实具体代码仓库；不据此断言没有代码"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2607.13461",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2607.13461v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文所列项目主页",
+      "url": "https://qingrongh.github.io/JOP-VLN/",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "project 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "dagger",
+      "reason": "采用 DAgger 恢复轨迹。"
+    },
+    {
+      "id": "reflectvln",
+      "reason": "比较错误恢复数据与闭环反思。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。",
+    "具体官方代码仓库尚未确认；后续可由项目主页继续回查。",
+    "训练数据各来源规模与冻结配置待补核。",
+    "IROS 2026 正式论文集条目未独立核对。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "单纯专家模仿难覆盖模型自己走偏的状态，单纯强化学习也可能缺少稳定的纠正信号。JOP-VLN 用三阶段训练结合两类数据，并通过高熵采样及纠错优先的轨迹组织，提高探索和恢复训练效率。"
+}

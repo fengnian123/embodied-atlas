@@ -1,0 +1,167 @@
+{
+  "id": "reflectvln",
+  "title": "ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning",
+  "short": "ReflectVLN",
+  "aliases": [],
+  "authors": [
+    "Jiahang Wang",
+    "Yirong Yang",
+    "Yanqing Zhu",
+    "Minghua Luo",
+    "Shichao Xie",
+    "Fei Liu",
+    "Mu Xu"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-07-14",
+  "updated": "2026-07-14",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "已公开预印本；正式发表信息未核实",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN",
+      "故障恢复"
+    ],
+    "paradigm": [
+      "VLM",
+      "模仿学习"
+    ],
+    "system": [
+      "模块化系统",
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "实时性"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "让执行智能体报告进展和偏离，按需触发意图智能体反思并更新子任务指导。",
+  "method": {
+    "input": "指令、当前子目标、近期视觉历史及执行状态",
+    "output": "短程动作、状态 token 和必要时更新的子任务指导",
+    "explanation": "执行端输出继续、刷新或纠正状态，触发意图端更新；Action-CoT 用路线推理与动作监督促进时序一致性。",
+    "flow": [
+      "意图端生成子目标",
+      "执行端预测动作与状态",
+      "按状态触发反思/刷新",
+      "新指导重新条件化执行"
+    ],
+    "difference": "在高层到低层之外增加执行到高层的反馈，使用按需调用而非只做固定频率重规划。",
+    "assumptions": "需要状态监督和纠错数据；实验中不依赖 oracle 作为推理触发器。"
+  },
+  "training": {
+    "regime": "Action-CoT 预训练后进行状态感知微调；并非纯零样本调用。",
+    "models": "意图端和执行端分别初始化自 Qwen2.5-VL-3B。",
+    "trainable": "两个智能体及执行端的相关查询/动作组件。",
+    "frozen": "各子组件精确冻结列表未逐项回查，不填写全冻结或全解冻的推断。",
+    "data": "专家轨迹及一轮反思增强恢复轨迹；带自动标注与验证。",
+    "objective": "子任务/反思文本监督、Action-CoT 动作/航点监督及状态分类监督。",
+    "stages": "阶段一训练执行端 Action-CoT；阶段二混合专家与反思恢复轨迹训练解耦智能体。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE / RxR-CE",
+      "setting": "val-unseen；单视角 RGB；依各自协议计算 SR、SPL 等。",
+      "result": "Table 1 的 SR 为 62.8% / 66.0%，SPL 为 58.5% / 57.2%。",
+      "locator": "§4.1–4.2 / Table 1",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2607.12680v1"
+    },
+    {
+      "benchmark": "按需高层调用与组件消融",
+      "setting": "比较固定间隔更新及闭环组件；预算与训练数据设置应同时阅读。",
+      "result": "分析恢复能力和高层调用次数；少调用本身不自动证明优于所有等预算策略。",
+      "locator": "§4.3",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2607.12680v1"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "闭环反馈、按需调用高层和失败恢复均有现成先例。",
+      "需要在匹配模型调用、训练数据和交互预算的条件下评估新计划维护方法。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.12680",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/AIprogrammer/ReflectVLN",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2607.12680",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2607.12680v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文所列官方代码入口",
+      "url": "https://github.com/AIprogrammer/ReflectVLN",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "code 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "dualvln",
+      "reason": "比较单向高低层条件与双向执行反馈。"
+    },
+    {
+      "id": "avert-vln",
+      "reason": "比较自主反思与人类辅助恢复。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "高层下发一次计划后，低层可能逐渐走偏。ReflectVLN 建立双向闭环：意图智能体生成子目标，执行智能体输出动作和状态；完成子目标或发生偏离时，才请求新的高层指导。训练还加入 Action-CoT 和带反思的恢复轨迹。"
+}

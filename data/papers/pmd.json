@@ -1,0 +1,153 @@
+{
+  "id": "pmd",
+  "title": "Procedural Memory Distillation: Online Reflection for Self-Improving Language Models",
+  "short": "PMD",
+  "aliases": [
+    "Procedural Memory Distillation",
+    "程序性记忆蒸馏"
+  ],
+  "authors": [
+    "Ye Liu",
+    "Srijan Bansal",
+    "Bo Pang",
+    "Yang Li",
+    "Zeyu Leo Liu",
+    "Yifei Ming",
+    "Zixuan Ke",
+    "Shafiq Joty",
+    "Semih Yavuz"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-07-01",
+  "updated": "2026-07-01",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "已公开预印本；正式发表信息未核实",
+  "tags": {
+    "direction": [],
+    "task": [],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "泛化"
+    ],
+    "environment": [],
+    "training": []
+  },
+  "summary": "把模型自己试错得到的分层程序性记忆蒸馏进参数，使部署学生不必再查外部记忆。",
+  "method": {
+    "input": "问题、学生自行生成的解答、答案或代码测试反馈及历史记忆",
+    "output": "更新后的学生策略与训练阶段积累的程序性记忆",
+    "explanation": "进化对象包括 experience、insight、behavior 三层记忆和学生参数。教师读取相关记忆，在学生自己生成的前缀上提供 token 分布监督。",
+    "flow": [
+      "自行采样解答",
+      "验证并提炼三层记忆",
+      "记忆增强自教师",
+      "在学生前缀上蒸馏",
+      "新策略继续采样"
+    ],
+    "difference": "训练时把经验内化进模型；部署学生不依赖持续检索外部记忆。",
+    "assumptions": "需要可验证反馈、训练算力和可读取的自教师分布。"
+  },
+  "training": {
+    "regime": "训练期 on-policy 自蒸馏；不是只调用现成模型，也不是部署时在线训练机器人。",
+    "models": "Qwen3-8B、OLMo3-Instruct-7B。",
+    "trainable": "学生策略参数；训练阶段记忆内容也随采样更新。",
+    "frozen": "教师分支使用停止梯度；不能把这理解为学生基础模型被冻结。",
+    "data": "SciKnowEval 科学选择题与 LiveCodeBench 代码任务；使用训练划分内自行采样的尝试和验证反馈。",
+    "objective": "SDPO 风格 reverse-KL 自蒸馏；教师额外读取程序性记忆。",
+    "stages": "生成尝试、更新记忆和蒸馏交替进行；最终部署学生可移除外部记忆。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "SciKnowEval",
+      "setting": "生物、化学、物理、材料科学选择题；avg@16；两种基础模型。",
+      "result": "Qwen3-8B 的 AVG 从 SDPO 74.4 到 PMD 77.2；OLMo3 从 69.5 到 73.3。均为原文分值，不能把相对增幅当作百分点。",
+      "locator": "§4.1–4.2 / Table 2",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2607.01480v1"
+    },
+    {
+      "benchmark": "LiveCodeBench",
+      "setting": "代码生成；score@4；测试执行反馈。",
+      "result": "Qwen3-8B 从 SDPO 47.9 到 PMD 51.7；OLMo3 从 45.0 到 51.1。",
+      "locator": "§4.1–4.2 / Table 2",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2607.01480v1"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要可靠验证器；文本问答和代码的验证成本与机器人交互不同。",
+      "本文不是连续视觉导航，也未直接解决当前导航计划的缓存维护。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2607.01480",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": null,
+      "status": "未核实具体代码仓库；不据此断言没有代码"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2607.01480",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2607.01480v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "opd-evolver",
+      "reason": "比较经验内化与经验操作能力自蒸馏。"
+    },
+    {
+      "id": "memevolve",
+      "reason": "比较训练参数与外部记忆机制进化。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。",
+    "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "普通训练常把每次尝试只压成一次对错反馈。PMD 保留原始尝试、单题教训和跨题行为规律，让能读取这些记忆的自教师指导学生，再由更新后的学生产生新的经验。进化发生在训练期间，最终学生可脱离记忆库推理。"
+}

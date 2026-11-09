@@ -1,0 +1,179 @@
+{
+  "id": "memevolve",
+  "title": "MemEvolve: Meta-Evolution of Agent Memory Systems",
+  "short": "MemEvolve",
+  "aliases": [],
+  "authors": [
+    "Guibin Zhang",
+    "Haotian Ren",
+    "Chong Zhan",
+    "Zhenhong Zhou",
+    "Junhao Wang",
+    "He Zhu",
+    "Wangchunshu Zhou",
+    "Shuicheng Yan"
+  ],
+  "institutions": [],
+  "firstPublished": "2025-12-21",
+  "updated": "2025-12-21",
+  "publicationYear": null,
+  "year": 2025,
+  "venue": null,
+  "publicationStatus": "已公开预印本；正式发表信息未核实",
+  "tags": {
+    "direction": [],
+    "task": [
+      "历史检索",
+      "长程任务"
+    ],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "系统"
+    ],
+    "problem": [
+      "记忆",
+      "泛化"
+    ],
+    "environment": [],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "同时演化经验内容和外部记忆系统的编码、存储、检索、管理实现。",
+  "method": {
+    "input": "任务轨迹、记忆状态、成功率、token 成本和延迟等执行反馈",
+    "output": "新经验及经过测试筛选的记忆系统实现",
+    "explanation": "内循环在固定候选实现下积累经验；外循环依据反馈选择实现并生成新的 encode/store/retrieve/manage 组合，形成双层进化。",
+    "flow": [
+      "候选记忆系统执行任务",
+      "内循环更新经验",
+      "汇总效果与成本",
+      "诊断并重设计记忆机制",
+      "测试候选并保留"
+    ],
+    "difference": "进化的是外部记忆程序与组织机制，不是重新设计 Transformer 神经网络。",
+    "assumptions": "需要可执行的统一记忆接口、任务反馈与候选测试预算。"
+  },
+  "training": {
+    "regime": "外部记忆内容与记忆实现进化；核心机制不是任务 LLM 的梯度微调。",
+    "models": "SmolAgent、Flash-Searcher 等框架；实验包含不同 LLM 骨干。",
+    "trainable": "经验内容与外部记忆代码/机制；论文核心不依赖更新任务 LLM 权重。",
+    "frozen": "任务 LLM 在所述记忆进化过程中作为既有模型调用。",
+    "data": "执行轨迹及成功率、token 成本、延迟等反馈；部分记忆系统在 TaskCraft 上进化后迁移测试。",
+    "objective": "依据候选系统的执行表现进行诊断、设计与选择；不把它写成神经网络蒸馏损失。",
+    "stages": "内循环经验演化、外循环架构演化，以及冻结记忆实现后的迁移评测。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "GAIA",
+      "setting": "通用 Agent 任务。",
+      "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+      "locator": "§4–5 / Tables 2–3 / §9.1",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+    },
+    {
+      "benchmark": "TaskCraft",
+      "setting": "任务执行与记忆元进化；亦用于生成可迁移记忆实现。",
+      "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+      "locator": "§4–5 / Tables 2–3 / §9.1",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+    },
+    {
+      "benchmark": "WebWalkerQA",
+      "setting": "复杂网页检索问答；论文使用 170 题子集。",
+      "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+      "locator": "§4–5 / Tables 2–3 / §9.1",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+    },
+    {
+      "benchmark": "xBench-DeepSearch",
+      "setting": "100 项搜索与工具推理任务。",
+      "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+      "locator": "§4–5 / Tables 2–3 / §9.1",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "候选程序测试和选择存在额外成本，不能只统计最终 Agent 推理成本。",
+      "外部记忆机制迁移与连续机器人运动控制的迁移是不同问题。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2512.18746",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/bingreeky/MemEvolve",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2512.18746",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2512.18746v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文所列 MemEvolve / EvolveLab 代码入口",
+      "url": "https://github.com/bingreeky/MemEvolve",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "code 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "mem2evolve",
+      "reason": "比较记忆实现进化与资产/经验共进化。"
+    },
+    {
+      "id": "opd-evolver",
+      "reason": "比较外部记忆实现与参数化经验管理能力。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "多数记忆智能体只往固定笔记系统里添加内容。MemEvolve 进一步根据任务表现诊断记忆机制的问题，修改候选记忆实现，再测试和选择。EvolveLab 为这些实现提供统一接口，便于替换和公平比较。"
+}

@@ -1,0 +1,172 @@
+{
+  "id": "mem2evolve",
+  "title": "Mem²Evolve: Towards Self-Evolving Agents via Co-Evolutionary Capability Expansion and Experience Distillation",
+  "short": "Mem²Evolve",
+  "aliases": [
+    "Mem2Evolve",
+    "Mem^2Evolve"
+  ],
+  "authors": [
+    "Zihao Cheng",
+    "Zeming Liu",
+    "Yingyu Shan",
+    "Xinyi Wang",
+    "Xiangrong Zhu",
+    "Yunpu Ma",
+    "Hongru Wang",
+    "Yuhang Guo",
+    "Wei Lin",
+    "Yunhong Wang"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-04-13",
+  "updated": "2026-04-13",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": "ACL 2026（arXiv 作者声明录用）",
+  "publicationStatus": "作者声明已录用；正式论文集条目未核实",
+  "tags": {
+    "direction": [],
+    "task": [
+      "长程任务"
+    ],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "规划"
+    ],
+    "environment": [],
+    "training": [
+      "仅推理使用"
+    ]
+  },
+  "summary": "让经验记忆指导工具和专家智能体创建，新资产的使用结果再反过来丰富经验。",
+  "method": {
+    "input": "任务、执行轨迹、经验记忆及工具/专家资产记忆",
+    "output": "任务答案、新资产和可复用经验",
+    "explanation": "更新对象是经验内容以及可执行工具与专家智能体。新资产需要评价、修正和执行测试，随后才写回资产库；任务轨迹用于提炼策略和失败教训。",
+    "flow": [
+      "检索经验和资产",
+      "复用或创建工具/专家",
+      "评价并修正测试",
+      "保留有效资产",
+      "从结果提炼经验"
+    ],
+    "difference": "Experience Distillation 指轨迹到经验条目的提炼，不能仅凭这个词认定训练 VLM 参数。",
+    "assumptions": "需要代码执行、资产测试和任务评价；不同 benchmark 使用各自协议。"
+  },
+  "training": {
+    "regime": "经验与资产的非参数进化；核心机制不依赖基础 LLM 梯度更新。",
+    "models": "主比较使用 GPT-5-chat 作为 LLM 骨干。",
+    "trainable": "经验条目、工具实现和专家智能体配置。",
+    "frozen": "作为调用服务的基础 LLM；没有据此认定其进行了额外 SFT。",
+    "data": "任务执行轨迹、LLM-as-a-Judge 评价、资产测试与反思；不是统一命名的 SFT 训练集。",
+    "objective": "提高任务表现并保留可复用资产/经验；经验蒸馏不等于 token 级神经网络蒸馏。",
+    "stages": "执行、创建/修正资产、评价与经验提炼持续交替。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "GAIA / ALFWorld / HotpotQA / 2WikiMultihopQA",
+      "setting": "通用助手、具身文本交互及多跳问答；分别评测。",
+      "result": "与数学、规划和 Web 任务共同构成六类任务、八个 benchmark；ALFWorld 不是连续 RGB 导航。",
+      "locator": "§4.1 / Table 2 / Appendix B.2",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2604.10923v1"
+    },
+    {
+      "benchmark": "AIME 2024 / AIME 2025 / TravelPlanner / WebShop",
+      "setting": "数学、约束旅行规划及网页购物；沿用各自数据与评分协议。",
+      "result": "作者报告跨八个 benchmark 的汇总表现；各任务的基础分数含义不同，不将其视为统一导航成功率。",
+      "locator": "§4.1 / Table 2 / Appendix B.2",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2604.10923v1"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "资产数量增加不保证质量，需要隔离执行、测试与维护成本评测。",
+      "任务平均分不能替代某个具体具身任务上的独立验证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2604.10923",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://buaa-irip-llm.github.io/Mem2Evolve/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": null,
+      "status": "未核实具体代码仓库；不据此断言没有代码"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2604.10923",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2604.10923v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "arXiv 所列项目入口",
+      "url": "https://buaa-irip-llm.github.io/Mem2Evolve/",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "project 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "memevolve",
+      "reason": "比较经验、资产和记忆系统的更新对象。"
+    },
+    {
+      "id": "asena",
+      "reason": "比较外部可执行技能的保留和复用。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。",
+    "具体官方代码仓库尚未确认；后续可由项目主页继续回查。",
+    "ACL 2026 正式论文集页面尚未独立核对。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "只记经验会受限于原有工具；只造工具又容易反复试错。Mem²Evolve 将经验记忆与资产记忆结合：先检索经验和可复用资产，能力不足时创建工具或专家智能体，经过评价与修正后保留，并从执行中提炼新经验。"
+}

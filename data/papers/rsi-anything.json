@@ -1,0 +1,176 @@
+{
+  "id": "rsi-anything",
+  "title": "RSI-Anything: Unlocking Recursive Self-Improvement with World Models",
+  "short": "RSI-Anything",
+  "aliases": [],
+  "authors": [
+    "Taoyong Cui",
+    "Pinxian Zeng",
+    "Wanghan Xu",
+    "Hao Xiao",
+    "Shuhan Xue",
+    "Qiang Gao",
+    "Wanli Ouyang",
+    "Pheng Ann Heng",
+    "Zhenfei Yin",
+    "Yingcheng Wu",
+    "Ling Yang"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-10-09",
+  "updated": "2026-10-09",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "已公开预印本；正式发表信息未核实",
+  "tags": {
+    "direction": [],
+    "task": [],
+    "paradigm": [
+      "LLM",
+      "世界模型"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "规划",
+      "泛化"
+    ],
+    "environment": [],
+    "training": []
+  },
+  "summary": "用世界模型预测候选行动的后果，并依据实际反馈改进策略/工作流或预测器，验证后保留更新。",
+  "method": {
+    "input": "任务状态、候选行动、世界模型预测及真实执行反馈",
+    "output": "选中的行动与通过检查后保留的策略/工作流或预测器",
+    "explanation": "预测用于行动选择与学习数据选择；实际反馈用于策略/工作流改进，必要时适配世界模型；保留更新前检查组件及组合。",
+    "flow": [
+      "生成候选",
+      "预测后果并选择",
+      "执行获取反馈",
+      "更新相关组件",
+      "检查组件与兼容性",
+      "保留有效版本"
+    ],
+    "difference": "显式区分预测与实际反馈，并关注策略变化后的预测可靠性和组件兼容。",
+    "assumptions": "需要领域反馈、可比较的执行预算与独立评测；各领域的更新对象不同。"
+  },
+  "training": {
+    "regime": "依领域区分：代码固定 coder 并适配预测器；GUI 更新策略和世界模型；实验室规划比较连续策略版本。",
+    "models": "代码实验使用固定 ReasonFlux-Coder-7B 和基于 Qwen2.5-Coder-3B-Instruct / LoRA 的 W1；其他领域使用各自模型。",
+    "trainable": "随实验变化，不能统一填写所有模型都训练。",
+    "frozen": "代码修复中的 coder 固定；其他冻结范围需按领域阅读。",
+    "data": "代码测试、GUI 交互结果、实验室规划反馈与科学应用的观测；不存在一个覆盖所有领域的统一 VLM SFT 数据集。",
+    "objective": "使用预测与反馈改进选择和系统；具体损失、搜索及更新方式依领域定义。",
+    "stages": "预测—执行—反馈—更新—检查；各实验验证完整框架的不同部分。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "CodeContests / APPS Introductory / LiveCodeBench v6",
+      "setting": "固定 coder，候选修复与测试预算对齐；分别为 200 / 1,000 / 1,055 项。",
+      "result": "CodeContests 中静态 verifier、预测选择、预测器适配的成功率为 26.3% / 29.2% / 31.2%；不把该结果归因为 coder 更新。",
+      "locator": "§3.1 / §6.1",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+    },
+    {
+      "benchmark": "MiniWoB++ / OSWorld",
+      "setting": "MiniWoB++ 的 click-checkboxes 及 OSWorld；GUI 交互反馈。",
+      "result": "评测任务完成与行动行为；该领域报告策略和世界模型更新。",
+      "locator": "§3.2 / §6.1 / Table 4",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+    },
+    {
+      "benchmark": "LabHorizon F200 Level-2",
+      "setting": "相同 200 项任务上的五个连续 4B 策略版本；评测实验室操作规划。",
+      "result": "Final Score 从 21.80% 到 46.01%；这是规划基准得分，不是实机执行可靠性。",
+      "locator": "§3.3 / §6.1 / Figure 5",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+    },
+    {
+      "benchmark": "反应优化与免疫科学应用",
+      "setting": "领域专用模型及反馈；科学应用与通用 Agent benchmark 分开解释。",
+      "result": "展示预测引导的搜索和工作流改进；不能据此认定全部组件在同一任务内持续互相提升。",
+      "locator": "§3.4–3.5 / §5–6 / Table 4",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+    }
+  ],
+  "limitations": {
+    "author": [
+      "需要同一任务内的多轮联合评测，才能证明策略与世界模型持续相互提升。",
+      "实验室结果评测规划，可靠物理执行需要相关设备与工作流验证。"
+    ],
+    "analysis": [
+      "跨领域实例验证了不同更新路径，不能用一个领域的参数更新证明另一个领域也完成相同更新。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2610.13912",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/Gen-Verse/RSI-Anything",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2610.13912",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2610.13912v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文所列官方代码入口",
+      "url": "https://github.com/Gen-Verse/RSI-Anything",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "code 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "memevolve",
+      "reason": "均涉及反馈驱动的候选改进和验证，但更新对象不同。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "真实试错昂贵，预测器也可能随策略变化而失准。RSI-Anything 先用世界模型选择值得执行的候选，再用观察到的反馈改进系统，并通过组件和兼容性检查保留版本。各实验实现的更新范围不同，不能把框架示意当成所有组件都已联合进化。"
+}
