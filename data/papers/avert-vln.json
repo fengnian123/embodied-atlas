@@ -1,0 +1,181 @@
+{
+  "id": "avert-vln",
+  "title": "AVERT-VLN: Abstention-aware Visual Error Recovery and Training for Vision-and-Language Navigation",
+  "short": "AVERT-VLN",
+  "aliases": [],
+  "authors": [
+    "Minrui Liu",
+    "Jingke Wang",
+    "Yuehao Huang",
+    "Hao Su",
+    "Jiajun Lv",
+    "Yukai Ma",
+    "Yong Liu"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-09-30",
+  "updated": "2026-09-30",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "已公开预印本；正式发表信息未核实",
+  "tags": {
+    "direction": [
+      "导航"
+    ],
+    "task": [
+      "VLN",
+      "故障恢复"
+    ],
+    "paradigm": [
+      "VLM"
+    ],
+    "system": [
+      "模块化系统",
+      "具身 Agent"
+    ],
+    "contribution": [
+      "方法",
+      "数据集",
+      "Benchmark"
+    ],
+    "problem": [
+      "泛化"
+    ],
+    "environment": [
+      "仿真",
+      "室内"
+    ],
+    "training": [
+      "监督微调"
+    ]
+  },
+  "summary": "独立监测器识别偏离，触发人类辅助恢复，并把纠正经历转为共享上下文下的偏好训练对。",
+  "method": {
+    "input": "指令、视觉历史、当前观察及必要时的人类纠正",
+    "output": "偏离判定、恢复控制与离线偏好更新后的导航模型",
+    "explanation": "异步 sidecar 监测独立于动作生成；Trajectory-Anchored Preference Learning 在相同决策上下文中构造原决策/纠正决策对，并限制监督位置。",
+    "flow": [
+      "自主导航与异步监测",
+      "接受 Lost 判定后暂停",
+      "请求人类局部纠正",
+      "恢复导航",
+      "构建决策级偏好对并离线训练"
+    ],
+    "difference": "共享决策上下文不等于恢复同一物理状态并执行多个缓存/刷新分支。",
+    "assumptions": "在线完整系统依赖人类辅助；自主消融与有人协助的结果需要分开。"
+  },
+  "training": {
+    "regime": "训练独立 Monitor，并对导航模型进行离线偏好学习。",
+    "models": "Monitor 基于 Qwen3.5-4B；偏好学习实验优化 DualVLN 的 System 2。",
+    "trainable": "Monitor 全参数微调；导航策略的目标决策通过偏好目标更新。",
+    "frozen": "其余阶段的冻结范围不由摘要推断；具体 S1 适配配方待进一步核对。",
+    "data": "40K 正常轨迹和 LostNav 的 20K 反事实风险轨迹用于 Monitor；纠正交互形成导航偏好数据。",
+    "objective": "Monitor 的进展/偏离识别监督；导航使用决策位置约束的 DPO 风格目标与偏好输出似然项。",
+    "stages": "Monitor 先正常轨迹训练，再正常+风险联合训练；导航偏好训练与在线人类恢复分别评估。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R-CE / RxR-CE",
+      "setting": "val-unseen；完整系统含在线监测和人类辅助恢复。",
+      "result": "作者报告 SR 为 76.2% / 66.3%；不能与完全自主导航方法直接当成同一协议排名。",
+      "locator": "Table I / §IV-A–C",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2609.39579v1"
+    },
+    {
+      "benchmark": "LostAware Benchmark",
+      "setting": "English RxR-CE；1,095 对 Pass/Lost，共 2,190 个评测状态；Lost 为正类。",
+      "result": "用于偏离识别 Recall/F1；与用于训练的 LostNav 数据集区分。",
+      "locator": "§IV-A.2 / Figure 4",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2609.39579v1"
+    },
+    {
+      "benchmark": "自主偏好学习消融",
+      "setting": "隔离离线策略训练的收益与在线人类恢复的收益。",
+      "result": "需要读取自主消融，不能把有人辅助的提升全部归因为导航模型参数更新。",
+      "locator": "§IV-C",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2609.39579v1"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "人类指导带来额外交互资源，需报告介入次数和成本。",
+      "同上下文的偏好对已有先例，新方法需说明状态分支执行、监督目标或失效诊断的具体区别。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2609.39579",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://minrui-liu.github.io/avert-vln/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": null,
+      "status": "未核实具体代码仓库；不据此断言没有代码"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2609.39579",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2609.39579v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文所列项目主页",
+      "url": "https://minrui-liu.github.io/avert-vln/",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "project 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "dualvln",
+      "reason": "导航偏好学习使用 DualVLN System 2。"
+    },
+    {
+      "id": "reflectvln",
+      "reason": "比较监测、反馈、恢复及训练协议。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。",
+    "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "AVERT-VLN 把导航动作生成和偏离监测分开：监测器利用指令、视觉历史与当前观察判断是否走偏；判定被控制器接受后暂停自主执行，请求人类指导。同时，失败相关纠正被转换为决策级偏好样本，用于离线改进导航策略。"
+}

@@ -1,0 +1,200 @@
+{
+  "id": "asena",
+  "title": "ASENA: Self-evolving Agents for Embodied Navigation",
+  "short": "ASENA",
+  "aliases": [],
+  "authors": [
+    "An-Chieh Cheng",
+    "Isabella Liu",
+    "Edmund Bu",
+    "Johan Bjorck",
+    "Hongxu Yin",
+    "Zhengyi Luo",
+    "Jan Kautz",
+    "Linxi \"Jim\" Fan",
+    "Yuke Zhu",
+    "Sifei Liu"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-09-30",
+  "updated": "2026-10-12",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "已公开预印本；正式发表信息未核实",
+  "tags": {
+    "direction": [
+      "导航",
+      "移动操作"
+    ],
+    "task": [
+      "VLN",
+      "ObjectNav",
+      "EQA"
+    ],
+    "paradigm": [
+      "LLM",
+      "VLM",
+      "VLA"
+    ],
+    "system": [
+      "具身 Agent",
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法",
+      "系统",
+      "模型"
+    ],
+    "problem": [
+      "记忆",
+      "规划"
+    ],
+    "environment": [
+      "仿真",
+      "真实世界",
+      "人形机器人"
+    ],
+    "training": [
+      "监督微调",
+      "仅推理使用"
+    ]
+  },
+  "summary": "固定模型权重，通过执行记录、程序修复和笔记/技能工作区更新持续改进具身任务。",
+  "method": {
+    "input": "自然语言任务、机器人观察、执行记录和持久工作区",
+    "output": "任务程序、导航轨迹，以及修订后的笔记与可执行技能",
+    "explanation": "固定权重的任务智能体执行程序；固定权重的 improver 根据记录和反馈修改工作区。ASENA-VLN 可承担局部导航，系统也可调用几何与感知工具。",
+    "flow": [
+      "读取任务和工作区",
+      "编写并执行程序",
+      "检查对齐的运行记录",
+      "修复程序",
+      "合并精简笔记和技能",
+      "后续任务复用"
+    ],
+    "difference": "自进化实验修改外部工作区，而不是在线微调 VLM、导航策略或控制器。",
+    "assumptions": "依赖传感器、工具接口、执行记录和任务反馈；实机结果另受控制与执行检查约束。"
+  },
+  "training": {
+    "regime": "先训练 ASENA-VLN；之后工作区进化保持模型与控制器权重固定。",
+    "models": "ASENA-VLN 基于 Qwen3-VL-4B-Instruct；高层使用编码智能体。",
+    "trainable": "此前的 ASENA-VLN 训练更新策略参数；自进化阶段只修改笔记、程序和技能。",
+    "frozen": "工作区进化实验中的模型、导航策略与控制器权重。",
+    "data": "策略训练混合 R2R、RxR、ScaleVLN、SRDF、短程 ObjectNav、MP3D/HM3D 几何生成原子导航任务和空间 VQA；工作区进化使用运行记录与反馈。",
+    "objective": "导航策略监督轨迹 token、辅助像素目标和 VQA；工作区修订没有基础模型梯度更新。",
+    "stages": "策略训练、任务执行与工作区进化、冻结工作区评测分别讨论。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "R2R / RxR VLN-CE",
+      "setting": "ASENA-VLN-4B 独立策略；val_unseen；轨迹 token 输出。",
+      "result": "成功率分别为 68.7% / 70.2%；这是已训练策略的结果。",
+      "locator": "§4.1 / Table 1",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+    },
+    {
+      "benchmark": "R2R / RxR Agentic Splits",
+      "setting": "各 100 个任务；十轮重访相同任务、场景、指令与初始位姿；保留工作区。",
+      "result": "作者报告导航自进化成功率从 72% 到 98%、从 65% 到 89%；该协议首先支持重复任务适应。",
+      "locator": "Figure 4 / §4.3–4.4",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+    },
+    {
+      "benchmark": "HM3D-v2 / HM3D-OVON",
+      "setting": "全局搜索推理与局部导航工具组合；ObjectNav。",
+      "result": "覆盖目标搜索及 seen / synonymous / unseen 物体类别；不与 VLN 分数混用。",
+      "locator": "§4.2 / Table 2",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+    },
+    {
+      "benchmark": "HM-EQA / MT-HM3D；Unitree G1",
+      "setting": "EQA 使用其独立探索协议；G1 为实机展示。",
+      "result": "EQA 报告回答准确率与归一化探索步数；实机展示搜索、检查、手势和移动操作，不据展示推断完整统计成功率。",
+      "locator": "§4.5–4.6 / Tables 4–5",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "Agentic Splits 的反复重访不能直接证明未见场景、未见事件的泛化。",
+      "固定权重的工作区进化与此前 ASENA-VLN 的参数训练必须分开归因。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2609.39207",
+      "status": "已核实入口"
+    },
+    "project": {
+      "url": "https://research.nvidia.com/labs/gear/asena/",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": null,
+      "status": "未核实具体代码仓库；不据此断言没有代码"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2609.39207",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v2）",
+      "url": "https://arxiv.org/html/2609.39207v2",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "作者项目主页",
+      "url": "https://research.nvidia.com/labs/gear/asena/",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "project 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "dualvln",
+      "reason": "比较导航策略工具与高低层系统。"
+    },
+    {
+      "id": "mem2evolve",
+      "reason": "比较技能资产与经验保留。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。",
+    "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "ASENA 让编码智能体通过统一接口读取传感器、编写与执行程序、检查结果并修复失败。它保留笔记和可执行技能，供后续任务复用；另行训练的 ASENA-VLN 是可调用的导航工具。工作区自进化与导航策略预训练是两个不同过程。"
+}

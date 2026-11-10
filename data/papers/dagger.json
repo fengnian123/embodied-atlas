@@ -1,0 +1,123 @@
+{
+  "id": "dagger",
+  "title": "A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning",
+  "short": "DAgger",
+  "aliases": [
+    "Dataset Aggregation",
+    "数据集聚合"
+  ],
+  "authors": [
+    "Stephane Ross",
+    "Geoffrey Gordon",
+    "Drew Bagnell"
+  ],
+  "institutions": [],
+  "firstPublished": null,
+  "updated": null,
+  "publicationYear": 2011,
+  "year": 2011,
+  "venue": "AISTATS",
+  "publicationStatus": "已发表",
+  "tags": {
+    "direction": [],
+    "task": [],
+    "paradigm": [
+      "模仿学习"
+    ],
+    "system": [
+      "端到端策略"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [],
+    "environment": [],
+    "training": []
+  },
+  "summary": "在学习者自己访问到的状态上查询专家标签，并聚合数据反复训练，缓解模仿学习的分布偏移。",
+  "method": {
+    "input": "当前策略、学习者访问的状态及专家动作标签",
+    "output": "聚合后的监督数据和重新训练的策略",
+    "explanation": "每轮在当前策略诱导的状态上收集专家标签，再与历史数据聚合并训练。经典贡献是数据分布和在线学习归约，不是 VLM 或外部记忆模块。",
+    "flow": [
+      "执行当前或混合策略",
+      "查询专家动作",
+      "聚合新增数据",
+      "重新训练策略",
+      "迭代"
+    ],
+    "difference": "纠正标签来自学习者会实际遇到的状态，而不只来自固定专家演示。",
+    "assumptions": "需要可查询的专家和环境交互；在机器人任务中需另计交互与标注成本。"
+  },
+  "training": {
+    "regime": "迭代数据聚合与监督模仿学习；不是特指 VLM。",
+    "models": "原文为通用学习算法，不使用现代 VLM。",
+    "trainable": "具体任务的策略/预测模型。",
+    "frozen": "无统一冻结骨干设定，取决于具体实现。",
+    "data": "专家初始数据及学习者访问状态上的新增专家标签；具体原始实验集待全文补核。",
+    "objective": "在不断聚合的数据集上最小化监督动作或结构化预测损失。",
+    "stages": "执行、专家标注、聚合与重训交替。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "原文模仿学习与序列标注实验",
+      "setting": "正式摘要说明两类模仿学习问题和一个序列标注问题。",
+      "result": "本次不填写未逐项核对的任务名称、数据划分或精确分数。",
+      "locator": "Abstract",
+      "attribution": "作者报告",
+      "sourceUrl": "https://proceedings.mlr.press/v15/ross11a.html"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "需要专家纠正及迭代交互成本。",
+      "“在自身执行状态上收集纠正样本”已有经典来源，不能单独作为新的导航贡献。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://proceedings.mlr.press/v15/ross11a.html",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": null,
+      "status": "未核实具体代码仓库；不据此断言没有代码"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "PMLR 正式论文页",
+      "url": "https://proceedings.mlr.press/v15/ross11a.html",
+      "locator": "PMLR 15:627–635 / Abstract / Citation",
+      "supports": [
+        "标题",
+        "作者",
+        "会议",
+        "发表年份",
+        "核心问题"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "jop-vln",
+      "reason": "导航中的迭代采样和专家纠正训练。"
+    }
+  ],
+  "status": "基础索引",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。",
+    "首次公开日期尚未确认，保留 null，不由会议年份推断具体日期。",
+    "原始实验任务名称、数据划分和数值待全文核验。",
+    "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "metadata",
+  "verification": "核对 PMLR 正式书目与摘要；方法概述保留经典数据聚合定义，实验细节待全文补核。",
+  "overview": "只学专家走过的路线，模型出错后可能进入从未见过的状态。DAgger 反复运行当前策略，收集其遇到的状态，再请专家给出应该采取的动作，把新数据并入训练集。因此训练能覆盖学习者自身的执行分布。"
+}

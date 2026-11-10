@@ -1,0 +1,180 @@
+{
+  "id": "opd-evolver",
+  "title": "OPD-Evolver: Cultivating Holistic Agent Evolver via On-Policy Distillation",
+  "short": "OPD-Evolver",
+  "aliases": [],
+  "authors": [
+    "Guibin Zhang",
+    "Xun Xu",
+    "Yanwei Yue",
+    "Zikun Su",
+    "Wangchunshu Zhou",
+    "Xiaobin Hu",
+    "Shuicheng Yan"
+  ],
+  "institutions": [],
+  "firstPublished": "2026-06-16",
+  "updated": "2026-06-16",
+  "publicationYear": null,
+  "year": 2026,
+  "venue": null,
+  "publicationStatus": "已公开预印本；正式发表信息未核实",
+  "tags": {
+    "direction": [],
+    "task": [],
+    "paradigm": [
+      "LLM"
+    ],
+    "system": [
+      "模块化系统"
+    ],
+    "contribution": [
+      "方法"
+    ],
+    "problem": [
+      "记忆",
+      "泛化"
+    ],
+    "environment": [],
+    "training": []
+  },
+  "summary": "用快循环积累经验、慢循环自蒸馏，训练智能体选择、使用、编写和维护经验的能力。",
+  "method": {
+    "input": "任务、环境观察、历史经验库、执行结果及经验使用记录",
+    "output": "更新后的经验库和可部署的经验操作策略",
+    "explanation": "快循环维护轨迹、提示、技能和工具四层经验；慢循环用结果校准归因和 privileged hindsight 构造教师条件，在学生前缀上做自蒸馏。",
+    "flow": [
+      "检索并选择经验",
+      "执行并记录结果",
+      "写入或维护经验",
+      "估计经验价值",
+      "蒸馏四种经验操作能力"
+    ],
+    "difference": "既更新经验内容，也训练如何管理和使用经验；不是单独增加一个检索模块。",
+    "assumptions": "需要交互结果、记忆操作日志与慢循环训练资源。"
+  },
+  "training": {
+    "regime": "快循环固定权重并更新外部经验；慢循环 on-policy 自蒸馏更新策略。",
+    "models": "Qwen3-4B-Instruct-2507、Qwen3.5-9B；检索使用 Qwen3-Embedding-0.6B。",
+    "trainable": "慢循环中的学生策略；经验库在快循环中更新。",
+    "frozen": "快循环不更新策略；特权教师监督停止梯度。",
+    "data": "7,000 个训练任务：AWM 3,000、Nemotron-Terminal-Corpus 2,000、EnvScaler 2,000；论文说明与主评测集分离。",
+    "objective": "在学生访问的前缀上进行 token 级 KL 蒸馏，覆盖选择、执行、写入和维护。",
+    "stages": "交互积累经验后进行慢循环训练；MiniHack 另有训练型方法对照，需遵守其独立设置。"
+  },
+  "evaluation": [
+    {
+      "benchmark": "LifelongAgentBench",
+      "setting": "DB / OS 子集；数据库与终端交互。",
+      "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+      "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+    },
+    {
+      "benchmark": "MemoryArena",
+      "setting": "Math / Physics；跨会话背景与问答，不是实时机器人控制。",
+      "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+      "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+    },
+    {
+      "benchmark": "AMA-Bench",
+      "setting": "因果推理、状态更新、状态抽象；读取已完成的历史轨迹并回答问题。",
+      "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+      "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+    },
+    {
+      "benchmark": "InterCode",
+      "setting": "SQL / Bash / CTF；隔离环境中的可执行任务。",
+      "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+      "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+    },
+    {
+      "benchmark": "MiniHack",
+      "setting": "Room / Maze / KeyRoom 网格环境；另设训练方法比较。",
+      "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+      "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+      "attribution": "作者报告",
+      "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+    }
+  ],
+  "limitations": {
+    "author": [],
+    "analysis": [
+      "MemoryArena 和 AMA-Bench 包含历史阅读问答，不能都称为在线具身控制。",
+      "MiniHack 是网格环境，不能直接作为 RGB 连续 VLN 的验证。"
+    ]
+  },
+  "resources": {
+    "paper": {
+      "url": "https://arxiv.org/abs/2606.17628",
+      "status": "已核实入口"
+    },
+    "code": {
+      "url": "https://github.com/bingreeky/opd-evolver",
+      "status": "已核实入口"
+    }
+  },
+  "sources": [
+    {
+      "kind": "primary",
+      "label": "arXiv 书目与版本历史",
+      "url": "https://arxiv.org/abs/2606.17628",
+      "locator": "Title / Authors / Submission history",
+      "supports": [
+        "标题",
+        "完整作者列表",
+        "首次公开日",
+        "版本日期"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文原文（v1）",
+      "url": "https://arxiv.org/html/2606.17628v1",
+      "locator": "方法与实验章节；各实验条目另列定位",
+      "supports": [
+        "核心 idea",
+        "更新对象",
+        "更新方式",
+        "训练与评测任务"
+      ]
+    },
+    {
+      "kind": "primary",
+      "label": "论文所列官方代码入口",
+      "url": "https://github.com/bingreeky/opd-evolver",
+      "locator": "论文公开的资源入口",
+      "supports": [
+        "code 资源入口"
+      ]
+    }
+  ],
+  "related": [
+    {
+      "id": "pmd",
+      "reason": "同属利用自身经验进行训练期蒸馏。"
+    },
+    {
+      "id": "memevolve",
+      "reason": "比较记忆内容/操作策略与记忆实现进化。"
+    }
+  ],
+  "status": "重点详解",
+  "checked": "2026-11-08",
+  "gaps": [
+    "机构列表尚未逐项核对。",
+    "未下载并运行研究代码、模型或数据，未复现实验。"
+  ],
+  "sourceNotes": [],
+  "bibtex": null,
+  "verificationLevel": "fulltext",
+  "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+  "overview": "保存笔记并不保证会正确使用笔记。OPD-Evolver 把经验操作本身也作为学习对象：快循环读写多层记忆；慢循环根据实际结果估计经验价值，并借助事后信息，训练选择、执行、写入与维护四种能力。"
+}
