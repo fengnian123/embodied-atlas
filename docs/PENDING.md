@@ -1,6 +1,6 @@
 # 待核实与待完善清单
 
-最近内容核验：2026-10-26。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。
+最近内容核验：2026-11-08。重点详解仅表示核心内容已查阅原始来源；缺口不隐藏。
 
 - **4D Gaussian Splatting for Real-Time Dynamic Scene Rendering** (4dgs-deformation)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
 - **Real-time Photorealistic Dynamic Scene Representation and Rendering with 4D Gaussian Splatting** (4dgs-native)：资源许可证与依赖下载尚未逐项验证；本站未运行复现。。状态：重点详解。
@@ -8,9 +8,12 @@
 - **ActiveInspect: GRPO-Optimized Multi-Sensor Evidence Selection for Industrial Defect Detection** (activeinspect)：尚未逐项核实所有资源许可证与下载内容；作者机构；首次公开日期；最新版本日期。状态：重点详解。
 - **AgenticNav: A Hierarchical Multi-Agentic System for LLM-Driven Autonomous Problem-Solving in Robotics** (agenticnav-mas)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；原论文全文和正式DOI/论文集入口；真实作者与机构（官方CITATION仍TBD）；首次公开/最新论文版本日期；完全同分母且全部重新运行的对照实验；作者机构未在已读取原文中完整确认。状态：待核实。
 - **AgenticNav: Zero-Shot Vision-and-Language Navigation as a Tool-Calling Harness** (agenticnav-vln)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **ASENA: Self-evolving Agents for Embodied Navigation** (asena)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。；具体官方代码仓库尚未确认；后续可由项目主页继续回查。。状态：重点详解。
+- **AVERT-VLN: Abstention-aware Visual Error Recovery and Training for Vision-and-Language Navigation** (avert-vln)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。；具体官方代码仓库尚未确认；后续可由项目主页继续回查。。状态：重点详解。
 - **Tandem CCV-VLM: Visual construction safety inspection based on Collaborative Cross-Verification VLM** (ccv-vlm)：尚未逐项核实所有资源许可证与下载内容；训练冻结配置；数据划分与逐表量化复核；论文 DOI 与资源入口；作者机构；首次公开日期；最新版本日期。状态：重点详解。
 - **Autonomous Construction-Site Safety Inspection Using Mobile Robots: A Multilayer VLM-LLM Pipeline** (construction-safety-vlm)：正式发表信息未核实。；完整AI代码、原始评估帧、提示版本、模型量化版本和各资源许可未逐项确认。；原文统计存在上述冲突；没有全部模块消融、独立场景误差条或整报告量化结果。。状态：重点详解。
 - **CoralPlan: Observation Skill Selection and Execution for Underwater Robotic Inspection** (coralplan)：未核验匿名仓库中的下载文件、许可证、训练配置与评分脚本实际内容；原文确认的入口已保留。；四个实体目标额外训练照片数量及完整逐层LoRA参数清单需查仓库，正文未给。；未自行复现计划训练、144次仿真或36对清水池执行。。状态：重点详解。
+- **A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning** (dagger)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。；首次公开日期尚未确认，保留 null，不由会议年份推断具体日期。；原始实验任务名称、数据划分和数值待全文核验。；具体官方代码仓库尚未确认；后续可由项目主页继续回查。。状态：基础索引。
 - **Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation** (dualvln)：未逐项下载并核对 Social-VLN 资源和资产许可。。状态：重点详解。
 - **ETA: A New Agentic Paradigm for Embodied Tasks** (eta)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **ETP-R1: Evolving Topological Planning with Reinforcement Fine-tuning for Vision-Language Navigation in Continuous Environments** (etp-r1)：未下载并运行 extra_files.zip；资源包完整性与资产许可尚未逐项检查。。状态：重点详解。
@@ -24,6 +27,10 @@
 - **Harness Robotic OS: A Unified Embodied-Agent Runtime for Closed-Loop Quadruped Inspection** (hros)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
 - **Assessment of a Fine-Tuned Vision-Language-Action Model for Robotic Feature-Following Inspection** (inspection-vla)：尚未逐项核实所有资源许可证与下载内容；首次公开日期；最新版本日期。状态：重点详解。
 - **InspectorGPT: A Comparative Reasoning Enhanced VLM for Comprehensive Industrial Anomaly Detection** (inspectorgpt)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
+- **Joint On-and-Off Policy Learning for Vision-and-Language Navigation** (jop-vln)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。；具体官方代码仓库尚未确认；后续可由项目主页继续回查。；训练数据各来源规模与冻结配置待补核。；IROS 2026 正式论文集条目未独立核对。。状态：重点详解。
+- **Mem²Evolve: Towards Self-Evolving Agents via Co-Evolutionary Capability Expansion and Experience Distillation** (mem2evolve)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。；具体官方代码仓库尚未确认；后续可由项目主页继续回查。；ACL 2026 正式论文集页面尚未独立核对。。状态：重点详解。
+- **MemEvolve: Meta-Evolution of Agent Memory Systems** (memevolve)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。。状态：重点详解。
+- **OPD-Evolver: Cultivating Holistic Agent Evolver via On-Policy Distillation** (opd-evolver)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。。状态：重点详解。
 - **OpenEQA: Embodied Question Answering in the Era of Foundation Models** (openeqa)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。；首次公开日期、最新版本日期未在可靠arXiv记录确认；不以会议年份推造精确日期。。状态：重点详解。
 - **OpenVLA: An Open-Source Vision-Language-Action Model** (openvla)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **Hierarchical Planning for Resource-Constrained Long-Term Monitoring Missions in Time-Varying Environments** (p-001885caf8c9)：首次预印本公开日期未核实；仅确认ECAI2024出版；官方代码、数据许可证与最终下载包未核实。状态：重点详解。
@@ -181,10 +188,13 @@
 - **Active Spatial Inspection for Effective and Efficient Embodied Exploration** (p-fe38d46e48e7)：代码声明可用，但本次未定位到可靠官方仓库URL；正式发表状态和资源许可证未核实。状态：重点详解。
 - **From Screens to Scenes: A Survey of Embodied AI in Healthcare** (p-fee1c4a56d18)：尚未逐项核验代码/数据/权重许可证与下载内容；作者机构未完整核实。状态：重点详解。
 - **RT-1: Robotics Transformer for Real-World Control at Scale** (p-ff38a5c7fa4c)：机构与正式出版目录的独立交叉核验；代码、权重与数据许可的逐项核验。状态：重点详解。
+- **Procedural Memory Distillation: Online Reflection for Self-Improving Language Models** (pmd)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。；具体官方代码仓库尚未确认；后续可由项目主页继续回查。。状态：重点详解。
 - **Towards Active Real-to-Twin Inspection: A New Paradigm for Zero-Shot Anomaly Detection** (realtwin)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。
+- **ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning** (reflectvln)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。。状态：重点详解。
 - **ReMEmbR: Building and Reasoning Over Long-Horizon Spatio-Temporal Memory for Robot Navigation** (remembr)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **RoboHarness: A Memory-Augmented Policy Harness for Vision-Language-Action Model Robustness via In-Context Adaptation** (roboharness-memory)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
 - **RoboHarness: Memory-Driven Orchestration of Heterogeneous Robot Policies for Long-Horizon Planning** (roboharness-routing)：资源下载内容和许可证尚未逐项运行核验；本站未据此声明已经复现。。状态：重点详解。
+- **RSI-Anything: Unlocking Recursive Self-Improvement with World Models** (rsi-anything)：机构列表尚未逐项核对。；未下载并运行研究代码、模型或数据，未复现实验。。状态：重点详解。
 - **SAGE: Ergodic Control for Autonomous and Adaptive Inspection of Subsea Infrastructure** (sage-subsea)：未找到由原文确认的SAGE专用实现、场景文件或风险实验日志入口。；未核验 workshop 正式论文集；录用信息来自作者arXiv Comments。；原文未提供多次独立运行的误差统计、控制频率与完整可复现实验配置。。状态：重点详解。
 - **SEEK: Semantic Reasoning for Object Goal Navigation in Real World Inspection Tasks** (seek-inspection)：原文未完整给出RSN训练损失、优化器和学习率；未找到作者确认的公开代码、训练数据或RSN权重。。状态：重点详解。
 - **Semantically-driven Deep Reinforcement Learning for Inspection Path Planning** (semantic-inspection)：尚未逐项核实所有资源许可证与下载内容；作者机构；最新版本日期。状态：重点详解。

@@ -1,0 +1,72 @@
+{
+  "paperId": "etp-r1",
+  "status": "本地全量评测已校验",
+  "date": "2026-11-12",
+  "attribution": "PAI DSW 本地实测，非论文作者正式结果；不声明复现论文数值",
+  "summary": "已完成 R2R-CE 与多语言 RxR-CE val_unseen。两个协议分别记录，保留执行环境与证据范围。",
+  "runs": [
+    {
+      "id": "etpr1-r2r-grpo-20261110",
+      "benchmark": "R2R-CE",
+      "scope": "val_unseen · 11 scenes",
+      "episodeCount": 1839,
+      "status": "已完成 · 校验 PASS",
+      "date": "2026-11-10",
+      "metrics": {
+        "steps_taken": 91.46166394779772,
+        "distance_to_goal": 3.987646119623501,
+        "success": 0.646547036432844,
+        "oracle_success": 0.7047308319738989,
+        "path_length": 12.79365648168011,
+        "collisions": 0.11390101309167643,
+        "spl": 0.5499649132096751,
+        "ndtw": 0.6554902904900055,
+        "sdtw": 0.5333660944883072,
+        "ghost_cnt": 24.484502446982056,
+        "high_level_step": 7.9836867862969
+      },
+      "evidence": {
+        "url": "assets/reproduction/local-evaluations/etpr1-r2r-20261110.json",
+        "sha256": "b89f91c7132dfd72254e6ec7d2170399c29bb9159de6515e5d82dea24653f59c"
+      },
+      "limitations": [
+        "原始全量运行未保存完整轨迹/视频，未做轨迹级独立复算。",
+        "单 GPU / 8 environments；执行环境经过适配。"
+      ],
+      "environment": "Python 3.9.25; PyTorch 2.4.1+cu121; Habitat-Sim 0.1.7",
+      "checkpoint": "R2R-GRPO ckpt.iter270.pth; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f"
+    },
+    {
+      "id": "etpr1-rxr-grpo-20261111",
+      "benchmark": "RxR-CE",
+      "scope": "val_unseen guide · all languages · 11 scenes",
+      "episodeCount": 11006,
+      "status": "已完成 · 校验 PASS",
+      "date": "2026-11-11",
+      "metrics": {
+        "steps_taken": 171.3556242049791,
+        "distance_to_goal": 5.254729713270646,
+        "success": 0.5941304742867527,
+        "oracle_success": 0.6590950390695984,
+        "path_length": 18.01032076163924,
+        "collisions": 0.37956697997359007,
+        "spl": 0.48794958570610997,
+        "ndtw": 0.6520132833389337,
+        "sdtw": 0.5008518101314156,
+        "ghost_cnt": 33.800654188624385,
+        "high_level_step": 13.31582773032891
+      },
+      "evidence": {
+        "url": "assets/reproduction/local-evaluations/etpr1-rxr-20261111.json",
+        "sha256": "f5b7c01655317bdfac5b61465d8f10918eac0bbd4b6ede6a71b7f96ef7e760be"
+      },
+      "limitations": [
+        "初始分段没有最终官方汇总 JSON；保留增量结果并通过轨迹复算。",
+        "与 DualVLN RxR 英语子集不属于相同评测范围，不能直接排名。"
+      ],
+      "environment": "Python 3.9.25; PyTorch 2.4.1+cu121; Habitat-Sim 0.1.7",
+      "checkpoint": "RxR-GRPO; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f",
+      "executionNote": "全部 11,006 条任务完成，结果覆盖与指标校验通过；分两段执行。"
+    }
+  ]
+}

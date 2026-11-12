@@ -74,3 +74,19 @@
 Uni-LaViRA 的用户测试记录单独保存在 `data/reproduction-unilavira.json`，构建时按稳定 ID 注入。包含 `source, setup, pipeline, timeline, metrics, observations, gallery, missing`。其他记录统一注入 `{status: "未复现"}`。作者论文结果属于 `evaluation`，不能据此把 reproduction 改为已复现。
 
 图像和原测试PDF位于 `src/assets/reproduction/unilavira/`。图像已内嵌进单文件预览；PDF与全文文字随完整项目托管。原始框坐标保留日志值，不默默纠正或标准化。
+
+### 多论文、本地全量运行记录
+
+`data/reproductions/<paperId>.json` 按 `paperId` 关联详情页；未知或重复 paperId
+会使构建失败。未登记的论文仍显示未复现；Uni-LaViRA 单例记录继续使用原文件。
+
+新记录包含 `paperId, status, date, attribution, summary, runs[]`。每次运行记录
+`id, benchmark, scope, episodeCount, status, date, metrics, environment, checkpoint,
+limitations, evidence`。指标在 JSON 中保留 0–1 比例和米，页面转换为百分数。
+运行中记录的 metrics 必须为空；运行状态是记录日期的快照，不自动轮询 GPU。
+`evidence.url` 指向随站点打包的轻量结果与校验摘要，`sha256` 校验其内容。
+本地完整轨迹、数据和权重不随站点发布；摘要不代表完整原始证据包。
+
+维护时从已验证结果文件更新对应 run，保留协议、语言子集、续跑限制和环境信息；
+不要覆盖 `data/papers/*.json` 中作者的 `evaluation`。执行 `npm run check`，
+检查详情页及附件后，通过 PR 审阅；main 部署成功后再核对线上页面。

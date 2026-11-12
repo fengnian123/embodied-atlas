@@ -1,0 +1,21 @@
+{
+  "attribution": "PAI DSW local measurements; not author-reported results",
+  "aggregate": {
+    "steps_taken": 91.46166394779772,
+    "distance_to_goal": 3.987646119623501,
+    "success": 0.646547036432844,
+    "oracle_success": 0.7047308319738989,
+    "path_length": 12.79365648168011,
+    "collisions": 0.11390101309167643,
+    "spl": 0.5499649132096751,
+    "ndtw": 0.6554902904900055,
+    "sdtw": 0.5333660944883072,
+    "ghost_cnt": 24.484502446982056,
+    "high_level_step": 7.9836867862969
+  },
+  "validation": {
+    "scope": "Exact official episode IDs, finite metrics and aggregate recomputation; no independent trajectory recomputation",
+    "episodes": 1839,
+    "status": "PASS"
+  }
+}

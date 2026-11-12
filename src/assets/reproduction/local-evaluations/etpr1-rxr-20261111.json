@@ -1,0 +1,40 @@
+{
+  "attribution": "PAI DSW local measurements; not author-reported results",
+  "aggregate": {
+    "steps_taken": 171.3556242049791,
+    "distance_to_goal": 5.254729713270646,
+    "success": 0.5941304742867527,
+    "oracle_success": 0.6590950390695984,
+    "path_length": 18.01032076163924,
+    "collisions": 0.37956697997359007,
+    "spl": 0.48794958570610997,
+    "ndtw": 0.6520132833389337,
+    "sdtw": 0.5008518101314156,
+    "ghost_cnt": 33.800654188624385,
+    "high_level_step": 13.31582773032891
+  },
+  "validation": {
+    "status": "PASS",
+    "episodes": 11006,
+    "high_level_step_records": 157563,
+    "available_official_segment_results_equal": true,
+    "preserved_original_metrics_equal": true,
+    "original_full_official_final_file_available": false,
+    "trajectory_metric_recomputed": true,
+    "max_metric_recompute_error": 1.54540589392127e-05,
+    "visual_episode_ids": [
+      "1634",
+      "3956",
+      "6053",
+      "7587",
+      "3002",
+      "10008",
+      "2639",
+      "10903",
+      "2179",
+      "9675",
+      "361"
+    ],
+    "observation_files": 169
+  }
+}

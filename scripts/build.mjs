@@ -6,7 +6,14 @@ const R=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=p=>fs.readFileSync(path.join(R,p),'utf8');
 const json=p=>JSON.parse(read(p));
 const papers=fs.readdirSync(path.join(R,'data/papers')).filter(f=>f.endsWith('.json')).sort().map(f=>json('data/papers/'+f));
-for(const p of papers)p.reproduction=p.id==='p-a2ae5d358c9c'?json('data/reproduction-unilavira.json'):{status:'未复现'};
+const reproductionDir=path.join(R,'data/reproductions');
+const reproductionRecords=new Map();
+if(fs.existsSync(reproductionDir))for(const file of fs.readdirSync(reproductionDir).filter(f=>f.endsWith('.json'))){
+ const record=json('data/reproductions/'+file);
+ if(!papers.some(p=>p.id===record.paperId)||reproductionRecords.has(record.paperId))throw new Error('Unknown or duplicate reproduction paper: '+record.paperId);
+ reproductionRecords.set(record.paperId,record);
+}
+for(const p of papers)p.reproduction=reproductionRecords.get(p.id)||(p.id==='p-a2ae5d358c9c'?json('data/reproduction-unilavira.json'):{status:'未复现'});
 const audit={total:papers.length,fulltext:papers.filter(p=>p.verificationLevel==='fulltext').length,metadata:papers.filter(p=>p.verificationLevel==='metadata').length,unresolved:papers.filter(p=>!p.verificationLevel||p.verificationLevel==='unresolved').length,numericEvidence:papers.filter(p=>p.evaluation?.some(e=>e.table?.rows?.length||e.tables?.some(t=>t.rows?.length)||e.metrics?.length)).length};
 const checked=papers.map(p=>p.checked).filter(Boolean).sort().at(-1)||null;
 const data={schemaVersion:1,checked,audit,papers,taxonomy:json('data/taxonomy.json'),redirects:json('data/redirects.json'),...json('data/editorial.json')};

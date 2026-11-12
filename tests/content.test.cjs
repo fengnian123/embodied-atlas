@@ -3,9 +3,11 @@ const root=path.join(__dirname,'..'),data=JSON.parse(fs.readFileSync(path.join(r
 test('discussion headings never enter the formal paper catalog',()=>{
  for(const title of ['从“异常描述”到“故障原因”仍有明显距离','缺少面向室内设备的公开 Benchmark','VLM 的语言解释不等于可信诊断'])assert(!papers.some(p=>p.title===title));
 });
-test('all other papers explicitly remain not reproduced',()=>{
- const r=papers.filter(p=>p.reproduction.status!=='未复现');assert.equal(r.length,1);assert.equal(r[0].id,'p-a2ae5d358c9c');assert(r[0].reproduction.summary.includes('不含完整测试集统计'));
- for(const p of papers.filter(p=>p.id!=='p-a2ae5d358c9c'))assert.equal(p.reproduction.status,'未复现');
+test('only papers with recorded evidence have reproduction details',()=>{
+ const known=['p-a2ae5d358c9c','etp-r1'];
+ assert.deepEqual(papers.filter(p=>p.reproduction.status!=='未复现').map(p=>p.id).sort(),known.sort());
+ assert(papers.find(p=>p.id==='p-a2ae5d358c9c').reproduction.summary.includes('不含完整测试集统计'));
+ for(const p of papers.filter(p=>!known.includes(p.id)))assert.equal(p.reproduction.status,'未复现');
 });
 test('Uni-LaViRA record preserves actual configuration and original bbox evidence',()=>{
  const r=papers.find(p=>p.id==='p-a2ae5d358c9c').reproduction;
