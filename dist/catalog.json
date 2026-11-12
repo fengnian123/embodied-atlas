@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "checked": "2026-10-26",
+  "checked": "2026-11-08",
   "audit": {
-    "total": 190,
-    "fulltext": 180,
-    "metadata": 9,
+    "total": 200,
+    "fulltext": 189,
+    "metadata": 10,
     "unresolved": 1,
     "numericEvidence": 164
   },
@@ -1764,6 +1764,393 @@
       }
     },
     {
+      "id": "asena",
+      "title": "ASENA: Self-evolving Agents for Embodied Navigation",
+      "short": "ASENA",
+      "aliases": [],
+      "authors": [
+        "An-Chieh Cheng",
+        "Isabella Liu",
+        "Edmund Bu",
+        "Johan Bjorck",
+        "Hongxu Yin",
+        "Zhengyi Luo",
+        "Jan Kautz",
+        "Linxi \"Jim\" Fan",
+        "Yuke Zhu",
+        "Sifei Liu"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-09-30",
+      "updated": "2026-10-12",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "已公开预印本；正式发表信息未核实",
+      "tags": {
+        "direction": [
+          "导航",
+          "移动操作"
+        ],
+        "task": [
+          "VLN",
+          "ObjectNav",
+          "EQA"
+        ],
+        "paradigm": [
+          "LLM",
+          "VLM",
+          "VLA"
+        ],
+        "system": [
+          "具身 Agent",
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法",
+          "系统",
+          "模型"
+        ],
+        "problem": [
+          "记忆",
+          "规划"
+        ],
+        "environment": [
+          "仿真",
+          "真实世界",
+          "人形机器人"
+        ],
+        "training": [
+          "监督微调",
+          "仅推理使用"
+        ]
+      },
+      "summary": "固定模型权重，通过执行记录、程序修复和笔记/技能工作区更新持续改进具身任务。",
+      "method": {
+        "input": "自然语言任务、机器人观察、执行记录和持久工作区",
+        "output": "任务程序、导航轨迹，以及修订后的笔记与可执行技能",
+        "explanation": "固定权重的任务智能体执行程序；固定权重的 improver 根据记录和反馈修改工作区。ASENA-VLN 可承担局部导航，系统也可调用几何与感知工具。",
+        "flow": [
+          "读取任务和工作区",
+          "编写并执行程序",
+          "检查对齐的运行记录",
+          "修复程序",
+          "合并精简笔记和技能",
+          "后续任务复用"
+        ],
+        "difference": "自进化实验修改外部工作区，而不是在线微调 VLM、导航策略或控制器。",
+        "assumptions": "依赖传感器、工具接口、执行记录和任务反馈；实机结果另受控制与执行检查约束。"
+      },
+      "training": {
+        "regime": "先训练 ASENA-VLN；之后工作区进化保持模型与控制器权重固定。",
+        "models": "ASENA-VLN 基于 Qwen3-VL-4B-Instruct；高层使用编码智能体。",
+        "trainable": "此前的 ASENA-VLN 训练更新策略参数；自进化阶段只修改笔记、程序和技能。",
+        "frozen": "工作区进化实验中的模型、导航策略与控制器权重。",
+        "data": "策略训练混合 R2R、RxR、ScaleVLN、SRDF、短程 ObjectNav、MP3D/HM3D 几何生成原子导航任务和空间 VQA；工作区进化使用运行记录与反馈。",
+        "objective": "导航策略监督轨迹 token、辅助像素目标和 VQA；工作区修订没有基础模型梯度更新。",
+        "stages": "策略训练、任务执行与工作区进化、冻结工作区评测分别讨论。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R / RxR VLN-CE",
+          "setting": "ASENA-VLN-4B 独立策略；val_unseen；轨迹 token 输出。",
+          "result": "成功率分别为 68.7% / 70.2%；这是已训练策略的结果。",
+          "locator": "§4.1 / Table 1",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+        },
+        {
+          "benchmark": "R2R / RxR Agentic Splits",
+          "setting": "各 100 个任务；十轮重访相同任务、场景、指令与初始位姿；保留工作区。",
+          "result": "作者报告导航自进化成功率从 72% 到 98%、从 65% 到 89%；该协议首先支持重复任务适应。",
+          "locator": "Figure 4 / §4.3–4.4",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+        },
+        {
+          "benchmark": "HM3D-v2 / HM3D-OVON",
+          "setting": "全局搜索推理与局部导航工具组合；ObjectNav。",
+          "result": "覆盖目标搜索及 seen / synonymous / unseen 物体类别；不与 VLN 分数混用。",
+          "locator": "§4.2 / Table 2",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+        },
+        {
+          "benchmark": "HM-EQA / MT-HM3D；Unitree G1",
+          "setting": "EQA 使用其独立探索协议；G1 为实机展示。",
+          "result": "EQA 报告回答准确率与归一化探索步数；实机展示搜索、检查、手势和移动操作，不据展示推断完整统计成功率。",
+          "locator": "§4.5–4.6 / Tables 4–5",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2609.39207v2"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "Agentic Splits 的反复重访不能直接证明未见场景、未见事件的泛化。",
+          "固定权重的工作区进化与此前 ASENA-VLN 的参数训练必须分开归因。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2609.39207",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://research.nvidia.com/labs/gear/asena/",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": null,
+          "status": "未核实具体代码仓库；不据此断言没有代码"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2609.39207",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v2）",
+          "url": "https://arxiv.org/html/2609.39207v2",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "作者项目主页",
+          "url": "https://research.nvidia.com/labs/gear/asena/",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "project 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "dualvln",
+          "reason": "比较导航策略工具与高低层系统。"
+        },
+        {
+          "id": "mem2evolve",
+          "reason": "比较技能资产与经验保留。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。",
+        "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "ASENA 让编码智能体通过统一接口读取传感器、编写与执行程序、检查结果并修复失败。它保留笔记和可执行技能，供后续任务复用；另行训练的 ASENA-VLN 是可调用的导航工具。工作区自进化与导航策略预训练是两个不同过程。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "avert-vln",
+      "title": "AVERT-VLN: Abstention-aware Visual Error Recovery and Training for Vision-and-Language Navigation",
+      "short": "AVERT-VLN",
+      "aliases": [],
+      "authors": [
+        "Minrui Liu",
+        "Jingke Wang",
+        "Yuehao Huang",
+        "Hao Su",
+        "Jiajun Lv",
+        "Yukai Ma",
+        "Yong Liu"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-09-30",
+      "updated": "2026-09-30",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "已公开预印本；正式发表信息未核实",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN",
+          "故障恢复"
+        ],
+        "paradigm": [
+          "VLM"
+        ],
+        "system": [
+          "模块化系统",
+          "具身 Agent"
+        ],
+        "contribution": [
+          "方法",
+          "数据集",
+          "Benchmark"
+        ],
+        "problem": [
+          "泛化"
+        ],
+        "environment": [
+          "仿真",
+          "室内"
+        ],
+        "training": [
+          "监督微调"
+        ]
+      },
+      "summary": "独立监测器识别偏离，触发人类辅助恢复，并把纠正经历转为共享上下文下的偏好训练对。",
+      "method": {
+        "input": "指令、视觉历史、当前观察及必要时的人类纠正",
+        "output": "偏离判定、恢复控制与离线偏好更新后的导航模型",
+        "explanation": "异步 sidecar 监测独立于动作生成；Trajectory-Anchored Preference Learning 在相同决策上下文中构造原决策/纠正决策对，并限制监督位置。",
+        "flow": [
+          "自主导航与异步监测",
+          "接受 Lost 判定后暂停",
+          "请求人类局部纠正",
+          "恢复导航",
+          "构建决策级偏好对并离线训练"
+        ],
+        "difference": "共享决策上下文不等于恢复同一物理状态并执行多个缓存/刷新分支。",
+        "assumptions": "在线完整系统依赖人类辅助；自主消融与有人协助的结果需要分开。"
+      },
+      "training": {
+        "regime": "训练独立 Monitor，并对导航模型进行离线偏好学习。",
+        "models": "Monitor 基于 Qwen3.5-4B；偏好学习实验优化 DualVLN 的 System 2。",
+        "trainable": "Monitor 全参数微调；导航策略的目标决策通过偏好目标更新。",
+        "frozen": "其余阶段的冻结范围不由摘要推断；具体 S1 适配配方待进一步核对。",
+        "data": "40K 正常轨迹和 LostNav 的 20K 反事实风险轨迹用于 Monitor；纠正交互形成导航偏好数据。",
+        "objective": "Monitor 的进展/偏离识别监督；导航使用决策位置约束的 DPO 风格目标与偏好输出似然项。",
+        "stages": "Monitor 先正常轨迹训练，再正常+风险联合训练；导航偏好训练与在线人类恢复分别评估。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE / RxR-CE",
+          "setting": "val-unseen；完整系统含在线监测和人类辅助恢复。",
+          "result": "作者报告 SR 为 76.2% / 66.3%；不能与完全自主导航方法直接当成同一协议排名。",
+          "locator": "Table I / §IV-A–C",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2609.39579v1"
+        },
+        {
+          "benchmark": "LostAware Benchmark",
+          "setting": "English RxR-CE；1,095 对 Pass/Lost，共 2,190 个评测状态；Lost 为正类。",
+          "result": "用于偏离识别 Recall/F1；与用于训练的 LostNav 数据集区分。",
+          "locator": "§IV-A.2 / Figure 4",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2609.39579v1"
+        },
+        {
+          "benchmark": "自主偏好学习消融",
+          "setting": "隔离离线策略训练的收益与在线人类恢复的收益。",
+          "result": "需要读取自主消融，不能把有人辅助的提升全部归因为导航模型参数更新。",
+          "locator": "§IV-C",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2609.39579v1"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "人类指导带来额外交互资源，需报告介入次数和成本。",
+          "同上下文的偏好对已有先例，新方法需说明状态分支执行、监督目标或失效诊断的具体区别。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2609.39579",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://minrui-liu.github.io/avert-vln/",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": null,
+          "status": "未核实具体代码仓库；不据此断言没有代码"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2609.39579",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2609.39579v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文所列项目主页",
+          "url": "https://minrui-liu.github.io/avert-vln/",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "project 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "dualvln",
+          "reason": "导航偏好学习使用 DualVLN System 2。"
+        },
+        {
+          "id": "reflectvln",
+          "reason": "比较监测、反馈、恢复及训练协议。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。",
+        "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "AVERT-VLN 把导航动作生成和偏离监测分开：监测器利用指令、视觉历史与当前观察判断是否走偏；判定被控制器接受后暂停自主执行，请求人类指导。同时，失败相关纠正被转换为决策级偏好样本，用于离线改进导航策略。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
       "id": "ccv-vlm",
       "title": "Tandem CCV-VLM: Visual construction safety inspection based on Collaborative Cross-Verification VLM",
       "short": "Tandem CCV-VLM",
@@ -2973,6 +3360,132 @@
       }
     },
     {
+      "id": "dagger",
+      "title": "A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning",
+      "short": "DAgger",
+      "aliases": [
+        "Dataset Aggregation",
+        "数据集聚合"
+      ],
+      "authors": [
+        "Stephane Ross",
+        "Geoffrey Gordon",
+        "Drew Bagnell"
+      ],
+      "institutions": [],
+      "firstPublished": null,
+      "updated": null,
+      "publicationYear": 2011,
+      "year": 2011,
+      "venue": "AISTATS",
+      "publicationStatus": "已发表",
+      "tags": {
+        "direction": [],
+        "task": [],
+        "paradigm": [
+          "模仿学习"
+        ],
+        "system": [
+          "端到端策略"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [],
+        "environment": [],
+        "training": []
+      },
+      "summary": "在学习者自己访问到的状态上查询专家标签，并聚合数据反复训练，缓解模仿学习的分布偏移。",
+      "method": {
+        "input": "当前策略、学习者访问的状态及专家动作标签",
+        "output": "聚合后的监督数据和重新训练的策略",
+        "explanation": "每轮在当前策略诱导的状态上收集专家标签，再与历史数据聚合并训练。经典贡献是数据分布和在线学习归约，不是 VLM 或外部记忆模块。",
+        "flow": [
+          "执行当前或混合策略",
+          "查询专家动作",
+          "聚合新增数据",
+          "重新训练策略",
+          "迭代"
+        ],
+        "difference": "纠正标签来自学习者会实际遇到的状态，而不只来自固定专家演示。",
+        "assumptions": "需要可查询的专家和环境交互；在机器人任务中需另计交互与标注成本。"
+      },
+      "training": {
+        "regime": "迭代数据聚合与监督模仿学习；不是特指 VLM。",
+        "models": "原文为通用学习算法，不使用现代 VLM。",
+        "trainable": "具体任务的策略/预测模型。",
+        "frozen": "无统一冻结骨干设定，取决于具体实现。",
+        "data": "专家初始数据及学习者访问状态上的新增专家标签；具体原始实验集待全文补核。",
+        "objective": "在不断聚合的数据集上最小化监督动作或结构化预测损失。",
+        "stages": "执行、专家标注、聚合与重训交替。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "原文模仿学习与序列标注实验",
+          "setting": "正式摘要说明两类模仿学习问题和一个序列标注问题。",
+          "result": "本次不填写未逐项核对的任务名称、数据划分或精确分数。",
+          "locator": "Abstract",
+          "attribution": "作者报告",
+          "sourceUrl": "https://proceedings.mlr.press/v15/ross11a.html"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "需要专家纠正及迭代交互成本。",
+          "“在自身执行状态上收集纠正样本”已有经典来源，不能单独作为新的导航贡献。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://proceedings.mlr.press/v15/ross11a.html",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": null,
+          "status": "未核实具体代码仓库；不据此断言没有代码"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "PMLR 正式论文页",
+          "url": "https://proceedings.mlr.press/v15/ross11a.html",
+          "locator": "PMLR 15:627–635 / Abstract / Citation",
+          "supports": [
+            "标题",
+            "作者",
+            "会议",
+            "发表年份",
+            "核心问题"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "jop-vln",
+          "reason": "导航中的迭代采样和专家纠正训练。"
+        }
+      ],
+      "status": "基础索引",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。",
+        "首次公开日期尚未确认，保留 null，不由会议年份推断具体日期。",
+        "原始实验任务名称、数据划分和数值待全文核验。",
+        "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "metadata",
+      "verification": "核对 PMLR 正式书目与摘要；方法概述保留经典数据聚合定义，实验细节待全文补核。",
+      "overview": "只学专家走过的路线，模型出错后可能进入从未见过的状态。DAgger 反复运行当前策略，收集其遇到的状态，再请专家给出应该采取的动作，把新数据并入训练集。因此训练能覆盖学习者自身的执行分布。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
       "id": "dualvln",
       "short": "DualVLN",
       "title": "Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation",
@@ -4008,7 +4521,76 @@
       ],
       "sourceNotes": [],
       "reproduction": {
-        "status": "未复现"
+        "paperId": "etp-r1",
+        "status": "本地全量评测已校验",
+        "date": "2026-11-12",
+        "attribution": "PAI DSW 本地实测，非论文作者正式结果；不声明复现论文数值",
+        "summary": "已完成 R2R-CE 与多语言 RxR-CE val_unseen。两个协议分别记录，保留执行环境与证据范围。",
+        "runs": [
+          {
+            "id": "etpr1-r2r-grpo-20261110",
+            "benchmark": "R2R-CE",
+            "scope": "val_unseen · 11 scenes",
+            "episodeCount": 1839,
+            "status": "已完成 · 校验 PASS",
+            "date": "2026-11-10",
+            "metrics": {
+              "steps_taken": 91.46166394779772,
+              "distance_to_goal": 3.987646119623501,
+              "success": 0.646547036432844,
+              "oracle_success": 0.7047308319738989,
+              "path_length": 12.79365648168011,
+              "collisions": 0.11390101309167643,
+              "spl": 0.5499649132096751,
+              "ndtw": 0.6554902904900055,
+              "sdtw": 0.5333660944883072,
+              "ghost_cnt": 24.484502446982056,
+              "high_level_step": 7.9836867862969
+            },
+            "evidence": {
+              "url": "assets/reproduction/local-evaluations/etpr1-r2r-20261110.json",
+              "sha256": "b89f91c7132dfd72254e6ec7d2170399c29bb9159de6515e5d82dea24653f59c"
+            },
+            "limitations": [
+              "原始全量运行未保存完整轨迹/视频，未做轨迹级独立复算。",
+              "单 GPU / 8 environments；执行环境经过适配。"
+            ],
+            "environment": "Python 3.9.25; PyTorch 2.4.1+cu121; Habitat-Sim 0.1.7",
+            "checkpoint": "R2R-GRPO ckpt.iter270.pth; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f"
+          },
+          {
+            "id": "etpr1-rxr-grpo-20261111",
+            "benchmark": "RxR-CE",
+            "scope": "val_unseen guide · all languages · 11 scenes",
+            "episodeCount": 11006,
+            "status": "已完成 · 校验 PASS",
+            "date": "2026-11-11",
+            "metrics": {
+              "steps_taken": 171.3556242049791,
+              "distance_to_goal": 5.254729713270646,
+              "success": 0.5941304742867527,
+              "oracle_success": 0.6590950390695984,
+              "path_length": 18.01032076163924,
+              "collisions": 0.37956697997359007,
+              "spl": 0.48794958570610997,
+              "ndtw": 0.6520132833389337,
+              "sdtw": 0.5008518101314156,
+              "ghost_cnt": 33.800654188624385,
+              "high_level_step": 13.31582773032891
+            },
+            "evidence": {
+              "url": "assets/reproduction/local-evaluations/etpr1-rxr-20261111.json",
+              "sha256": "f5b7c01655317bdfac5b61465d8f10918eac0bbd4b6ede6a71b7f96ef7e760be"
+            },
+            "limitations": [
+              "初始分段没有最终官方汇总 JSON；保留增量结果并通过轨迹复算。",
+              "与 DualVLN RxR 英语子集不属于相同评测范围，不能直接排名。"
+            ],
+            "environment": "Python 3.9.25; PyTorch 2.4.1+cu121; Habitat-Sim 0.1.7",
+            "checkpoint": "RxR-GRPO; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f",
+            "executionNote": "全部 11,006 条任务完成，结果覆盖与指标校验通过；分两段执行。"
+          }
+        ]
       },
       "bibtex": "@misc{etpr1,\n  title={ETP-R1: Evolving Topological Planning with Reinforcement Fine-tuning for Vision-Language Navigation in Continuous Environments},\n  author={Shuhao Ye and Sitong Mao and Yuxiang Cui and Xuan Yu and Shichao Zhai and Wen Chen and Shunbo Zhou and Rong Xiong and Yue Wang},\n  year={2025},\n  eprint={2512.20940},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2512.20940}\n}",
       "summary": "用 Gemini 扩充指令，联合预训练拓扑规划器，再以 DAgger 和闭环在线 GRPO 优化整条导航轨迹。",
@@ -6898,6 +7480,722 @@
       "overview": "异常判断和像素定位可能需要不同的能力。InspectorGPT 将推理与分割相关适配分开学习，结合对比图像推理及答案—位置一致性奖励，再融合任务向量。它帮助理解如何让视觉模型提供可核查异常解释，但本身不是控制机器人主动取证的导航策略。",
       "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
       "verificationLevel": "fulltext",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "jop-vln",
+      "title": "Joint On-and-Off Policy Learning for Vision-and-Language Navigation",
+      "short": "JOP-VLN",
+      "aliases": [],
+      "authors": [
+        "Qingrong He",
+        "Lin Zhao",
+        "Kevin Zheng",
+        "Liang Lin"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-07-15",
+      "updated": "2026-07-15",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": "IROS 2026（arXiv 作者声明录用）",
+      "publicationStatus": "作者声明已录用；正式论文集条目未核实",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN",
+          "故障恢复"
+        ],
+        "paradigm": [
+          "VLM",
+          "模仿学习",
+          "强化学习"
+        ],
+        "system": [
+          "端到端策略"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "泛化"
+        ],
+        "environment": [
+          "仿真",
+          "真实世界",
+          "室内",
+          "室外"
+        ],
+        "training": [
+          "监督微调",
+          "强化学习"
+        ]
+      },
+      "summary": "先学专家演示，再用 DAgger 训练恢复，最后联合离策略模仿学习与在策略强化学习。",
+      "method": {
+        "input": "指令、视觉历史、专家演示、学习者采样轨迹及环境奖励",
+        "output": "导航策略与动作",
+        "explanation": "阶段一学习基础导航；阶段二从 DAgger 轨迹学习错误恢复；阶段三联合在策略 GRPO 与离策略模仿目标，并优先利用纠错轨迹。",
+        "flow": [
+          "专家演示训练",
+          "DAgger 采样与纠正训练",
+          "高熵探索采样",
+          "联合 IL 与 GRPO 优化"
+        ],
+        "difference": "重点是专家/恢复数据与在策略探索的联合训练，不是在线更新长期笔记库。",
+        "assumptions": "需要导航仿真、专家纠正或 oracle 及可验证奖励。"
+      },
+      "training": {
+        "regime": "三阶段策略训练；包含监督模仿、DAgger 恢复训练及联合 IL/RL。",
+        "models": "VLM 导航策略；基础 checkpoint 与各组件冻结范围在本资料卡中暂不细填。",
+        "trainable": "导航策略；第三阶段联合优化动作模仿与在策略目标。",
+        "frozen": "具体视觉骨干冻结配置待逐项核实。",
+        "data": "多源导航与轨迹总结数据、专家演示、当前策略 DAgger 轨迹，以及强化学习采样；具体规模待补。",
+        "objective": "前两阶段模仿学习；第三阶段结合 GRPO 与纠错优先的离策略 IL。",
+        "stages": "基础能力、恢复能力、联合探索与纠错三个阶段。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE / RxR-CE",
+          "setting": "VLN-CE val-unseen；两项任务分别报告。",
+          "result": "作者报告 SR 为 69.9% / 68.0%；RxR-CE SPL 为 59.3%。",
+          "locator": "§V / 主结果表",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2607.13461v1"
+        },
+        {
+          "benchmark": "实机导航",
+          "setting": "室内外 challenging scenarios；few-shot adaptation 设置。",
+          "result": "论文另做实机部署，不能将其称为完全零样本迁移。",
+          "locator": "§I / §V 实机实验",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2607.13461v1"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "DAgger/专家查询、数据采样和联合训练预算需要与比较方法对齐。",
+          "恢复数据增加与新训练目标的收益应通过等量数据实验分开。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2607.13461",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://qingrongh.github.io/JOP-VLN/",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": null,
+          "status": "未核实具体代码仓库；不据此断言没有代码"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2607.13461",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2607.13461v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文所列项目主页",
+          "url": "https://qingrongh.github.io/JOP-VLN/",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "project 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "dagger",
+          "reason": "采用 DAgger 恢复轨迹。"
+        },
+        {
+          "id": "reflectvln",
+          "reason": "比较错误恢复数据与闭环反思。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。",
+        "具体官方代码仓库尚未确认；后续可由项目主页继续回查。",
+        "训练数据各来源规模与冻结配置待补核。",
+        "IROS 2026 正式论文集条目未独立核对。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "单纯专家模仿难覆盖模型自己走偏的状态，单纯强化学习也可能缺少稳定的纠正信号。JOP-VLN 用三阶段训练结合两类数据，并通过高熵采样及纠错优先的轨迹组织，提高探索和恢复训练效率。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "mem2evolve",
+      "title": "Mem²Evolve: Towards Self-Evolving Agents via Co-Evolutionary Capability Expansion and Experience Distillation",
+      "short": "Mem²Evolve",
+      "aliases": [
+        "Mem2Evolve",
+        "Mem^2Evolve"
+      ],
+      "authors": [
+        "Zihao Cheng",
+        "Zeming Liu",
+        "Yingyu Shan",
+        "Xinyi Wang",
+        "Xiangrong Zhu",
+        "Yunpu Ma",
+        "Hongru Wang",
+        "Yuhang Guo",
+        "Wei Lin",
+        "Yunhong Wang"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-04-13",
+      "updated": "2026-04-13",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": "ACL 2026（arXiv 作者声明录用）",
+      "publicationStatus": "作者声明已录用；正式论文集条目未核实",
+      "tags": {
+        "direction": [],
+        "task": [
+          "长程任务"
+        ],
+        "paradigm": [
+          "LLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "记忆",
+          "规划"
+        ],
+        "environment": [],
+        "training": [
+          "仅推理使用"
+        ]
+      },
+      "summary": "让经验记忆指导工具和专家智能体创建，新资产的使用结果再反过来丰富经验。",
+      "method": {
+        "input": "任务、执行轨迹、经验记忆及工具/专家资产记忆",
+        "output": "任务答案、新资产和可复用经验",
+        "explanation": "更新对象是经验内容以及可执行工具与专家智能体。新资产需要评价、修正和执行测试，随后才写回资产库；任务轨迹用于提炼策略和失败教训。",
+        "flow": [
+          "检索经验和资产",
+          "复用或创建工具/专家",
+          "评价并修正测试",
+          "保留有效资产",
+          "从结果提炼经验"
+        ],
+        "difference": "Experience Distillation 指轨迹到经验条目的提炼，不能仅凭这个词认定训练 VLM 参数。",
+        "assumptions": "需要代码执行、资产测试和任务评价；不同 benchmark 使用各自协议。"
+      },
+      "training": {
+        "regime": "经验与资产的非参数进化；核心机制不依赖基础 LLM 梯度更新。",
+        "models": "主比较使用 GPT-5-chat 作为 LLM 骨干。",
+        "trainable": "经验条目、工具实现和专家智能体配置。",
+        "frozen": "作为调用服务的基础 LLM；没有据此认定其进行了额外 SFT。",
+        "data": "任务执行轨迹、LLM-as-a-Judge 评价、资产测试与反思；不是统一命名的 SFT 训练集。",
+        "objective": "提高任务表现并保留可复用资产/经验；经验蒸馏不等于 token 级神经网络蒸馏。",
+        "stages": "执行、创建/修正资产、评价与经验提炼持续交替。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "GAIA / ALFWorld / HotpotQA / 2WikiMultihopQA",
+          "setting": "通用助手、具身文本交互及多跳问答；分别评测。",
+          "result": "与数学、规划和 Web 任务共同构成六类任务、八个 benchmark；ALFWorld 不是连续 RGB 导航。",
+          "locator": "§4.1 / Table 2 / Appendix B.2",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2604.10923v1"
+        },
+        {
+          "benchmark": "AIME 2024 / AIME 2025 / TravelPlanner / WebShop",
+          "setting": "数学、约束旅行规划及网页购物；沿用各自数据与评分协议。",
+          "result": "作者报告跨八个 benchmark 的汇总表现；各任务的基础分数含义不同，不将其视为统一导航成功率。",
+          "locator": "§4.1 / Table 2 / Appendix B.2",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2604.10923v1"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "资产数量增加不保证质量，需要隔离执行、测试与维护成本评测。",
+          "任务平均分不能替代某个具体具身任务上的独立验证。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2604.10923",
+          "status": "已核实入口"
+        },
+        "project": {
+          "url": "https://buaa-irip-llm.github.io/Mem2Evolve/",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": null,
+          "status": "未核实具体代码仓库；不据此断言没有代码"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2604.10923",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2604.10923v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "arXiv 所列项目入口",
+          "url": "https://buaa-irip-llm.github.io/Mem2Evolve/",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "project 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "memevolve",
+          "reason": "比较经验、资产和记忆系统的更新对象。"
+        },
+        {
+          "id": "asena",
+          "reason": "比较外部可执行技能的保留和复用。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。",
+        "具体官方代码仓库尚未确认；后续可由项目主页继续回查。",
+        "ACL 2026 正式论文集页面尚未独立核对。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "只记经验会受限于原有工具；只造工具又容易反复试错。Mem²Evolve 将经验记忆与资产记忆结合：先检索经验和可复用资产，能力不足时创建工具或专家智能体，经过评价与修正后保留，并从执行中提炼新经验。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "memevolve",
+      "title": "MemEvolve: Meta-Evolution of Agent Memory Systems",
+      "short": "MemEvolve",
+      "aliases": [],
+      "authors": [
+        "Guibin Zhang",
+        "Haotian Ren",
+        "Chong Zhan",
+        "Zhenhong Zhou",
+        "Junhao Wang",
+        "He Zhu",
+        "Wangchunshu Zhou",
+        "Shuicheng Yan"
+      ],
+      "institutions": [],
+      "firstPublished": "2025-12-21",
+      "updated": "2025-12-21",
+      "publicationYear": null,
+      "year": 2025,
+      "venue": null,
+      "publicationStatus": "已公开预印本；正式发表信息未核实",
+      "tags": {
+        "direction": [],
+        "task": [
+          "历史检索",
+          "长程任务"
+        ],
+        "paradigm": [
+          "LLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法",
+          "系统"
+        ],
+        "problem": [
+          "记忆",
+          "泛化"
+        ],
+        "environment": [],
+        "training": [
+          "仅推理使用"
+        ]
+      },
+      "summary": "同时演化经验内容和外部记忆系统的编码、存储、检索、管理实现。",
+      "method": {
+        "input": "任务轨迹、记忆状态、成功率、token 成本和延迟等执行反馈",
+        "output": "新经验及经过测试筛选的记忆系统实现",
+        "explanation": "内循环在固定候选实现下积累经验；外循环依据反馈选择实现并生成新的 encode/store/retrieve/manage 组合，形成双层进化。",
+        "flow": [
+          "候选记忆系统执行任务",
+          "内循环更新经验",
+          "汇总效果与成本",
+          "诊断并重设计记忆机制",
+          "测试候选并保留"
+        ],
+        "difference": "进化的是外部记忆程序与组织机制，不是重新设计 Transformer 神经网络。",
+        "assumptions": "需要可执行的统一记忆接口、任务反馈与候选测试预算。"
+      },
+      "training": {
+        "regime": "外部记忆内容与记忆实现进化；核心机制不是任务 LLM 的梯度微调。",
+        "models": "SmolAgent、Flash-Searcher 等框架；实验包含不同 LLM 骨干。",
+        "trainable": "经验内容与外部记忆代码/机制；论文核心不依赖更新任务 LLM 权重。",
+        "frozen": "任务 LLM 在所述记忆进化过程中作为既有模型调用。",
+        "data": "执行轨迹及成功率、token 成本、延迟等反馈；部分记忆系统在 TaskCraft 上进化后迁移测试。",
+        "objective": "依据候选系统的执行表现进行诊断、设计与选择；不把它写成神经网络蒸馏损失。",
+        "stages": "内循环经验演化、外循环架构演化，以及冻结记忆实现后的迁移评测。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "GAIA",
+          "setting": "通用 Agent 任务。",
+          "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+          "locator": "§4–5 / Tables 2–3 / §9.1",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+        },
+        {
+          "benchmark": "TaskCraft",
+          "setting": "任务执行与记忆元进化；亦用于生成可迁移记忆实现。",
+          "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+          "locator": "§4–5 / Tables 2–3 / §9.1",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+        },
+        {
+          "benchmark": "WebWalkerQA",
+          "setting": "复杂网页检索问答；论文使用 170 题子集。",
+          "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+          "locator": "§4–5 / Tables 2–3 / §9.1",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+        },
+        {
+          "benchmark": "xBench-DeepSearch",
+          "setting": "100 项搜索与工具推理任务。",
+          "result": "报告任务表现与成本等指标；WebWalkerQA / xBench 的记忆实现可由 TaskCraft 迁移，需区分内容积累与实现再进化。",
+          "locator": "§4–5 / Tables 2–3 / §9.1",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2512.18746v1"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "候选程序测试和选择存在额外成本，不能只统计最终 Agent 推理成本。",
+          "外部记忆机制迁移与连续机器人运动控制的迁移是不同问题。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2512.18746",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/bingreeky/MemEvolve",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2512.18746",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2512.18746v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文所列 MemEvolve / EvolveLab 代码入口",
+          "url": "https://github.com/bingreeky/MemEvolve",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "code 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "mem2evolve",
+          "reason": "比较记忆实现进化与资产/经验共进化。"
+        },
+        {
+          "id": "opd-evolver",
+          "reason": "比较外部记忆实现与参数化经验管理能力。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "多数记忆智能体只往固定笔记系统里添加内容。MemEvolve 进一步根据任务表现诊断记忆机制的问题，修改候选记忆实现，再测试和选择。EvolveLab 为这些实现提供统一接口，便于替换和公平比较。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "opd-evolver",
+      "title": "OPD-Evolver: Cultivating Holistic Agent Evolver via On-Policy Distillation",
+      "short": "OPD-Evolver",
+      "aliases": [],
+      "authors": [
+        "Guibin Zhang",
+        "Xun Xu",
+        "Yanwei Yue",
+        "Zikun Su",
+        "Wangchunshu Zhou",
+        "Xiaobin Hu",
+        "Shuicheng Yan"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-06-16",
+      "updated": "2026-06-16",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "已公开预印本；正式发表信息未核实",
+      "tags": {
+        "direction": [],
+        "task": [],
+        "paradigm": [
+          "LLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "记忆",
+          "泛化"
+        ],
+        "environment": [],
+        "training": []
+      },
+      "summary": "用快循环积累经验、慢循环自蒸馏，训练智能体选择、使用、编写和维护经验的能力。",
+      "method": {
+        "input": "任务、环境观察、历史经验库、执行结果及经验使用记录",
+        "output": "更新后的经验库和可部署的经验操作策略",
+        "explanation": "快循环维护轨迹、提示、技能和工具四层经验；慢循环用结果校准归因和 privileged hindsight 构造教师条件，在学生前缀上做自蒸馏。",
+        "flow": [
+          "检索并选择经验",
+          "执行并记录结果",
+          "写入或维护经验",
+          "估计经验价值",
+          "蒸馏四种经验操作能力"
+        ],
+        "difference": "既更新经验内容，也训练如何管理和使用经验；不是单独增加一个检索模块。",
+        "assumptions": "需要交互结果、记忆操作日志与慢循环训练资源。"
+      },
+      "training": {
+        "regime": "快循环固定权重并更新外部经验；慢循环 on-policy 自蒸馏更新策略。",
+        "models": "Qwen3-4B-Instruct-2507、Qwen3.5-9B；检索使用 Qwen3-Embedding-0.6B。",
+        "trainable": "慢循环中的学生策略；经验库在快循环中更新。",
+        "frozen": "快循环不更新策略；特权教师监督停止梯度。",
+        "data": "7,000 个训练任务：AWM 3,000、Nemotron-Terminal-Corpus 2,000、EnvScaler 2,000；论文说明与主评测集分离。",
+        "objective": "在学生访问的前缀上进行 token 级 KL 蒸馏，覆盖选择、执行、写入和维护。",
+        "stages": "交互积累经验后进行慢循环训练；MiniHack 另有训练型方法对照，需遵守其独立设置。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "LifelongAgentBench",
+          "setting": "DB / OS 子集；数据库与终端交互。",
+          "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+          "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+        },
+        {
+          "benchmark": "MemoryArena",
+          "setting": "Math / Physics；跨会话背景与问答，不是实时机器人控制。",
+          "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+          "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+        },
+        {
+          "benchmark": "AMA-Bench",
+          "setting": "因果推理、状态更新、状态抽象；读取已完成的历史轨迹并回答问题。",
+          "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+          "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+        },
+        {
+          "benchmark": "InterCode",
+          "setting": "SQL / Bash / CTF；隔离环境中的可执行任务。",
+          "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+          "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+        },
+        {
+          "benchmark": "MiniHack",
+          "setting": "Room / Maze / KeyRoom 网格环境；另设训练方法比较。",
+          "result": "评测经验利用与任务完成能力；不同子集和训练对照分别报告，不合并为一个导航成功率。",
+          "locator": "§4.1 / Tables 1–2 / Appendix C–D",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2606.17628v1"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "MemoryArena 和 AMA-Bench 包含历史阅读问答，不能都称为在线具身控制。",
+          "MiniHack 是网格环境，不能直接作为 RGB 连续 VLN 的验证。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2606.17628",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/bingreeky/opd-evolver",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2606.17628",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2606.17628v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文所列官方代码入口",
+          "url": "https://github.com/bingreeky/opd-evolver",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "code 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "pmd",
+          "reason": "同属利用自身经验进行训练期蒸馏。"
+        },
+        {
+          "id": "memevolve",
+          "reason": "比较记忆内容/操作策略与记忆实现进化。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "保存笔记并不保证会正确使用笔记。OPD-Evolver 把经验操作本身也作为学习对象：快循环读写多层记忆；慢循环根据实际结果估计经验价值，并借助事后信息，训练选择、执行、写入与维护四种能力。",
       "reproduction": {
         "status": "未复现"
       }
@@ -44319,6 +45617,162 @@
       }
     },
     {
+      "id": "pmd",
+      "title": "Procedural Memory Distillation: Online Reflection for Self-Improving Language Models",
+      "short": "PMD",
+      "aliases": [
+        "Procedural Memory Distillation",
+        "程序性记忆蒸馏"
+      ],
+      "authors": [
+        "Ye Liu",
+        "Srijan Bansal",
+        "Bo Pang",
+        "Yang Li",
+        "Zeyu Leo Liu",
+        "Yifei Ming",
+        "Zixuan Ke",
+        "Shafiq Joty",
+        "Semih Yavuz"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-07-01",
+      "updated": "2026-07-01",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "已公开预印本；正式发表信息未核实",
+      "tags": {
+        "direction": [],
+        "task": [],
+        "paradigm": [
+          "LLM"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "记忆",
+          "泛化"
+        ],
+        "environment": [],
+        "training": []
+      },
+      "summary": "把模型自己试错得到的分层程序性记忆蒸馏进参数，使部署学生不必再查外部记忆。",
+      "method": {
+        "input": "问题、学生自行生成的解答、答案或代码测试反馈及历史记忆",
+        "output": "更新后的学生策略与训练阶段积累的程序性记忆",
+        "explanation": "进化对象包括 experience、insight、behavior 三层记忆和学生参数。教师读取相关记忆，在学生自己生成的前缀上提供 token 分布监督。",
+        "flow": [
+          "自行采样解答",
+          "验证并提炼三层记忆",
+          "记忆增强自教师",
+          "在学生前缀上蒸馏",
+          "新策略继续采样"
+        ],
+        "difference": "训练时把经验内化进模型；部署学生不依赖持续检索外部记忆。",
+        "assumptions": "需要可验证反馈、训练算力和可读取的自教师分布。"
+      },
+      "training": {
+        "regime": "训练期 on-policy 自蒸馏；不是只调用现成模型，也不是部署时在线训练机器人。",
+        "models": "Qwen3-8B、OLMo3-Instruct-7B。",
+        "trainable": "学生策略参数；训练阶段记忆内容也随采样更新。",
+        "frozen": "教师分支使用停止梯度；不能把这理解为学生基础模型被冻结。",
+        "data": "SciKnowEval 科学选择题与 LiveCodeBench 代码任务；使用训练划分内自行采样的尝试和验证反馈。",
+        "objective": "SDPO 风格 reverse-KL 自蒸馏；教师额外读取程序性记忆。",
+        "stages": "生成尝试、更新记忆和蒸馏交替进行；最终部署学生可移除外部记忆。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "SciKnowEval",
+          "setting": "生物、化学、物理、材料科学选择题；avg@16；两种基础模型。",
+          "result": "Qwen3-8B 的 AVG 从 SDPO 74.4 到 PMD 77.2；OLMo3 从 69.5 到 73.3。均为原文分值，不能把相对增幅当作百分点。",
+          "locator": "§4.1–4.2 / Table 2",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2607.01480v1"
+        },
+        {
+          "benchmark": "LiveCodeBench",
+          "setting": "代码生成；score@4；测试执行反馈。",
+          "result": "Qwen3-8B 从 SDPO 47.9 到 PMD 51.7；OLMo3 从 45.0 到 51.1。",
+          "locator": "§4.1–4.2 / Table 2",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2607.01480v1"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "需要可靠验证器；文本问答和代码的验证成本与机器人交互不同。",
+          "本文不是连续视觉导航，也未直接解决当前导航计划的缓存维护。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2607.01480",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": null,
+          "status": "未核实具体代码仓库；不据此断言没有代码"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2607.01480",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2607.01480v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "opd-evolver",
+          "reason": "比较经验内化与经验操作能力自蒸馏。"
+        },
+        {
+          "id": "memevolve",
+          "reason": "比较训练参数与外部记忆机制进化。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。",
+        "具体官方代码仓库尚未确认；后续可由项目主页继续回查。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "普通训练常把每次尝试只压成一次对错反馈。PMD 保留原始尝试、单题教训和跨题行为规律，让能读取这些记忆的自教师指导学生，再由更新后的学生产生新的经验。进化发生在训练期间，最终学生可脱离记忆库推理。",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
       "id": "realtwin",
       "title": "Towards Active Real-to-Twin Inspection: A New Paradigm for Zero-Shot Anomaly Detection",
       "short": "Real-to-Twin Inspection",
@@ -44551,6 +46005,176 @@
       "overview": "真实工业图像与 CAD 参照有材质、光照和成像差异，直接相减难以定位缺陷。该工作构建同位姿 Real-to-Twin 对，使用冻结视觉特征和可训练对齐模块减少域差异，再从匹配后的特征差异判断异常。“Zero-shot”指类别隔离的测试协议，不代表整套方法没有训练：对齐模块仍使用正常训练对优化。",
       "citationNote": "以已核实完整作者、标题与 arXiv 元数据生成的预印本格式；不是会议版 BibTeX。",
       "verificationLevel": "fulltext",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "reflectvln",
+      "title": "ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning",
+      "short": "ReflectVLN",
+      "aliases": [],
+      "authors": [
+        "Jiahang Wang",
+        "Yirong Yang",
+        "Yanqing Zhu",
+        "Minghua Luo",
+        "Shichao Xie",
+        "Fei Liu",
+        "Mu Xu"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-07-14",
+      "updated": "2026-07-14",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "已公开预印本；正式发表信息未核实",
+      "tags": {
+        "direction": [
+          "导航"
+        ],
+        "task": [
+          "VLN",
+          "故障恢复"
+        ],
+        "paradigm": [
+          "VLM",
+          "模仿学习"
+        ],
+        "system": [
+          "模块化系统",
+          "具身 Agent"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "规划",
+          "实时性"
+        ],
+        "environment": [
+          "仿真",
+          "室内"
+        ],
+        "training": [
+          "监督微调"
+        ]
+      },
+      "summary": "让执行智能体报告进展和偏离，按需触发意图智能体反思并更新子任务指导。",
+      "method": {
+        "input": "指令、当前子目标、近期视觉历史及执行状态",
+        "output": "短程动作、状态 token 和必要时更新的子任务指导",
+        "explanation": "执行端输出继续、刷新或纠正状态，触发意图端更新；Action-CoT 用路线推理与动作监督促进时序一致性。",
+        "flow": [
+          "意图端生成子目标",
+          "执行端预测动作与状态",
+          "按状态触发反思/刷新",
+          "新指导重新条件化执行"
+        ],
+        "difference": "在高层到低层之外增加执行到高层的反馈，使用按需调用而非只做固定频率重规划。",
+        "assumptions": "需要状态监督和纠错数据；实验中不依赖 oracle 作为推理触发器。"
+      },
+      "training": {
+        "regime": "Action-CoT 预训练后进行状态感知微调；并非纯零样本调用。",
+        "models": "意图端和执行端分别初始化自 Qwen2.5-VL-3B。",
+        "trainable": "两个智能体及执行端的相关查询/动作组件。",
+        "frozen": "各子组件精确冻结列表未逐项回查，不填写全冻结或全解冻的推断。",
+        "data": "专家轨迹及一轮反思增强恢复轨迹；带自动标注与验证。",
+        "objective": "子任务/反思文本监督、Action-CoT 动作/航点监督及状态分类监督。",
+        "stages": "阶段一训练执行端 Action-CoT；阶段二混合专家与反思恢复轨迹训练解耦智能体。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "R2R-CE / RxR-CE",
+          "setting": "val-unseen；单视角 RGB；依各自协议计算 SR、SPL 等。",
+          "result": "Table 1 的 SR 为 62.8% / 66.0%，SPL 为 58.5% / 57.2%。",
+          "locator": "§4.1–4.2 / Table 1",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2607.12680v1"
+        },
+        {
+          "benchmark": "按需高层调用与组件消融",
+          "setting": "比较固定间隔更新及闭环组件；预算与训练数据设置应同时阅读。",
+          "result": "分析恢复能力和高层调用次数；少调用本身不自动证明优于所有等预算策略。",
+          "locator": "§4.3",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2607.12680v1"
+        }
+      ],
+      "limitations": {
+        "author": [],
+        "analysis": [
+          "闭环反馈、按需调用高层和失败恢复均有现成先例。",
+          "需要在匹配模型调用、训练数据和交互预算的条件下评估新计划维护方法。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2607.12680",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/AIprogrammer/ReflectVLN",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2607.12680",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2607.12680v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文所列官方代码入口",
+          "url": "https://github.com/AIprogrammer/ReflectVLN",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "code 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "dualvln",
+          "reason": "比较单向高低层条件与双向执行反馈。"
+        },
+        {
+          "id": "avert-vln",
+          "reason": "比较自主反思与人类辅助恢复。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "高层下发一次计划后，低层可能逐渐走偏。ReflectVLN 建立双向闭环：意图智能体生成子目标，执行智能体输出动作和状态；完成子目标或发生偏离时，才请求新的高层指导。训练还加入 Action-CoT 和带反思的恢复轨迹。",
       "reproduction": {
         "status": "未复现"
       }
@@ -45267,6 +46891,185 @@
       "verification": "已回查原文方法与实验图表；数值仅适用于条目注明的版本、模型和评测设置。",
       "overview": "利用执行记忆识别异构策略的能力边界并路由子任务，Memory Bridge 把机器人状态引向下一策略熟悉的分布，改善策略交接。 该工作关注系统如何组织观测、推理与行动，阅读时要把运行时机制、底层策略的训练来源和最终任务证据分开。与单一模型的离线准确率相比，更应检查反馈接口、实验预算和失败时的行为。",
       "verificationLevel": "fulltext",
+      "reproduction": {
+        "status": "未复现"
+      }
+    },
+    {
+      "id": "rsi-anything",
+      "title": "RSI-Anything: Unlocking Recursive Self-Improvement with World Models",
+      "short": "RSI-Anything",
+      "aliases": [],
+      "authors": [
+        "Taoyong Cui",
+        "Pinxian Zeng",
+        "Wanghan Xu",
+        "Hao Xiao",
+        "Shuhan Xue",
+        "Qiang Gao",
+        "Wanli Ouyang",
+        "Pheng Ann Heng",
+        "Zhenfei Yin",
+        "Yingcheng Wu",
+        "Ling Yang"
+      ],
+      "institutions": [],
+      "firstPublished": "2026-10-09",
+      "updated": "2026-10-09",
+      "publicationYear": null,
+      "year": 2026,
+      "venue": null,
+      "publicationStatus": "已公开预印本；正式发表信息未核实",
+      "tags": {
+        "direction": [],
+        "task": [],
+        "paradigm": [
+          "LLM",
+          "世界模型"
+        ],
+        "system": [
+          "模块化系统"
+        ],
+        "contribution": [
+          "方法"
+        ],
+        "problem": [
+          "规划",
+          "泛化"
+        ],
+        "environment": [],
+        "training": []
+      },
+      "summary": "用世界模型预测候选行动的后果，并依据实际反馈改进策略/工作流或预测器，验证后保留更新。",
+      "method": {
+        "input": "任务状态、候选行动、世界模型预测及真实执行反馈",
+        "output": "选中的行动与通过检查后保留的策略/工作流或预测器",
+        "explanation": "预测用于行动选择与学习数据选择；实际反馈用于策略/工作流改进，必要时适配世界模型；保留更新前检查组件及组合。",
+        "flow": [
+          "生成候选",
+          "预测后果并选择",
+          "执行获取反馈",
+          "更新相关组件",
+          "检查组件与兼容性",
+          "保留有效版本"
+        ],
+        "difference": "显式区分预测与实际反馈，并关注策略变化后的预测可靠性和组件兼容。",
+        "assumptions": "需要领域反馈、可比较的执行预算与独立评测；各领域的更新对象不同。"
+      },
+      "training": {
+        "regime": "依领域区分：代码固定 coder 并适配预测器；GUI 更新策略和世界模型；实验室规划比较连续策略版本。",
+        "models": "代码实验使用固定 ReasonFlux-Coder-7B 和基于 Qwen2.5-Coder-3B-Instruct / LoRA 的 W1；其他领域使用各自模型。",
+        "trainable": "随实验变化，不能统一填写所有模型都训练。",
+        "frozen": "代码修复中的 coder 固定；其他冻结范围需按领域阅读。",
+        "data": "代码测试、GUI 交互结果、实验室规划反馈与科学应用的观测；不存在一个覆盖所有领域的统一 VLM SFT 数据集。",
+        "objective": "使用预测与反馈改进选择和系统；具体损失、搜索及更新方式依领域定义。",
+        "stages": "预测—执行—反馈—更新—检查；各实验验证完整框架的不同部分。"
+      },
+      "evaluation": [
+        {
+          "benchmark": "CodeContests / APPS Introductory / LiveCodeBench v6",
+          "setting": "固定 coder，候选修复与测试预算对齐；分别为 200 / 1,000 / 1,055 项。",
+          "result": "CodeContests 中静态 verifier、预测选择、预测器适配的成功率为 26.3% / 29.2% / 31.2%；不把该结果归因为 coder 更新。",
+          "locator": "§3.1 / §6.1",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+        },
+        {
+          "benchmark": "MiniWoB++ / OSWorld",
+          "setting": "MiniWoB++ 的 click-checkboxes 及 OSWorld；GUI 交互反馈。",
+          "result": "评测任务完成与行动行为；该领域报告策略和世界模型更新。",
+          "locator": "§3.2 / §6.1 / Table 4",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+        },
+        {
+          "benchmark": "LabHorizon F200 Level-2",
+          "setting": "相同 200 项任务上的五个连续 4B 策略版本；评测实验室操作规划。",
+          "result": "Final Score 从 21.80% 到 46.01%；这是规划基准得分，不是实机执行可靠性。",
+          "locator": "§3.3 / §6.1 / Figure 5",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+        },
+        {
+          "benchmark": "反应优化与免疫科学应用",
+          "setting": "领域专用模型及反馈；科学应用与通用 Agent benchmark 分开解释。",
+          "result": "展示预测引导的搜索和工作流改进；不能据此认定全部组件在同一任务内持续互相提升。",
+          "locator": "§3.4–3.5 / §5–6 / Table 4",
+          "attribution": "作者报告",
+          "sourceUrl": "https://arxiv.org/html/2610.13912v1"
+        }
+      ],
+      "limitations": {
+        "author": [
+          "需要同一任务内的多轮联合评测，才能证明策略与世界模型持续相互提升。",
+          "实验室结果评测规划，可靠物理执行需要相关设备与工作流验证。"
+        ],
+        "analysis": [
+          "跨领域实例验证了不同更新路径，不能用一个领域的参数更新证明另一个领域也完成相同更新。"
+        ]
+      },
+      "resources": {
+        "paper": {
+          "url": "https://arxiv.org/abs/2610.13912",
+          "status": "已核实入口"
+        },
+        "code": {
+          "url": "https://github.com/Gen-Verse/RSI-Anything",
+          "status": "已核实入口"
+        }
+      },
+      "sources": [
+        {
+          "kind": "primary",
+          "label": "arXiv 书目与版本历史",
+          "url": "https://arxiv.org/abs/2610.13912",
+          "locator": "Title / Authors / Submission history",
+          "supports": [
+            "标题",
+            "完整作者列表",
+            "首次公开日",
+            "版本日期"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文原文（v1）",
+          "url": "https://arxiv.org/html/2610.13912v1",
+          "locator": "方法与实验章节；各实验条目另列定位",
+          "supports": [
+            "核心 idea",
+            "更新对象",
+            "更新方式",
+            "训练与评测任务"
+          ]
+        },
+        {
+          "kind": "primary",
+          "label": "论文所列官方代码入口",
+          "url": "https://github.com/Gen-Verse/RSI-Anything",
+          "locator": "论文公开的资源入口",
+          "supports": [
+            "code 资源入口"
+          ]
+        }
+      ],
+      "related": [
+        {
+          "id": "memevolve",
+          "reason": "均涉及反馈驱动的候选改进和验证，但更新对象不同。"
+        }
+      ],
+      "status": "重点详解",
+      "checked": "2026-11-08",
+      "gaps": [
+        "机构列表尚未逐项核对。",
+        "未下载并运行研究代码、模型或数据，未复现实验。"
+      ],
+      "sourceNotes": [],
+      "bibtex": null,
+      "verificationLevel": "fulltext",
+      "verification": "依据所列版本回查核心方法、更新对象及评测设置；并非逐项复现或资源下载核验。",
+      "overview": "真实试错昂贵，预测器也可能随策略变化而失准。RSI-Anything 先用世界模型选择值得执行的候选，再用观察到的反馈改进系统，并通过组件和兼容性检查保留版本。各实验实现的更新范围不同，不能把框架示意当成所有组件都已联合进化。",
       "reproduction": {
         "status": "未复现"
       }

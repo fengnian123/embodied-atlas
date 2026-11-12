@@ -50,3 +50,17 @@ test('build emits local assets, hash routes and one-file offline preview',()=>{
  const html=read('dist/index.html');for(const name of ['data.js','core.js','detail-content.js','app.js','style.css'])assert(html.includes('./'+name));assert(!html.includes('src="/'));assert(!html.includes('href="/'));
  const offline=read('embodied-atlas-preview.html');assert(!offline.includes('src="./app.js"'));assert(offline.includes('window.ATLAS_DATA'));assert(offline.lastIndexOf('(function ()')>offline.indexOf('id="root"'));
 });
+test('local evaluation runs attach to their own papers and keep legacy cases separate',()=>{
+ const data=JSON.parse(read('dist/catalog.json'));const get=id=>data.papers.find(p=>p.id===id);
+ assert.equal(get('etp-r1').reproduction.runs.length,2);
+ assert.equal(get('dualvln').reproduction.status,'未复现');
+ assert(!get('p-a2ae5d358c9c').reproduction.runs);
+ const etp=boot('','#/paper/etp-r1').html();assert(etp.includes('64.65'));assert(etp.includes('59.41'));assert(etp.includes('11006'));assert(etp.includes('非论文作者正式结果'));
+ for(const id of ['etp-r1'])for(const run of get(id).reproduction.runs){
+  if(!run.evidence){assert.deepEqual(run.metrics,{});continue;}
+  const raw=fs.readFileSync(path.join(__dirname,'../src',run.evidence.url));
+  assert.equal(require('node:crypto').createHash('sha256').update(raw).digest('hex'),run.evidence.sha256);
+  assert(!raw.toString().includes('/mnt/workspace'));assert(fs.existsSync(path.join(__dirname,'../dist',run.evidence.url)));
+ }
+ for(const id of ['etp-r1','dualvln'])assert.deepEqual(get(id).evaluation,JSON.parse(read('data/papers/'+id+'.json')).evaluation);
+});
