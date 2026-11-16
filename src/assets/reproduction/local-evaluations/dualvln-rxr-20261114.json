@@ -147,5 +147,10 @@
       "os": 0.0,
       "ndtw": 1.1102230246251565e-16
     }
+  },
+  "checkpoint_and_source": "InternVLA-N1-DualVLN revision a698a9e898b4001621a319e1bc89f02ec715cc86; source 7a5c62400ac45b313d9b709c740b64191556a242",
+  "version_links": {
+    "weightsUrl": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN/tree/a698a9e898b4001621a319e1bc89f02ec715cc86",
+    "codeUrl": "https://github.com/InternRobotics/InternNav/tree/7a5c62400ac45b313d9b709c740b64191556a242"
   }
 }

@@ -36,5 +36,10 @@
       "361"
     ],
     "observation_files": 169
+  },
+  "checkpoint_and_source": "RxR-GRPO; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f",
+  "version_links": {
+    "weightsUrl": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files/tree/fc9f2fe2948c876f0f77b0edc3ae1eb5aabdc78c",
+    "codeUrl": "https://github.com/Cepillar/ETP-R1/tree/1570c82c1a6acde9d7d55ad8b9d3f02682152b1f"
   }
 }

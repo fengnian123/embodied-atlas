@@ -20,14 +20,18 @@
       },
       "evidence": {
         "url": "assets/reproduction/local-evaluations/dualvln-r2r-20261112.json",
-        "sha256": "9516c8d01285821e878cc77f408ba7e9366c7ffe873e03755d15f12f4859a5ed"
+        "sha256": "83b61fde2b948e3b04368dc511f570fda5fb0537d4180af7aa59eaab70a8e824"
       },
       "limitations": [
         "独立复算 SR、SPL、OSR、NE；本次未测 nDTW。",
         "单 GPU；记录 RGB/depth 的开销包含在运行耗时中，不作为纯推理性能比较。"
       ],
       "environment": "Python 3.9; PyTorch 2.6.0+cu124; Habitat-Sim 0.2.4; Transformers 4.51.0; FlashAttention 2.7.4.post1",
-      "checkpoint": "InternVLA-N1-DualVLN revision a698a9e898b4001621a319e1bc89f02ec715cc86; source 7a5c62400ac45b313d9b709c740b64191556a242"
+      "checkpoint": "InternVLA-N1-DualVLN revision a698a9e898b4001621a319e1bc89f02ec715cc86; source 7a5c62400ac45b313d9b709c740b64191556a242",
+      "versionLinks": {
+        "weightsUrl": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN/tree/a698a9e898b4001621a319e1bc89f02ec715cc86",
+        "codeUrl": "https://github.com/InternRobotics/InternNav/tree/7a5c62400ac45b313d9b709c740b64191556a242"
+      }
     },
     {
       "id": "dualvln-rxr-20261112",
@@ -50,7 +54,7 @@
       ],
       "evidence": {
         "url": "assets/reproduction/local-evaluations/dualvln-rxr-20261114.json",
-        "sha256": "7501cfc0d102897593076937bea8e6af3ce7f92a69045ae82b84a6e212269a1e"
+        "sha256": "9052b242373ac9f13191a52eb7de7cbde14e6afac3bf3cbbc2cb8a3af972d447"
       },
       "environment": "Python 3.9; PyTorch 2.6.0+cu124; Habitat-Sim 0.2.4; Transformers 4.51.0; FlashAttention 2.7.4.post1",
       "checkpoint": "InternVLA-N1-DualVLN revision a698a9e898b4001621a319e1bc89f02ec715cc86; source 7a5c62400ac45b313d9b709c740b64191556a242",
@@ -62,7 +66,11 @@
         "distance_to_goal": 3570,
         "ndtw": 3669
       },
-      "footnote": "注：NE 按官方规则统计可计算距离的 3,570 条任务。"
+      "footnote": "注：NE 按官方规则统计可计算距离的 3,570 条任务。",
+      "versionLinks": {
+        "weightsUrl": "https://huggingface.co/InternRobotics/InternVLA-N1-DualVLN/tree/a698a9e898b4001621a319e1bc89f02ec715cc86",
+        "codeUrl": "https://github.com/InternRobotics/InternNav/tree/7a5c62400ac45b313d9b709c740b64191556a242"
+      }
     }
   ]
 }
