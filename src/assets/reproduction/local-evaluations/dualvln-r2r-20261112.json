@@ -1,0 +1,30 @@
+{
+  "attribution": "PAI DSW local measurements; not author-reported results",
+  "aggregate": {
+    "episodes": 1839,
+    "metrics": {
+      "success": 0.641653072321914,
+      "spl": 0.5839380266986762,
+      "os": 0.7009244154431756,
+      "ne": 4.0651881186167
+    }
+  },
+  "validation": {
+    "gate": "PASS",
+    "official_episodes": 1839,
+    "verified_trajectories": 1839,
+    "errors": [],
+    "aggregate": {
+      "success": 0.641653072321914,
+      "spl": 0.5839380266986762,
+      "os": 0.7009244154431756,
+      "ne": 4.0651881186167
+    },
+    "max_metric_difference": {
+      "ne": 1.9073486328125e-06,
+      "success": 0.0,
+      "os": 0.0,
+      "spl": 3.419332317289303e-08
+    }
+  }
+}

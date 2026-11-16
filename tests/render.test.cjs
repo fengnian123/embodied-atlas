@@ -53,10 +53,10 @@ test('build emits local assets, hash routes and one-file offline preview',()=>{
 test('local evaluation runs attach to their own papers and keep legacy cases separate',()=>{
  const data=JSON.parse(read('dist/catalog.json'));const get=id=>data.papers.find(p=>p.id===id);
  assert.equal(get('etp-r1').reproduction.runs.length,2);
- assert.equal(get('dualvln').reproduction.status,'未复现');
+ assert.equal(get('dualvln').reproduction.runs.length,2);
  assert(!get('p-a2ae5d358c9c').reproduction.runs);
  const etp=boot('','#/paper/etp-r1').html();assert(etp.includes('64.65'));assert(etp.includes('59.41'));assert(etp.includes('11006'));assert(etp.includes('非论文作者正式结果'));
- for(const id of ['etp-r1'])for(const run of get(id).reproduction.runs){
+ for(const id of ['etp-r1','dualvln'])for(const run of get(id).reproduction.runs){
   if(!run.evidence){assert.deepEqual(run.metrics,{});continue;}
   const raw=fs.readFileSync(path.join(__dirname,'../src',run.evidence.url));
   assert.equal(require('node:crypto').createHash('sha256').update(raw).digest('hex'),run.evidence.sha256);
@@ -64,3 +64,5 @@ test('local evaluation runs attach to their own papers and keep legacy cases sep
  }
  for(const id of ['etp-r1','dualvln'])assert.deepEqual(get(id).evaluation,JSON.parse(read('data/papers/'+id+'.json')).evaluation);
 });
+
+test('DualVLN RxR displays finite-only NE denominator and official nonfinite handling',()=>{const b=boot('','#/paper/dualvln');assert(b.html().includes('59.42'));assert(b.html().includes('50.36'));assert(b.html().includes('3570'));assert(b.html().includes('99 条'));assert(b.html().includes('Infinity'));const p=JSON.parse(read('dist/catalog.json')).papers.find(p=>p.id==='dualvln');assert.equal(p.reproduction.runs[1].metricDenominators.distance_to_goal,3570);assert.equal(p.reproduction.runs[1].metricDenominators.spl,3669);});

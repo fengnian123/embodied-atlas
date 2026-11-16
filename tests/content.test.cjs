@@ -4,7 +4,7 @@ test('discussion headings never enter the formal paper catalog',()=>{
  for(const title of ['从“异常描述”到“故障原因”仍有明显距离','缺少面向室内设备的公开 Benchmark','VLM 的语言解释不等于可信诊断'])assert(!papers.some(p=>p.title===title));
 });
 test('only papers with recorded evidence have reproduction details',()=>{
- const known=['p-a2ae5d358c9c','etp-r1'];
+ const known=['p-a2ae5d358c9c','etp-r1','dualvln'];
  assert.deepEqual(papers.filter(p=>p.reproduction.status!=='未复现').map(p=>p.id).sort(),known.sort());
  assert(papers.find(p=>p.id==='p-a2ae5d358c9c').reproduction.summary.includes('不含完整测试集统计'));
  for(const p of papers.filter(p=>!known.includes(p.id)))assert.equal(p.reproduction.status,'未复现');

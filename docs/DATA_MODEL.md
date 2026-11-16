@@ -90,3 +90,5 @@ limitations, evidence`。指标在 JSON 中保留 0–1 比例和米，页面转
 维护时从已验证结果文件更新对应 run，保留协议、语言子集、续跑限制和环境信息；
 不要覆盖 `data/papers/*.json` 中作者的 `evaluation`。执行 `npm run check`，
 检查详情页及附件后，通过 PR 审阅；main 部署成功后再核对线上页面。
+
+每次运行可选 `metricDenominators`，按原始指标键记录实际统计条数。缺省为 episodeCount。DualVLN RxR 的 NE 使用官方有限值子集3570条；其余指标3669条，99条非有限 SPL 按官方代码计0。必须在页面和证据中披露，不能静默更改任务集或评分。

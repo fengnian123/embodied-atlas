@@ -3831,7 +3831,71 @@
       ],
       "sourceNotes": [],
       "reproduction": {
-        "status": "未复现"
+        "paperId": "dualvln",
+        "status": "本地全量评测已校验",
+        "date": "2026-11-16",
+        "attribution": "PAI DSW 本地实测，非论文作者正式结果；不声明复现论文数值",
+        "summary": "已完成 R2R-CE 与 RxR-CE 英语子集的全量评测及独立轨迹复核。RxR 按官方规则汇总非有限值：NE 仅统计 3,570 条有限值，其他指标覆盖全部 3,669 条。",
+        "runs": [
+          {
+            "id": "dualvln-r2r-20261112",
+            "benchmark": "R2R-CE",
+            "scope": "val_unseen · 11 scenes",
+            "episodeCount": 1839,
+            "status": "已完成 · 校验 PASS",
+            "date": "2026-11-12",
+            "metrics": {
+              "success": 0.641653072321914,
+              "spl": 0.5839380266986762,
+              "oracle_success": 0.7009244154431756,
+              "distance_to_goal": 4.0651881186167
+            },
+            "evidence": {
+              "url": "assets/reproduction/local-evaluations/dualvln-r2r-20261112.json",
+              "sha256": "9516c8d01285821e878cc77f408ba7e9366c7ffe873e03755d15f12f4859a5ed"
+            },
+            "limitations": [
+              "独立复算 SR、SPL、OSR、NE；本次未测 nDTW。",
+              "单 GPU；记录 RGB/depth 的开销包含在运行耗时中，不作为纯推理性能比较。"
+            ],
+            "environment": "Python 3.9; PyTorch 2.6.0+cu124; Habitat-Sim 0.2.4; Transformers 4.51.0; FlashAttention 2.7.4.post1",
+            "checkpoint": "InternVLA-N1-DualVLN revision a698a9e898b4001621a319e1bc89f02ec715cc86; source 7a5c62400ac45b313d9b709c740b64191556a242"
+          },
+          {
+            "id": "dualvln-rxr-20261112",
+            "benchmark": "RxR-CE",
+            "scope": "val_unseen guide · English (en-IN/en-US) · 11 scenes",
+            "episodeCount": 3669,
+            "status": "已完成 · 官方评分规则复核 PASS",
+            "date": "2026-11-14",
+            "metrics": {
+              "success": 0.5941673480512402,
+              "spl": 0.5035528742671576,
+              "oracle_success": 0.6802943581357318,
+              "distance_to_goal": 4.717034336201408,
+              "ndtw": 0.6948288630118981
+            },
+            "limitations": [
+              "NE 4.717 m 是有限值子集均值，不是全部 3,669 条任务的有限均值。",
+              "99 条起终点在当前 navmesh 上不连通；原始异常值和 ID 保留在摘要中。",
+              "RxR 为英语子集，与 ETP-R1 的多语言 11,006 条范围不同，不能直接排名。"
+            ],
+            "evidence": {
+              "url": "assets/reproduction/local-evaluations/dualvln-rxr-20261114.json",
+              "sha256": "7501cfc0d102897593076937bea8e6af3ce7f92a69045ae82b84a6e212269a1e"
+            },
+            "environment": "Python 3.9; PyTorch 2.6.0+cu124; Habitat-Sim 0.2.4; Transformers 4.51.0; FlashAttention 2.7.4.post1",
+            "checkpoint": "InternVLA-N1-DualVLN revision a698a9e898b4001621a319e1bc89f02ec715cc86; source 7a5c62400ac45b313d9b709c740b64191556a242",
+            "executionNote": "3,669 条任务全部完成并复算；原始记录中有 99 条 NE=Infinity、SPL=NaN。按官方代码，SPL 按 0 计，NE 仅对 3,570 条有限值取均值。",
+            "metricDenominators": {
+              "success": 3669,
+              "spl": 3669,
+              "oracle_success": 3669,
+              "distance_to_goal": 3570,
+              "ndtw": 3669
+            }
+          }
+        ]
       },
       "bibtex": "@misc{dualvln,\n  title={Ground Slow, Move Fast: A Dual-System Foundation Model for Generalizable Vision-and-Language Navigation},\n  author={Meng Wei and Chenyang Wan and Jiaqi Peng and Xiqian Yu and Yuqiang Yang and Delin Feng and Wenzhe Cai and Chenming Zhu and Tai Wang and Jiangmiao Pang and Xihui Liu},\n  year={2025},\n  eprint={2512.08186},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2512.08186}\n}",
       "summary": "慢速 VLM 预测像素目标与 latent goal，快速扩散策略根据新 RGB 持续生成轨迹，实现异步导航。",
