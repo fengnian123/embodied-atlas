@@ -27,14 +27,18 @@
       },
       "evidence": {
         "url": "assets/reproduction/local-evaluations/etpr1-r2r-20261110.json",
-        "sha256": "b89f91c7132dfd72254e6ec7d2170399c29bb9159de6515e5d82dea24653f59c"
+        "sha256": "98a47cad26313f90986770b8e6ed4f646f5b974e1350e14904253f88fdb4d102"
       },
       "limitations": [
         "原始全量运行未保存完整轨迹/视频，未做轨迹级独立复算。",
         "单 GPU / 8 environments；执行环境经过适配。"
       ],
       "environment": "Python 3.9.25; PyTorch 2.4.1+cu121; Habitat-Sim 0.1.7",
-      "checkpoint": "R2R-GRPO ckpt.iter270.pth; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f"
+      "checkpoint": "R2R-GRPO ckpt.iter270.pth; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f",
+      "versionLinks": {
+        "weightsUrl": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files/tree/fc9f2fe2948c876f0f77b0edc3ae1eb5aabdc78c",
+        "codeUrl": "https://github.com/Cepillar/ETP-R1/tree/1570c82c1a6acde9d7d55ad8b9d3f02682152b1f"
+      }
     },
     {
       "id": "etpr1-rxr-grpo-20261111",
@@ -58,7 +62,7 @@
       },
       "evidence": {
         "url": "assets/reproduction/local-evaluations/etpr1-rxr-20261111.json",
-        "sha256": "f5b7c01655317bdfac5b61465d8f10918eac0bbd4b6ede6a71b7f96ef7e760be"
+        "sha256": "17fc0f9499915af1b50ae6f66b474babda4684daa8f2bdfb1f0c8c592b9257a1"
       },
       "limitations": [
         "初始分段没有最终官方汇总 JSON；保留增量结果并通过轨迹复算。",
@@ -66,7 +70,11 @@
       ],
       "environment": "Python 3.9.25; PyTorch 2.4.1+cu121; Habitat-Sim 0.1.7",
       "checkpoint": "RxR-GRPO; source 1570c82c1a6acde9d7d55ad8b9d3f02682152b1f",
-      "executionNote": "全部 11,006 条任务完成，结果覆盖与指标校验通过；分两段执行。"
+      "executionNote": "全部 11,006 条任务完成，结果覆盖与指标校验通过；分两段执行。",
+      "versionLinks": {
+        "weightsUrl": "https://huggingface.co/datasets/cepillarskeira/ETP-R1-extra-files/tree/fc9f2fe2948c876f0f77b0edc3ae1eb5aabdc78c",
+        "codeUrl": "https://github.com/Cepillar/ETP-R1/tree/1570c82c1a6acde9d7d55ad8b9d3f02682152b1f"
+      }
     }
   ]
 }
