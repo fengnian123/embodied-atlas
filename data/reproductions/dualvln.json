@@ -3,7 +3,7 @@
   "status": "本地全量评测已校验",
   "date": "2026-11-16",
   "attribution": "PAI DSW 本地实测，非论文作者正式结果；不声明复现论文数值",
-  "summary": "已完成 R2R-CE 与 RxR-CE 英语子集的全量评测及独立轨迹复核。RxR 按官方规则汇总非有限值：NE 仅统计 3,570 条有限值，其他指标覆盖全部 3,669 条。",
+  "summary": "已完成 R2R-CE 和 RxR-CE 英语子集评测，结果已校验。",
   "runs": [
     {
       "id": "dualvln-r2r-20261112",
@@ -61,7 +61,8 @@
         "oracle_success": 3669,
         "distance_to_goal": 3570,
         "ndtw": 3669
-      }
+      },
+      "footnote": "注：NE 按官方规则统计可计算距离的 3,570 条任务。"
     }
   ]
 }

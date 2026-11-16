@@ -55,7 +55,7 @@ test('local evaluation runs attach to their own papers and keep legacy cases sep
  assert.equal(get('etp-r1').reproduction.runs.length,2);
  assert.equal(get('dualvln').reproduction.runs.length,2);
  assert(!get('p-a2ae5d358c9c').reproduction.runs);
- const etp=boot('','#/paper/etp-r1').html();assert(etp.includes('64.65'));assert(etp.includes('59.41'));assert(etp.includes('11006'));assert(etp.includes('非论文作者正式结果'));
+ const etp=boot('','#/paper/etp-r1').html();assert(etp.includes('64.65'));assert(etp.includes('59.41'));assert(etp.includes('11,006'));assert(etp.includes('非论文作者正式结果'));
  for(const id of ['etp-r1','dualvln'])for(const run of get(id).reproduction.runs){
   if(!run.evidence){assert.deepEqual(run.metrics,{});continue;}
   const raw=fs.readFileSync(path.join(__dirname,'../src',run.evidence.url));
@@ -65,4 +65,6 @@ test('local evaluation runs attach to their own papers and keep legacy cases sep
  for(const id of ['etp-r1','dualvln'])assert.deepEqual(get(id).evaluation,JSON.parse(read('data/papers/'+id+'.json')).evaluation);
 });
 
-test('DualVLN RxR displays finite-only NE denominator and official nonfinite handling',()=>{const b=boot('','#/paper/dualvln');assert(b.html().includes('59.42'));assert(b.html().includes('50.36'));assert(b.html().includes('3570'));assert(b.html().includes('99 条'));assert(b.html().includes('Infinity'));const p=JSON.parse(read('dist/catalog.json')).papers.find(p=>p.id==='dualvln');assert.equal(p.reproduction.runs[1].metricDenominators.distance_to_goal,3570);assert.equal(p.reproduction.runs[1].metricDenominators.spl,3669);});
+test('DualVLN RxR displays finite-only NE denominator and official nonfinite handling',()=>{const b=boot('','#/paper/dualvln');assert(b.html().includes('59.42'));assert(b.html().includes('50.36'));assert(b.html().includes('3,570'));assert(b.html().includes('99 条'));assert(b.html().includes('Infinity'));const p=JSON.parse(read('dist/catalog.json')).papers.find(p=>p.id==='dualvln');assert.equal(p.reproduction.runs[1].metricDenominators.distance_to_goal,3570);assert.equal(p.reproduction.runs[1].metricDenominators.spl,3669);});
+
+test('reproduction technical records are collapsed while scores and essential footnotes remain visible',()=>{for(const id of ['etp-r1','dualvln']){const p=JSON.parse(read('dist/catalog.json')).papers.find(p=>p.id===id);const b=boot();const html=b.ctx.AtlasDetail.reproduction(p);assert(html.includes('<summary>技术详情与结果文件</summary>'));assert(!/<details[^>]*\bopen\b/.test(html));const visible=html.replace(/<details[\s\S]*?<\/details>/g,'');assert(!visible.includes('Python'));assert(!visible.includes('SHA256'));assert(!visible.includes('Checkpoint'));assert(!visible.includes('统计条数'));if(id==='dualvln'){assert(visible.includes('59.42'));assert(visible.includes('3,570'));}}});
