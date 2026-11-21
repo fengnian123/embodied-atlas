@@ -48973,7 +48973,39 @@
       ],
       "sourceNotes": [],
       "reproduction": {
-        "status": "未复现"
+        "paperId": "streamvln",
+        "status": "本地全量评测已校验",
+        "date": "2026-11-21",
+        "attribution": "PAI DSW 本地实测，非论文作者正式结果；不声明复现论文数值",
+        "summary": "已完成 R2R-CE 和 RxR-CE 英语子集全量评测，结果已校验。",
+        "runs": [
+          {
+            "id": "streamvln-r2r-20261116",
+            "benchmark": "R2R-CE",
+            "scope": "val_unseen · 11 scenes",
+            "episodeCount": 1839,
+            "status": "已完成 · 校验 PASS",
+            "date": "2026-11-16",
+            "metrics": {
+              "success": 0.5671560630777597,
+              "spl": 0.5042027200398105,
+              "oracle_success": 0.6438281674823274,
+              "distance_to_goal": 4.803779739226139
+            }
+          },
+          {
+            "id": "streamvln-rxr-english-20261121",
+            "benchmark": "RxR-CE",
+            "scope": "val_unseen guide · English (en-IN/en-US) · 11 scenes",
+            "episodeCount": 3669,
+            "status": "已完成 · 校验 PASS",
+            "date": "2026-11-21",
+            "metrics": {
+              "success": 0.5491959662033251,
+              "oracle_success": 0.6383210684110112
+            }
+          }
+        ]
       },
       "bibtex": "@misc{streamvln,\n  title={StreamVLN: Streaming Vision-and-Language Navigation via SlowFast Context Modeling},\n  author={Meng Wei and Chenyang Wan and Xiqian Yu and Tai Wang and Yuqiang Yang and Xiaohan Mao and Chenming Zhu and Wenzhe Cai and Hanqing Wang and Yilun Chen and Xihui Liu and Jiangmiao Pang},\n  year={2025},\n  eprint={2507.05240},\n  archivePrefix={arXiv},\n  url={https://arxiv.org/abs/2507.05240}\n}",
       "summary": "用快更新的对话窗口和慢更新的视觉记忆处理流式视频，复用 KV cache 降低导航动作的生成延迟。",
